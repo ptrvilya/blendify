@@ -3,24 +3,20 @@ from typing import Union, Tuple, List, Sequence
 from abc import ABC, abstractmethod
 from blendify.cameras import Camera
 from .visuals import Visuals
+from ..internal.positionable import Positionable
 
 
-class Renderable(ABC):
-    def __init__(self, camera: Camera):
-        self._camera = camera
-        self._visuals = None
+class Renderable(Positionable):
+    def __init__(self, tag:str):
+        self._tag = tag
 
-    def _set_camera(self, camera: Camera):
+    def update_camera(self, camera: Camera):
         pass
 
-    def set_camera(self, camera: Camera):
-        self._set_camera(camera)
-        self._camera = camera
-
     @property
-    def visuals(self):
-        return self._visuals
+    def tag(self):
+        return self._tag
 
-    @visuals.setter
-    def visuals(self, visual:Visuals):
-        self._visuals = visual
+    @abstractmethod
+    def update_visuals(self, visuals: Visuals):
+        pass
