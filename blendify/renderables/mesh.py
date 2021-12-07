@@ -2,7 +2,8 @@ import bpy
 import bmesh
 import numpy as np
 from .base import Renderable
-from .visuals import Visuals, VertexColorVisuals, UniformColorVisuals, UVVisuals, TextureVisuals, FileTextureVisuals
+from .materials import Material
+from .colors import Colors, VertexColors, UniformColors, UVColors, TextureColors, FileTextureColors
 
 
 class Mesh(Renderable):
@@ -14,18 +15,18 @@ class Mesh(Renderable):
         self._blender_mesh = mesh
         return obj
 
-    def _blender_set_visuals(self, visuals: Visuals):
-        if isinstance(visuals, VertexColorVisuals):
+    def _blender_set_colors(self, colors: Colors):
+        if isinstance(colors, VertexColors):
             bpy.context.view_layer.objects.active = self._blender_object
             bpy.ops.object.mode_set(mode='EDIT')
             bm = bmesh.from_edit_mesh(self._blender_mesh)
             color_layer = bm.loops.layers.color.new("color")
             for face in bm.faces:
                 for loop in face.loops:
-                    loop[color_layer] = visuals.vertex_colors[loop.vert.index]
+                    loop[color_layer] = colors.vertex_colors[loop.vert.index]
             bpy.ops.object.mode_set(mode='OBJECT')
             bpy.ops.object.shade_smooth()
-        elif isinstance(visuals, UVVisuals):
+        elif isinstance(colors, UVColors):
             bpy.context.view_layer.objects.active = self._blender_object
             bpy.ops.object.mode_set(mode='EDIT')
             bm = bmesh.from_edit_mesh(self._blender_mesh)
@@ -33,20 +34,25 @@ class Mesh(Renderable):
             for face in bm.faces:
                 for loop in face.loops:
                     loop_uv = loop[uv_layer]
-                    loop_uv.uv = visuals.uv_map[loop.vert.index].tolist()
+                    loop_uv.uv = colors.uv_map[loop.vert.index].tolist()
             bpy.ops.object.mode_set(mode='OBJECT')
             bpy.ops.object.shade_smooth()
-        elif not isinstance(visuals, UniformColorVisuals):
-            raise NotImplementedError(f"Unknown visuals type {visuals.__class__.__name__}")
-        object_material = visuals.create_material()
-        self._blender_object.active_material = object_material
+        elif not isinstance(colors, UniformColors):
+            raise NotImplementedError(f"Unknown visuals type {colors.__class__.__name__}")
+        super()._blender_set_colors(colors)
 
-    def _blender_clear_visuals(self):
+    def _blender_clear_colors(self):
         material = self._blender_object.active_material
         if material is not None:
             material.user_clear()
             bpy.data.materials.remove(material)
 
-    def __init__(self, vertices: np.ndarray, faces: np.ndarray, visuals: Visuals, tag: str):
+    def __init__(self, vertices: np.ndarray, faces: np.ndarray, material: Material, colors: Colors,  tag: str):
         obj = self._blender_create_mesh(vertices, faces)
-        super().__init__(visuals, tag, obj)
+        super().__init__(material, colors, tag, obj)
+
+    def update_vertices(self, vertices: np.ndarray):
+        for ind, vert in enumerate(self._blender_mesh.vertices):
+            vert.co = vertices[ind]
+        self._blender_mesh.update()
+
