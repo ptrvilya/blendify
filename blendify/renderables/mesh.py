@@ -14,9 +14,9 @@ class Mesh(Renderable):
         self._bl_mesh = mesh
         self._bl_obj = obj
 
-    def _blender_set_visuals(self, visuals:Visuals):
+    def _blender_set_visuals(self, visuals: Visuals):
         if isinstance(visuals, UniformColorVisuals):
-            #TODO: Rewite uniform color though nodes to unify material creation routine
+            # TODO: Rewite uniform color through nodes to unify material creation routine
             object_material = bpy.data.materials.new('colored')
             object_material.diffuse_color = visuals.color
             object_material.specular_intensity = visuals.spec_intensity
@@ -30,13 +30,7 @@ class Mesh(Renderable):
                     loop[color_layer] = visuals.vertex_colors[loop.vert.index]
             bpy.ops.object.mode_set(mode='OBJECT')
             bpy.ops.object.shade_smooth()
-            object_material = bpy.data.materials.new('object_material')
-            object_material.use_nodes = True
-            bsdf = object_material.node_tree.nodes["Principled BSDF"]
-            bsdf.inputs['Alpha'].default_value = visuals.alpha  # Set alpha
-            bsdf.inputs['Specular'].default_value = visuals.spec_intensity
-            vertex_color = object_material.node_tree.nodes.new('ShaderNodeVertexColor')
-            object_material.node_tree.links.new(vertex_color.outputs[0], bsdf.inputs[0])
+            object_material = visuals.create_material()
         elif isinstance(visuals, UVVisuals):
             bpy.context.view_layer.objects.active = self._bl_obj
             bpy.ops.object.mode_set(mode='EDIT')
@@ -57,7 +51,7 @@ class Mesh(Renderable):
             if isinstance(visuals, FileTextureVisuals):
                 object_texture.image = visuals.texture_path
             elif isinstance(visuals, TextureVisuals):
-                raise NotImplementedError("Assinging textures from memory is not implemented yet")
+                raise NotImplementedError("Assigning textures from memory is not implemented yet")
             else:
                 raise NotImplementedError(f"Unknown visuals type {visuals.__class__.__name__}")
             object_material.node_tree.links.new(bsdf.inputs['Base Color'], object_texture.outputs['Color'])
@@ -65,7 +59,7 @@ class Mesh(Renderable):
             raise NotImplementedError(f"Unknown visuals type {visuals.__class__.__name__}")
         self._bl_obj.active_material = object_material
 
-    def __init__(self, vertices:np.ndarray, faces:np.ndarray, visuals:Visuals, tag:str):
+    def __init__(self, vertices: np.ndarray, faces: np.ndarray, visuals: Visuals, tag: str):
         super().__init__(tag)
         self._blender_create_mesh(vertices, faces)
         self._blender_set_visuals(visuals)

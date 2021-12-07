@@ -7,7 +7,8 @@ from ..internal.positionable import Positionable
 
 
 class Renderable(Positionable):
-    def __init__(self, tag:str):
+    def __init__(self, tag: str):
+        super().__init__()
         self._tag = tag
 
     def update_camera(self, camera: Camera):

@@ -1,5 +1,6 @@
+import bpy
 import numpy as np
-from abc import ABC
+from abc import ABC, abstractmethod
 from typing import Union, Tuple, List, Sequence
 
 
@@ -7,12 +8,31 @@ class Visuals(ABC):
     def __init__(self):
         self.spec_intensity = 0.3
         self.alpha = 1.
+        self._blender_material = None
+
+    def _create_blender_matbsdf(self):
+        object_material = bpy.data.materials.new('object_material')
+        object_material.use_nodes = True
+        bsdf = object_material.node_tree.nodes["Principled BSDF"]
+        bsdf.inputs['Alpha'].default_value = self.alpha  # Set alpha
+        bsdf.inputs['Specular'].default_value = self.spec_intensity
+        return object_material, bsdf
+
+    @abstractmethod
+    def create_material(self):
+        pass
 
 
 class VertexColorVisuals(Visuals):
     def __init__(self, vertex_colors: np.ndarray):
         super().__init__()
         self.vertex_colors = vertex_colors
+
+    def create_material(self):
+        object_material, bsdf = self._create_blender_matbsdf()
+        vertex_color = object_material.node_tree.nodes.new('ShaderNodeVertexColor')
+        object_material.node_tree.links.new(vertex_color.outputs[0], bsdf.inputs[0])
+        return object_material
 
 
 class UniformColorVisuals(Visuals):
