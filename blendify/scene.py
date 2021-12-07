@@ -5,22 +5,20 @@ from .cameras import Camera
 
 
 class Scene(metaclass=Singleton):
-    renderables = RenderablesCollection()
-    lights = LightsCollection()
-    camera: Camera = None
+    def __init__(self, camera: Camera):
+        self.renderables = RenderablesCollection(camera)
+        self.lights = LightsCollection()
+        self.camera: Camera = camera
 
-    def __init__(cls):
+    def update_camera(self, camera: Camera):
+        self.camera = camera
+        self.renderables.update_camera(camera)
+
+    def render(self):
         pass
 
-    @classmethod
-    def update_camera(cls, camera: Camera):
-        cls.camera = camera
-        cls.renderables.update_camera(camera)
-
-    @classmethod
-    def render(cls):
+    def export_scene(self):
         pass
 
-    @classmethod
-    def export_scene(cls):
+    def attach_blend(self):
         pass

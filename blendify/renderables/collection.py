@@ -6,50 +6,38 @@ from ..cameras import Camera
 
 
 class RenderablesCollection(metaclass=Singleton):
-    _renderables: Dict[str, Renderable] = dict()
-    camera: Camera = None
+    def __init__(self, camera: Camera):
+        self._renderables: Dict[str, Renderable] = dict()
+        self.camera: Camera = camera
 
-    def __init__(self):
+    def add_pc(self):
         pass
 
-    @classmethod
-    def add_pc(cls):
+    def add_camera_colored_pc(self):
         pass
 
-    @classmethod
-    def add_camera_colored_pc(cls):
+    def add_mesh(self):
         pass
 
-    @classmethod
-    def add_mesh(cls):
+    def add_primitive(self):
         pass
 
-    @classmethod
-    def add_primitive(cls):
-        pass
-
-    @classmethod
-    def update_camera(cls, camera: Camera):
-        cls.camera = camera
-        for renderable in cls._renderables.values():
+    def update_camera(self, camera: Camera):
+        self.camera = camera
+        for renderable in self._renderables.values():
             renderable.update_camera(camera)
 
-    @classmethod
-    def __getitem__(cls, key: str) -> Renderable:
-        return cls._renderables[key]
+    def __getitem__(self, key: str) -> Renderable:
+        return self._renderables[key]
 
-    @classmethod
-    def __setitem__(cls, key: str, value: Renderable):
-        cls._renderables[key] = value
+    def __setitem__(self, key: str, value: Renderable):
+        self._renderables[key] = value
 
-    @classmethod
-    def __delitem__(cls, key: str):
-        del cls.__dict__[key]
+    def __delitem__(self, key: str):
+        del self.__dict__[key]
 
-    @classmethod
-    def __iter__(cls) -> Iterable:
-        return iter(cls._renderables)
+    def __iter__(self) -> Iterable:
+        return iter(self._renderables)
 
-    @classmethod
-    def __len__(cls) -> int:
-        return len(cls._renderables)
+    def __len__(self) -> int:
+        return len(self._renderables)

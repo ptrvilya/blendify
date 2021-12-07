@@ -5,46 +5,35 @@ from ..lights import Light
 
 
 class LightsCollection(metaclass=Singleton):
-    _lights: Dict[str, Light] = dict()
-
     def __init__(self):
+        self._lights: Dict[str, Light] = dict()
+
+    def add_sun(self):
         pass
 
-    @classmethod
-    def add_sun(cls):
+    def add_point(self):
         pass
 
-    @classmethod
-    def add_point(cls):
+    def add_spot(self):
         pass
 
-    @classmethod
-    def add_spot(cls):
+    def add_area(self):
         pass
 
-    @classmethod
-    def add_area(cls):
-        pass
+    def __getitem__(self, key: str) -> Light:
+        return self._lights[key]
 
-    @classmethod
-    def __getitem__(cls, key: str) -> Light:
-        return cls._lights[key]
+    def __setitem__(self, key: str, value: Light):
+        self._lights[key] = value
 
-    @classmethod
-    def __setitem__(cls, key: str, value: Light):
-        cls._lights[key] = value
+    def __delitem__(self, key: str):
+        del self.__dict__[key]
 
-    @classmethod
-    def __delitem__(cls, key: str):
-        del cls.__dict__[key]
+    def __iter__(self) -> Iterable:
+        return iter(self._lights)
 
-    @classmethod
-    def __iter__(cls) -> Iterable:
-        return iter(cls._lights)
-
-    @classmethod
-    def __len__(cls) -> int:
-        return len(cls._lights)
+    def __len__(self) -> int:
+        return len(self._lights)
 
     # def __str__(self):
     #     return str(self.__dict__)
