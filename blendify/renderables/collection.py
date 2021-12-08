@@ -6,15 +6,16 @@ from ..cameras import Camera
 
 
 class RenderablesCollection(metaclass=Singleton):
-    def __init__(self, camera: Camera):
+    def __init__(self):
         self._renderables: Dict[str, Renderable] = dict()
-        self.camera: Camera = camera
+        self.camera: Camera = None
 
     def add_pc(self):
         pass
 
     def add_camera_colored_pc(self):
-        pass
+        if self.camera is None:
+            pass
 
     def add_mesh(self):
         pass

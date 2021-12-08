@@ -10,13 +10,13 @@ from .cameras import Camera
 
 
 class Scene(metaclass=Singleton):
-    def __init__(self, camera: Camera):
+    def __init__(self):
         # Initialise Blender scene
         self._set_default_blender_scene()
 
-        self.renderables = RenderablesCollection(camera)
+        self.renderables = RenderablesCollection()
         self.lights = LightsCollection()
-        self.camera: Camera = camera
+        self.camera: Camera = None
 
     @staticmethod
     def _set_default_blender_scene():
@@ -61,7 +61,8 @@ class Scene(metaclass=Singleton):
         # bpy.context.scene.camera = camera
 
     def render(self):
-        pass
+        if self.camera is None:
+            raise RuntimeError("Can't render without a camera")
 
     @staticmethod
     def export(path: Union[str, Path]):
