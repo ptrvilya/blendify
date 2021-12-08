@@ -87,6 +87,12 @@ class Renderable(Positionable):
             self._blender_material_node.node_tree.links.new(self._blender_bsdf_node.inputs['Base Color'],
                                                             self._blender_colors_node.outputs['Color'])
 
+    def _blender_remove(self):
+        """Removes the object from Blender scene"""
+        self._blender_clear_colors()
+        self._blender_clear_material()
+        super()._blender_remove()
+
     def update_material(self, material: Material):
         """
         Updates object material properties, sets Blender structures accordingly

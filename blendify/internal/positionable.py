@@ -1,4 +1,5 @@
 import numpy as np
+import bpy
 import bpy_types
 from typing import Union, Tuple, List, Sequence
 from abc import ABC, abstractmethod
@@ -47,3 +48,10 @@ class Positionable(ABC):
         blender_object.rotation_mode = 'QUATERNION'
         blender_object.rotation_quaternion = self.quaternion.tolist()
         blender_object.position = self.translation.tolist()
+
+    def _blender_remove(self):
+        """Removes the object from Blender scene"""
+        bpy.ops.object.select_all(action='DESELECT')
+        self._blender_object.select_set(True)
+        bpy.ops.object.delete()
+        self._blender_object = None
