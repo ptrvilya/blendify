@@ -1,4 +1,5 @@
 import bpy
+import bpy_types
 import bmesh
 import numpy as np
 from .base import Renderable
@@ -7,7 +8,18 @@ from .colors import Colors, VertexColors, UniformColors, UVColors, TextureColors
 
 
 class Mesh(Renderable):
-    def _blender_create_mesh(self, vertices, faces):
+    """
+    Basic mesh with vertices and faces, supports any coloring
+    """
+    def _blender_create_mesh(self, vertices:np.ndarray, faces:np.ndarray) -> bpy_types.Object:
+        """
+        Creates mesh object in Blender
+        Args:
+            vertices (np.ndarray): mesh vertices
+            faces (np.ndarray): mesh faces
+        Returns:
+            bpy_types.Object: Blender mesh
+        """
         mesh = bpy.data.meshes.new(name=self.tag)
         mesh.from_pydata(vertices.tolist(), [], faces.tolist())
         obj = bpy.data.objects.new(self.tag, mesh)
@@ -16,6 +28,11 @@ class Mesh(Renderable):
         return obj
 
     def _blender_set_colors(self, colors: Colors):
+        """
+        Remembers current color properies, builds a color node for material, sets color information to mesh
+        Args:
+            colors (Colors): target colors information
+        """
         if isinstance(colors, VertexColors):
             bpy.context.view_layer.objects.active = self._blender_object
             bpy.ops.object.mode_set(mode='EDIT')
@@ -41,17 +58,18 @@ class Mesh(Renderable):
             raise NotImplementedError(f"Unknown visuals type {colors.__class__.__name__}")
         super()._blender_set_colors(colors)
 
-    def _blender_clear_colors(self):
-        material = self._blender_object.active_material
-        if material is not None:
-            material.user_clear()
-            bpy.data.materials.remove(material)
-
     def __init__(self, vertices: np.ndarray, faces: np.ndarray, material: Material, colors: Colors,  tag: str):
         obj = self._blender_create_mesh(vertices, faces)
         super().__init__(material, colors, tag, obj)
 
     def update_vertices(self, vertices: np.ndarray):
+        """
+        Updates mesh vertices corrdinates
+        Args:
+            vertices: new vertex coordinates
+        """
+        assert len(self._blender_mesh.vertices) == len(vertices), \
+            f"Number of vertices should be the same (expected {len(self._blender_mesh.vertices)}, got {len(vertices)})"
         for ind, vert in enumerate(self._blender_mesh.vertices):
             vert.co = vertices[ind]
         self._blender_mesh.update()
