@@ -1,13 +1,13 @@
 import numpy as np
 import bpy
-import bpy_types
+from ..internal.types import BlenderGroup
 from typing import Union, Tuple, List, Sequence
 from abc import ABC, abstractmethod
 
 
 class Positionable(ABC):
     @abstractmethod
-    def __init__(self, tag: str, blender_object: bpy_types.Object):
+    def __init__(self, tag: str, blender_object: BlenderGroup):
         self._quaternion = np.array([1, 0, 0, 0], dtype=np.float64)
         self._translation = np.zeros(3, dtype=np.float64)
         self._blender_object = blender_object
@@ -44,14 +44,26 @@ class Positionable(ABC):
     def _update_blender_position(self):
         self._set_blender_object_position(self._blender_object)
 
-    def _set_blender_object_position(self, blender_object: bpy_types.Object):
-        blender_object.rotation_mode = 'QUATERNION'
-        blender_object.rotation_quaternion = self.quaternion.tolist()
-        blender_object.position = self.translation.tolist()
+    def _set_blender_object_position(self, blender_object: BlenderGroup):
+        def set_position(obj):
+            obj.rotation_mode = 'QUATERNION'
+            obj.rotation_quaternion = self.quaternion.tolist()
+            obj.position = self.translation.tolist()
+        if isinstance(blender_object, bpy.types.Collection):
+            for obj in blender_object.all_objects.values():
+                set_position(obj)
+        else:
+            set_position(blender_object)
 
     def _blender_remove(self):
         """Removes the object from Blender scene"""
         bpy.ops.object.select_all(action='DESELECT')
-        self._blender_object.select_set(True)
+        if isinstance(self._blender_object, bpy.types.Collection):
+            for obj in self._blender_object.all_objects.values():
+                obj.select_set(True)
+        else:
+            self._blender_object.select_set(True)
         bpy.ops.object.delete()
+        if isinstance(self._blender_object, bpy.types.Collection):
+            bpy.data.collections.remove(self._blender_object)
         self._blender_object = None
