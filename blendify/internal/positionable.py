@@ -55,7 +55,7 @@ class Positionable(ABC):
         else:
             set_position(blender_object)
 
-    def _blender_remove(self):
+    def _blender_remove_object(self):
         """Removes the object from Blender scene"""
         bpy.ops.object.select_all(action='DESELECT')
         if isinstance(self._blender_object, bpy.types.Collection):

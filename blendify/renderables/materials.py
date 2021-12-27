@@ -9,7 +9,7 @@ class Material(ABC):
         pass
 
     @abstractmethod
-    def create_material(self) -> Tuple[bpy.types.Material, bpy.types.ShaderNode]:
+    def create_material(self, name: str) -> Tuple[bpy.types.Material, bpy.types.ShaderNode]:
         pass
 
 
@@ -18,10 +18,13 @@ class PrinsipledBSDFMaterial:
         self.spec_intensity = 0.3
         self.alpha = 1.
 
-    def create_material(self) -> Tuple[bpy.types.Material, bpy.types.ShaderNodeBsdfPrincipled]:
-        object_material = bpy.data.materials.new('object_material')
+    def create_material(self, name: str = "object_material") \
+            -> Tuple[bpy.types.Material, bpy.types.ShaderNodeBsdfPrincipled]:
+        object_material = bpy.data.materials.new(name=name)
         object_material.use_nodes = True
-        bsdf = object_material.node_tree.nodes["Principled BSDF"]
-        bsdf.inputs['Alpha'].default_value = self.alpha  # Set alpha
-        bsdf.inputs['Specular'].default_value = self.spec_intensity
-        return object_material, bsdf
+        bsdf_node = object_material.node_tree.nodes["Principled BSDF"]
+
+        bsdf_node.inputs['Alpha'].default_value = self.alpha  # Set alpha
+        bsdf_node.inputs['Specular'].default_value = self.spec_intensity
+
+        return object_material, bsdf_node

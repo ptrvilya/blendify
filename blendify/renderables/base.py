@@ -1,6 +1,7 @@
 import numpy as np
 import bpy_types
 import bpy
+from mathutils import Vector
 from typing import Union, Tuple, List, Sequence
 from abc import ABC, abstractmethod
 from ..cameras import Camera
@@ -20,8 +21,8 @@ class Renderable(Positionable):
     class UniformColorsNodeBuilder(ColorsNodeBuilder):
         colors_class = UniformColors
 
-        def __init__(self, color: np.ndarray):
-            self.color = color
+        def __init__(self, colors: UniformColors):
+            self.color = colors.color
 
     class VertexColorsNodeBuilder(ColorsNodeBuilder):
         colors_class = VertexColors
@@ -29,8 +30,8 @@ class Renderable(Positionable):
     class TextureColorsNodeBuilder(ColorsNodeBuilder):
         colors_class = TextureColors
 
-        def __init__(self, texture: np.ndarray):
-            self.texture = texture
+        def __init__(self, colors: TextureColors):
+            self.texture = colors.texture
 
     class FileTextureColorsNodeBuilder(ColorsNodeBuilder):
         colors_class = FileTextureColors
@@ -53,16 +54,11 @@ class Renderable(Positionable):
                 colorsnode_builders[attr.colors_class] = attr
         self._colorsnode_builders = colorsnode_builders
 
-    def get_colorsnode_builder(self, colors:Colors):
+    def get_colorsnode_builder(self, colors: Colors):
         builder_class = self._colorsnode_builders[colors.__class__]
-        if isinstance(colors, UniformColors):
-            builder = builder_class(colors.color)
-        elif isinstance(colors, VertexColors):
-            builder = builder_class()
-        elif isinstance(colors, TextureColors):
-            builder = builder_class(colors.texture)
-        elif isinstance(colors, FileTextureColors):
-            builder = builder_class(colors.texture_path)
+        if isinstance(colors, UniformColors) or isinstance(colors, VertexColors) \
+                or isinstance(colors, TextureColors) or isinstance(colors, FileTextureColors):
+            builder = builder_class(colors)
         else:
             raise NotImplementedError(f"Unknown colors class '{colors.__class__.__name__}'")
         return builder
@@ -82,11 +78,6 @@ class Renderable(Positionable):
             colors (Colors): target colors information
         """
         pass
-
-
-class RenderableCollection(Renderable):
-    def __init__(self, material: Material, colors: Colors, tag: str, blender_object: bpy.types.Collection):
-        super().__init__(material, colors, tag, blender_object)
 
 
 class RenderableObject(Renderable):
@@ -129,31 +120,28 @@ class RenderableObject(Renderable):
         """
         pass
 
-    def _blender_clear_colors(self):
-        """
-        Clears Blender color node and erases node constructor
-        """
-        if self._blender_colors_node is not None:
-            self._blender_colors_node.user_clear()
-            self._blender_colors_node = None
-            self._blender_colornode_builder = None
+    # ===> OBJECT
+    @abstractmethod
+    def _blender_create_object(self, *args, **kwargs):
+        pass
 
-    def _blender_set_colors(self, colors: Colors):
+    def _blender_remove_object(self):
+        """Removes the object from Blender scene"""
+        self._blender_clear_colors()
+        self._blender_clear_material()
+        super()._blender_remove_object()
+    # <=== OBJECT
+
+    # ===> MATERIAL
+    def update_material(self, material: Material):
         """
-        Remembers current color properies, builds a color node for material
+        Updates object material properties, sets Blender structures accordingly
         Args:
-            colors (Colors): target colors information
+            material (Material): target material
         """
-        self._blender_colornode_builder = self.get_colorsnode_builder(colors)
-        self._blender_create_colornode()
-
-    def _blender_create_colornode(self):
-        """
-        Creates color node using previously set builder
-        """
-        if self._blender_colornode_builder is not None:
-            self._blender_colors_node = self._blender_colornode_builder(self._blender_material_node)
-            self._blender_link_color2material()
+        if self._blender_material_node is not None:
+            self._blender_clear_material()
+        self._blender_set_material(material)
 
     def _blender_set_material(self, material: Material):
         """
@@ -179,31 +167,9 @@ class RenderableObject(Renderable):
             self._blender_material_node = None
             self._blender_bsdf_node = None
             self._blender_colors_node = None
+    # <=== MATERIAL
 
-    def _blender_link_color2material(self):
-        """
-        Links color and material nodes
-        """
-        if self._blender_colors_node is not None and self._blender_material_node is not None:
-            self._blender_material_node.node_tree.links.new(self._blender_bsdf_node.inputs['Base Color'],
-                                                            self._blender_colors_node.outputs['Color'])
-
-    def _blender_remove(self):
-        """Removes the object from Blender scene"""
-        self._blender_clear_colors()
-        self._blender_clear_material()
-        super()._blender_remove()
-
-    def update_material(self, material: Material):
-        """
-        Updates object material properties, sets Blender structures accordingly
-        Args:
-            material (Material): target material
-        """
-        if self._blender_material_node is not None:
-            self._blender_clear_material()
-        self._blender_set_material(material)
-
+    # ===> COLORS
     def update_colors(self, colors: Colors):
         """
         Updates object color properties, sets Blender structures accordingly
@@ -214,3 +180,37 @@ class RenderableObject(Renderable):
             self._blender_clear_colors()
         self._blender_set_colors(colors)
 
+    def _blender_set_colors(self, colors: Colors):
+        """
+        Remembers current color properies, builds a color node for material
+        Args:
+            colors (Colors): target colors information
+        """
+        self._blender_colornode_builder = self.get_colorsnode_builder(colors)
+        self._blender_create_colornode()
+
+    def _blender_clear_colors(self):
+        """
+        Clears Blender color node and erases node constructor
+        """
+        if self._blender_colors_node is not None:
+            self._blender_colors_node.user_clear()
+            self._blender_colors_node = None
+            self._blender_colornode_builder = None
+
+    def _blender_create_colornode(self):
+        """
+        Creates color node using previously set builder
+        """
+        if self._blender_colornode_builder is not None:
+            self._blender_colors_node = self._blender_colornode_builder(self._blender_material_node)
+            self._blender_link_color2material()
+
+    def _blender_link_color2material(self):
+        """
+        Links color and material nodes
+        """
+        if self._blender_colors_node is not None and self._blender_material_node is not None:
+            self._blender_material_node.node_tree.links.new(self._blender_bsdf_node.inputs['Base Color'],
+                                                            self._blender_colors_node.outputs['Color'])
+    # <=== COLORS

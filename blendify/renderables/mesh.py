@@ -2,16 +2,20 @@ import bpy
 import bpy_types
 import bmesh
 import numpy as np
-from .base import Renderable
+from .base import RenderableObject
 from .materials import Material
 from .colors import Colors, VertexColors, UniformColors, UVColors, TextureColors, FileTextureColors
 
 
-class Mesh(Renderable):
+class Mesh(RenderableObject):
+    def __init__(self, vertices: np.ndarray, faces: np.ndarray, material: Material, colors: Colors,  tag: str):
+        obj = self._blender_create_object(vertices, faces)
+        super().__init__(material, colors, tag, obj)
+
     """
     Basic mesh with vertices and faces, supports any coloring
     """
-    def _blender_create_mesh(self, vertices:np.ndarray, faces:np.ndarray) -> bpy_types.Object:
+    def _blender_create_object(self, vertices:np.ndarray, faces:np.ndarray) -> bpy_types.Object:
         """
         Creates mesh object in Blender
         Args:
@@ -29,7 +33,7 @@ class Mesh(Renderable):
 
     def _blender_set_colors(self, colors: Colors):
         """
-        Remembers current color properies, builds a color node for material, sets color information to mesh
+        Remembers current color properties, builds a color node for material, sets color information to mesh
         Args:
             colors (Colors): target colors information
         """
@@ -58,13 +62,9 @@ class Mesh(Renderable):
             raise NotImplementedError(f"Unknown visuals type {colors.__class__.__name__}")
         super()._blender_set_colors(colors)
 
-    def __init__(self, vertices: np.ndarray, faces: np.ndarray, material: Material, colors: Colors,  tag: str):
-        obj = self._blender_create_mesh(vertices, faces)
-        super().__init__(material, colors, tag, obj)
-
     def update_vertices(self, vertices: np.ndarray):
         """
-        Updates mesh vertices corrdinates
+        Updates mesh vertices coordinates
         Args:
             vertices: new vertex coordinates
         """
@@ -73,4 +73,3 @@ class Mesh(Renderable):
         for ind, vert in enumerate(self._blender_mesh.vertices):
             vert.co = vertices[ind]
         self._blender_mesh.update()
-
