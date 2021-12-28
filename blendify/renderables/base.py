@@ -1,6 +1,7 @@
 import numpy as np
 import bpy_types
 import bpy
+import types
 from mathutils import Vector
 from typing import Union, Tuple, List, Sequence
 from abc import ABC, abstractmethod
@@ -50,7 +51,7 @@ class Renderable(Positionable):
         colorsnode_builders = {}
         for attrname in dir(self):
             attr = getattr(self, attrname)
-            if isinstance(attr, self.ColorsNodeBuilder):
+            if isinstance(attr, type) and issubclass(attr, Renderable.ColorsNodeBuilder):
                 colorsnode_builders[attr.colors_class] = attr
         self._colorsnode_builders = colorsnode_builders
 

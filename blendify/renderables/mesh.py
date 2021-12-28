@@ -9,13 +9,13 @@ from .colors import Colors, VertexColors, UniformColors, UVColors, TextureColors
 
 class Mesh(RenderableObject):
     def __init__(self, vertices: np.ndarray, faces: np.ndarray, material: Material, colors: Colors,  tag: str):
-        obj = self._blender_create_object(vertices, faces)
+        obj = self._blender_create_object(vertices, faces, tag)
         super().__init__(material, colors, tag, obj)
 
     """
     Basic mesh with vertices and faces, supports any coloring
     """
-    def _blender_create_object(self, vertices:np.ndarray, faces:np.ndarray) -> bpy_types.Object:
+    def _blender_create_object(self, vertices:np.ndarray, faces:np.ndarray, tag: str) -> bpy_types.Object:
         """
         Creates mesh object in Blender
         Args:
@@ -24,9 +24,9 @@ class Mesh(RenderableObject):
         Returns:
             bpy_types.Object: Blender mesh
         """
-        mesh = bpy.data.meshes.new(name=self.tag)
+        mesh = bpy.data.meshes.new(name=tag)
         mesh.from_pydata(vertices.tolist(), [], faces.tolist())
-        obj = bpy.data.objects.new(self.tag, mesh)
+        obj = bpy.data.objects.new(tag, mesh)
         bpy.context.collection.objects.link(obj)
         self._blender_mesh = mesh
         return obj

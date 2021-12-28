@@ -1,4 +1,4 @@
-from scene import Scene
+from .scene import Scene
 
 # TODO adjust __all__
 # __all__ = [

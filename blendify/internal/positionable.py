@@ -1,6 +1,6 @@
 import numpy as np
 import bpy
-from ..internal.types import BlenderGroup
+from ..internal.types import BlenderGroup, Vector3d, Vector4d
 from typing import Union, Tuple, List, Sequence
 from abc import ABC, abstractmethod
 
@@ -18,7 +18,7 @@ class Positionable(ABC):
     def tag(self):
         return self._tag
 
-    def set_position(self, quaternion: np.ndarray, translation: np.ndarray):
+    def set_position(self, quaternion: Vector4d, translation: Vector3d):
         self._quaternion = np.array(quaternion)
         self._translation = np.array(translation)
         self._update_blender_position()
@@ -28,8 +28,8 @@ class Positionable(ABC):
         return self._quaternion
 
     @quaternion.setter
-    def quaternion(self, quat: Sequence[float]):
-        self._quaternion = np.array(quat)
+    def quaternion(self, val: Vector4d):
+        self._quaternion = np.array(val)
         self._update_blender_position()
 
     @property
@@ -37,8 +37,8 @@ class Positionable(ABC):
         return self._translation
 
     @translation.setter
-    def translation(self, tr: Sequence[float]):
-        self._translation = np.array(tr)
+    def translation(self, val: Vector4d):
+        self._translation = np.array(val)
         self._update_blender_position()
 
     def _update_blender_position(self):
@@ -48,7 +48,7 @@ class Positionable(ABC):
         def set_position(obj):
             obj.rotation_mode = 'QUATERNION'
             obj.rotation_quaternion = self.quaternion.tolist()
-            obj.position = self.translation.tolist()
+            obj.location = self.translation.tolist()
         if isinstance(blender_object, bpy.types.Collection):
             for obj in blender_object.all_objects.values():
                 set_position(obj)

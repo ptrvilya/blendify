@@ -3,7 +3,11 @@ from typing import Dict, Iterable
 import numpy as np
 
 from ..internal import Singleton
-from ..renderables import Renderable, Mesh, PC, Material, Colors
+from .base import Renderable
+from .mesh import Mesh
+from .pc import PC
+from .colors import Colors
+from .materials import Material
 from ..cameras import Camera
 
 
@@ -37,11 +41,11 @@ class RenderablesCollection(metaclass=Singleton):
         renderable_keys = self._renderables.keys()
 
         if tag is None:
-            _tag = default_prefix + "_{03d}"
+            _tag = default_prefix + "_{:03d}"
             index = 0
             while _tag.format(index) in renderable_keys:
                 index += 1
-            tag = _tag
+            tag = _tag.format(index)
         elif tag in renderable_keys:
             raise RuntimeError(f"Object with tag {tag} is already in collection.")
 
