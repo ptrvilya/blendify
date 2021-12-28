@@ -92,14 +92,34 @@ class DirectionalLight(Light):
 
 
 class SpotLight(Light):
-    def __init__(self, color: Vector3d, strength: float,
-            shadow_soft_size: float, tag: str, cast_shadows: bool = True):
+    def __init__(self, color: Vector3d, strength: float, spot_size: float, spot_blend: float,
+                 shadow_soft_size: float, tag: str, cast_shadows: bool = True):
+        # spot_size: Angle of the spotlight beam (float in [0.0174533, 3.14159]) default 0.785398
+        # spot_blend: The softness of the spotlight edge (float in [0, 1]) default 0.15
         blender_light = self._blender_create_light(tag, "SPOT")
         super().__init__(tag, blender_light)
         self.color = color
         self.strength = strength
+        self.spot_size = spot_size
+        self.spot_blend = spot_blend
         self.cast_shadows = cast_shadows
         self.shadow_soft_size = shadow_soft_size
+
+    @property
+    def spot_size(self) -> float:
+        return self.blender_light.data.spot_size
+
+    @spot_size.setter
+    def spot_size(self, val: float):
+        self.blender_light.data.spot_size = val
+
+    @property
+    def spot_blend(self) -> float:
+        return self.blender_light.data.spot_blend
+
+    @spot_blend.setter
+    def spot_blend(self, val: float):
+        self.blender_light.data.spot_blend = val
 
     @property
     def shadow_soft_size(self) -> float:

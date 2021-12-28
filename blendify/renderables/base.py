@@ -79,6 +79,14 @@ class Renderable(Positionable):
         """
         pass
 
+    def update_camera(self, camera: Camera):
+        """
+        Updates object based on current camera position
+        Args:
+            camera (Camera): target camera
+        """
+        pass
+
 
 class RenderableObject(Renderable):
     class UniformColorsNodeBuilder(Renderable.UniformColorsNodeBuilder):
@@ -111,14 +119,6 @@ class RenderableObject(Renderable):
         self._blender_material_node = None
         self._blender_bsdf_node = None
         super().__init__(material, colors, tag, blender_object)
-
-    def update_camera(self, camera: Camera):
-        """
-        Updates object based on current camera position
-        Args:
-            camera (Camera): target camera
-        """
-        pass
 
     # ===> OBJECT
     @abstractmethod

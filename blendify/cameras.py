@@ -37,6 +37,7 @@ class PerspectiveCamera(Camera):
         super().__init__(resolution, tag)
         camera_object = self.blender_camera
         camera_object.data.type = 'PERSP'
+        # camera.data.lens_unit = "FOV"
         self.focal_dist = focal_dist
         if center is not None:
             self.center = center

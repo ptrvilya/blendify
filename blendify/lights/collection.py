@@ -1,24 +1,60 @@
-from typing import Dict, Iterable
+from typing import Dict, Iterable, Union
 
 from ..internal import Singleton
-from ..lights import Light
+from ..internal.types import Vector2d, Vector3d
+from ..lights import Light, PointLight, DirectionalLight, SpotLight,  \
+    SquareAreaLight, CircleAreaLight, RectangleAreaLight, EllipseAreaLight
 
 
 class LightsCollection(metaclass=Singleton):
     def __init__(self):
         self._lights: Dict[str, Light] = dict()
 
-    def add_sun(self):
-        pass
+    def add_point(self, color:Vector3d, strength: float, shadow_soft_size: float = 0.25,
+                  tag=None, cast_shadows=True):
+        # shadow_soft_size: Light size for ray shadow sampling (Raytraced shadows), [0, +inf)
+        tag = self._process_tag(tag, "Point")
+        self._lights[tag] = PointLight(color, strength, shadow_soft_size, tag, cast_shadows)
 
-    def add_point(self):
-        pass
+    def add_sun(self, color:Vector3d, strength: float, angular_diameter: float = 0.00918043,
+                tag=None, cast_shadows=True):
+        # angular_diameter: Angular diameter of the Sun as seen from the Earth,  [0, 3.14159]
+        tag = self._process_tag(tag, "Sun")
+        self._lights[tag] = DirectionalLight(color, strength, angular_diameter, tag, cast_shadows)
 
-    def add_spot(self):
-        pass
+    def add_spot(self, color:Vector3d, strength: float, spot_size: float = 0.785398,
+                 spot_blend: float = 0.15, shadow_soft_size: float = 0.25, tag=None, cast_shadows=True):
+        tag = self._process_tag(tag, "Spot")
+        self._lights[tag] = SpotLight(color, strength, spot_size, spot_blend,
+                                      shadow_soft_size, tag, cast_shadows)
 
-    def add_area(self):
-        pass
+    def add_area(self, shape: str, size: Union[float, Vector2d], color: Vector3d,
+                 strength: float, tag=None, cast_shadows=True):
+        tag = self._process_tag(tag, "Area")
+        if shape == "square":
+            self._lights[tag] = SquareAreaLight(size, color, strength, tag, cast_shadows)
+        elif shape == "circle":
+            self._lights[tag] = CircleAreaLight(size, color, strength, tag, cast_shadows)
+        elif shape == "rectangle":
+            self._lights[tag] = RectangleAreaLight(size, color, strength, tag, cast_shadows)
+        elif shape == "ellipse":
+            self._lights[tag] = EllipseAreaLight(size, color, strength, tag, cast_shadows)
+        else:
+            raise RuntimeError(f"Unknown AreaLight shape: {shape}")
+
+    def _process_tag(self, tag: str, default_prefix:str = "Light"):
+        lights_keys = self._lights.keys()
+
+        if tag is None:
+            _tag = default_prefix + "_{03d}"
+            index = 0
+            while _tag.format(index) in lights_keys:
+                index += 1
+            tag = _tag
+        elif tag in lights_keys:
+            raise RuntimeError(f"Object with tag {tag} is already in collection.")
+
+        return tag
 
     def __getitem__(self, key: str) -> Light:
         return self._lights[key]

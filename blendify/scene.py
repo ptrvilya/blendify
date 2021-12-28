@@ -32,7 +32,8 @@ class Scene(metaclass=Singleton):
         bpy.context.scene.world.color = (0, 0, 0)
         bpy.context.scene.render.film_transparent = True
         bpy.context.scene.cycles.filter_width = 0  # turn off anti-aliasing
-        bpy.context.scene.view_settings.view_transform = 'Raw'  # Important if you want to get a pure color background (eg. white background)
+        # Important if you want to get a pure color background (eg. white background)
+        bpy.context.scene.view_settings.view_transform = 'Raw'
         bpy.context.scene.cycles.samples = 128  # Default value, can be changed in .render
         # Empty the scene
         bpy.ops.object.select_all(action='SELECT')
@@ -43,24 +44,8 @@ class Scene(metaclass=Singleton):
         self.camera = camera
         # Update Renderables according to new camera
         self.renderables.update_camera(camera)
-        # Update blender camera
-        # scene = bpy.data.scenes[0]
-        # scene.render.resolution_x = camera.resolution_x
-        # scene.render.resolution_y = camera.resolution_y
-        # scene.render.resolution_percentage = 100
-        # TODO adapt this according to camera interfaces
-        # camera_loc = annotation['camera']['location'] if 'location' in annotation['camera'] else (0, 0, 0)
-        # camera_rot = annotation['camera']['rotation'] if 'rotation' in annotation['camera'] else (0, 0, 0)
-        # bpy.ops.object.camera_add(location=camera_loc, rotation=camera_rot)
-        # camera = bpy.data.objects['Camera']
-        # camera.data.sensor_fit = "HORIZONTAL"
-        # camera.data.angle = annotation['camera']['xfov']
-        # camera.data.shift_x = annotation['camera']['shift_x']
-        # camera.data.shift_y = annotation['camera']['shift_y']
-        # # camera.data.lens_unit = "FOV"
-        # bpy.context.scene.camera = camera
 
-    def render(self):
+    def render(self, samples=128):
         if self.camera is None:
             raise RuntimeError("Can't render without a camera")
 
