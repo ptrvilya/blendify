@@ -62,6 +62,15 @@ class LightsCollection(metaclass=Singleton):
 
         return tag
 
+    def keys(self):
+        return self._lights.keys()
+
+    def values(self):
+        return self._lights.values()
+
+    def items(self):
+        return self._lights.items()
+
     def __getitem__(self, key: str) -> Light:
         return self._lights[key]
 

@@ -93,7 +93,7 @@ class RenderableObject(Renderable):
     class UniformColorsNodeBuilder(Renderable.UniformColorsNodeBuilder):
         def __call__(self, object_material: bpy.types.Material):
             color_node = object_material.node_tree.nodes.new('ShaderNodeRGB')
-            color_node.outputs[0].default_value = self.color.tolist() + [1.]
+            color_node.outputs["Color"].default_value = self.color.tolist() + [1.]
             return color_node
 
     class VertexColorsNodeBuilder(Renderable.VertexColorsNodeBuilder):
@@ -214,4 +214,5 @@ class RenderableObject(Renderable):
         if self._blender_colors_node is not None and self._blender_material_node is not None:
             self._blender_material_node.node_tree.links.new(self._blender_bsdf_node.inputs['Base Color'],
                                                             self._blender_colors_node.outputs['Color'])
+            self._blender_bsdf_node.inputs['Base Color'].default_value = [1.0, 0.0, 0.0, 1.0]
     # <=== COLORS

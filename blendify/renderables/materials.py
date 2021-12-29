@@ -9,7 +9,7 @@ class Material(ABC):
         pass
 
     @abstractmethod
-    def create_material(self, name: str) -> Tuple[bpy.types.Material, bpy.types.ShaderNode]:
+    def create_material(self, name: str = "object_material") -> Tuple[bpy.types.Material, bpy.types.ShaderNode]:
         pass
 
 

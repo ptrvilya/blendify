@@ -37,6 +37,7 @@ class Camera(Positionable):
 
 class PerspectiveCamera(Camera):
     def __init__(self, resolution: Vector2di, focal_dist: float,
+                 fov_x: float = None, fov_y: float = None,
                  quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0),
                  center: Vector2df = None, tag: str = 'camera'):
         super().__init__(resolution, quaternion, translation, tag)
@@ -46,6 +47,10 @@ class PerspectiveCamera(Camera):
         self.focal_dist = focal_dist
         if center is not None:
             self.center = center
+        if fov_x is not None:
+            self.fov_x = fov_x
+        if fov_y is not None:
+            self.fov_y = fov_y
 
     @property
     def focal_dist(self):

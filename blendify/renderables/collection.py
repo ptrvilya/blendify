@@ -51,6 +51,15 @@ class RenderablesCollection(metaclass=Singleton):
 
         return tag
 
+    def keys(self):
+        return self._renderables.keys()
+
+    def values(self):
+        return self._renderables.values()
+
+    def items(self):
+        return self._renderables.items()
+
     def __getitem__(self, key: str) -> Renderable:
         return self._renderables[key]
 
