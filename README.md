@@ -18,5 +18,10 @@ faces = np.load("examples/faces.npy")
 material = PrinsipledBSDFMaterial()
 color = UniformColors((1.0, 0.0, 0.0))
 scene.renderables.add_mesh(verts, faces, material, color)
+color_1 = UniformColors((0.0, 1.0, 0.0))
+verts_1 = verts.copy()
+verts_1[:, 0] += 3
+scene.renderables.add_pc(verts_1, material, color_1, point_size=0.01)
+
 scene.render(use_gpu=False, samples=64)
 ```

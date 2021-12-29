@@ -16,8 +16,11 @@ class RenderablesCollection(metaclass=Singleton):
         self._renderables: Dict[str, Renderable] = dict()
         self.camera: Camera = None
 
-    def add_pc(self, tag=None):
+    def add_pc(self, vertices: np.ndarray, material: Material, colors: Colors, point_size: float = 0.006,
+               base_primitive: str = "CUBE", add_particle_color_emission: bool = True, tag=None):
         tag = self._process_tag(tag, "PC")
+        self._renderables[tag] = PC(vertices, material, colors, tag, point_size,
+                                    base_primitive, add_particle_color_emission)
 
     def add_camera_colored_pc(self, tag=None):
         tag = self._process_tag(tag, "Camera_Colored_PC")

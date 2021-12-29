@@ -130,14 +130,13 @@ class PC(Renderable):
         self._point_cloud_object_names: List[str] = list()
         self._particle_material_names: List[str] = list()
 
-        collection = self._blender_create_collection(vertices, tag)
-
         self.num_vertices = 0
         self._blender_colornode_builder = None
         self._blender_colors_nodes = dict()    # particle_obj_name: colors_node
         self._blender_material_nodes = dict()  # particle_obj_name: material_node
         self._blender_bsdf_nodes = dict()      # particle_obj_name: bsdf_node
 
+        collection = self._blender_create_collection(vertices, tag)
         super().__init__(material, colors, tag, collection)
 
     def update_camera(self, camera: Camera):
