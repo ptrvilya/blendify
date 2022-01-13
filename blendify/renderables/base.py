@@ -15,6 +15,10 @@ from ..internal.types import BlenderGroup
 class Renderable(Positionable):
     class ColorsNodeBuilder(ABC):
         colors_class = None
+
+        def __init__(self, colors: Colors = None):
+            pass
+
         @abstractmethod
         def __call__(self, object_material: bpy.types.Material):
             return None
@@ -23,6 +27,7 @@ class Renderable(Positionable):
         colors_class = UniformColors
 
         def __init__(self, colors: UniformColors):
+            super().__init__()
             self.color = colors.color
 
     class VertexColorsNodeBuilder(ColorsNodeBuilder):
@@ -32,12 +37,14 @@ class Renderable(Positionable):
         colors_class = TextureColors
 
         def __init__(self, colors: TextureColors):
+            super().__init__()
             self.texture = colors.texture
 
     class FileTextureColorsNodeBuilder(ColorsNodeBuilder):
         colors_class = FileTextureColors
 
         def __init__(self, texture_path: str):
+            super().__init__()
             self.texture_path = texture_path
 
     @abstractmethod
@@ -52,13 +59,13 @@ class Renderable(Positionable):
         for attrname in dir(self):
             attr = getattr(self, attrname)
             if isinstance(attr, type) and issubclass(attr, Renderable.ColorsNodeBuilder):
-                colorsnode_builders[attr.colors_class] = attr
+                if attr.colors_class is not None:
+                    colorsnode_builders[attr.colors_class] = attr
         self._colorsnode_builders = colorsnode_builders
 
     def get_colorsnode_builder(self, colors: Colors):
-        builder_class = self._colorsnode_builders[colors.__class__]
-        if isinstance(colors, UniformColors) or isinstance(colors, VertexColors) \
-                or isinstance(colors, TextureColors) or isinstance(colors, FileTextureColors):
+        if isinstance(colors, tuple(self._colorsnode_builders.keys())):
+            builder_class = self._colorsnode_builders[colors.__class__]
             builder = builder_class(colors)
         else:
             raise NotImplementedError(f"Unknown colors class '{colors.__class__.__name__}'")

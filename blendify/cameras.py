@@ -34,6 +34,18 @@ class Camera(Positionable):
     def blender_camera(self) -> bpy_types.Object:
         return self._blender_object
 
+    @abstractmethod
+    def distance2depth(self, distmap: np.ndarray) -> np.ndarray:
+        """
+        Convert map of camera ray lengths (distmap) to map of distances to image plane (depthmap)
+        Args:
+            distmap (np.ndarray): Distance map
+
+        Returns:
+            np.ndarray: Depth map
+        """
+        pass
+
 
 class PerspectiveCamera(Camera):
     def __init__(self, resolution: Vector2di, focal_dist: float,
@@ -95,6 +107,16 @@ class PerspectiveCamera(Camera):
         camera.data.shift_x = center_offset[0]
         camera.data.shift_y = center_offset[1]
 
+    def distance2depth(self, distmap):
+        img_width, img_height = self.resolution
+        cx, cy = self.center
+        offsets_x = np.arange(img_width) - cx
+        offsets_y = np.arange(img_height) - cy
+        grid_offsets_x, grid_offsets_y = np.meshgrid(offsets_x, offsets_y)
+        depthmap = np.sqrt(distmap ** 2 / ((grid_offsets_x ** 2 + grid_offsets_y ** 2) / (self.focal_dist ** 2) + 1))
+        return depthmap
+
+
 
 class OrthographicCamera(Camera):
     def __init__(self, resolution: Vector2di, ortho_scale: float = 1.,
@@ -130,3 +152,7 @@ class OrthographicCamera(Camera):
     @far.setter
     def far(self, val: float):
         self.blender_camera.data.clip_end = val
+
+    def distance2depth(self, distmap):
+        # In orthogonal camera rays are orthogonal to the image plane => distmap = depthmap
+        return distmap

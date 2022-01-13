@@ -17,10 +17,12 @@ class RenderablesCollection(metaclass=Singleton):
         self.camera: Camera = None
 
     def add_pc(self, vertices: np.ndarray, material: Material, colors: Colors, point_size: float = 0.006,
-               base_primitive: str = "CUBE", add_particle_color_emission: bool = True, tag=None):
+               base_primitive: str = "CUBE", add_particle_color_emission: bool = True, tag=None) -> PC:
         tag = self._process_tag(tag, "PC")
-        self._renderables[tag] = PC(vertices, material, colors, tag, point_size,
-                                    base_primitive, add_particle_color_emission)
+        obj = PC(vertices, material, colors, tag, point_size,
+                 base_primitive, add_particle_color_emission)
+        self._renderables[tag] = obj
+        return obj
 
     def add_camera_colored_pc(self, tag=None):
         tag = self._process_tag(tag, "Camera_Colored_PC")
@@ -28,9 +30,11 @@ class RenderablesCollection(metaclass=Singleton):
         if self.camera is None:
             pass
 
-    def add_mesh(self, vertices: np.ndarray, faces: np.ndarray, material: Material, colors: Colors, tag=None):
+    def add_mesh(self, vertices: np.ndarray, faces: np.ndarray, material: Material, colors: Colors, tag=None) -> Mesh:
         tag = self._process_tag(tag, "Mesh")
-        self._renderables[tag] = Mesh(vertices, faces, material, colors, tag)
+        obj = Mesh(vertices, faces, material, colors, tag)
+        self._renderables[tag] = obj
+        return obj
 
     def add_primitive(self, tag=None):
         tag = self._process_tag(tag, "Primitive")

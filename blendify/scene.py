@@ -1,4 +1,10 @@
-from typing import Union
+import os
+import tempfile
+import shutil
+import numpy as np
+import array
+
+from typing import Union, Sequence
 from pathlib import Path
 
 import bpy
@@ -51,7 +57,17 @@ class Scene(metaclass=Singleton):
         # Update Renderables according to new camera
         self.renderables.update_camera(camera)
 
-    def render(self, filepath: Union[str, Path] = "result.png", use_gpu=True, samples=128):
+    @staticmethod
+    def read_exr_distmap(path, dist_thresh=1e4):
+        import OpenEXR
+        import Imath
+        exr_input = OpenEXR.InputFile(path)
+        exr_float_type = Imath.PixelType(Imath.PixelType.FLOAT)
+        data = np.array(array.array('f', exr_input.channel("R", exr_float_type)).tolist())
+        data[data > dist_thresh] = -np.inf
+        return data
+
+    def render(self, filepath: Union[str, Path] = "result.png", use_gpu=True, samples=128, save_depth = False, save_albedo = False):
         if self.camera is None:
             raise RuntimeError("Can't render without a camera")
 
@@ -80,14 +96,14 @@ class Scene(metaclass=Singleton):
         output_image = scene_node_tree.nodes.new(type="CompositorNodeOutputFile")
         scene_node_tree.links.new(render_layer.outputs['Image'], output_image.inputs['Image'])
 
-        # if save_depth:
-        #     output_depth = scene_node_tree.nodes.new(type="CompositorNodeOutputFile")
-        #     output_depth.format.file_format = "OPEN_EXR"
-        #     scene_node_tree.links.new(render_layer.outputs['Depth'], output_depth.inputs['Image'])
-        #
-        # if save_albedo:
-        #     output_albedo = scene_node_tree.nodes.new(type="CompositorNodeOutputFile")
-        #     scene_node_tree.links.new(render_layer.outputs['DiffCol'], output_albedo.inputs['Image'])
+        if save_depth:
+            output_depth = scene_node_tree.nodes.new(type="CompositorNodeOutputFile")
+            output_depth.format.file_format = "OPEN_EXR"
+            scene_node_tree.links.new(render_layer.outputs['Depth'], output_depth.inputs['Image'])
+
+        if save_albedo:
+            output_albedo = scene_node_tree.nodes.new(type="CompositorNodeOutputFile")
+            scene_node_tree.links.new(render_layer.outputs['DiffCol'], output_albedo.inputs['Image'])
 
         if use_gpu:
             bpy.context.scene.cycles.device = 'GPU'
@@ -107,15 +123,44 @@ class Scene(metaclass=Singleton):
 
         # Render
         bpy.context.scene.frame_current = 0
-        output_image.file_slots[0].path = str(filepath)
-        # if save_albedo:
-        #     output_albedo.file_slots[0].path = f"{frame_name:04d}.albedo."
-        # if save_depth:
-        #     output_depth.file_slots[0].path = f"{frame_name:04d}.depth."
-        # for object in scene_object_list:
-        #     object.update_to_closest(frame_ind)
+        temp_filesuff = next(tempfile._get_candidate_names())
+        temp_filepath = str(filepath)+"."+temp_filesuff
+        # dirpath = os.path.dirname(filepath)
+        render_suffixes = [".color.0000.png"]
+        if save_depth:
+            render_suffixes.append(".depth.0000.exr")
+        if save_albedo:
+            render_suffixes.append(".albedo.0000.png")
+        while self.check_any_exists(temp_filepath, render_suffixes):
+            temp_filesuff = next(tempfile._get_candidate_names())
+            temp_filepath = str(filepath)+"."+temp_filesuff
+        output_image.file_slots[0].path = temp_filepath+".color."
+        if save_depth:
+            output_depth.file_slots[0].path = temp_filepath+".depth."
+        if save_albedo:
+            output_albedo.file_slots[0].path = temp_filepath+".albedo."
 
         bpy.ops.render.render(write_still=False)
+
+        shutil.move(temp_filepath+".color.0000.png", filepath)
+        if save_depth:
+            distmap = self.read_exr_distmap(temp_filepath+".depth.0000.exr")
+            distmap = distmap.reshape(self.camera.resolution[::-1])
+            depthmap = self.camera.distance2depth(distmap)
+            np.save(os.path.splitext(filepath)[0]+".depth.npy", depthmap)
+            os.remove(temp_filepath+".depth.0000.exr")
+        if save_albedo:
+            shutil.move(temp_filepath + ".albedo.0000.png", os.path.splitext(filepath)[0]+".albedo.png")
+
+
+
+    @staticmethod
+    def check_any_exists(fileprefix:str, filesuffixes:Sequence[str]):
+        for filesuffix in filesuffixes:
+            fullpath = fileprefix+filesuffix
+            if os.path.exists(fullpath):
+                return True
+        return False
 
     @staticmethod
     def export(path: Union[str, Path]):
