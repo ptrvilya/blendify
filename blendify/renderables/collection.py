@@ -3,10 +3,12 @@ from typing import Dict, Iterable
 import numpy as np
 
 from ..internal import Singleton
+from ..internal.types import Vector3d
 from .base import Renderable
 from .mesh import Mesh
 from .pc import PC
 from .colors import Colors
+from .primitives import Sphere, Ellipsoid, Circle, Cylinder, Curve
 from .materials import Material
 from ..cameras import Camera
 
@@ -17,7 +19,7 @@ class RenderablesCollection(metaclass=Singleton):
         self.camera: Camera = None
 
     def add_pc(self, vertices: np.ndarray, material: Material, colors: Colors, point_size: float = 0.006,
-               base_primitive: str = "CUBE", add_particle_color_emission: bool = True, tag=None) -> PC:
+            base_primitive: str = "CUBE", add_particle_color_emission: bool = True, tag=None) -> PC:
         tag = self._process_tag(tag, "PC")
         obj = PC(vertices, material, colors, tag, point_size,
                  base_primitive, add_particle_color_emission)
@@ -36,15 +38,42 @@ class RenderablesCollection(metaclass=Singleton):
         self._renderables[tag] = obj
         return obj
 
-    def add_primitive(self, tag=None):
-        tag = self._process_tag(tag, "Primitive")
+    def add_circle(self, radius: float, material: Material, colors: Colors, tag=None):
+        tag = self._process_tag(tag, "Circle")
+        obj = Circle(radius, material, colors, tag)
+        self._renderables[tag] = obj
+        return obj
+
+    def add_sphere(self, radius: float, material: Material, colors: Colors, tag=None):
+        tag = self._process_tag(tag, "Sphere")
+        obj = Sphere(radius, material, colors, tag)
+        self._renderables[tag] = obj
+        return obj
+
+    def add_ellipsoid(self, radius: Vector3d, material: Material, colors: Colors, tag=None):
+        tag = self._process_tag(tag, "Ellipsoid")
+        obj = Ellipsoid(radius, material, colors, tag)
+        self._renderables[tag] = obj
+        return obj
+
+    def add_cylinder(self, radius: float, height: float, material: Material, colors: Colors, tag=None):
+        tag = self._process_tag(tag, "Cylinder")
+        obj = Cylinder(radius, height, material, colors, tag)
+        self._renderables[tag] = obj
+        return obj
+
+    def add_curve(self, keypoints: np.ndarray, radius: float, material: Material, colors: Colors, tag=None):
+        tag = self._process_tag(tag, "Curve")
+        obj = Curve(keypoints, radius, material, colors, tag)
+        self._renderables[tag] = obj
+        return obj
 
     def update_camera(self, camera: Camera):
         self.camera = camera
         for renderable in self._renderables.values():
             renderable.update_camera(camera)
 
-    def _process_tag(self, tag: str, default_prefix:str = "Renderable"):
+    def _process_tag(self, tag: str, default_prefix: str = "Renderable"):
         renderable_keys = self._renderables.keys()
 
         if tag is None:
