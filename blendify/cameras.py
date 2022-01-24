@@ -46,14 +46,17 @@ class Camera(Positionable):
 
 
 class PerspectiveCamera(Camera):
-    def __init__(self, resolution: Vector2di, focal_dist: float,
+    def __init__(self, resolution: Vector2di, focal_dist: float = None,
                  fov_x: float = None, fov_y: float = None, center: Vector2df = None, tag: str = 'camera',
                  quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0)):
-        super().__init__(resolution, tag, quaternion, translation)
+        super().__init__(resolution, quaternion, translation, tag)
+        assert not(focal_dist is None and fov_x is None and fov_y is None), \
+            "One of focal_dist, fov_x or fov_y is required"
         camera_object = self.blender_camera
         camera_object.data.type = 'PERSP'
         # camera.data.lens_unit = "FOV"
-        self.focal_dist = focal_dist
+        if focal_dist is not None:
+            self.focal_dist = focal_dist
         if center is not None:
             self.center = center
         if fov_x is not None:
@@ -112,7 +115,6 @@ class PerspectiveCamera(Camera):
         grid_offsets_x, grid_offsets_y = np.meshgrid(offsets_x, offsets_y)
         depthmap = np.sqrt(distmap ** 2 / ((grid_offsets_x ** 2 + grid_offsets_y ** 2) / (self.focal_dist ** 2) + 1))
         return depthmap
-
 
 
 class OrthographicCamera(Camera):

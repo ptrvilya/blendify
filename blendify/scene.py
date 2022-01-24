@@ -12,7 +12,8 @@ import bpy
 from .lights import LightsCollection
 from .renderables import RenderablesCollection
 from .internal import Singleton
-from .cameras import Camera
+from .internal.types import Vector2df, Vector2di, Vector3d, Vector4d
+from .cameras import Camera, PerspectiveCamera, OrthographicCamera
 
 
 class Scene(metaclass=Singleton):
@@ -49,11 +50,26 @@ class Scene(metaclass=Singleton):
     def camera(self) -> Camera:
         return self._camera
 
-    @camera.setter
-    def camera(self, camera: Camera):
+    def add_perspective_camera(self, resolution: Vector2di, focal_dist: float = None, fov_x: float = None,
+                               fov_y: float = None, center: Vector2df = None, tag: str = 'camera',
+                               quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0)):
+        camera = PerspectiveCamera(resolution, focal_dist, fov_x, fov_y, center, tag, quaternion, translation)
+        self._setup_camera(camera)
+
+    def add_orthographic_camera(self, resolution: Vector2di, ortho_scale: float = 1.,
+                                far: float = 1., near: float = 0.1, tag: str = 'camera',
+                                quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0)):
+        camera = OrthographicCamera(resolution, ortho_scale, far, near, tag, quaternion, translation)
+        self._setup_camera(camera)
+
+    def _setup_camera(self, camera: Camera):
         # TODO add old camera destructor
         # Set camera
         self._camera = camera
+        scene = bpy.data.scenes[0]
+        scene.render.resolution_x = camera.resolution[0]
+        scene.render.resolution_y = camera.resolution[1]
+        scene.render.resolution_percentage = 100
         # Update Renderables according to new camera
         self.renderables.update_camera(camera)
 
@@ -168,4 +184,25 @@ class Scene(metaclass=Singleton):
 
     @staticmethod
     def attach_blend(path: Union[str, Path]):
-        bpy.ops.wm.open_mainfile(filepath=str(path))
+        # bpy.ops.wm.open_mainfile(filepath=str(path))
+        # bpy.ops.wm.append(filepath=str(path))
+        objects, materials = [], []
+        with bpy.data.libraries.load(str(path), link=False) as (data_from, data_to):
+            # data_to.materials = data_from.materials
+            for name in data_from.materials:
+                materials.append({'name': name})
+
+            for name in data_from.objects:
+                objects.append({'name': name})
+
+        bpy.ops.wm.append(directory=str(path) + "/Object/", files=objects)
+        bpy.ops.wm.append(directory=str(path) + "/Material/", files=materials)
+
+        # # append everything
+        # with bpy.data.libraries.load(filepath) as (data_from, data_to):
+        #     for attr in dir(data_to):
+        #         setattr(data_to, attr, getattr(data_from, attr))
+        #
+        # # load a single scene we know the name of.
+        # with bpy.data.libraries.load(filepath) as (data_from, data_to):
+        #     data_to.scenes = ["Scene"]
