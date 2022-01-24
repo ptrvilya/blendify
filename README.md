@@ -27,6 +27,7 @@ scene.render(use_gpu=False, samples=64)
 ```
 
 ## Useful tips
+* Instructions for [building Blender as a Python module]("./doc/building_blender.md")
 * Autocomplete for IDEs: https://github.com/Korchy/blender_autocomplete
 
 ## Examples
@@ -34,5 +35,5 @@ scene.render(use_gpu=False, samples=64)
 ### Cornell Box
 
 <p align="center">
-  <img src="./docs/02_example.jpg" alt="drawing" width="50%"/>
+  <img src="./doc/02_example.jpg" alt="drawing" width="50%"/>
 </p>
