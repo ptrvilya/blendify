@@ -5,12 +5,14 @@ import numpy as np
 from .base import RenderableObject
 from .materials import Material
 from .colors import Colors, VertexColors, UniformColors, UVColors, TextureColors, FileTextureColors
+from ..internal.types import Vector3d, Vector4d
 
 
 class Mesh(RenderableObject):
-    def __init__(self, vertices: np.ndarray, faces: np.ndarray, material: Material, colors: Colors,  tag: str):
+    def __init__(self, vertices: np.ndarray, faces: np.ndarray, material: Material, colors: Colors, tag: str,
+            quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0)):
         obj = self._blender_create_object(vertices, faces, tag)
-        super().__init__(material, colors, tag, obj)
+        super().__init__(material, colors, tag, obj, quaternion, translation)
 
     """
     Basic mesh with vertices and faces, supports any coloring

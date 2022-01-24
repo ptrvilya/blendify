@@ -9,7 +9,7 @@ from ..cameras import Camera
 from .colors import Colors, UniformColors, VertexColors, TextureColors, FileTextureColors
 from .materials import Material
 from ..internal.positionable import Positionable
-from ..internal.types import BlenderGroup
+from ..internal.types import BlenderGroup, Vector3d, Vector4d
 
 
 class Renderable(Positionable):
@@ -48,8 +48,9 @@ class Renderable(Positionable):
             self.texture_path = texture_path
 
     @abstractmethod
-    def __init__(self, material: Material, colors: Colors, tag: str, blender_object: BlenderGroup):
-        super().__init__(tag, blender_object)
+    def __init__(self, material: Material, colors: Colors, tag: str, blender_object: BlenderGroup,
+            quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0)):
+        super().__init__(tag, blender_object, quaternion, translation)
         self._make_colorsnode_builders_dict()
         self.update_material(material)
         self.update_colors(colors)
@@ -121,12 +122,13 @@ class RenderableObject(Renderable):
             return object_texture
 
     @abstractmethod
-    def __init__(self, material: Material, colors: Colors, tag: str, blender_object: bpy_types.Object):
+    def __init__(self, material: Material, colors: Colors, tag: str, blender_object: bpy_types.Object,
+            quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0)):
         self._blender_colornode_builder = None
         self._blender_colors_node = None
         self._blender_material_node = None
         self._blender_bsdf_node = None
-        super().__init__(material, colors, tag, blender_object)
+        super().__init__(material, colors, tag, blender_object, quaternion, translation)
 
     # ===> OBJECT
     @abstractmethod
@@ -138,6 +140,7 @@ class RenderableObject(Renderable):
         self._blender_clear_colors()
         self._blender_clear_material()
         super()._blender_remove_object()
+
     # <=== OBJECT
 
     # ===> MATERIAL
@@ -175,6 +178,7 @@ class RenderableObject(Renderable):
             self._blender_material_node = None
             self._blender_bsdf_node = None
             self._blender_colors_node = None
+
     # <=== MATERIAL
 
     # ===> COLORS

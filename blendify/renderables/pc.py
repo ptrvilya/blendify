@@ -31,6 +31,7 @@ from ..cameras import Camera
 from .colors import Colors, VertexColors
 from .materials import Material
 from .base import Renderable
+from ..internal.types import Vector3d, Vector4d
 
 
 class PC(Renderable):
@@ -38,6 +39,7 @@ class PC(Renderable):
     Basic PC with vertices, supports uniform and per-vertex coloring.
     Uses Blender-Photogrammetry-Importer to handle PCs.
     """
+
     class UniformColorsNodeBuilder(Renderable.UniformColorsNodeBuilder):
         def __call__(self, object_material: bpy.types.Material, **kwargs):
             color_node = object_material.node_tree.nodes.new('ShaderNodeRGB')
@@ -119,7 +121,8 @@ class PC(Renderable):
             return particle_color_node
 
     def __init__(self, vertices: np.ndarray, material: Material, colors: Colors, tag: str,
-                 point_size: float = 0.006, base_primitive: str = "CUBE", add_particle_color_emission: bool = True):
+            point_size: float = 0.006, base_primitive: str = "CUBE", add_particle_color_emission: bool = True,
+            quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0)):
         # internal variables and constants
         self._max_particles = 10000
         self._particle_collections = {}
@@ -132,12 +135,12 @@ class PC(Renderable):
 
         self.num_vertices = 0
         self._blender_colornode_builder = None
-        self._blender_colors_nodes = dict()    # particle_obj_name: colors_node
+        self._blender_colors_nodes = dict()  # particle_obj_name: colors_node
         self._blender_material_nodes = dict()  # particle_obj_name: material_node
-        self._blender_bsdf_nodes = dict()      # particle_obj_name: bsdf_node
+        self._blender_bsdf_nodes = dict()  # particle_obj_name: bsdf_node
 
         collection = self._blender_create_collection(vertices, tag)
-        super().__init__(material, colors, tag, collection)
+        super().__init__(material, colors, tag, collection, quaternion, translation)
 
     def update_camera(self, camera: Camera):
         """
@@ -259,6 +262,7 @@ class PC(Renderable):
             settings.render_type = "OBJECT"
             settings.instance_object = particle_obj
         return point_cloud_obj
+
     # <=== OBJECT
 
     # ===> MATERIAL
@@ -307,6 +311,7 @@ class PC(Renderable):
             self._blender_material_nodes[particle_obj_name] = None
             self._blender_bsdf_nodes[particle_obj_name] = None
             self._blender_colors_nodes[particle_obj_name] = None
+
     # <=== MATERIAL
 
     # ===> COLORS

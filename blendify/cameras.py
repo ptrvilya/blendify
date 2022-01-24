@@ -15,16 +15,14 @@ class Camera(Positionable):
         return camera_object
 
     @abstractmethod
-    def __init__(self, resolution: Vector2di, quaternion: Vector4d = (1, 0, 0, 0),
-                 translation: Vector3d = (0, 0, 0), tag: str = 'camera'):
+    def __init__(self, resolution: Vector2di, tag: str = 'camera', quaternion: Vector4d = (1, 0, 0, 0),
+                 translation: Vector3d = (0, 0, 0)):
         camera_object = self._blender_create_camera(tag)
-        super().__init__(tag, camera_object)
+        super().__init__(tag, camera_object, quaternion, translation)
         camera_object.data.sensor_fit = 'HORIZONTAL'
         camera_object.data.sensor_width = resolution[0]
         camera_object.data.sensor_height = resolution[1]
         self._resolution = np.array(resolution)
-
-        self.set_position(quaternion=quaternion, translation=translation)
 
     @property
     def resolution(self) -> np.ndarray:
@@ -49,10 +47,9 @@ class Camera(Positionable):
 
 class PerspectiveCamera(Camera):
     def __init__(self, resolution: Vector2di, focal_dist: float,
-                 fov_x: float = None, fov_y: float = None,
-                 quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0),
-                 center: Vector2df = None, tag: str = 'camera'):
-        super().__init__(resolution, quaternion, translation, tag)
+                 fov_x: float = None, fov_y: float = None, center: Vector2df = None, tag: str = 'camera',
+                 quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0)):
+        super().__init__(resolution, tag, quaternion, translation)
         camera_object = self.blender_camera
         camera_object.data.type = 'PERSP'
         # camera.data.lens_unit = "FOV"
@@ -119,10 +116,9 @@ class PerspectiveCamera(Camera):
 
 
 class OrthographicCamera(Camera):
-    def __init__(self, resolution: Vector2di, ortho_scale: float = 1.,
-                 quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0),
-                 far: float = 1., near: float = 0.1, tag: str = 'camera'):
-        super().__init__(resolution, quaternion, translation, tag)
+    def __init__(self, resolution: Vector2di, ortho_scale: float = 1., far: float = 1., near: float = 0.1,
+            tag: str = 'camera', quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0)):
+        super().__init__(resolution, tag, quaternion, translation)
         camera_object = self.blender_camera
         camera_object.data.type = 'ORTHO'
         self.ortho_scale = ortho_scale

@@ -2,15 +2,16 @@ import bpy
 import bpy_types
 import bmesh
 import numpy as np
-from blendify.internal.types import Vector3d
+from ..internal.types import Vector3d, Vector4d
 from .base import Renderable, RenderableObject
 from .materials import Material
 from .colors import Colors, VertexColors, UniformColors, UVColors, TextureColors, FileTextureColors
 
 
 class Primitive(RenderableObject):
-    def __init__(self, material: Material, colors: Colors, tag: str, blender_object: bpy_types.Object):
-        super().__init__(material, colors, tag, blender_object)
+    def __init__(self, material: Material, colors: Colors, tag: str, blender_object: bpy_types.Object,
+            quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0)):
+        super().__init__(material, colors, tag, blender_object, quaternion, translation)
 
     def _blender_set_colors(self, colors: Colors):
         if not isinstance(colors, UniformColors):
@@ -20,9 +21,10 @@ class Primitive(RenderableObject):
 
 
 class Ellipsoid(Primitive):
-    def __init__(self, radius: Vector3d, material: Material, colors: Colors, tag: str):
+    def __init__(self, radius: Vector3d, material: Material, colors: Colors, tag: str,
+            quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0)):
         obj = self._blender_create_object(radius, tag)
-        super().__init__(material, colors, tag, obj)
+        super().__init__(material, colors, tag, obj, quaternion, translation)
 
     def _blender_create_object(self, radius: Vector3d, tag: str):
         bpy.ops.surface.primitive_nurbs_surface_sphere_add(radius=radius[0])
@@ -33,12 +35,14 @@ class Ellipsoid(Primitive):
 
 
 class Sphere(Ellipsoid):
-    def __init__(self, radius: float, material: Material, colors: Colors, tag: str):
-        super().__init__((radius, radius, radius), material, colors, tag)
+    def __init__(self, radius: float, material: Material, colors: Colors, tag: str,
+            quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0)):
+        super().__init__((radius, radius, radius), material, colors, tag, quaternion, translation)
 
 
 class Curve(Primitive):
-    def __init__(self, keypoints: np.ndarray, radius: float, material: Material, colors: Colors, tag: str):
+    def __init__(self, keypoints: np.ndarray, radius: float, material: Material, colors: Colors, tag: str,
+            quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0)):
         obj = self._blender_create_object(tag)
         obj.data.bevel_depth = radius
         obj.data.bevel_resolution = 4
@@ -48,7 +52,7 @@ class Curve(Primitive):
             obj.data.splines[0].bezier_points[ind].co = coords
             obj.data.splines[0].bezier_points[ind].handle_left_type = 'VECTOR'
             obj.data.splines[0].bezier_points[ind].handle_right_type = 'VECTOR'
-        super().__init__(material, colors, tag, obj)
+        super().__init__(material, colors, tag, obj, quaternion, translation)
 
     def _blender_create_object(self, tag: str):
         bpy.ops.curve.primitive_bezier_curve_add()
@@ -59,9 +63,10 @@ class Curve(Primitive):
 
 
 class Circle(Primitive):
-    def __init__(self, radius: float, material: Material, colors: Colors, tag: str):
+    def __init__(self, radius: float, material: Material, colors: Colors, tag: str,
+            quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0)):
         obj = self._blender_create_object(radius, tag)
-        super().__init__(material, colors, tag, obj)
+        super().__init__(material, colors, tag, obj, quaternion, translation)
 
     def _blender_create_object(self, radius: float, tag: str):
         bpy.ops.surface.primitive_nurbs_surface_circle_add(radius=radius)
@@ -71,10 +76,11 @@ class Circle(Primitive):
 
 
 class Cylinder(Primitive):
-    def __init__(self, radius: float, height: float, material: Material, colors: Colors, tag: str):
+    def __init__(self, radius: float, height: float, material: Material, colors: Colors, tag: str,
+            quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0)):
         obj = self._blender_create_object(radius, tag)
         obj.scale[2] = height / radius
-        super().__init__(material, colors, tag, obj)
+        super().__init__(material, colors, tag, obj, quaternion, translation)
 
     def _blender_create_object(self, radius: float, tag: str):
         bpy.ops.surface.primitive_nurbs_surface_cylinder_add(radius=radius)

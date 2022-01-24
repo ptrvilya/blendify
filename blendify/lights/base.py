@@ -9,12 +9,11 @@ from ..internal.types import Vector2df, Vector3d, Vector4d
 
 class Light(Positionable):
     @abstractmethod
-    def __init__(self,  tag: str, light_object:bpy_types.Object,
-                 quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0)):
-        super().__init__(tag, light_object)
-        self.set_position(quaternion, translation)
+    def __init__(self, tag: str, light_object: bpy_types.Object,
+            quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0)):
+        super().__init__(tag, light_object, quaternion, translation)
 
-    def _blender_create_light(self, tag: str, light_type:str) -> bpy_types.Object:
+    def _blender_create_light(self, tag: str, light_type: str) -> bpy_types.Object:
         light_obj = bpy.data.lights.new(name=tag, type=light_type)
         obj = bpy.data.objects.new(name=tag, object_data=light_obj)
 
@@ -30,7 +29,7 @@ class Light(Positionable):
         return np.array(self.blender_light.data.color[:3])
 
     @color.setter
-    def color(self, val:Vector3d):
+    def color(self, val: Vector3d):
         val = np.array(val)
         self.blender_light.data.color = val.tolist()
 
@@ -39,7 +38,7 @@ class Light(Positionable):
         return self.blender_light.data.cycles.cast_shadow
 
     @cast_shadows.setter
-    def cast_shadows(self, val:bool):
+    def cast_shadows(self, val: bool):
         self.blender_light.data.cycles.cast_shadow = val
 
     @property
@@ -47,7 +46,7 @@ class Light(Positionable):
         return self.blender_light.data.energy
 
     @strength.setter
-    def strength(self, val:float):
+    def strength(self, val: float):
         self.blender_light.data.energy = val
 
     @property
@@ -60,9 +59,9 @@ class Light(Positionable):
 
 
 class PointLight(Light):
-    def __init__(self, color:Vector3d, strength: float,
-                 shadow_soft_size:float, tag:str, cast_shadows:bool = True,
-                 quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0)):
+    def __init__(self, color: Vector3d, strength: float,
+            shadow_soft_size: float, tag: str, cast_shadows: bool = True,
+            quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0)):
         blender_light = self._blender_create_light(tag, "POINT")
         super().__init__(tag, blender_light, quaternion, translation)
         self.color = color
@@ -75,14 +74,14 @@ class PointLight(Light):
         return self.blender_light.data.shadow_soft_size
 
     @shadow_soft_size.setter
-    def shadow_soft_size(self, val:float):
+    def shadow_soft_size(self, val: float):
         self.blender_light.data.shadow_soft_size = val
 
 
 class DirectionalLight(Light):
-    def __init__(self, color:Vector3d, strength: float,
-                 angular_diameter:float, tag:str, cast_shadows:bool = True,
-                 quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0)):
+    def __init__(self, color: Vector3d, strength: float,
+            angular_diameter: float, tag: str, cast_shadows: bool = True,
+            quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0)):
         blender_light = self._blender_create_light(tag, "SUN")
         super().__init__(tag, blender_light, quaternion, translation)
         self.color = color
@@ -101,8 +100,8 @@ class DirectionalLight(Light):
 
 class SpotLight(Light):
     def __init__(self, color: Vector3d, strength: float, spot_size: float, spot_blend: float,
-                 shadow_soft_size: float, tag: str, cast_shadows: bool = True,
-                 quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0)):
+            shadow_soft_size: float, tag: str, cast_shadows: bool = True,
+            quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0)):
         # spot_size: Angle of the spotlight beam (float in [0.0174533, 3.14159]) default 0.785398
         # spot_blend: The softness of the spotlight edge (float in [0, 1]) default 0.15
         blender_light = self._blender_create_light(tag, "SPOT")
@@ -142,8 +141,8 @@ class SpotLight(Light):
 class AreaLight(Light):
     @abstractmethod
     def __init__(self, color: Vector3d, strength: float,
-                 tag: str, cast_shadows: bool = True,
-                 quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0)):
+            tag: str, cast_shadows: bool = True,
+            quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0)):
         blender_light = self._blender_create_light(tag, "AREA")
         super().__init__(tag, blender_light, quaternion, translation)
         self.color = color
@@ -152,9 +151,9 @@ class AreaLight(Light):
 
 
 class SquareAreaLight(AreaLight):
-    def __init__(self, size:float, color: Vector3d, strength: float,
-                 tag: str, cast_shadows: bool = True,
-                 quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0)):
+    def __init__(self, size: float, color: Vector3d, strength: float,
+            tag: str, cast_shadows: bool = True,
+            quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0)):
         super().__init__(color, strength, tag, cast_shadows, quaternion, translation)
         self.blender_light.data.shape = "SQUARE"
         self.size = size
@@ -169,9 +168,9 @@ class SquareAreaLight(AreaLight):
 
 
 class CircleAreaLight(AreaLight):
-    def __init__(self, size:float, color: Vector3d, strength: float,
-                 tag: str, cast_shadows: bool = True,
-                 quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0)):
+    def __init__(self, size: float, color: Vector3d, strength: float,
+            tag: str, cast_shadows: bool = True,
+            quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0)):
         super().__init__(color, strength, tag, cast_shadows, quaternion, translation)
         self.blender_light.data.shape = "DISK"
         self.size = size
@@ -186,9 +185,9 @@ class CircleAreaLight(AreaLight):
 
 
 class RectangleAreaLight(AreaLight):
-    def __init__(self, size:Vector2df, color: Vector3d, strength: float,
-                 tag: str, cast_shadows: bool = True,
-                 quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0)):
+    def __init__(self, size: Vector2df, color: Vector3d, strength: float,
+            tag: str, cast_shadows: bool = True,
+            quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0)):
         super().__init__(color, strength, tag, cast_shadows, quaternion, translation)
         self.blender_light.data.shape = "RECTANGLE"
         self.size = size
@@ -204,9 +203,9 @@ class RectangleAreaLight(AreaLight):
 
 
 class EllipseAreaLight(AreaLight):
-    def __init__(self, size:Vector2df, color: Vector3d, strength: float,
-                 tag: str, cast_shadows: bool = True,
-                 quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0)):
+    def __init__(self, size: Vector2df, color: Vector3d, strength: float,
+            tag: str, cast_shadows: bool = True,
+            quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0)):
         super().__init__(color, strength, tag, cast_shadows, quaternion, translation)
         self.blender_light.data.shape = "ELLIPSE"
         self.size = size

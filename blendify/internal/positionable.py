@@ -7,20 +7,19 @@ from abc import ABC, abstractmethod
 
 class Positionable(ABC):
     @abstractmethod
-    def __init__(self, tag: str, blender_object: BlenderGroup):
-        self._quaternion = np.array([1, 0, 0, 0], dtype=np.float64)
-        self._translation = np.zeros(3, dtype=np.float64)
+    def __init__(self, tag: str, blender_object: BlenderGroup, quaternion: Vector4d = (1, 0, 0, 0),
+            translation: Vector3d = (0, 0, 0)):
         self._blender_object = blender_object
         self._tag = tag
-        self._update_blender_position()
+        self.set_position(quaternion, translation)
 
     @property
     def tag(self):
         return self._tag
 
     def set_position(self, quaternion: Vector4d, translation: Vector3d):
-        self._quaternion = np.array(quaternion)
-        self._translation = np.array(translation)
+        self._quaternion = np.array(quaternion, dtype=np.float64)
+        self._translation = np.array(translation, dtype=np.float64)
         self._update_blender_position()
 
     @property
@@ -37,7 +36,7 @@ class Positionable(ABC):
         return self._translation
 
     @translation.setter
-    def translation(self, val: Vector4d):
+    def translation(self, val: Vector3d):
         self._translation = np.array(val)
         self._update_blender_position()
 
@@ -49,6 +48,7 @@ class Positionable(ABC):
             obj.rotation_mode = 'QUATERNION'
             obj.rotation_quaternion = self.quaternion.tolist()
             obj.location = self.translation.tolist()
+
         if isinstance(blender_object, bpy.types.Collection):
             for obj in blender_object.all_objects.values():
                 set_position(obj)
