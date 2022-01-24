@@ -42,6 +42,7 @@ class Scene(metaclass=Singleton):
         # Important if you want to get a pure color background (eg. white background)
         bpy.context.scene.view_settings.view_transform = 'Raw'
         bpy.context.scene.cycles.samples = 128  # Default value, can be changed in .render
+
         # Empty the scene
         bpy.ops.object.select_all(action='SELECT')
         bpy.ops.object.delete(use_global=False)

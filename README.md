@@ -26,5 +26,13 @@ scene.renderables.add_pc(verts_1, material, color_1, point_size=0.01)
 scene.render(use_gpu=False, samples=64)
 ```
 
-Useful tips
+## Useful tips
 * Autocomplete for IDEs: https://github.com/Korchy/blender_autocomplete
+
+## Examples
+
+### Cornell Box
+
+<p align="center">
+  <img src="./docs/02_example.jpg" alt="drawing" width="50%"/>
+</p>

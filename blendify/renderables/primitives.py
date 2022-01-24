@@ -75,6 +75,18 @@ class CircleMesh(RenderableObject):
         obj.name = tag
         return obj
 
+    def _blender_set_colors(self, colors: Colors):
+        """
+        Remembers current color properties, builds a color node for material, sets color information to mesh
+        Args:
+            colors (Colors): target colors information
+        """
+        bpy.context.view_layer.objects.active = self._blender_object
+        bpy.ops.object.shade_smooth()
+        # bpy.context.space_data.context = 'MODIFIER'
+        bpy.ops.object.modifier_add(type='EDGE_SPLIT')
+        super()._blender_set_colors(colors)
+
 
 class CylinderMesh(RenderableObject):
     def __init__(self, radius: float, height: float, material: Material, colors: Colors, tag: str, vertices: int = 32,
@@ -88,3 +100,15 @@ class CylinderMesh(RenderableObject):
         obj = bpy.context.object
         obj.name = tag
         return obj
+
+    def _blender_set_colors(self, colors: Colors):
+        """
+        Remembers current color properties, builds a color node for material, sets color information to mesh
+        Args:
+            colors (Colors): target colors information
+        """
+        bpy.context.view_layer.objects.active = self._blender_object
+        bpy.ops.object.shade_smooth()
+        # bpy.context.space_data.context = 'MODIFIER'
+        bpy.ops.object.modifier_add(type='EDGE_SPLIT')
+        super()._blender_set_colors(colors)
