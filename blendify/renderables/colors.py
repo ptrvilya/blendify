@@ -3,6 +3,7 @@ import bpy_types
 import numpy as np
 from abc import ABC, abstractmethod
 from typing import Union, Tuple, List, Sequence
+from ..internal.texture import _copy_values_to_image
 
 
 class Colors(ABC):
@@ -44,10 +45,15 @@ class UVColors(Colors):
 class TextureColors(UVColors):
     def __init__(self, texture: np.ndarray, uv_map: np.ndarray):
         super().__init__(uv_map)
-        self.texture = texture
+        if texture.dtype == np.uint8:
+            texture = texture.astype(np.float32)/255.
+        blender_image = bpy.data.images.new(name="tex_image", width=texture.shape[1],
+                                            height=texture.shape[0])
+        _copy_values_to_image(texture.reshape(-1, 3), blender_image.name)
+        self.texture = blender_image
 
 
 class FileTextureColors(UVColors):
     def __init__(self, texture_path: str, uv_map: np.ndarray):
         super().__init__(uv_map)
-        self.texture_path = texture_path
+        self.texture = bpy.data.images.load(texture_path)

@@ -12,6 +12,7 @@ from ..internal.positionable import Positionable
 from ..internal.types import BlenderGroup, Vector3d, Vector4d
 
 
+
 class Renderable(Positionable):
     class ColorsNodeBuilder(ABC):
         colors_class = None
@@ -43,9 +44,9 @@ class Renderable(Positionable):
     class FileTextureColorsNodeBuilder(ColorsNodeBuilder):
         colors_class = FileTextureColors
 
-        def __init__(self, texture_path: str):
+        def __init__(self, colors: FileTextureColors):
             super().__init__()
-            self.texture_path = texture_path
+            self.texture = colors.texture
 
     @abstractmethod
     def __init__(self, material: Material, colors: Colors, tag: str, blender_object: BlenderGroup,
@@ -112,13 +113,13 @@ class RenderableObject(Renderable):
     class TextureColorsNodeBuilder(Renderable.TextureColorsNodeBuilder):
         def __call__(self, object_material: bpy.types.Material):
             object_texture = object_material.node_tree.nodes.new('ShaderNodeTexImage')
-            # <Texture creation goes here>
+            object_texture.image = self.texture
             return object_texture
 
     class FileTextureColorsNodeBuilder(Renderable.FileTextureColorsNodeBuilder):
         def __call__(self, object_material: bpy.types.Material):
             object_texture = object_material.node_tree.nodes.new('ShaderNodeTexImage')
-            object_texture.image = self.texture_path
+            object_texture.image = self.texture
             return object_texture
 
     @abstractmethod

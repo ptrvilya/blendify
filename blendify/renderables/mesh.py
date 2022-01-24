@@ -52,8 +52,10 @@ class Mesh(RenderableObject):
         elif isinstance(colors, UVColors):
             bpy.context.view_layer.objects.active = self._blender_object
             bpy.ops.object.mode_set(mode='EDIT')
+            self._blender_mesh.uv_layers.new(name='NewUVMap')
             bm = bmesh.from_edit_mesh(self._blender_mesh)
             uv_layer = bm.loops.layers.uv.active
+            print(self._blender_object, bm)
             for face in bm.faces:
                 for loop in face.loops:
                     loop_uv = loop[uv_layer]
