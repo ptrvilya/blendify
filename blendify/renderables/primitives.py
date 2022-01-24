@@ -8,7 +8,7 @@ from .materials import Material
 from .colors import Colors, VertexColors, UniformColors, UVColors, TextureColors, FileTextureColors
 
 
-class Primitive(RenderableObject):
+class PrimitiveNURBS(RenderableObject):
     def __init__(self, material: Material, colors: Colors, tag: str, blender_object: bpy_types.Object,
             quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0)):
         super().__init__(material, colors, tag, blender_object, quaternion, translation)
@@ -20,7 +20,7 @@ class Primitive(RenderableObject):
         super()._blender_set_colors(colors)
 
 
-class Ellipsoid(Primitive):
+class EllipsoidNURBS(PrimitiveNURBS):
     def __init__(self, radius: Vector3d, material: Material, colors: Colors, tag: str,
             quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0)):
         obj = self._blender_create_object(radius, tag)
@@ -34,13 +34,13 @@ class Ellipsoid(Primitive):
         return obj
 
 
-class Sphere(Ellipsoid):
+class SphereNURBS(EllipsoidNURBS):
     def __init__(self, radius: float, material: Material, colors: Colors, tag: str,
             quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0)):
         super().__init__((radius, radius, radius), material, colors, tag, quaternion, translation)
 
 
-class Curve(Primitive):
+class CurveNURBS(PrimitiveNURBS):
     def __init__(self, keypoints: np.ndarray, radius: float, material: Material, colors: Colors, tag: str,
             quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0)):
         obj = self._blender_create_object(tag)
@@ -62,28 +62,29 @@ class Curve(Primitive):
         return obj
 
 
-class Circle(Primitive):
+class CircleMesh(RenderableObject):
     def __init__(self, radius: float, material: Material, colors: Colors, tag: str,
-            quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0)):
-        obj = self._blender_create_object(radius, tag)
+                 vertices: int = 32, fill_type: str = "NGON",
+                 quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0)):
+        obj = self._blender_create_object(vertices, radius, fill_type, tag)
         super().__init__(material, colors, tag, obj, quaternion, translation)
 
-    def _blender_create_object(self, radius: float, tag: str):
-        bpy.ops.surface.primitive_nurbs_surface_circle_add(radius=radius)
+    def _blender_create_object(self, vertices: int, radius: float, fill_type: str, tag: str):
+        bpy.ops.mesh.primitive_circle_add(vertices=vertices, radius=radius, fill_type=fill_type)
         obj = bpy.context.object
         obj.name = tag
         return obj
 
 
-class Cylinder(Primitive):
-    def __init__(self, radius: float, height: float, material: Material, colors: Colors, tag: str,
-            quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0)):
-        obj = self._blender_create_object(radius, tag)
-        obj.scale[2] = height / radius
+class CylinderMesh(RenderableObject):
+    def __init__(self, radius: float, height: float, material: Material, colors: Colors, tag: str, vertices: int = 32,
+                 fill_type: str = "NGON", quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0)):
+        obj = self._blender_create_object(vertices, radius, height, fill_type, tag)
+        # obj.scale[2] = height / radius
         super().__init__(material, colors, tag, obj, quaternion, translation)
 
-    def _blender_create_object(self, radius: float, tag: str):
-        bpy.ops.surface.primitive_nurbs_surface_cylinder_add(radius=radius)
+    def _blender_create_object(self, vertices: int, radius: float, height: float, fill_type: str, tag: str):
+        bpy.ops.mesh.primitive_cylinder_add(vertices=vertices, radius=radius, depth=height, end_fill_type=fill_type)
         obj = bpy.context.object
         obj.name = tag
         return obj

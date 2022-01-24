@@ -49,7 +49,7 @@ class PerspectiveCamera(Camera):
     def __init__(self, resolution: Vector2di, focal_dist: float = None,
                  fov_x: float = None, fov_y: float = None, center: Vector2d = None, tag: str = 'camera',
                  quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0)):
-        super().__init__(resolution, quaternion, translation, tag)
+        super().__init__(resolution, tag, quaternion, translation)
         assert not(focal_dist is None and fov_x is None and fov_y is None), \
             "One of focal_dist, fov_x or fov_y is required"
         camera_object = self.blender_camera

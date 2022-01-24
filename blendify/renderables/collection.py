@@ -3,12 +3,12 @@ from typing import Dict, Iterable
 import numpy as np
 
 from ..internal import Singleton
-from ..internal.types import Vector3d
+from ..internal.types import Vector3d, Vector4d
 from .base import Renderable
 from .mesh import Mesh
 from .pc import PC
 from .colors import Colors
-from .primitives import Sphere, Ellipsoid, Circle, Cylinder, Curve
+from . import primitives
 from .materials import Material
 from ..cameras import Camera
 
@@ -19,7 +19,7 @@ class RenderablesCollection(metaclass=Singleton):
         self.camera: Camera = None
 
     def add_pc(self, vertices: np.ndarray, material: Material, colors: Colors, point_size: float = 0.006,
-            base_primitive: str = "CUBE", add_particle_color_emission: bool = True, tag=None) -> PC:
+               base_primitive: str = "CUBE", add_particle_color_emission: bool = True, tag=None) -> PC:
         tag = self._process_tag(tag, "PC")
         obj = PC(vertices, material, colors, tag, point_size,
                  base_primitive, add_particle_color_emission)
@@ -38,33 +38,41 @@ class RenderablesCollection(metaclass=Singleton):
         self._renderables[tag] = obj
         return obj
 
-    def add_circle(self, radius: float, material: Material, colors: Colors, tag=None):
-        tag = self._process_tag(tag, "Circle")
-        obj = Circle(radius, material, colors, tag)
-        self._renderables[tag] = obj
-        return obj
-
-    def add_sphere(self, radius: float, material: Material, colors: Colors, tag=None):
-        tag = self._process_tag(tag, "Sphere")
-        obj = Sphere(radius, material, colors, tag)
-        self._renderables[tag] = obj
-        return obj
-
-    def add_ellipsoid(self, radius: Vector3d, material: Material, colors: Colors, tag=None):
+    def add_ellipsoid_nurbs(self, radius: Vector3d, material: Material, colors: Colors,
+                            quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0), tag=None):
         tag = self._process_tag(tag, "Ellipsoid")
-        obj = Ellipsoid(radius, material, colors, tag)
+        obj = primitives.EllipsoidNURBS(radius, material, colors, tag, quaternion, translation)
         self._renderables[tag] = obj
         return obj
 
-    def add_cylinder(self, radius: float, height: float, material: Material, colors: Colors, tag=None):
-        tag = self._process_tag(tag, "Cylinder")
-        obj = Cylinder(radius, height, material, colors, tag)
+    def add_sphere_nurbs(self, radius: float, material: Material, colors: Colors,
+                         quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0), tag=None):
+        tag = self._process_tag(tag, "Sphere")
+        obj = primitives.SphereNURBS(radius, material, colors, tag, quaternion, translation)
         self._renderables[tag] = obj
         return obj
 
-    def add_curve(self, keypoints: np.ndarray, radius: float, material: Material, colors: Colors, tag=None):
+    def add_curve_nurbs(self, keypoints: np.ndarray, radius: float, material: Material, colors: Colors,
+                        quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0), tag=None):
         tag = self._process_tag(tag, "Curve")
-        obj = Curve(keypoints, radius, material, colors, tag)
+        obj = primitives.CurveNURBS(keypoints, radius, material, colors, tag, quaternion, translation)
+        self._renderables[tag] = obj
+        return obj
+
+    def add_circle_mesh(self, radius: float, material: Material, colors: Colors, vertices: int = 32,
+                        fill_type: str = "NGON", quaternion: Vector4d = (1, 0, 0, 0),
+                        translation: Vector3d = (0, 0, 0), tag=None):
+        tag = self._process_tag(tag, "Circle")
+        obj = primitives.CircleMesh(radius, material, colors, tag, vertices, fill_type, quaternion, translation)
+        self._renderables[tag] = obj
+        return obj
+
+    def add_cylinder_mesh(self, radius: float, height: float, material: Material, colors: Colors,
+                          vertices: int = 32, fill_type: str = "NGON", quaternion: Vector4d = (1, 0, 0, 0),
+                          translation: Vector3d = (0, 0, 0), tag=None):
+        tag = self._process_tag(tag, "Cylinder")
+        obj = primitives.CylinderMesh(radius, height, material, colors, tag,
+                                      vertices, fill_type, quaternion, translation)
         self._renderables[tag] = obj
         return obj
 
