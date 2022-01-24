@@ -6,7 +6,7 @@ from ..internal import Singleton
 from ..internal.types import Vector3d, Vector4d
 from .base import Renderable
 from .mesh import Mesh
-from .pc import PC
+from .pointcloud import PointCloud
 from .colors import Colors
 from . import primitives
 from .materials import Material
@@ -19,10 +19,10 @@ class RenderablesCollection(metaclass=Singleton):
         self.camera: Camera = None
 
     def add_pc(self, vertices: np.ndarray, material: Material, colors: Colors, point_size: float = 0.006,
-               base_primitive: str = "CUBE", add_particle_color_emission: bool = True, tag=None) -> PC:
+               base_primitive: str = "CUBE", add_particle_color_emission: bool = True, tag=None) -> PointCloud:
         tag = self._process_tag(tag, "PC")
-        obj = PC(vertices, material, colors, tag, point_size,
-                 base_primitive, add_particle_color_emission)
+        obj = PointCloud(vertices, material, colors, tag, point_size,
+                         base_primitive, add_particle_color_emission)
         self._renderables[tag] = obj
         return obj
 

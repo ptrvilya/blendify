@@ -35,10 +35,10 @@ from ..internal.types import Vector3d, Vector4d
 from ..internal.texture import _copy_values_to_image
 
 
-class PC(Renderable):
+class PointCloud(Renderable):
     """
-    Basic PC with vertices, supports uniform and per-vertex coloring.
-    Uses Blender-Photogrammetry-Importer to handle PCs.
+    Basic point cloud consisting of vertices, supports uniform and per-vertex coloring.
+    Uses Blender-Photogrammetry-Importer to handle point clouds.
     """
 
     class UniformColorsNodeBuilder(Renderable.UniformColorsNodeBuilder):
@@ -65,10 +65,10 @@ class PC(Renderable):
             image.pack()
             return image
 
-        def __call__(self, object_material: bpy.types.Material, vertex_index: int, **kwargs):
+        def __call__(self, object_material: bpy.types.Material, vertex_offset: int, **kwargs):
             particle_color_node = object_material.node_tree.nodes.new("ShaderNodeTexImage")
             particle_color_node.interpolation = "Closest"
-            vertex_colors_subset = self.vertex_colors[vertex_index: vertex_index + self._max_particles]
+            vertex_colors_subset = self.vertex_colors[vertex_offset: vertex_offset + self._max_particles]
             particle_color_node.image = self._compute_particle_color_texture(vertex_colors_subset)
             particle_info_node = object_material.node_tree.nodes.new("ShaderNodeParticleInfo")
 
@@ -121,6 +121,7 @@ class PC(Renderable):
         self.num_vertices = 0
         self._blender_colornode_builder = None
         self._blender_colors_nodes = dict()  # particle_obj_name: colors_node
+        self._blender_vertex_offsets = dict()  # particle_obj_name: index of a starting vertex
         self._blender_material_nodes = dict()  # particle_obj_name: material_node
         self._blender_bsdf_nodes = dict()  # particle_obj_name: bsdf_node
 
@@ -159,17 +160,18 @@ class PC(Renderable):
 
         self.point_cloud_obj_list = []
         self.num_vertices = len(vertices)
-        for i in range(0, self.num_vertices, self._max_particles):
-            particle_obj_name = f"Particle_{i}"
-            # particle_material_name = f"Particle_{i}_Material"
-            point_cloud_obj_name = f"Particle_{i}_PC"
+        for index, vertex_start in range(0, self.num_vertices, self._max_particles):
+            particle_obj_name = f"Particle_{index}"
+            # particle_material_name = f"Particle_{index}_Material"
+            point_cloud_obj_name = f"Particle_{index}_PC"
 
             self._particle_object_names.append(particle_obj_name)
             self._blender_colors_nodes[particle_obj_name] = None
             self._blender_material_nodes[particle_obj_name] = None
             self._point_cloud_object_names.append(point_cloud_obj_name)
 
-            points_subset = vertices[i: i + self._max_particles]
+            self._blender_vertex_offsets[particle_obj_name] = vertex_start
+            points_subset = vertices[vertex_start: vertex_start + self._max_particles]
 
             particle_obj = self._add_particle_obj(
                 particle_obj_name,
@@ -336,7 +338,8 @@ class PC(Renderable):
         if self._blender_colornode_builder is not None:
             for particle_obj_name, colors_node in self._blender_colors_nodes.items():
                 self._blender_colors_nodes[particle_obj_name] = \
-                    self._blender_colornode_builder(self._blender_material_nodes[particle_obj_name])
+                    self._blender_colornode_builder(self._blender_material_nodes[particle_obj_name],
+                                                    self._blender_vertex_offsets[particle_obj_name])
                 self._blender_link_color2material(particle_obj_name)
 
     def _blender_link_color2material(self, particle_obj_name: str):
