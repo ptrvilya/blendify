@@ -4,7 +4,7 @@ import bpy_types
 from abc import ABC, abstractmethod
 from typing import Union, Tuple, List, Sequence
 from .internal.positionable import Positionable
-from .internal.types import Vector2df, Vector2di, Vector3d, Vector4d
+from .internal.types import Vector2d, Vector2di, Vector3d, Vector4d
 
 
 class Camera(Positionable):
@@ -47,7 +47,7 @@ class Camera(Positionable):
 
 class PerspectiveCamera(Camera):
     def __init__(self, resolution: Vector2di, focal_dist: float = None,
-                 fov_x: float = None, fov_y: float = None, center: Vector2df = None, tag: str = 'camera',
+                 fov_x: float = None, fov_y: float = None, center: Vector2d = None, tag: str = 'camera',
                  quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0)):
         super().__init__(resolution, quaternion, translation, tag)
         assert not(focal_dist is None and fov_x is None and fov_y is None), \
@@ -99,7 +99,7 @@ class PerspectiveCamera(Camera):
         return real_center
 
     @center.setter
-    def center(self, real_center: Vector2df):
+    def center(self, real_center: Vector2d):
         camera = self.blender_camera
         real_center = np.array(real_center)
         ideal_center = self.resolution / 2.

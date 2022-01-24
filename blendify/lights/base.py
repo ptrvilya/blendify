@@ -4,7 +4,7 @@ import bpy_types
 from abc import ABC, abstractmethod
 from typing import Union, Tuple, List, Sequence
 from ..internal.positionable import Positionable
-from ..internal.types import Vector2df, Vector3d, Vector4d
+from ..internal.types import Vector2d, Vector3d, Vector4d
 
 
 class Light(Positionable):
@@ -185,7 +185,7 @@ class CircleAreaLight(AreaLight):
 
 
 class RectangleAreaLight(AreaLight):
-    def __init__(self, size: Vector2df, color: Vector3d, strength: float,
+    def __init__(self, size: Vector2d, color: Vector3d, strength: float,
             tag: str, cast_shadows: bool = True,
             quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0)):
         super().__init__(color, strength, tag, cast_shadows, quaternion, translation)
@@ -197,13 +197,13 @@ class RectangleAreaLight(AreaLight):
         return np.array([self.blender_light.data.size, self.blender_light.data.size_y])
 
     @size.setter
-    def size(self, val: Vector2df):
+    def size(self, val: Vector2d):
         self.blender_light.data.size = val[0]
         self.blender_light.data.size_y = val[1]
 
 
 class EllipseAreaLight(AreaLight):
-    def __init__(self, size: Vector2df, color: Vector3d, strength: float,
+    def __init__(self, size: Vector2d, color: Vector3d, strength: float,
             tag: str, cast_shadows: bool = True,
             quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0)):
         super().__init__(color, strength, tag, cast_shadows, quaternion, translation)
@@ -215,6 +215,6 @@ class EllipseAreaLight(AreaLight):
         return np.array([self.blender_light.data.size, self.blender_light.data.size_y])
 
     @size.setter
-    def size(self, val: Vector2df):
+    def size(self, val: Vector2d):
         self.blender_light.data.size = val[0]
         self.blender_light.data.size_y = val[1]

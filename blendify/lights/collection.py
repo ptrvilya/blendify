@@ -1,7 +1,7 @@
 from typing import Dict, Iterable, Union
 
 from ..internal import Singleton
-from ..internal.types import Vector2df, Vector3d, Vector4d
+from ..internal.types import Vector2d, Vector3d, Vector4d
 from .base import Light, PointLight, DirectionalLight, SpotLight,  \
     SquareAreaLight, CircleAreaLight, RectangleAreaLight, EllipseAreaLight, AreaLight
 
@@ -39,7 +39,7 @@ class LightsCollection(metaclass=Singleton):
         self._lights[tag] = light
         return light
 
-    def add_area(self, shape: str, size: Union[float, Vector2df],
+    def add_area(self, shape: str, size: Union[float, Vector2d],
                  quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0),
                  color: Vector3d = (1.0, 1.0, 1.0), strength: float = 100, tag=None, cast_shadows=True) -> AreaLight:
         tag = self._process_tag(tag, "Area")

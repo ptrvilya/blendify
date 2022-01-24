@@ -12,7 +12,7 @@ import bpy
 from .lights import LightsCollection
 from .renderables import RenderablesCollection
 from .internal import Singleton
-from .internal.types import Vector2df, Vector2di, Vector3d, Vector4d
+from .internal.types import Vector2d, Vector2di, Vector3d, Vector4d
 from .cameras import Camera, PerspectiveCamera, OrthographicCamera
 
 
@@ -51,7 +51,7 @@ class Scene(metaclass=Singleton):
         return self._camera
 
     def add_perspective_camera(self, resolution: Vector2di, focal_dist: float = None, fov_x: float = None,
-                               fov_y: float = None, center: Vector2df = None, tag: str = 'camera',
+                               fov_y: float = None, center: Vector2d = None, tag: str = 'camera',
                                quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0)):
         camera = PerspectiveCamera(resolution, focal_dist, fov_x, fov_y, center, tag, quaternion, translation)
         self._setup_camera(camera)
