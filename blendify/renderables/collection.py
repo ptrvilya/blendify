@@ -6,7 +6,7 @@ from ..internal import Singleton
 from ..internal.types import Vector3d, Vector4d
 from .base import Renderable
 from .mesh import Mesh
-from .pointcloud import PointCloud
+from .pointcloud import PointCloud, CameraColoredPointCloud
 from .colors import Colors
 from . import primitives
 from .materials import Material
@@ -18,26 +18,61 @@ class RenderablesCollection(metaclass=Singleton):
         self._renderables: Dict[str, Renderable] = dict()
         self.camera: Camera = None
 
-    def add_pc(self, vertices: np.ndarray, material: Material, colors: Colors, point_size: float = 0.006,
-               base_primitive: str = "CUBE", add_particle_color_emission: bool = True, tag=None) -> PointCloud:
-        tag = self._process_tag(tag, "PC")
+    # ===> PointClouds
+    def add_pointcloud(
+            self, vertices: np.ndarray, material: Material, colors: Colors, point_size: float = 0.006,
+            base_primitive: str = "CUBE", add_particle_color_emission: bool = True, tag=None
+    ) -> PointCloud:
+        tag = self._process_tag(tag, "PointCloud")
         obj = PointCloud(vertices, material, colors, tag, point_size,
                          base_primitive, add_particle_color_emission)
         self._renderables[tag] = obj
         return obj
 
-    def add_camera_colored_pc(self, tag=None):
-        tag = self._process_tag(tag, "Camera_Colored_PC")
+    def add_camera_colored_pointcloud(
+            self, vertices: np.ndarray, normals: np.ndarray, material: Material, colors: Colors,
+            point_size: float = 0.006, base_primitive: str = "CUBE", add_particle_color_emission: bool = True,
+            back_color=(0.6, 0.6, 0.6),
+            quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0), tag=None
+    ) -> CameraColoredPointCloud:
+        tag = self._process_tag(tag, "Camera_Colored_PointCloud")
+        obj = CameraColoredPointCloud(
+            vertices, normals, material, colors, tag, point_size,  base_primitive,
+            add_particle_color_emission, back_color, quaternion, translation
+        )
 
-        if self.camera is None:
-            pass
+        if self.camera is not None:
+            obj.update_camera(self.camera)
 
+        return obj
+    # <===
+
+    # Mesh and Mesh Primitives
     def add_mesh(self, vertices: np.ndarray, faces: np.ndarray, material: Material, colors: Colors, tag=None) -> Mesh:
         tag = self._process_tag(tag, "Mesh")
         obj = Mesh(vertices, faces, material, colors, tag)
         self._renderables[tag] = obj
         return obj
 
+    def add_circle_mesh(self, radius: float, material: Material, colors: Colors, vertices: int = 32,
+                        fill_type: str = "NGON", quaternion: Vector4d = (1, 0, 0, 0),
+                        translation: Vector3d = (0, 0, 0), tag=None):
+        tag = self._process_tag(tag, "Circle")
+        obj = primitives.CircleMesh(radius, material, colors, tag, vertices, fill_type, quaternion, translation)
+        self._renderables[tag] = obj
+        return obj
+
+    def add_cylinder_mesh(self, radius: float, height: float, material: Material, colors: Colors,
+                          vertices: int = 32, fill_type: str = "NGON", quaternion: Vector4d = (1, 0, 0, 0),
+                          translation: Vector3d = (0, 0, 0), tag=None):
+        tag = self._process_tag(tag, "Cylinder")
+        obj = primitives.CylinderMesh(radius, height, material, colors, tag,
+                                      vertices, fill_type, quaternion, translation)
+        self._renderables[tag] = obj
+        return obj
+    # <===
+
+    # ===> Parametric Primitives
     def add_ellipsoid_nurbs(self, radius: Vector3d, material: Material, colors: Colors,
                             quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0), tag=None):
         tag = self._process_tag(tag, "Ellipsoid")
@@ -58,23 +93,7 @@ class RenderablesCollection(metaclass=Singleton):
         obj = primitives.CurveNURBS(keypoints, radius, material, colors, tag, quaternion, translation)
         self._renderables[tag] = obj
         return obj
-
-    def add_circle_mesh(self, radius: float, material: Material, colors: Colors, vertices: int = 32,
-                        fill_type: str = "NGON", quaternion: Vector4d = (1, 0, 0, 0),
-                        translation: Vector3d = (0, 0, 0), tag=None):
-        tag = self._process_tag(tag, "Circle")
-        obj = primitives.CircleMesh(radius, material, colors, tag, vertices, fill_type, quaternion, translation)
-        self._renderables[tag] = obj
-        return obj
-
-    def add_cylinder_mesh(self, radius: float, height: float, material: Material, colors: Colors,
-                          vertices: int = 32, fill_type: str = "NGON", quaternion: Vector4d = (1, 0, 0, 0),
-                          translation: Vector3d = (0, 0, 0), tag=None):
-        tag = self._process_tag(tag, "Cylinder")
-        obj = primitives.CylinderMesh(radius, height, material, colors, tag,
-                                      vertices, fill_type, quaternion, translation)
-        self._renderables[tag] = obj
-        return obj
+    # <===
 
     def update_camera(self, camera: Camera):
         self.camera = camera

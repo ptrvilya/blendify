@@ -54,13 +54,15 @@ class Scene(metaclass=Singleton):
     def add_perspective_camera(self, resolution: Vector2di, focal_dist: float = None, fov_x: float = None,
                                fov_y: float = None, center: Vector2d = None, tag: str = 'camera',
                                quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0)):
-        camera = PerspectiveCamera(resolution, focal_dist, fov_x, fov_y, center, tag, quaternion, translation)
+        camera = PerspectiveCamera(resolution=resolution, focal_dist=focal_dist, fov_x=fov_x, fov_y=fov_y,
+                                   center=center, tag=tag, quaternion=quaternion, translation=translation)
         self._setup_camera(camera)
 
     def add_orthographic_camera(self, resolution: Vector2di, ortho_scale: float = 1.,
                                 far: float = 1., near: float = 0.1, tag: str = 'camera',
                                 quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0)):
-        camera = OrthographicCamera(resolution, ortho_scale, far, near, tag, quaternion, translation)
+        camera = OrthographicCamera(resolution=resolution, ortho_scale=ortho_scale, far=far, near=near, tag=tag,
+                                    quaternion=quaternion, translation=translation)
         self._setup_camera(camera)
 
     def _setup_camera(self, camera: Camera):

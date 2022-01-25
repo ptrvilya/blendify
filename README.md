@@ -32,8 +32,14 @@ scene.render(use_gpu=False, samples=64)
 
 ## Examples
 
-### Cornell Box
+### Cornell box
 
 <p align="center">
   <img src="./docs/images/02_example.jpg" alt="drawing" width="50%"/>
+</p>
+
+### Camera colored point cloud
+
+<p align="center">
+  <img src="./docs/images/04_example.jpg" alt="drawing" width="50%"/>
 </p>

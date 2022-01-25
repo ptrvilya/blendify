@@ -76,17 +76,17 @@ def main(args):
         quaternion=[0.720, 0.262, 0.604, -0.220], translation=[-0.43, 0.32, 0.18]
     )
 
-    if args.blend is not None:
-        scene.export(args.blend)
+    if args.output_blend is not None:
+        scene.export(args.output_blend)
     scene.render(filepath=args.path, use_gpu=not args.cpu, samples=args.n_samples)
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Blendify 02 example: Cornell Box.")
 
-    parser.add_argument("-p", "--path", type=str, default="./02_cornell_box.png",
+    parser.add_argument("-p", "--path", type=str, default="./02_example.png",
                         help="Path to the resulting image.")
-    parser.add_argument("-b", "--blend", type=str, default=None,
+    parser.add_argument("-o", "--output-blend", type=str, default=None,
                         help="Path to the resulting blend file.")
     parser.add_argument("-n", "--n-samples", default=2048, type=int)
     parser.add_argument("--resolution", default=(1024, 1024), nargs=2, type=int,
