@@ -1,6 +1,7 @@
 import numpy as np
 import bpy
 import bpy_types
+from scipy.spatial import transform
 from abc import ABC, abstractmethod
 from typing import Union, Tuple, List, Sequence
 from .internal.positionable import Positionable
@@ -15,13 +16,16 @@ class Camera(Positionable):
         return camera_object
 
     @abstractmethod
-    def __init__(self, resolution: Vector2di, tag: str = 'camera', quaternion: Vector4d = (1, 0, 0, 0),
-                 translation: Vector3d = (0, 0, 0)):
+    def __init__(self, resolution: Vector2di, tag: str = 'camera', clip_start: float = 0.1, clip_end: float = 100,
+                 quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0)):
         camera_object = self._blender_create_camera(tag)
         super().__init__(tag, camera_object, quaternion, translation)
         camera_object.data.sensor_fit = 'HORIZONTAL'
         camera_object.data.sensor_width = resolution[0]
         camera_object.data.sensor_height = resolution[1]
+        camera_object.data.clip_start = clip_start
+        camera_object.data.clip_end = clip_end
+
         self._resolution = np.array(resolution)
 
     @property
@@ -44,12 +48,22 @@ class Camera(Positionable):
         """
         pass
 
+    def get_camera_ray(self):
+        # TODO substitute for array of rays for each pixel for perspective camera?
+        # Default blender camera: up is aligned with +y, ray: (0,0,-1)
+        camera_ray = np.array([0, 0, -1], dtype=np.float32)
+
+        # scipy quat is [x, y, z, w], while ours is [w, x, y, z]
+        rotation = transform.Rotation.from_quat(np.roll(self.quaternion, -1))
+        camera_ray = rotation.apply(camera_ray)
+        return camera_ray
+
 
 class PerspectiveCamera(Camera):
-    def __init__(self, resolution: Vector2di, focal_dist: float = None,
-                 fov_x: float = None, fov_y: float = None, center: Vector2d = None, tag: str = 'camera',
+    def __init__(self, resolution: Vector2di, focal_dist: float = None, fov_x: float = None, fov_y: float = None,
+                 center: Vector2d = None, tag: str = 'camera', clip_start: float = 0.1, clip_end: float = 100,
                  quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0)):
-        super().__init__(resolution, tag, quaternion, translation)
+        super().__init__(resolution, tag, clip_start, clip_end, quaternion, translation)
         assert not(focal_dist is None and fov_x is None and fov_y is None), \
             "One of focal_dist, fov_x or fov_y is required"
         camera_object = self.blender_camera
@@ -119,8 +133,9 @@ class PerspectiveCamera(Camera):
 
 class OrthographicCamera(Camera):
     def __init__(self, resolution: Vector2di, ortho_scale: float = 1., far: float = 1., near: float = 0.1,
-            tag: str = 'camera', quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0)):
-        super().__init__(resolution, tag, quaternion, translation)
+                 tag: str = 'camera', clip_start: float = 0.1, clip_end: float = 100,
+                 quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0)):
+        super().__init__(resolution, tag, clip_start, clip_end, quaternion, translation)
         camera_object = self.blender_camera
         camera_object.data.type = 'ORTHO'
         self.ortho_scale = ortho_scale
