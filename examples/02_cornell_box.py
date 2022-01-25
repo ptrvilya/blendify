@@ -3,7 +3,7 @@ import argparse
 import numpy as np
 
 import blendify
-from blendify.renderables.materials import PrinsipledBSDFMaterial
+from blendify.renderables.materials import PrinsipledBSDFMaterial, GlossyBSDFMaterial
 from blendify.renderables.colors import UniformColors
 
 
@@ -53,15 +53,12 @@ def main(args):
     )
 
     # Cylinder
-    cylinder_material = PrinsipledBSDFMaterial(
-        specular=0.5,
-        roughness=0.4,
-        sheen=0.7,
-        sheen_tint=0.5,
+    cylinder_material = GlossyBSDFMaterial(
+        roughness=0.5
     )
     cylinder_color = UniformColors((102/255, 102/255, 1.0))
     cylinder = scene.renderables.add_cylinder_mesh(
-        0.08, 0.3, cylinder_material, cylinder_color, translation=[-0.32, 0.25, 0.1]
+        0.08, 0.3, cylinder_material, cylinder_color, translation=[-0.32, 0.25, 0.15]
     )
 
     # Circle
@@ -79,7 +76,8 @@ def main(args):
         quaternion=[0.720, 0.262, 0.604, -0.220], translation=[-0.43, 0.32, 0.18]
     )
 
-    # scene.export("./02_cornell_box.blend")
+    if args.blend is not None:
+        scene.export(args.blend)
     scene.render(filepath=args.path, use_gpu=not args.cpu, samples=args.n_samples)
 
 
@@ -88,7 +86,9 @@ if __name__ == '__main__':
 
     parser.add_argument("-p", "--path", type=str, default="./02_cornell_box.png",
                         help="Path to the resulting image.")
-    parser.add_argument("-n", "--n-samples", default=2048, type=int, dest="cycles")
+    parser.add_argument("-b", "--blend", type=str, default=None,
+                        help="Path to the resulting blend file.")
+    parser.add_argument("-n", "--n-samples", default=2048, type=int)
     parser.add_argument("--resolution", default=(1024, 1024), nargs=2, type=int,
                         help="Rendering resolution, (default: (1024, 1024)).")
     parser.add_argument("--cpu", action="store_true", help="Use CPU for rendering")

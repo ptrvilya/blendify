@@ -224,7 +224,10 @@ class RenderableObject(Renderable):
         Links color and material nodes
         """
         if self._blender_colors_node is not None and self._blender_material_node is not None:
-            self._blender_material_node.node_tree.links.new(self._blender_bsdf_node.inputs['Base Color'],
+            self._blender_material_node.node_tree.links.new(self._blender_bsdf_node.inputs[0],
                                                             self._blender_colors_node.outputs['Color'])
-            self._blender_bsdf_node.inputs['Base Color'].default_value = [1.0, 0.0, 0.0, 1.0]
+            self._blender_bsdf_node.inputs[0].default_value = [1.0, 0.0, 0.0, 1.0]
+            # self._blender_material_node.node_tree.links.new(self._blender_bsdf_node.inputs['Base Color'],
+            #                                                 self._blender_colors_node.outputs['Color'])
+            # self._blender_bsdf_node.inputs['Base Color'].default_value = [1.0, 0.0, 0.0, 1.0]
     # <=== COLORS

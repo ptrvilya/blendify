@@ -35,5 +35,5 @@ scene.render(use_gpu=False, samples=64)
 ### Cornell Box
 
 <p align="center">
-  <img src="./doc/02_example.jpg" alt="drawing" width="50%"/>
+  <img src="./docs/images/02_example.jpg" alt="drawing" width="50%"/>
 </p>

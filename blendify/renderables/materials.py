@@ -63,3 +63,27 @@ class PrinsipledBSDFMaterial:
         bsdf_node.inputs['Alpha'].default_value = self.alpha
 
         return object_material, bsdf_node
+
+
+class GlossyBSDFMaterial:
+    """
+        Full docs: https://docs.blender.org/manual/en/latest/render/shader_nodes/shader/glossy.html
+    """
+    def __init__(self, roughness=0.4, distribution="GGX"):
+        self.roughness = roughness
+        self.distribution = distribution
+
+    def create_material(self, name: str = "object_material") \
+            -> Tuple[bpy.types.Material, bpy.types.ShaderNodeBsdfGlossy]:
+        object_material = bpy.data.materials.new(name=name)
+        object_material.use_nodes = True
+        material_nodes = object_material.node_tree.nodes
+
+        bsdf_node = material_nodes.new("ShaderNodeBsdfGlossy")
+        material_nodes.remove(material_nodes['Principled BSDF'])
+        object_material.node_tree.links.new(material_nodes["Material Output"].inputs["Surface"], bsdf_node.outputs[0])
+        # Set material properties
+        bsdf_node.inputs['Roughness'].default_value = self.roughness
+        bsdf_node.distribution = self.distribution
+
+        return object_material, bsdf_node
