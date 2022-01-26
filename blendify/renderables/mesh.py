@@ -55,7 +55,6 @@ class Mesh(RenderableObject):
             self._blender_mesh.uv_layers.new(name='NewUVMap')
             bm = bmesh.from_edit_mesh(self._blender_mesh)
             uv_layer = bm.loops.layers.uv.active
-            print(self._blender_object, bm)
             for face in bm.faces:
                 for loop in face.loops:
                     loop_uv = loop[uv_layer]
@@ -64,6 +63,10 @@ class Mesh(RenderableObject):
             bpy.ops.object.shade_smooth()
         elif not isinstance(colors, UniformColors):
             raise NotImplementedError(f"Unknown visuals type {colors.__class__.__name__}")
+        else:
+            bpy.context.view_layer.objects.active = self._blender_object
+            bpy.ops.object.mode_set(mode='OBJECT')
+            bpy.ops.object.shade_smooth()
         super()._blender_set_colors(colors)
 
     def update_vertices(self, vertices: np.ndarray):

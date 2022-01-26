@@ -52,18 +52,20 @@ class Scene(metaclass=Singleton):
         return self._camera
 
     def add_perspective_camera(self, resolution: Vector2di, focal_dist: float = None, fov_x: float = None,
-                               fov_y: float = None, center: Vector2d = None, tag: str = 'camera',
-                               quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0)):
+            fov_y: float = None, center: Vector2d = None, tag: str = 'camera',
+            quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0)):
         camera = PerspectiveCamera(resolution=resolution, focal_dist=focal_dist, fov_x=fov_x, fov_y=fov_y,
                                    center=center, tag=tag, quaternion=quaternion, translation=translation)
         self._setup_camera(camera)
+        return camera
 
     def add_orthographic_camera(self, resolution: Vector2di, ortho_scale: float = 1.,
-                                far: float = 1., near: float = 0.1, tag: str = 'camera',
-                                quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0)):
+            far: float = 1., near: float = 0.1, tag: str = 'camera',
+            quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0)):
         camera = OrthographicCamera(resolution=resolution, ortho_scale=ortho_scale, far=far, near=near, tag=tag,
                                     quaternion=quaternion, translation=translation)
         self._setup_camera(camera)
+        return camera
 
     def _setup_camera(self, camera: Camera):
         # TODO add old camera destructor
@@ -86,7 +88,8 @@ class Scene(metaclass=Singleton):
         data[data > dist_thresh] = -np.inf
         return data
 
-    def render(self, filepath: Union[str, Path] = "result.png", use_gpu=True, samples=128, save_depth = False, save_albedo = False):
+    def render(self, filepath: Union[str, Path] = "result.png", use_gpu=True, samples=128, save_depth=False,
+            save_albedo=False):
         if self.camera is None:
             raise RuntimeError("Can't render without a camera")
 
@@ -143,7 +146,7 @@ class Scene(metaclass=Singleton):
         # Render
         bpy.context.scene.frame_current = 0
         temp_filesuff = next(tempfile._get_candidate_names())
-        temp_filepath = str(filepath)+"."+temp_filesuff
+        temp_filepath = str(filepath) + "." + temp_filesuff
         # dirpath = os.path.dirname(filepath)
         render_suffixes = [".color.0000.png"]
         if save_depth:
@@ -152,31 +155,29 @@ class Scene(metaclass=Singleton):
             render_suffixes.append(".albedo.0000.png")
         while self.check_any_exists(temp_filepath, render_suffixes):
             temp_filesuff = next(tempfile._get_candidate_names())
-            temp_filepath = str(filepath)+"."+temp_filesuff
-        output_image.file_slots[0].path = temp_filepath+".color."
+            temp_filepath = str(filepath) + "." + temp_filesuff
+        output_image.file_slots[0].path = temp_filepath + ".color."
         if save_depth:
-            output_depth.file_slots[0].path = temp_filepath+".depth."
+            output_depth.file_slots[0].path = temp_filepath + ".depth."
         if save_albedo:
-            output_albedo.file_slots[0].path = temp_filepath+".albedo."
+            output_albedo.file_slots[0].path = temp_filepath + ".albedo."
 
         bpy.ops.render.render(write_still=False)
 
-        shutil.move(temp_filepath+".color.0000.png", filepath)
+        shutil.move(temp_filepath + ".color.0000.png", filepath)
         if save_depth:
-            distmap = self.read_exr_distmap(temp_filepath+".depth.0000.exr")
+            distmap = self.read_exr_distmap(temp_filepath + ".depth.0000.exr")
             distmap = distmap.reshape(self.camera.resolution[::-1])
             depthmap = self.camera.distance2depth(distmap)
-            np.save(os.path.splitext(filepath)[0]+".depth.npy", depthmap)
-            os.remove(temp_filepath+".depth.0000.exr")
+            np.save(os.path.splitext(filepath)[0] + ".depth.npy", depthmap)
+            os.remove(temp_filepath + ".depth.0000.exr")
         if save_albedo:
-            shutil.move(temp_filepath + ".albedo.0000.png", os.path.splitext(filepath)[0]+".albedo.png")
-
-
+            shutil.move(temp_filepath + ".albedo.0000.png", os.path.splitext(filepath)[0] + ".albedo.png")
 
     @staticmethod
-    def check_any_exists(fileprefix:str, filesuffixes:Sequence[str]):
+    def check_any_exists(fileprefix: str, filesuffixes: Sequence[str]):
         for filesuffix in filesuffixes:
-            fullpath = fileprefix+filesuffix
+            fullpath = fileprefix + filesuffix
             if os.path.exists(fullpath):
                 return True
         return False

@@ -248,6 +248,8 @@ class PointCloud(Renderable):
             settings.use_emit_random = False
             settings.render_type = "OBJECT"
             settings.instance_object = particle_obj
+            settings.use_rotations = True
+            settings.rotation_mode = "GLOB_X"
         return point_cloud_obj
 
     # <=== OBJECT
@@ -361,7 +363,26 @@ class PointCloud(Renderable):
                     self._blender_colors_nodes[particle_obj_name][0].outputs["Color"],
                     self._blender_bsdf_nodes[particle_obj_name].inputs["Emission"],
                 )
+
     # <=== COLORS
+
+    @property
+    def emit_shadow(self):
+        val = None
+        for particle_obj_name in self._particle_object_names:
+            particle_obj = self._blender_object.all_objects[particle_obj_name]
+            curr_val = particle_obj.cycles_visibility.shadow
+            if val is None:
+                val = curr_val
+            elif val != curr_val:
+                return None
+        return val
+
+    @emit_shadow.setter
+    def emit_shadow(self, val: bool):
+        for particle_obj_name in self._particle_object_names:
+            particle_obj = self._blender_object.all_objects[particle_obj_name]
+            particle_obj.cycles_visibility.shadow = val
 
 
 class CameraColoredPointCloud(PointCloud):
@@ -372,9 +393,9 @@ class CameraColoredPointCloud(PointCloud):
     """
 
     def __init__(self, vertices: np.ndarray, normals: np.ndarray, material: Material,
-                 colors: Colors, tag: str, point_size: float = 0.006,  base_primitive: str = "CUBE",
-                 add_particle_color_emission: bool = True, back_color=(0.6, 0.6, 0.6),
-                 quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0)):
+            colors: Colors, tag: str, point_size: float = 0.006, base_primitive: str = "CUBE",
+            add_particle_color_emission: bool = True, back_color=(0.6, 0.6, 0.6),
+            quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0)):
         self.normals = normals
         self.back_color = np.array(back_color, dtype=np.float32)
 
@@ -383,7 +404,7 @@ class CameraColoredPointCloud(PointCloud):
         # We need to keep a local copy of the current camera ray to recolor the PC in case of colors change
         self._camera_ray = None
 
-        super().__init__(vertices, material, colors, tag, point_size,  base_primitive,
+        super().__init__(vertices, material, colors, tag, point_size, base_primitive,
                          add_particle_color_emission, quaternion, translation)
 
     def update_vertices(self, vertices: np.ndarray):

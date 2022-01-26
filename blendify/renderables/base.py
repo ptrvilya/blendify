@@ -12,7 +12,6 @@ from ..internal.positionable import Positionable
 from ..internal.types import BlenderGroup, Vector3d, Vector4d
 
 
-
 class Renderable(Positionable):
     class ColorsNodeBuilder(ABC):
         colors_class = None
@@ -230,4 +229,13 @@ class RenderableObject(Renderable):
             # self._blender_material_node.node_tree.links.new(self._blender_bsdf_node.inputs['Base Color'],
             #                                                 self._blender_colors_node.outputs['Color'])
             # self._blender_bsdf_node.inputs['Base Color'].default_value = [1.0, 0.0, 0.0, 1.0]
+
     # <=== COLORS
+
+    @property
+    def emit_shadows(self) -> bool:
+        return self._blender_object.cycles_visibility.shadow
+
+    @emit_shadows.setter
+    def emit_shadows(self, val: bool):
+        self._blender_object.cycles_visibility.shadow = val
