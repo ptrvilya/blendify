@@ -22,23 +22,24 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
-import numpy as np
-import bpy_types
+from typing import List
+
 import bpy
+import numpy as np
 from mathutils import Vector
-from typing import Union, Tuple, List, Sequence
-from ..cameras import Camera
+
+from .base import Renderable
 from .colors import Colors, VertexColors, UniformColors
 from .materials import Material
-from .base import Renderable
-from ..internal.types import Vector3d, Vector4d
+from ..cameras import Camera
 from ..internal.texture import _copy_values_to_image
+from ..internal.types import Vector3d
 
 
 class PointCloud(Renderable):
     """
     Basic point cloud consisting of vertices, supports uniform and per-vertex coloring.
-    Uses Blender-Photogrammetry-Importer to handle point clouds.
+    Uses Blender-Photogrammetry-Importer to handle point clouds as Blender particle systems objects.
     """
 
     class UniformColorsNodeBuilder(Renderable.UniformColorsNodeBuilder):
@@ -50,6 +51,8 @@ class PointCloud(Renderable):
 
     class VertexColorsNodeBuilder(Renderable.VertexColorsNodeBuilder):
         def __init__(self, colors: VertexColors):
+            # This is a constraint imposed by open bug in blender
+            # https://developer.blender.org/T81103
             self._max_particles = 10000
 
             self.vertex_colors = colors.vertex_colors
@@ -69,11 +72,12 @@ class PointCloud(Renderable):
             particle_color_node = object_material.node_tree.nodes.new("ShaderNodeTexImage")
             particle_color_node.interpolation = "Closest"
             vertex_colors_subset = self.vertex_colors[vertex_offset: vertex_offset + self._max_particles]
+            # TODO test if per-vertex alpha setup is possible.
+            #  Use case: making back vertices transparent in CameraColoredPointCloud
             particle_color_node.image = self._compute_particle_color_texture(vertex_colors_subset)
             particle_info_node = object_material.node_tree.nodes.new("ShaderNodeParticleInfo")
 
             # Idea: we use the particle idx to compute a texture coordinate
-
             # Shift the un-normalized texture coordinate by a half pixel
             shift_half_pixel_node = object_material.node_tree.nodes.new("ShaderNodeMath")
             shift_half_pixel_node.operation = "ADD"
@@ -105,42 +109,71 @@ class PointCloud(Renderable):
 
             return [particle_color_node, particle_info_node, shift_half_pixel_node, divide_node, shader_node_combine]
 
-    def __init__(self, vertices: np.ndarray, material: Material, colors: Colors, tag: str,
-            point_size: float = 0.006, base_primitive: str = "CUBE", add_particle_color_emission: bool = True,
-            quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0)):
+    def __init__(
+            self,
+            vertices: np.ndarray,
+            point_size: float = 0.006,
+            base_primitive: str = "CUBE",
+            particle_emission_strength: int = 1,
+            **kwargs
+    ):
+        """
+        Creates Blender Collection that represent target point cloud. Code for creation particle systems for
+        representing the point clouds is borrowed from https://github.com/SBCV/Blender-Addon-Photogrammetry-Importer .
+        Args:
+            vertices (np.ndarray): point cloud vertices
+            point_size (float, optional): size of a primitive, represintg each vertex (default: 0.006)
+            base_primitive (str, optional): type of primitive for representing each point
+                (possible values are PLANE, CUBE, SPHERE, default: CUBE)
+            particle_emission_strength (int, optional): strength of the emission from each primitive. This is used to
+                increase realism. Values <= 0 turn emission off, values > 0 set the power of emission (default: 1)
+            material (Material): PrinsipledBSDFMaterial object
+            colors (Colors): VertexColors or UniformColors object
+            tag (str): name of the object(collection) in Blender that is created to represent the point cloud
+            quaternion (Vector4d, optional): rotation to apply to Blender object (default: (1,0,0,0))
+            translation (Vector3d, optional): translation to apply to the Blender object (default: (0,0,0))
+        """
+        # TODO hasn't been tested with GlossyBSDFMaterial
+
         # internal variables and constants
-        self._max_particles = 10000
-        self._particle_collections = {}
-        self._point_size = point_size
-        self._base_primitive = base_primitive
-        self.add_particle_color_emission = add_particle_color_emission
+        self._max_particles: int = 10000
+        self._particle_collections = dict()
+        self._point_size: float = point_size
+        self._base_primitive: str = base_primitive
+        self.particle_emission_strength: int = particle_emission_strength
         self._particle_object_names: List[str] = list()
         self._point_cloud_object_names: List[str] = list()
         self._particle_material_names: List[str] = list()
 
-        self.num_vertices = 0
+        self.num_vertices: int = 0
         self._blender_colornode_builder = None
-        self._blender_colors_nodes = dict()  # particle_obj_name: [colors_node]
+        self._blender_colors_nodes = dict()    # particle_obj_name: [colors_node]
         self._blender_vertex_offsets = dict()  # particle_obj_name: index of a starting vertex
         self._blender_material_nodes = dict()  # particle_obj_name: material_node
-        self._blender_bsdf_nodes = dict()  # particle_obj_name: bsdf_node
+        self._blender_bsdf_nodes = dict()      # particle_obj_name: bsdf_node
 
-        collection = self._blender_create_collection(vertices, tag)
-        super().__init__(material, colors, tag, collection, quaternion, translation)
+        collection = self._blender_create_collection(vertices, kwargs["tag"])
+        super().__init__(**kwargs, blender_object=collection)
 
-    def update_camera(self, camera: Camera):
+    def update_camera(
+            self,
+            camera: Camera
+    ):
         """
-        Updates object based on current camera position
+        Updates object based on current camera position.
         Args:
             camera (Camera): target camera
         """
         pass
 
-    def update_vertices(self, vertices: np.ndarray):
+    def update_vertices(
+            self,
+            vertices: np.ndarray
+    ):
         """
-        Updates mesh vertices corrdinates
+        Updates pc vertices corrdinates.
         Args:
-            vertices: new vertex coordinates
+            vertices (np.ndarray): new coordinates for point cloud vertices
         """
         assert self.num_vertices == len(vertices), \
             f"Number of vertices should be the same (expected {self.num_vertices}, got {len(vertices)})"
@@ -153,14 +186,48 @@ class PointCloud(Renderable):
                 vert.co = points_subset[vert_ind]
             pc_object.update()
 
+    # Getter and setter for emit_shadow: this property may be turned off if the particle_emission_strength
+    # is big enough to avoid artifacts.
+    @property
+    def emit_shadow(self):
+        val = None
+        for particle_obj_name in self._particle_object_names:
+            particle_obj = self._blender_object.all_objects[particle_obj_name]
+            curr_val = particle_obj.cycles_visibility.shadow
+            if val is None:
+                val = curr_val
+            elif val != curr_val:
+                return None
+        return val
+
+    @emit_shadow.setter
+    def emit_shadow(self, val: bool):
+        for particle_obj_name in self._particle_object_names:
+            particle_obj = self._blender_object.all_objects[particle_obj_name]
+            particle_obj.cycles_visibility.shadow = val
+
     # ===> OBJECT
-    def _blender_create_collection(self, vertices: np.ndarray, tag: str):
+    def _blender_create_collection(
+            self,
+            vertices: np.ndarray,
+            tag: str
+    ) -> bpy.types.Collection:
+        """
+        Creates Blender collection of particle systems, that represent point cloud.
+        Args:
+            vertices (np.ndarray): all points in the point cloud
+            tag (str): a name for a blender collection
+
+        Returns:
+            bpy.types.Collection: a collection of particle systems representing the point cloud
+        """
         new_collection = bpy.data.collections.new(f"Particle System {tag}")
         bpy.context.collection.children.link(new_collection)
 
         self.point_cloud_obj_list = []
         self.num_vertices = len(vertices)
         for index, vertex_start in enumerate(range(0, self.num_vertices, self._max_particles)):
+            # This name is used is a unique identifier for all internal dictionaries (e.g. self._blender_colors_nodes)
             particle_obj_name = f"Particle_{index}"
             # particle_material_name = f"Particle_{index}_Material"
             point_cloud_obj_name = f"Particle_{index}_PC"
@@ -174,23 +241,25 @@ class PointCloud(Renderable):
             points_subset = vertices[vertex_start: vertex_start + self._max_particles]
 
             particle_obj = self._add_particle_obj(
-                particle_obj_name,
+                particle_obj_name=particle_obj_name,
                 mesh_type=self._base_primitive,
-                point_extent=self._point_size,
-                reconstruction_collection=new_collection
+                point_size=self._point_size,
+                blender_collection=new_collection
             )
             point_cloud_obj = self._add_particle_system_obj(
-                points_subset,
-                particle_obj,
-                point_cloud_obj_name,
-                new_collection,
+                coords=points_subset,
+                particle_obj=particle_obj,
+                point_cloud_obj_name=point_cloud_obj_name,
+                blender_collection=new_collection,
             )
             self.point_cloud_obj_list.append(point_cloud_obj)
 
         return new_collection
 
     def _blender_remove_object(self):
-        """Removes the object from Blender scene"""
+        """
+        Removes the object from Blender scene.
+        """
         for particle_obj_name, colors_nodes in self._blender_colors_nodes.items():
             if colors_nodes is not None:
                 self._blender_clear_colors(particle_obj_name)
@@ -200,10 +269,27 @@ class PointCloud(Renderable):
         super()._blender_remove_object()
 
     @staticmethod
-    def _add_particle_obj(particle_obj_name, mesh_type, point_extent, reconstruction_collection):
+    def _add_particle_obj(
+            particle_obj_name: str,
+            mesh_type: str,
+            point_size: int,
+            blender_collection: bpy.types.Collection
+    ) -> bpy.types.Object:
+        """
+        Creates particle that will be used in particle system to represent vertices in the point cloud.
+        Args:
+            particle_obj_name (str): name of a Blender primitive object to be created
+            mesh_type (str): type of primitive for representing each point (possible values are PLANE, CUBE, SPHERE)
+            point_size (int): size of a primitive
+            blender_collection (bpy.types.Collection): a Blender collection for storing the primitive
+
+        Returns:
+            bpy.types.Object: a Blender primitive that is used to represent point cloud vertex
+        """
+
         # The default size of elements added with
         #   primitive_cube_add, primitive_uv_sphere_add, etc. is (2,2,2)
-        point_scale = point_extent * 0.5
+        point_scale = point_size * 0.5
 
         bpy.ops.object.select_all(action="DESELECT")
         if mesh_type == "PLANE":
@@ -216,20 +302,36 @@ class PointCloud(Renderable):
             bpy.ops.mesh.primitive_uv_sphere_add(radius=point_scale)
         particle_obj = bpy.context.object
         particle_obj.name = particle_obj_name
-        reconstruction_collection.objects.link(particle_obj)
+        blender_collection.objects.link(particle_obj)
         bpy.context.collection.objects.unlink(particle_obj)
 
         return particle_obj
 
     @staticmethod
-    def _add_particle_system_obj(coords, particle_obj, point_cloud_obj_name, reconstruction_collection):
+    def _add_particle_system_obj(
+            coords: np.ndarray,
+            particle_obj: bpy.types.Object,
+            point_cloud_obj_name: str,
+            blender_collection: bpy.types.Collection
+    ) -> bpy.types.Object:
+        """
+        Creates particle system that represents a part of the point cloud (up to 10k vertices) using a given primitive.
+        Args:
+            coords (np.ndarray): coordinates of point cloud vertices
+            particle_obj (bpy.types.Object): a Blender primitive object that represents point cloud vertex
+            point_cloud_obj_name (str): unique identifier of Blender particle system object tho be created
+            blender_collection (bpy.types.Collection): a Blender collection for storing the particle system
+
+        Returns:
+            bpy.types.Object: Blender particle system object
+        """
         point_cloud_mesh = bpy.data.meshes.new(point_cloud_obj_name)
         point_cloud_mesh.update()
         point_cloud_mesh.validate()
         point_cloud_mesh.from_pydata(coords, [], [])
 
         point_cloud_obj = bpy.data.objects.new(point_cloud_obj_name, point_cloud_mesh)
-        reconstruction_collection.objects.link(point_cloud_obj)
+        blender_collection.objects.link(point_cloud_obj)
         point_cloud_obj.select_set(state=True)
 
         if bpy.context.view_layer.objects.active is None or bpy.context.view_layer.objects.active.mode == "OBJECT":
@@ -255,7 +357,10 @@ class PointCloud(Renderable):
     # <=== OBJECT
 
     # ===> MATERIAL
-    def update_material(self, material: Material):
+    def update_material(
+            self,
+            material: Material
+    ):
         """
         Updates object material properties, sets Blender structures accordingly
         Args:
@@ -266,10 +371,15 @@ class PointCloud(Renderable):
                 self._blender_clear_material(particle_obj_name)
             self._blender_set_material(particle_obj_name, material)
 
-    def _blender_set_material(self, particle_obj_name: str, material: Material):
+    def _blender_set_material(
+            self,
+            particle_obj_name: str,
+            material: Material
+    ):
         """
         Constructs material node, recreates color node if needed
         Args:
+            particle_obj_name (str): unique identifier of Blender particle system object that material is linked to
             material (Material): target material
         """
         object_material, bsdf_node = material.create_material(name=f"{particle_obj_name}_Material")
@@ -288,9 +398,14 @@ class PointCloud(Renderable):
         particle_obj.data.materials.append(object_material)
         self._blender_create_colornode()
 
-    def _blender_clear_material(self, particle_obj_name: str):
+    def _blender_clear_material(
+            self,
+            particle_obj_name: str
+    ):
         """
         Clears Blender material node and nodes connected to it
+        Args:
+            particle_obj_name (str): unique identifier of Blender particle system object that material is linked to
         """
         if self._blender_material_nodes[particle_obj_name] is not None:
             for color_node in self._blender_colors_nodes[particle_obj_name]:
@@ -305,7 +420,10 @@ class PointCloud(Renderable):
     # <=== MATERIAL
 
     # ===> COLORS
-    def update_colors(self, colors: Colors):
+    def update_colors(
+            self,
+            colors: Colors
+    ):
         """
         Updates object color properties, sets Blender structures accordingly
         Args:
@@ -316,7 +434,10 @@ class PointCloud(Renderable):
                 self._blender_clear_colors(particle_obj_name)
         self._blender_set_colors(colors)
 
-    def _blender_set_colors(self, colors: Colors):
+    def _blender_set_colors(
+            self,
+            colors: Colors
+    ):
         """
         Remembers current color properies, builds a color node for material
         Args:
@@ -325,7 +446,10 @@ class PointCloud(Renderable):
         self._blender_colornode_builder = self.get_colorsnode_builder(colors)
         self._blender_create_colornode()
 
-    def _blender_clear_colors(self, particle_obj_name: str):
+    def _blender_clear_colors(
+            self,
+            particle_obj_name: str
+    ):
         """
         Clears Blender color node and erases node constructor
         """
@@ -346,9 +470,12 @@ class PointCloud(Renderable):
                                                     self._blender_vertex_offsets[particle_obj_name])
                 self._blender_link_color2material(particle_obj_name)
 
-    def _blender_link_color2material(self, particle_obj_name: str):
+    def _blender_link_color2material(
+            self,
+            particle_obj_name: str
+    ):
         """
-        Links color and material nodes
+        Links color and material nodes, additionally adds emission to particle color if needed
         """
         if self._blender_colors_nodes[particle_obj_name] is not None and \
                 self._blender_material_nodes[particle_obj_name] is not None:
@@ -358,32 +485,15 @@ class PointCloud(Renderable):
                 self._blender_bsdf_nodes[particle_obj_name].inputs["Base Color"],
             )
 
-            if self.add_particle_color_emission:
+            if self.particle_emission_strength > 0:
                 self._blender_material_nodes[particle_obj_name].node_tree.links.new(
                     self._blender_colors_nodes[particle_obj_name][0].outputs["Color"],
                     self._blender_bsdf_nodes[particle_obj_name].inputs["Emission"],
                 )
-                self._blender_bsdf_nodes[particle_obj_name].inputs["Emission Strength"].default_value = 0.5
+                self._blender_bsdf_nodes[particle_obj_name].inputs["Emission Strength"].default_value = \
+                    self.particle_emission_strength
 
     # <=== COLORS
-
-    @property
-    def emit_shadow(self):
-        val = None
-        for particle_obj_name in self._particle_object_names:
-            particle_obj = self._blender_object.all_objects[particle_obj_name]
-            curr_val = particle_obj.cycles_visibility.shadow
-            if val is None:
-                val = curr_val
-            elif val != curr_val:
-                return None
-        return val
-
-    @emit_shadow.setter
-    def emit_shadow(self, val: bool):
-        for particle_obj_name in self._particle_object_names:
-            particle_obj = self._blender_object.all_objects[particle_obj_name]
-            particle_obj.cycles_visibility.shadow = val
 
 
 class CameraColoredPointCloud(PointCloud):
@@ -393,29 +503,59 @@ class CameraColoredPointCloud(PointCloud):
         Uses Blender-Photogrammetry-Importer to handle point clouds.
     """
 
-    def __init__(self, vertices: np.ndarray, normals: np.ndarray, material: Material,
-            colors: Colors, tag: str, point_size: float = 0.006, base_primitive: str = "CUBE",
-            add_particle_color_emission: bool = True, back_color=(0.6, 0.6, 0.6),
-            quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0)):
-        self.normals = normals
-        self.back_color = np.array(back_color, dtype=np.float32)
-
-        # We need to keep a local copy of per-vertex colors to recolor the PC in case of camera change
-        self._per_vertex_colors = None
-        # We need to keep a local copy of the current camera ray to recolor the PC in case of colors change
-        self._camera_ray = None
-
-        super().__init__(vertices, material, colors, tag, point_size, base_primitive,
-                         add_particle_color_emission, quaternion, translation)
-
-    def update_vertices(self, vertices: np.ndarray):
+    def __init__(
+            self,
+            normals: np.ndarray,
+            back_color: Vector3d = (0.6, 0.6, 0.6),
+            **kwargs
+    ):
         """
-        Updates mesh vertices corrdinates
+        Creates Blender Collection that represent target point cloud. The class inherits most functionality from
+        PointCloud and adds additional feature: provided per-vertex normals are used to recolor point cloud vertices
+        that are not directly visible from the current camera (colors are updated after each camera change).
         Args:
-            vertices: new vertex coordinates
+            normals (np.ndarray): per-vertex normals for each point int the point cloud
+            back_color (Vector3d, optional): color for vertices that are not directly visible from current camera.
+                Values are to be provided without alpha in [0.0, 1.0] (default: (0.6, 0.6, 0.6))
+            vertices (np.ndarray): point cloud vertices
+            point_size (float, optional): size of a primitive, represintg each vertex (default: 0.006)
+            base_primitive (str, optional): type of primitive for representing each point
+                (possible values are PLANE, CUBE, SPHERE, default: CUBE)
+            particle_emission_strength (int, optional): strength of the emission from each primitive. This is used to
+                increase realism. Values <= 0 turn emission off, values > 0 set the power of emission (default: 1)
+            material (Material): PrinsipledBSDFMaterial object
+            colors (Colors): VertexColors or UniformColors object
+            tag (str): name of the object(collection) in Blender that is created to represent the point cloud
+            quaternion (Vector4d, optional): rotation to apply to Blender object (default: (1,0,0,0))
+            translation (Vector3d, optional): translation to apply to the Blender object (default: (0,0,0))
+        """
+        # Per point normals for each vertex. For example on how to estimate normals for PC refer to utils/pointcloud.py
+        self.normals: np.ndarray = normals
+        # Color for vertices that are not directly visible from current camera
+        self.back_color: np.ndarray = np.array(back_color, dtype=np.float32)
+        # We need to keep a local copy of initial per-vertex colors to recolor the PC in case of camera change
+        self._per_vertex_colors: np.ndarray = None
+        # We need to keep a local copy of the current camera ray to recolor the PC in case of colors change
+        self._camera_ray: np.ndarray = None
+
+        super().__init__(**kwargs)
+
+    def update_vertices(
+            self,
+            vertices: np.ndarray,
+            normals: np.ndarray
+    ):
+        """
+        Updates point cloud vertices coordinates and normals, then recolors vertices according to new normals.
+        Args:
+            vertices (np.ndarray): new vertex coordinates
+            normals (np.ndarray): new per-vertex normals
         """
         assert self.num_vertices == len(vertices), \
             f"Number of vertices should be the same (expected {self.num_vertices}, got {len(vertices)})"
+        assert self.num_vertices == len(normals), \
+            f"Number of vertices should be the same (expected {self.num_vertices}, got {len(normals)})"
+
         for subset_ind, offset in enumerate(range(0, self.num_vertices, self._max_particles)):
             points_subset = vertices[offset: offset + self._max_particles]
 
@@ -425,9 +565,17 @@ class CameraColoredPointCloud(PointCloud):
                 vert.co = points_subset[vert_ind]
             pc_object.update()
 
-    def update_colors(self, colors: Colors):
+            # Update normals and recolor PC
+            self.normals = normals
+            _per_vertex_colors_recolored = self._recompute_colors()
+            self._update_colors_from_recolored(_per_vertex_colors_recolored)
+
+    def update_colors(
+            self,
+            colors: Colors
+    ):
         """
-        Updates object color properties, sets Blender structures accordingly
+        Updates object color properties, sets Blender structures accordingly.
         Args:
             colors (Colors): target colors information
         """
@@ -443,11 +591,20 @@ class CameraColoredPointCloud(PointCloud):
             f"got {len(self._per_vertex_colors)})"
 
         if self._camera_ray is not None:
-            _per_vertex_colors_recolored = self._recolor_pc()
+            _per_vertex_colors_recolored = self._recompute_colors()
+            self._update_colors_from_recolored(_per_vertex_colors_recolored)
         else:
             self._update_colors_from_recolored(self._per_vertex_colors)
 
-    def _update_colors_from_recolored(self, per_vertex_colors):
+    def _update_colors_from_recolored(
+            self,
+            per_vertex_colors: np.ndarray
+    ):
+        """
+        Creates internal VertexColors object with new colors and applies it to all particle systems.
+        Args:
+            per_vertex_colors (np.ndarray): new colors to apply to a point cloud
+        """
         colors = VertexColors(per_vertex_colors)
 
         for particle_obj_name, colors_node in self._blender_colors_nodes.items():
@@ -455,7 +612,13 @@ class CameraColoredPointCloud(PointCloud):
                 self._blender_clear_colors(particle_obj_name)
         self._blender_set_colors(colors)
 
-    def _recolor_pc(self):
+    def _recompute_colors(self):
+        """
+        Updates per-vertex colors based on angle between camera ray and normals. All invisible vertices are colored
+        in self.back_color.
+        Returns:
+            np.ndarray: updated per-vertex colors
+        """
         dot_product = (self.normals * self._camera_ray[None, :]).sum(axis=1)
         back_mask = dot_product > 0.0
 
@@ -464,13 +627,16 @@ class CameraColoredPointCloud(PointCloud):
 
         return _per_vertex_colors_recolored
 
-    def update_camera(self, camera: Camera):
+    def update_camera(
+            self,
+            camera: Camera
+    ):
         """
-        Updates object based on current camera position
+        Updates object based on current camera position.
         Args:
             camera (Camera): target camera
         """
         self._camera_ray = camera.get_camera_ray()
 
-        _per_vertex_colors_recolored = self._recolor_pc()
+        _per_vertex_colors_recolored = self._recompute_colors()
         self._update_colors_from_recolored(_per_vertex_colors_recolored)
