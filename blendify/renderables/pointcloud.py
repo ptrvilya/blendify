@@ -363,6 +363,7 @@ class PointCloud(Renderable):
                     self._blender_colors_nodes[particle_obj_name][0].outputs["Color"],
                     self._blender_bsdf_nodes[particle_obj_name].inputs["Emission"],
                 )
+                self._blender_bsdf_nodes[particle_obj_name].inputs["Emission Strength"].default_value = 0.5
 
     # <=== COLORS
 

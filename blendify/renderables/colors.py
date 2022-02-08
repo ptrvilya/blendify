@@ -35,15 +35,30 @@ class UniformColors(Colors):
         self._color = uniform_color
 
 
+class UVMap(ABC):
+    @abstractmethod
+    def __init__(self, data: np.ndarray):
+        self.data = data
+
+
+class VertexUV(UVMap):
+    def __init__(self, data: np.ndarray):
+        self.data = data
+
+
+class FacesUV(UVMap):
+    def __init__(self, data: np.ndarray):
+        self.data = data
+
 class UVColors(Colors):
     @abstractmethod
-    def __init__(self, uv_map: np.ndarray):
+    def __init__(self, uv_map: UVMap):
         super().__init__()
         self.uv_map = uv_map
 
 
 class TextureColors(UVColors):
-    def __init__(self, texture: np.ndarray, uv_map: np.ndarray):
+    def __init__(self, texture: np.ndarray, uv_map: UVMap):
         super().__init__(uv_map)
         if texture.dtype == np.uint8:
             texture = texture.astype(np.float32)/255.
@@ -54,6 +69,6 @@ class TextureColors(UVColors):
 
 
 class FileTextureColors(UVColors):
-    def __init__(self, texture_path: str, uv_map: np.ndarray):
+    def __init__(self, texture_path: str, uv_map: UVMap):
         super().__init__(uv_map)
         self.texture = bpy.data.images.load(texture_path)

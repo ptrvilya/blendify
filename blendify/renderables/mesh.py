@@ -4,7 +4,7 @@ import bmesh
 import numpy as np
 from .base import RenderableObject
 from .materials import Material
-from .colors import Colors, VertexColors, UniformColors, UVColors, TextureColors, FileTextureColors
+from .colors import Colors, VertexColors, UniformColors, UVColors, TextureColors, FileTextureColors, VertexUV, FacesUV
 from ..internal.types import Vector3d, Vector4d
 
 
@@ -33,6 +33,18 @@ class Mesh(RenderableObject):
         self._blender_mesh = mesh
         return obj
 
+    def set_smooth(self, smooth: bool = True):
+        bpy.context.view_layer.objects.active = self._blender_object
+        bpy.ops.object.mode_set(mode='EDIT')
+        bm = bmesh.from_edit_mesh(self._blender_mesh)
+        for face in bm.faces:
+            face.smooth = smooth
+        bpy.ops.object.mode_set(mode='OBJECT')
+        if smooth:
+            bpy.ops.object.shade_smooth()
+        else:
+            bpy.ops.object.shade_flat()
+
     def _blender_set_colors(self, colors: Colors):
         """
         Remembers current color properties, builds a color node for material, sets color information to mesh
@@ -47,26 +59,27 @@ class Mesh(RenderableObject):
             for face in bm.faces:
                 for loop in face.loops:
                     loop[color_layer] = colors.vertex_colors[loop.vert.index]
-            bpy.ops.object.mode_set(mode='OBJECT')
-            bpy.ops.object.shade_smooth()
         elif isinstance(colors, UVColors):
             bpy.context.view_layer.objects.active = self._blender_object
             bpy.ops.object.mode_set(mode='EDIT')
             self._blender_mesh.uv_layers.new(name='NewUVMap')
             bm = bmesh.from_edit_mesh(self._blender_mesh)
             uv_layer = bm.loops.layers.uv.active
-            for face in bm.faces:
-                for loop in face.loops:
-                    loop_uv = loop[uv_layer]
-                    loop_uv.uv = colors.uv_map[loop.vert.index].tolist()
-            bpy.ops.object.mode_set(mode='OBJECT')
-            bpy.ops.object.shade_smooth()
+            uv_map = colors.uv_map
+            if isinstance(uv_map, VertexUV):
+                for face in bm.faces:
+                    for loop in face.loops:
+                        loop_uv = loop[uv_layer]
+                        loop_uv.uv = uv_map.data[loop.vert.index].tolist()
+            elif isinstance(uv_map, FacesUV):
+                for face in bm.faces:
+                    face_uv = uv_map.data[face.index]
+                    for loop, loop_uv_coords in zip(face.loops, face_uv):
+                        loop[uv_layer].uv = loop_uv_coords.tolist()
+            else:
+                raise NotImplementedError(f"Unkown UV map type: {uv_map.__class__.__name__}")
         elif not isinstance(colors, UniformColors):
             raise NotImplementedError(f"Unknown visuals type {colors.__class__.__name__}")
-        else:
-            bpy.context.view_layer.objects.active = self._blender_object
-            bpy.ops.object.mode_set(mode='OBJECT')
-            bpy.ops.object.shade_smooth()
         super()._blender_set_colors(colors)
 
     def update_vertices(self, vertices: np.ndarray):
