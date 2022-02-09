@@ -1,5 +1,4 @@
 import bpy
-import bpy_types
 import numpy as np
 from abc import ABC, abstractmethod
 from typing import Union, Tuple, List, Sequence

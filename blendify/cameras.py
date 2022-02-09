@@ -1,6 +1,5 @@
 import numpy as np
 import bpy
-import bpy_types
 from scipy.spatial import transform
 from abc import ABC, abstractmethod
 from typing import Union, Tuple, List, Sequence
@@ -33,7 +32,7 @@ class Camera(Positionable):
         return self._resolution
 
     @property
-    def blender_camera(self) -> bpy_types.Object:
+    def blender_camera(self) -> bpy.types.Object:
         return self._blender_object
 
     @abstractmethod

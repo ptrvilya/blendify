@@ -1,9 +1,8 @@
 import numpy as np
 import bpy
-import bpy_types
 from typing import Sequence, Union, Tuple, List
 
-BlenderGroup = Union[bpy.types.Collection, bpy_types.Object]
+BlenderGroup = Union[bpy.types.Collection, bpy.types.Object]
 Vector2d = Union[np.ndarray, Tuple[float, float]]
 Vector2di = Union[np.ndarray, Tuple[int, int]]
 Vector3d = Union[np.ndarray, Tuple[float, float, float]]

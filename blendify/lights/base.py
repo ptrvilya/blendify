@@ -1,6 +1,5 @@
 import numpy as np
 import bpy
-import bpy_types
 from abc import ABC, abstractmethod
 from typing import Union, Tuple, List, Sequence
 from ..internal.positionable import Positionable
@@ -9,11 +8,11 @@ from ..internal.types import Vector2d, Vector3d, Vector4d
 
 class Light(Positionable):
     @abstractmethod
-    def __init__(self, tag: str, light_object: bpy_types.Object,
+    def __init__(self, tag: str, light_object: bpy.types.Object,
             quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0)):
         super().__init__(tag, light_object, quaternion, translation)
 
-    def _blender_create_light(self, tag: str, light_type: str) -> bpy_types.Object:
+    def _blender_create_light(self, tag: str, light_type: str) -> bpy.types.Object:
         light_obj = bpy.data.lights.new(name=tag, type=light_type)
         obj = bpy.data.objects.new(name=tag, object_data=light_obj)
 
@@ -21,7 +20,7 @@ class Light(Positionable):
         return obj
 
     @property
-    def blender_light(self) -> bpy_types.Object:
+    def blender_light(self) -> bpy.types.Object:
         return self._blender_object
 
     @property
