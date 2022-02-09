@@ -27,7 +27,7 @@ class MeshPrimitive(RenderableObject):
         **kwargs
     ):
         """
-
+        Passes all arguments to the constructor of the base class.
         Args:
             material (Material): Material instance
             colors (Colors): Colors instance
@@ -196,7 +196,7 @@ class ParametricPrimitive(RenderableObject):
         **kwargs
     ):
         """
-
+        Passes all arguments to the constructor of the base class.
         Args:
             material (Material): Material instance
             colors (Colors): Colors instance

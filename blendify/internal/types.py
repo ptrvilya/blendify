@@ -1,6 +1,7 @@
-import numpy as np
+from typing import Union, Tuple
+
 import bpy
-from typing import Sequence, Union, Tuple, List
+import numpy as np
 
 BlenderGroup = Union[bpy.types.Collection, bpy.types.Object]
 Vector2d = Union[np.ndarray, Tuple[float, float]]

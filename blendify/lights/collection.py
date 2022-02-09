@@ -1,56 +1,174 @@
 from typing import Dict, Iterable, Union
 
+from .base import Light, PointLight, DirectionalLight, SpotLight, \
+    SquareAreaLight, CircleAreaLight, RectangleAreaLight, EllipseAreaLight, AreaLight
 from ..internal import Singleton
 from ..internal.types import Vector2d, Vector3d, Vector4d
-from .base import Light, PointLight, DirectionalLight, SpotLight,  \
-    SquareAreaLight, CircleAreaLight, RectangleAreaLight, EllipseAreaLight, AreaLight
 
 
 class LightsCollection(metaclass=Singleton):
     def __init__(self):
         self._lights: Dict[str, Light] = dict()
 
-    def add_point(self, quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0),
-                  color: Vector3d = (1.0, 1.0, 1.0), strength: float = 100,
-                  shadow_soft_size: float = 0.25, tag=None, cast_shadows=True) -> PointLight:
-        # shadow_soft_size: Light size for ray shadow sampling (Raytraced shadows), [0, +inf)
+    def add_point(
+        self,
+        strength: float = 100,
+        shadow_soft_size: float = 0.25,
+        color: Vector3d = (1.0, 1.0, 1.0),
+        cast_shadows=True,
+        quaternion: Vector4d = (1, 0, 0, 0),
+        translation: Vector3d = (0, 0, 0),
+        tag=None
+    ) -> PointLight:
+        """
+        Add PointLight light source to the scene.
+        Args:
+            strength (float, optional): strength of the light source emitted over the entire area of the light
+                in all directions (default: 100)
+            shadow_soft_size (float, optional): light size for ray shadow sampling (Raytraced shadows)
+                in [0, inf] (default: 0.25)
+            color (Vector3d, optional): color of the light source (default: (1.0, 1.0, 1.0))
+            cast_shadows (bool, optional): whether the light source casts shadows or not (default: True)
+            quaternion (Vector4d, optional): rotation to apply to Blender object (default: (1,0,0,0))
+            translation (Vector3d, optional): translation to apply to the Blender object (default: (0,0,0))
+            tag (str, optional): name of the collection in Blender that is created to represent the point cloud.
+                If None is passed the tag is automatically generated (default: None)
+
+        Returns:
+            PointLight: created and added to the scene object
+        """
         tag = self._process_tag(tag, "Point")
-        light = PointLight(color, strength, shadow_soft_size, tag, cast_shadows,
-                                       quaternion, translation)
+        light = PointLight(
+            color=color, strength=strength, shadow_soft_size=shadow_soft_size, cast_shadows=cast_shadows,
+            quaternion=quaternion, translation=translation, tag=tag
+        )
         self._lights[tag] = light
         return light
 
-    def add_sun(self, quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0),
-                color: Vector3d = (1.0, 1.0, 1.0), strength: float = 100,
-                angular_diameter: float = 0.00918043, tag=None, cast_shadows=True) -> DirectionalLight:
+    def add_sun(
+        self,
+        strength: float = 100,
+        angular_diameter: float = 0.00918043,
+        color: Vector3d = (1.0, 1.0, 1.0),
+        cast_shadows=True,
+        quaternion: Vector4d = (1, 0, 0, 0),
+        translation: Vector3d = (0, 0, 0),
+        tag=None
+    ) -> DirectionalLight:
+        """
+        Add DirectionalLight light source to the scene.
+        Args:
+            strength (float, optional): strength of the light source in watts per meter squared (W/m^2) (default: 100)
+            angular_diameter (float, optional): angular diameter of the Sun as seen from the Earth
+                in [0, 3.14159] (default: 0.00918043)
+            color (Vector3d, optional): color of the light source (default: (1.0, 1.0, 1.0))
+            cast_shadows (bool, optional): whether the light source casts shadows or not (default: True)
+            quaternion (Vector4d, optional): rotation to apply to Blender object (default: (1,0,0,0))
+            translation (Vector3d, optional): translation to apply to the Blender object (default: (0,0,0))
+            tag (str, optional): name of the collection in Blender that is created to represent the point cloud.
+                If None is passed the tag is automatically generated (default: None)
+
+        Returns:
+            DirectionalLight: created and added to the scene object
+        """
         # angular_diameter: Angular diameter of the Sun as seen from the Earth,  [0, 3.14159]
         tag = self._process_tag(tag, "Sun")
-        light = DirectionalLight(color, strength, angular_diameter, tag,
-                                             cast_shadows, quaternion, translation)
+        light = DirectionalLight(
+            color=color, strength=strength, angular_diameter=angular_diameter, cast_shadows=cast_shadows,
+            quaternion=quaternion, translation=translation, tag=tag
+        )
         self._lights[tag] = light
         return light
 
-    def add_spot(self, quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0),
-                 color: Vector3d = (1.0, 1.0, 1.0), strength: float = 100, spot_size: float = 0.785398,
-                 spot_blend: float = 0.15, shadow_soft_size: float = 0.25, tag=None, cast_shadows=True) -> SpotLight:
+    def add_spot(
+        self,
+        strength: float = 100,
+        spot_size: float = 0.785398,
+        spot_blend: float = 0.15,
+        shadow_soft_size: float = 0.25,
+        color: Vector3d = (1.0, 1.0, 1.0),
+        cast_shadows=True,
+        quaternion: Vector4d = (1, 0, 0, 0),
+        translation: Vector3d = (0, 0, 0),
+        tag=None
+    ) -> SpotLight:
+        """
+        Add SpotLight light source to the scene.
+        Args:
+            strength (float, optional): strength of the light source that light would emit over its entire area if
+                it wasn't limited by the spot angle (default: 100)
+            spot_size (float, optional): angle of the spotlight beam in [0.0174533, 3.14159] (default: 0.785398)
+            spot_blend (float, optional): the softness of the spotlight edge in [0, 1] (default: 0.15)
+            shadow_soft_size (float, optional): light size for ray shadow sampling (Raytraced shadows)
+                in [0, inf] (default: 0.25)
+            color (Vector3d, optional): color of the light source (default: (1.0, 1.0, 1.0))
+            cast_shadows (bool, optional): whether the light source casts shadows or not (default: True)
+            quaternion (Vector4d, optional): rotation to apply to Blender object (default: (1,0,0,0))
+            translation (Vector3d, optional): translation to apply to the Blender object (default: (0,0,0))
+            tag (str, optional): name of the collection in Blender that is created to represent the point cloud.
+                If None is passed the tag is automatically generated (default: None)
+
+        Returns:
+            SpotLight: created and added to the scene object
+        """
         tag = self._process_tag(tag, "Spot")
-        light = SpotLight(color, strength, spot_size, spot_blend, shadow_soft_size,
-                                      tag, cast_shadows, quaternion, translation)
+        light = SpotLight(
+            color=color, strength=strength, spot_size=spot_size, spot_blend=spot_blend, cast_shadows=cast_shadows,
+            shadow_soft_size=shadow_soft_size, quaternion=quaternion, translation=translation, tag=tag
+        )
         self._lights[tag] = light
         return light
 
-    def add_area(self, shape: str, size: Union[float, Vector2d],
-                 quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0),
-                 color: Vector3d = (1.0, 1.0, 1.0), strength: float = 100, tag=None, cast_shadows=True) -> AreaLight:
+    def add_area(
+        self,
+        shape: str,
+        size: Union[float, Vector2d],
+        strength: float = 100,
+        color: Vector3d = (1.0, 1.0, 1.0),
+        cast_shadows=True,
+        quaternion: Vector4d = (1, 0, 0, 0),
+        translation: Vector3d = (0, 0, 0),
+        tag = None
+    ) -> AreaLight:
+        """
+        Add AreaLight light source to the scene. Shape of the area is controlled by shape parameter.
+        Args:
+            shape (str): type of the AreaLight, one of: [square, circle, rectangle, ellipse]
+            size (Union[float, Vector2d]): size of the area of the area light for circle and square or
+                [x, y] sizes of the area light for rectangle and ellipse
+            strength (float, optional): strength of the light source emitted over the entire area of the light
+                in all directions (default: 100)
+            color (Vector3d, optional): color of the light source (default: (1.0, 1.0, 1.0))
+            cast_shadows (bool, optional): whether the light source casts shadows or not (default: True)
+            quaternion (Vector4d, optional): rotation to apply to Blender object (default: (1,0,0,0))
+            translation (Vector3d, optional): translation to apply to the Blender object (default: (0,0,0))
+            tag (str, optional): name of the collection in Blender that is created to represent the point cloud.
+                If None is passed the tag is automatically generated (default: None)
+
+        Returns:
+            AreaLight: subclass of AreaLight (depending on shape), reated and added to the scene
+        """
         tag = self._process_tag(tag, "Area")
         if shape == "square":
-            light = SquareAreaLight(size, color, strength, tag, cast_shadows, quaternion, translation)
+            light = SquareAreaLight(
+                size=size, color=color, strength=strength, cast_shadows=cast_shadows,
+                quaternion=quaternion, translation=translation, tag=tag
+            )
         elif shape == "circle":
-            light = CircleAreaLight(size, color, strength, tag, cast_shadows, quaternion, translation)
+            light = CircleAreaLight(
+                size=size, color=color, strength=strength, cast_shadows=cast_shadows,
+                quaternion=quaternion, translation=translation, tag=tag
+            )
         elif shape == "rectangle":
-            light = RectangleAreaLight(size, color, strength, tag, cast_shadows, quaternion, translation)
+            light = RectangleAreaLight(
+                size=size, color=color, strength=strength, cast_shadows=cast_shadows,
+                quaternion=quaternion, translation=translation, tag=tag
+            )
         elif shape == "ellipse":
-            light = EllipseAreaLight(size, color, strength, tag, cast_shadows, quaternion, translation)
+            light = EllipseAreaLight(
+                size=size, color=color, strength=strength, cast_shadows=cast_shadows,
+                quaternion=quaternion, translation=translation, tag=tag
+            )
         else:
             raise RuntimeError(f"Unknown AreaLight shape: {shape}")
         self._lights[tag] = light

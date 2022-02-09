@@ -1,16 +1,30 @@
-import numpy as np
+from abc import abstractmethod
+
 import bpy
-from abc import ABC, abstractmethod
-from typing import Union, Tuple, List, Sequence
+import numpy as np
+
 from ..internal.positionable import Positionable
 from ..internal.types import Vector2d, Vector3d, Vector4d
 
 
 class Light(Positionable):
+    """
+    Abstract base class for all the light sources.
+    """
     @abstractmethod
-    def __init__(self, tag: str, light_object: bpy.types.Object,
-            quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0)):
-        super().__init__(tag, light_object, quaternion, translation)
+    def __init__(
+        self,
+        **kwargs
+    ):
+        """
+        Passes all arguments to the constructor of the base class.
+        Args:
+            blender_object (bpy.types.Object): instance of Blender Object that is wrapped by the class
+            quaternion (Vector4d, optional): rotation to apply to Blender object (default: (1,0,0,0))
+            translation (Vector3d, optional): translation to apply to the Blender object (default: (0,0,0))
+            tag (str): name of the object in Blender that is created
+        """
+        super().__init__(**kwargs)
 
     def _blender_create_light(self, tag: str, light_type: str) -> bpy.types.Object:
         light_obj = bpy.data.lights.new(name=tag, type=light_type)
@@ -58,11 +72,28 @@ class Light(Positionable):
 
 
 class PointLight(Light):
-    def __init__(self, color: Vector3d, strength: float,
-            shadow_soft_size: float, tag: str, cast_shadows: bool = True,
-            quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0)):
+    def __init__(
+        self,
+        strength: float,
+        shadow_soft_size: float,
+        color: Vector3d,
+        tag: str,
+        cast_shadows: bool = True,
+        **kwargs
+    ):
+        """
+        Creates PointLight light source in Blender.
+        Args:
+            strength (float): strength of the light source emitted over the entire area of the light in all directions
+            shadow_soft_size (float): light size for ray shadow sampling (Raytraced shadows) in [0, inf]
+            color (Vector3d): color of the light source
+            cast_shadows (bool, optional): whether the light source casts shadows or not (default: True)
+            quaternion (Vector4d, optional): rotation to apply to Blender object (default: (1,0,0,0))
+            translation (Vector3d, optional): translation to apply to the Blender object (default: (0,0,0))
+            tag (str): name of the object in Blender that is created
+        """
         blender_light = self._blender_create_light(tag, "POINT")
-        super().__init__(tag, blender_light, quaternion, translation)
+        super().__init__(**kwargs, tag=tag, blender_object=blender_light)
         self.color = color
         self.strength = strength
         self.cast_shadows = cast_shadows
@@ -78,11 +109,28 @@ class PointLight(Light):
 
 
 class DirectionalLight(Light):
-    def __init__(self, color: Vector3d, strength: float,
-            angular_diameter: float, tag: str, cast_shadows: bool = True,
-            quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0)):
+    def __init__(
+        self,
+        strength: float,
+        angular_diameter: float,
+        color: Vector3d,
+        tag: str,
+        cast_shadows: bool = True,
+        **kwargs
+    ):
+        """
+        Creates DirectionalLight light source in Blender.
+        Args:
+            strength (float): strength of the light source in watts per meter squared (W/m^2)
+            angular_diameter (float): angular diameter of the Sun as seen from the Earth in [0, 3.14159]
+            color (Vector3d): color of the light source
+            cast_shadows (bool, optional): whether the light source casts shadows or not (default: True)
+            quaternion (Vector4d, optional): rotation to apply to Blender object (default: (1,0,0,0))
+            translation (Vector3d, optional): translation to apply to the Blender object (default: (0,0,0))
+            tag (str): name of the object in Blender that is created
+        """
         blender_light = self._blender_create_light(tag, "SUN")
-        super().__init__(tag, blender_light, quaternion, translation)
+        super().__init__(**kwargs, tag=tag, blender_object=blender_light)
         self.color = color
         self.strength = strength
         self.cast_shadows = cast_shadows
@@ -98,13 +146,35 @@ class DirectionalLight(Light):
 
 
 class SpotLight(Light):
-    def __init__(self, color: Vector3d, strength: float, spot_size: float, spot_blend: float,
-            shadow_soft_size: float, tag: str, cast_shadows: bool = True,
-            quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0)):
+    def __init__(
+        self,
+        strength: float,
+        spot_size: float,
+        spot_blend: float,
+        color: Vector3d,
+        shadow_soft_size: float,
+        tag: str,
+        cast_shadows: bool = True,
+        **kwargs
+    ):
+        """
+        Creates SpotLight light source in Blender.
+        Args:
+            strength (float): strength of the light source that light would emit over its entire area if
+                it wasn't limited by the spot angle
+            spot_size (float): angle of the spotlight beam in [0.0174533, 3.14159]
+            spot_blend (float): the softness of the spotlight edge in [0, 1]
+            color (Vector3d): color of the light source
+            shadow_soft_size (float): light size for ray shadow sampling (Raytraced shadows) in [0, inf]
+            cast_shadows (bool, optional): whether the light source casts shadows or not (default: True)
+            quaternion (Vector4d, optional): rotation to apply to Blender object (default: (1,0,0,0))
+            translation (Vector3d, optional): translation to apply to the Blender object (default: (0,0,0))
+            tag (str): name of the object in Blender that is created
+        """
         # spot_size: Angle of the spotlight beam (float in [0.0174533, 3.14159]) default 0.785398
         # spot_blend: The softness of the spotlight edge (float in [0, 1]) default 0.15
         blender_light = self._blender_create_light(tag, "SPOT")
-        super().__init__(tag, blender_light, quaternion, translation)
+        super().__init__(**kwargs, tag=tag, blender_object=blender_light)
         self.color = color
         self.strength = strength
         self.spot_size = spot_size
@@ -138,22 +208,53 @@ class SpotLight(Light):
 
 
 class AreaLight(Light):
+    """
+    Base class for different AreaLights varying in shape.
+    """
     @abstractmethod
-    def __init__(self, color: Vector3d, strength: float,
-            tag: str, cast_shadows: bool = True,
-            quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0)):
+    def __init__(
+        self,
+        color: Vector3d,
+        strength: float,
+        tag: str,
+        cast_shadows: bool = True,
+        **kwargs
+    ):
+        """
+        Creates AreaLight light source in Blender. The method is called from child classes.
+        Args:
+            color (Vector3d): color of the light source
+            strength (float): strength of the light source emitted over the entire area of the light in all directions
+            cast_shadows (bool, optional): whether the light source casts shadows or not (default: True)
+            quaternion (Vector4d, optional): rotation to apply to Blender object (default: (1,0,0,0))
+            translation (Vector3d, optional): translation to apply to the Blender object (default: (0,0,0))
+            tag (str): name of the object in Blender that is created
+        """
         blender_light = self._blender_create_light(tag, "AREA")
-        super().__init__(tag, blender_light, quaternion, translation)
+        super().__init__(**kwargs, tag=tag, blender_object=blender_light)
         self.color = color
         self.strength = strength
         self.cast_shadows = cast_shadows
 
 
 class SquareAreaLight(AreaLight):
-    def __init__(self, size: float, color: Vector3d, strength: float,
-            tag: str, cast_shadows: bool = True,
-            quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0)):
-        super().__init__(color, strength, tag, cast_shadows, quaternion, translation)
+    def __init__(
+        self,
+        size: float,
+        **kwargs
+    ):
+        """
+        Creates SquareAreaLight light source in Blender through constructor of the parent class AreaLight.
+        Args:
+            size (float): size of the area of the area light
+            strength (float): strength of the light source
+            color (Vector3d): color of the light source
+            cast_shadows (bool, optional): whether the light source casts shadows or not (default: True)
+            quaternion (Vector4d, optional): rotation to apply to Blender object (default: (1,0,0,0))
+            translation (Vector3d, optional): translation to apply to the Blender object (default: (0,0,0))
+            tag (str): name of the object in Blender that is created
+        """
+        super().__init__(**kwargs)
         self.blender_light.data.shape = "SQUARE"
         self.size = size
 
@@ -167,10 +268,23 @@ class SquareAreaLight(AreaLight):
 
 
 class CircleAreaLight(AreaLight):
-    def __init__(self, size: float, color: Vector3d, strength: float,
-            tag: str, cast_shadows: bool = True,
-            quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0)):
-        super().__init__(color, strength, tag, cast_shadows, quaternion, translation)
+    def __init__(
+        self,
+        size: float,
+        **kwargs
+    ):
+        """
+        Creates CircleAreaLight light source in Blender through constructor of the parent class AreaLight.
+        Args:
+            size (float): size of the area of the area light
+            strength (float): strength of the light source emitted over the entire area of the light in all directions
+            color (Vector3d): color of the light source
+            cast_shadows (bool, optional): whether the light source casts shadows or not (default: True)
+            quaternion (Vector4d, optional): rotation to apply to Blender object (default: (1,0,0,0))
+            translation (Vector3d, optional): translation to apply to the Blender object (default: (0,0,0))
+            tag (str): name of the object in Blender that is created
+        """
+        super().__init__(**kwargs)
         self.blender_light.data.shape = "DISK"
         self.size = size
 
@@ -184,10 +298,23 @@ class CircleAreaLight(AreaLight):
 
 
 class RectangleAreaLight(AreaLight):
-    def __init__(self, size: Vector2d, color: Vector3d, strength: float,
-            tag: str, cast_shadows: bool = True,
-            quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0)):
-        super().__init__(color, strength, tag, cast_shadows, quaternion, translation)
+    def __init__(
+        self,
+        size: Vector2d,
+        **kwargs
+    ):
+        """
+        Creates RectangleAreaLight light source in Blender through constructor of the parent class AreaLight.
+        Args:
+            size (Vector2d): [x, y] sizes of the area light
+            strength (float): strength of the light source emitted over the entire area of the light in all directions
+            color (Vector3d): color of the light source
+            cast_shadows (bool, optional): whether the light source casts shadows or not (default: True)
+            quaternion (Vector4d, optional): rotation to apply to Blender object (default: (1,0,0,0))
+            translation (Vector3d, optional): translation to apply to the Blender object (default: (0,0,0))
+            tag (str): name of the object in Blender that is created
+        """
+        super().__init__(**kwargs)
         self.blender_light.data.shape = "RECTANGLE"
         self.size = size
 
@@ -202,10 +329,23 @@ class RectangleAreaLight(AreaLight):
 
 
 class EllipseAreaLight(AreaLight):
-    def __init__(self, size: Vector2d, color: Vector3d, strength: float,
-            tag: str, cast_shadows: bool = True,
-            quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0)):
-        super().__init__(color, strength, tag, cast_shadows, quaternion, translation)
+    def __init__(
+        self,
+        size: Vector2d,
+        **kwargs
+    ):
+        """
+        Creates EllipseAreaLight light source in Blender through constructor of the parent class AreaLight.
+        Args:
+            size (Vector2d): [x, y] sizes of the area light
+            strength (float): strength of the light source emitted over the entire area of the light in all directions
+            color (Vector3d): color of the light source
+            cast_shadows (bool, optional): whether the light source casts shadows or not (default: True)
+            quaternion (Vector4d, optional): rotation to apply to Blender object (default: (1,0,0,0))
+            translation (Vector3d, optional): translation to apply to the Blender object (default: (0,0,0))
+            tag (str): name of the object in Blender that is created
+        """
+        super().__init__(**kwargs)
         self.blender_light.data.shape = "ELLIPSE"
         self.size = size
 

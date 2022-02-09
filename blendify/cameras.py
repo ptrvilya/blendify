@@ -1,31 +1,51 @@
-import numpy as np
+from abc import abstractmethod
+
 import bpy
+import numpy as np
 from scipy.spatial import transform
-from abc import ABC, abstractmethod
-from typing import Union, Tuple, List, Sequence
+
 from .internal.positionable import Positionable
 from .internal.types import Vector2d, Vector2di, Vector3d, Vector4d
 
 
 class Camera(Positionable):
+    """
+    Base class for PerspectiveCamera and OrthographicCamera, implementing shared functionality.
+    """
+    @abstractmethod
+    def __init__(
+        self,
+        resolution: Vector2di,
+        near: float = 0.1,
+        far: float = 100,
+        tag: str = 'camera',
+        **kwargs
+    ):
+        """
+        Implements the creation of camera in Blender. Called by child classes.
+        Args:
+            resolution (Vector2di): (w, h), the resolution of the resulting image
+            near (float, optional): Camera near clipping distance (default: 0.1)
+            far (float, optional): Camera far clipping distance (default: 100)
+            quaternion (Vector4d, optional): rotation to apply to Blender object (default: (1,0,0,0))
+            translation (Vector3d, optional): translation to apply to the Blender object (default: (0,0,0))
+            tag (str): name of the object in Blender that is created
+        """
+        camera_object = self._blender_create_camera(tag)
+        super().__init__(**kwargs, tag=tag, blender_object=camera_object)
+        camera_object.data.sensor_fit = 'HORIZONTAL'
+        camera_object.data.sensor_width = resolution[0]
+        camera_object.data.sensor_height = resolution[1]
+        self.near = near
+        self.far = far
+
+        self._resolution = np.array(resolution)
+
     def _blender_create_camera(self, tag):
         bpy.ops.object.camera_add()
         camera_object = bpy.data.objects['Camera']
         camera_object.name = tag
         return camera_object
-
-    @abstractmethod
-    def __init__(self, resolution: Vector2di, tag: str = 'camera', clip_start: float = 0.1, clip_end: float = 100,
-                 quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0)):
-        camera_object = self._blender_create_camera(tag)
-        super().__init__(tag, camera_object, quaternion, translation)
-        camera_object.data.sensor_fit = 'HORIZONTAL'
-        camera_object.data.sensor_width = resolution[0]
-        camera_object.data.sensor_height = resolution[1]
-        camera_object.data.clip_start = clip_start
-        camera_object.data.clip_end = clip_end
-
-        self._resolution = np.array(resolution)
 
     @property
     def resolution(self) -> np.ndarray:
@@ -47,6 +67,22 @@ class Camera(Positionable):
         """
         pass
 
+    @property
+    def near(self) -> float:
+        return self.blender_camera.data.clip_start
+
+    @near.setter
+    def near(self, val: float):
+        self.blender_camera.data.clip_start = val
+
+    @property
+    def far(self) -> float:
+        return self.blender_camera.data.clip_end
+
+    @far.setter
+    def far(self, val: float):
+        self.blender_camera.data.clip_end = val
+
     def get_camera_ray(self):
         # TODO substitute for array of rays for each pixel for perspective camera?
         # Default blender camera: up is aligned with +y, ray: (0,0,-1)
@@ -59,10 +95,30 @@ class Camera(Positionable):
 
 
 class PerspectiveCamera(Camera):
-    def __init__(self, resolution: Vector2di, focal_dist: float = None, fov_x: float = None, fov_y: float = None,
-                 center: Vector2d = None, tag: str = 'camera', clip_start: float = 0.1, clip_end: float = 100,
-                 quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0)):
-        super().__init__(resolution, tag, clip_start, clip_end, quaternion, translation)
+    def __init__(
+        self,
+        focal_dist: float = None,
+        fov_x: float = None,
+        fov_y: float = None,
+        center: Vector2d = None,
+        **kwargs
+    ):
+        """
+        Creates Perspective Camera object in Blender. One of focal_dist, fov_x or fov_y is required to
+        set the camera parameters
+        Args:
+            resolution (Vector2di): (w, h), the resolution of the resulting image
+            focal_dist (float, optional): Perspective Camera focal distance in millimeters (default: None)
+            fov_x (float, optional): Camera lens horizontal field of view (default: None)
+            fov_y (float, optional): Camera lens vertical field of view (default: None)
+            center (Vector2d, optional): (x, y), horizontal and vertical shifts of the Camera (default: None)
+            near (float, optional): Camera near clipping distance (default: 0.1)
+            far (float, optional): Camera far clipping distance (default: 100)
+            quaternion (Vector4d, optional): rotation to apply to Blender object (default: (1,0,0,0))
+            translation (Vector3d, optional): translation to apply to the Blender object (default: (0,0,0))
+            tag (str): name of the object in Blender that is created
+        """
+        super().__init__(**kwargs)
         assert not(focal_dist is None and fov_x is None and fov_y is None), \
             "One of focal_dist, fov_x or fov_y is required"
         camera_object = self.blender_camera
@@ -131,15 +187,26 @@ class PerspectiveCamera(Camera):
 
 
 class OrthographicCamera(Camera):
-    def __init__(self, resolution: Vector2di, ortho_scale: float = 1., far: float = 1., near: float = 0.1,
-                 tag: str = 'camera', clip_start: float = 0.1, clip_end: float = 100,
-                 quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0)):
-        super().__init__(resolution, tag, clip_start, clip_end, quaternion, translation)
+    def __init__(
+        self,
+        ortho_scale: float = 1.,
+        **kwargs
+    ):
+        """
+        Creates Orthographic Camera object in Blender.
+        Args:
+            resolution (Vector2di): (w, h), the resolution of the resulting image
+            ortho_scale (float, optional): Orthographic Camera scale (similar to zoom) (default: 1.0)
+            near (float, optional): Camera near clipping distance (default: 0.1)
+            far (float, optional): Camera far clipping distance (default: 100)
+            quaternion (Vector4d, optional): rotation to apply to Blender object (default: (1,0,0,0))
+            translation (Vector3d, optional): translation to apply to the Blender object (default: (0,0,0))
+            tag (str): name of the object in Blender that is created
+        """
+        super().__init__(**kwargs)
         camera_object = self.blender_camera
         camera_object.data.type = 'ORTHO'
         self.ortho_scale = ortho_scale
-        self.near = near
-        self.far = far
 
     @property
     def ortho_scale(self) -> float:
@@ -148,22 +215,6 @@ class OrthographicCamera(Camera):
     @ortho_scale.setter
     def ortho_scale(self, val: float):
         self.blender_camera.data.ortho_scale = val
-
-    @property
-    def near(self) -> float:
-        return self.blender_camera.data.clip_start
-
-    @near.setter
-    def near(self, val: float):
-        self.blender_camera.data.clip_start = val
-
-    @property
-    def far(self) -> float:
-        return self.blender_camera.data.clip_end
-
-    @far.setter
-    def far(self, val: float):
-        self.blender_camera.data.clip_end = val
 
     def distance2depth(self, distmap):
         # In orthogonal camera rays are orthogonal to the image plane => distmap = depthmap
