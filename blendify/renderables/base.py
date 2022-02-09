@@ -1,18 +1,18 @@
-import numpy as np
-import bpy_types
-import bpy
-import types
-from mathutils import Vector
-from typing import Union, Tuple, List, Sequence
 from abc import ABC, abstractmethod
-from ..cameras import Camera
+
+import bpy
+
 from .colors import Colors, UniformColors, VertexColors, TextureColors, FileTextureColors
 from .materials import Material
+from ..cameras import Camera
 from ..internal.positionable import Positionable
-from ..internal.types import BlenderGroup, Vector3d, Vector4d
 
 
 class Renderable(Positionable):
+    """
+    Base class for all renderable objects (Meshes, PointClouds, Priimitives).
+    """
+    # ============================================== COLORSNODE BUILDERS ===============================================
     class ColorsNodeBuilder(ABC):
         colors_class = None
 
@@ -46,11 +46,27 @@ class Renderable(Positionable):
         def __init__(self, colors: FileTextureColors):
             super().__init__()
             self.texture = colors.texture
+    # =========================================== END OF COLORSNODE BUILDERS ===========================================
 
     @abstractmethod
-    def __init__(self, material: Material, colors: Colors, tag: str, blender_object: BlenderGroup,
-            quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0)):
-        super().__init__(tag, blender_object, quaternion, translation)
+    def __init__(
+        self,
+        material: Material,
+        colors: Colors,
+        **kwargs
+    ):
+        """
+        Creates internal structures, calls functions that connect Material and Colors to the object. Can only be called
+        from child classes as the class is abstract.
+        Args:
+            material (Material): Material instance
+            colors (Colors): Colors instance
+            blender_object (bpy.types.Object): instance of Blender Object that is wrapped by the class
+            quaternion (Vector4d, optional): rotation to apply to Blender object (default: (1,0,0,0))
+            translation (Vector3d, optional): translation to apply to the Blender object (default: (0,0,0))
+            tag (str): name of the object in Blender that is created
+        """
+        super().__init__(**kwargs)
         self._make_colorsnode_builders_dict()
         self.update_material(material)
         self.update_colors(colors)
@@ -98,6 +114,10 @@ class Renderable(Positionable):
 
 
 class RenderableObject(Renderable):
+    """
+    Base class for renderable objects, that can be represented by a single bpy.types.Object (Meshes and Primitives).
+    """
+    # ============================================== COLORSNODE BUILDERS ===============================================
     class UniformColorsNodeBuilder(Renderable.UniformColorsNodeBuilder):
         def __call__(self, object_material: bpy.types.Material):
             color_node = object_material.node_tree.nodes.new('ShaderNodeRGB')
@@ -120,17 +140,38 @@ class RenderableObject(Renderable):
             object_texture = object_material.node_tree.nodes.new('ShaderNodeTexImage')
             object_texture.image = self.texture
             return object_texture
+    # =========================================== END OF COLORSNODE BUILDERS ===========================================
 
     @abstractmethod
-    def __init__(self, material: Material, colors: Colors, tag: str, blender_object: bpy_types.Object,
-            quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0)):
+    def __init__(
+        self,
+        **kwargs
+    ):
+        """
+        Sets initial values for internal parameters, can only be called from child classes as the class is abstract.
+        Args:
+            material (Material): Material instance
+            colors (Colors): Colors instance
+            blender_object (bpy.types.Object): instance of Blender Object that is wrapped by the class
+            quaternion (Vector4d, optional): rotation to apply to Blender object (default: (1,0,0,0))
+            translation (Vector3d, optional): translation to apply to the Blender object (default: (0,0,0))
+            tag (str): name of the object in Blender that is created
+        """
         self._blender_colornode_builder = None
         self._blender_colors_node = None
         self._blender_material_node = None
         self._blender_bsdf_node = None
-        super().__init__(material, colors, tag, blender_object, quaternion, translation)
+        super().__init__(**kwargs)
 
-    # ===> OBJECT
+    @property
+    def emit_shadows(self) -> bool:
+        return self._blender_object.cycles_visibility.shadow
+
+    @emit_shadows.setter
+    def emit_shadows(self, val: bool):
+        self._blender_object.cycles_visibility.shadow = val
+
+    # ===================================================== OBJECT =====================================================
     @abstractmethod
     def _blender_create_object(self, *args, **kwargs):
         pass
@@ -140,10 +181,9 @@ class RenderableObject(Renderable):
         self._blender_clear_colors()
         self._blender_clear_material()
         super()._blender_remove_object()
+    # ================================================== END OF OBJECT =================================================
 
-    # <=== OBJECT
-
-    # ===> MATERIAL
+    # ==================================================== MATERIAL ====================================================
     def update_material(self, material: Material):
         """
         Updates object material properties, sets Blender structures accordingly
@@ -178,10 +218,9 @@ class RenderableObject(Renderable):
             self._blender_material_node = None
             self._blender_bsdf_node = None
             self._blender_colors_node = None
+    # ================================================ END OF MATERIAL =================================================
 
-    # <=== MATERIAL
-
-    # ===> COLORS
+    # ===================================================== COLORS =====================================================
     def update_colors(self, colors: Colors):
         """
         Updates object color properties, sets Blender structures accordingly
@@ -229,13 +268,4 @@ class RenderableObject(Renderable):
             # self._blender_material_node.node_tree.links.new(self._blender_bsdf_node.inputs['Base Color'],
             #                                                 self._blender_colors_node.outputs['Color'])
             # self._blender_bsdf_node.inputs['Base Color'].default_value = [1.0, 0.0, 0.0, 1.0]
-
-    # <=== COLORS
-
-    @property
-    def emit_shadows(self) -> bool:
-        return self._blender_object.cycles_visibility.shadow
-
-    @emit_shadows.setter
-    def emit_shadows(self, val: bool):
-        self._blender_object.cycles_visibility.shadow = val
+    # ================================================== END OF COLORS =================================================

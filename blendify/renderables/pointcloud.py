@@ -38,10 +38,15 @@ from ..internal.types import Vector3d
 
 class PointCloud(Renderable):
     """
-    Basic point cloud consisting of vertices, supports uniform and per-vertex coloring.
+    Basic point cloud consisting of vertices, supports uniform (UniformColors) and per-vertex (VertexColors) coloring.
     Uses Blender-Photogrammetry-Importer to handle point clouds as Blender particle systems objects.
-    """
 
+    Properties:
+        emit_shadow (bool, optional): control whether particles representing the point cloud will emit shadow from
+            any light source in the scene. This property may be turned off if the particle_emission_strength is big
+            enough to avoid artifacts.
+    """
+    # ============================================== COLORSNODE BUILDERS ===============================================
     class UniformColorsNodeBuilder(Renderable.UniformColorsNodeBuilder):
         def __call__(self, object_material: bpy.types.Material, **kwargs):
             color_node = object_material.node_tree.nodes.new('ShaderNodeRGB')
@@ -108,30 +113,32 @@ class PointCloud(Renderable):
             )
 
             return [particle_color_node, particle_info_node, shift_half_pixel_node, divide_node, shader_node_combine]
+    # =========================================== END OF COLORSNODE BUILDERS ===========================================
 
     def __init__(
             self,
             vertices: np.ndarray,
+            tag: str,
             point_size: float = 0.006,
             base_primitive: str = "CUBE",
             particle_emission_strength: int = 1,
             **kwargs
     ):
         """
-        Creates Blender Collection that represent target point cloud. Code for creation particle systems for
+        Creates Blender Collection that represent given point cloud. Code for creation particle systems for
         representing the point clouds is borrowed from https://github.com/SBCV/Blender-Addon-Photogrammetry-Importer .
         Args:
             vertices (np.ndarray): point cloud vertices
+            material (Material): PrinsipledBSDFMaterial instance
+            colors (Colors): VertexColors or UniformColors instance
             point_size (float, optional): size of a primitive, represintg each vertex (default: 0.006)
             base_primitive (str, optional): type of primitive for representing each point
                 (possible values are PLANE, CUBE, SPHERE, default: CUBE)
             particle_emission_strength (int, optional): strength of the emission from each primitive. This is used to
                 increase realism. Values <= 0 turn emission off, values > 0 set the power of emission (default: 1)
-            material (Material): PrinsipledBSDFMaterial object
-            colors (Colors): VertexColors or UniformColors object
-            tag (str): name of the object(collection) in Blender that is created to represent the point cloud
             quaternion (Vector4d, optional): rotation to apply to Blender object (default: (1,0,0,0))
             translation (Vector3d, optional): translation to apply to the Blender object (default: (0,0,0))
+            tag (str): name of the collection in Blender that is created
         """
         # TODO hasn't been tested with GlossyBSDFMaterial
 
@@ -152,8 +159,8 @@ class PointCloud(Renderable):
         self._blender_material_nodes = dict()  # particle_obj_name: material_node
         self._blender_bsdf_nodes = dict()      # particle_obj_name: bsdf_node
 
-        collection = self._blender_create_collection(vertices, kwargs["tag"])
-        super().__init__(**kwargs, blender_object=collection)
+        collection = self._blender_create_collection(vertices, tag)
+        super().__init__(**kwargs, blender_object=collection, tag=tag)
 
     def update_camera(
             self,
@@ -206,7 +213,7 @@ class PointCloud(Renderable):
             particle_obj = self._blender_object.all_objects[particle_obj_name]
             particle_obj.cycles_visibility.shadow = val
 
-    # ===> OBJECT
+    # ===================================================== OBJECT =====================================================
     def _blender_create_collection(
             self,
             vertices: np.ndarray,
@@ -353,10 +360,9 @@ class PointCloud(Renderable):
             settings.use_rotations = True
             settings.rotation_mode = "GLOB_X"
         return point_cloud_obj
+    # ================================================== END OF OBJECT =================================================
 
-    # <=== OBJECT
-
-    # ===> MATERIAL
+    # ==================================================== MATERIAL ====================================================
     def update_material(
             self,
             material: Material
@@ -417,9 +423,9 @@ class PointCloud(Renderable):
             self._blender_bsdf_nodes[particle_obj_name] = None
             self._blender_colors_nodes[particle_obj_name] = None
 
-    # <=== MATERIAL
+    # ================================================ END OF MATERIAL =================================================
 
-    # ===> COLORS
+    # ===================================================== COLORS =====================================================
     def update_colors(
             self,
             colors: Colors
@@ -493,41 +499,47 @@ class PointCloud(Renderable):
                 self._blender_bsdf_nodes[particle_obj_name].inputs["Emission Strength"].default_value = \
                     self.particle_emission_strength
 
-    # <=== COLORS
+    # ================================================== END OF COLORS =================================================
 
 
 class CameraColoredPointCloud(PointCloud):
     """
         Special point cloud that colors only vertices that are visible from the camera, other vertices are colored
-        to a solid pre-defined color.
+        to a solid pre-defined color. Supports uniform (UniformColors) and per-vertex (VertexColors) coloring.
         Uses Blender-Photogrammetry-Importer to handle point clouds.
+
+        Properties:
+        emit_shadow (bool, optional): control whether particles representing the point cloud will emit shadow from
+            any light source in the scene. This property may be turned off if the particle_emission_strength is big
+            enough to avoid artifacts.
     """
 
     def __init__(
             self,
             normals: np.ndarray,
+            tag: str,
             back_color: Vector3d = (0.6, 0.6, 0.6),
             **kwargs
     ):
         """
-        Creates Blender Collection that represent target point cloud. The class inherits most functionality from
+        Creates Blender Collection that represent given point cloud. The class inherits most functionality from
         PointCloud and adds additional feature: provided per-vertex normals are used to recolor point cloud vertices
         that are not directly visible from the current camera (colors are updated after each camera change).
         Args:
-            normals (np.ndarray): per-vertex normals for each point int the point cloud
-            back_color (Vector3d, optional): color for vertices that are not directly visible from current camera.
-                Values are to be provided without alpha in [0.0, 1.0] (default: (0.6, 0.6, 0.6))
             vertices (np.ndarray): point cloud vertices
+            normals (np.ndarray): per-vertex normals for each point int the point cloud
+            material (Material): PrinsipledBSDFMaterial object
+            colors (Colors): VertexColors or UniformColors object
             point_size (float, optional): size of a primitive, represintg each vertex (default: 0.006)
             base_primitive (str, optional): type of primitive for representing each point
                 (possible values are PLANE, CUBE, SPHERE, default: CUBE)
             particle_emission_strength (int, optional): strength of the emission from each primitive. This is used to
                 increase realism. Values <= 0 turn emission off, values > 0 set the power of emission (default: 1)
-            material (Material): PrinsipledBSDFMaterial object
-            colors (Colors): VertexColors or UniformColors object
-            tag (str): name of the object(collection) in Blender that is created to represent the point cloud
+            back_color (Vector3d, optional): color for vertices that are not directly visible from current camera.
+                Values are to be provided without alpha in [0.0, 1.0] (default: (0.6, 0.6, 0.6))
             quaternion (Vector4d, optional): rotation to apply to Blender object (default: (1,0,0,0))
             translation (Vector3d, optional): translation to apply to the Blender object (default: (0,0,0))
+            tag (str): name of the collection in Blender that is created
         """
         # Per point normals for each vertex. For example on how to estimate normals for PC refer to utils/pointcloud.py
         self.normals: np.ndarray = normals
@@ -538,7 +550,7 @@ class CameraColoredPointCloud(PointCloud):
         # We need to keep a local copy of the current camera ray to recolor the PC in case of colors change
         self._camera_ray: np.ndarray = None
 
-        super().__init__(**kwargs)
+        super().__init__(**kwargs, tag=tag)
 
     def update_vertices(
             self,
