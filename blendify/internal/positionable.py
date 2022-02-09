@@ -1,14 +1,31 @@
-import numpy as np
-import bpy
-from ..internal.types import BlenderGroup, Vector3d, Vector4d
-from typing import Union, Tuple, List, Sequence
 from abc import ABC, abstractmethod
+
+import bpy
+import numpy as np
+
+from ..internal.types import BlenderGroup, Vector3d, Vector4d
 
 
 class Positionable(ABC):
+    """
+    Base class for all classes that wrap Blender objects with location in space (Camera, Light, Renderable).
+    """
     @abstractmethod
-    def __init__(self, tag: str, blender_object: BlenderGroup, quaternion: Vector4d = (1, 0, 0, 0),
-            translation: Vector3d = (0, 0, 0)):
+    def __init__(
+            self,
+            tag: str,
+            blender_object: BlenderGroup,
+            quaternion: Vector4d = (1, 0, 0, 0),
+            translation: Vector3d = (0, 0, 0)
+    ):
+        """
+        Sets initial position of the Blender object and stores it. Called from child classes.
+        Args:
+            tag (str): name of the object in Blender that was created in child class
+            blender_object (bpy.types.Object): instance of Blender Object that is wrapped by the child class
+            quaternion (Vector4d, optional): rotation to apply to Blender object (default: (1,0,0,0))
+            translation (Vector3d, optional): translation to apply to the Blender object (default: (0,0,0))
+        """
         self._blender_object = blender_object
         self._tag = tag
         self.set_position(quaternion, translation)
