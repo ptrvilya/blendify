@@ -19,46 +19,55 @@ class VertexColors(Colors):
         assert vertex_colors.dtype in [np.float32, np.float64],\
             "Colors shoud be stored as floating point numbers (np.float32 or np.float64)"
         assert np.all(vertex_colors >= 0) and np.all(vertex_colors <= 1), "Colors should be in range [0.0, 1.0]"
-        self.vertex_colors = vertex_colors
+        self._vertex_colors = vertex_colors
+
+    @property
+    def vertex_colors(self) -> np.ndarray:
+        return self._vertex_colors
 
 
 class UniformColors(Colors):
     def __init__(self, uniform_color: Union[np.ndarray, Sequence[float]]):
         super().__init__()
-        self.color = uniform_color
-
-    @property
-    def color(self):
-        return self._color
-
-    @color.setter
-    def color(self, uniform_color):
         uniform_color = np.array(uniform_color)
         assert len(uniform_color) == 3, "Color should be in RGB format"
         assert uniform_color.max() <= 1. and uniform_color.min() >= 0., "Color values should be in [0,1] range"
         self._color = uniform_color
 
+    @property
+    def color(self) -> np.ndarray:
+        return self._color
+
 
 class UVMap(ABC):
     @abstractmethod
     def __init__(self, data: np.ndarray):
-        self.data = data
+        self._data = data
+
+    @property
+    def data(self) -> np.ndarray:
+        return self._data
 
 
 class VertexUV(UVMap):
     def __init__(self, data: np.ndarray):
-        self.data = data
+        super().__init__(data)
 
 
 class FacesUV(UVMap):
     def __init__(self, data: np.ndarray):
-        self.data = data
+        super().__init__(data)
+
 
 class UVColors(Colors):
     @abstractmethod
     def __init__(self, uv_map: UVMap):
         super().__init__()
-        self.uv_map = uv_map
+        self._uv_map = uv_map
+
+    @property
+    def uv_map(self) -> UVMap:
+        return self._uv_map
 
 
 class TextureColors(UVColors):
@@ -69,10 +78,18 @@ class TextureColors(UVColors):
         blender_image = bpy.data.images.new(name="tex_image", width=texture.shape[1],
                                             height=texture.shape[0])
         _copy_values_to_image(texture.reshape(-1, 3), blender_image.name)
-        self.texture = blender_image
+        self._texture = blender_image
+
+    @property
+    def texture(self) -> UVMap:
+        return self._texture
 
 
 class FileTextureColors(UVColors):
     def __init__(self, texture_path: str, uv_map: UVMap):
         super().__init__(uv_map)
-        self.texture = bpy.data.images.load(texture_path)
+        self._texture = bpy.data.images.load(texture_path)
+
+    @property
+    def texture(self) -> UVMap:
+        return self._texture
