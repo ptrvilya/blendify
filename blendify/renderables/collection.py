@@ -2,7 +2,6 @@ from typing import Dict, Iterable
 
 import numpy as np
 
-from .. import get_scene
 from ..internal import Singleton
 from ..internal.types import Vector3d, Vector4d
 from .base import Renderable
@@ -97,6 +96,9 @@ class RenderablesCollection(metaclass=Singleton):
         Returns:
             CameraColoredPointCloud: created and added to the scene object
         """
+        # Bad hack to avoid circular import
+        from .. import get_scene
+
         tag = self._process_tag(tag, "CameraColored_PointCloud")
         obj = CameraColoredPointCloud(
             vertices=vertices, normals=normals, material=material, colors=colors, point_size=point_size,

@@ -4,7 +4,6 @@ import bpy
 import numpy as np
 from scipy.spatial import transform
 
-from . import get_scene
 from .internal.positionable import Positionable
 from .internal.types import Vector2d, Vector2di, Vector3d, Vector4d
 
@@ -95,6 +94,8 @@ class Camera(Positionable):
         return camera_ray
 
     def _update_position(self):
+        # Bad hack to avoid circular import
+        from . import get_scene
         get_scene().renderables.update_camera(self)
         super()._update_position()
 
