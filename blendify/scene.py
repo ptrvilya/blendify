@@ -52,16 +52,47 @@ class Scene(metaclass=Singleton):
         return self._camera
 
     def add_perspective_camera(self, resolution: Vector2di, focal_dist: float = None, fov_x: float = None,
-            fov_y: float = None, center: Vector2d = None, tag: str = 'camera',
-            quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0)):
+            fov_y: float = None, center: Vector2d = None, near: float = 0.1, far: float = 100., tag: str = 'camera',
+            quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0)) -> PerspectiveCamera:
+        """
+        Add perspective camera to the scene. Replaces the previous scene camera, if it exists.
+            One of focal_dist, fov_x or fov_y is required to set the camera parameters.
+        Args:
+            resolution (Vector2di): (w, h), the resolution of the resulting image
+            focal_dist (float, optional): Perspective Camera focal distance in millimeters (default: None)
+            fov_x (float, optional): Camera lens horizontal field of view (default: None)
+            fov_y (float, optional): Camera lens vertical field of view (default: None)
+            center (Vector2d, optional): (x, y), horizontal and vertical shifts of the Camera (default: None)
+            near (float, optional): Camera near clipping distance (default: 0.1)
+            far (float, optional): Camera far clipping distance (default: 100)
+            tag (str): name of the created object in Blender
+            quaternion (Vector4d, optional): rotation applied to the Blender object (default: (1,0,0,0))
+            translation (Vector3d, optional): translation applied to the Blender object (default: (0,0,0))
+        Returns:
+            PerspectiveCamera: created camera
+        """
         camera = PerspectiveCamera(resolution=resolution, focal_dist=focal_dist, fov_x=fov_x, fov_y=fov_y,
-                                   center=center, tag=tag, quaternion=quaternion, translation=translation)
+                                   center=center, near=near, far=far, tag=tag,
+                                   quaternion=quaternion, translation=translation)
         self._setup_camera(camera)
         return camera
 
     def add_orthographic_camera(self, resolution: Vector2di, ortho_scale: float = 1.,
-            far: float = 1., near: float = 0.1, tag: str = 'camera',
-            quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0)):
+            near: float = 0.1, far: float = 100., tag: str = 'camera',
+            quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0)) -> OrthographicCamera:
+        """
+        Add orthographics camera to the scene. Replaces the previous scene camera, if it exists.
+        Args:
+            resolution (Vector2di): (w, h), the resolution of the resulting image
+            ortho_scale (float, optional): Orthographic Camera scale (similar to zoom) (default: 1.0)
+            near (float, optional): Camera near clipping distance (default: 0.1)
+            far (float, optional): Camera far clipping distance (default: 100)
+            tag (str): name of the created object in Blender
+            quaternion (Vector4d, optional): rotation applied to the Blender object (default: (1,0,0,0))
+            translation (Vector3d, optional): translation applied to the Blender object (default: (0,0,0))
+        Returns:
+            OrthographicCamera: created camera
+        """
         camera = OrthographicCamera(resolution=resolution, ortho_scale=ortho_scale, far=far, near=near, tag=tag,
                                     quaternion=quaternion, translation=translation)
         self._setup_camera(camera)
@@ -147,7 +178,6 @@ class Scene(metaclass=Singleton):
         bpy.context.scene.frame_current = 0
         temp_filesuff = next(tempfile._get_candidate_names())
         temp_filepath = str(filepath) + "." + temp_filesuff
-        # dirpath = os.path.dirname(filepath)
         render_suffixes = [".color.0000.png"]
         if save_depth:
             render_suffixes.append(".depth.0000.exr")
@@ -166,7 +196,7 @@ class Scene(metaclass=Singleton):
 
         shutil.move(temp_filepath + ".color.0000.png", filepath)
         if save_depth:
-            distmap = self.read_exr_distmap(temp_filepath + ".depth.0000.exr")
+            distmap = self.read_exr_distmap(temp_filepath + ".depth.0000.exr", dist_thresh=self.camera.far*1.1)
             distmap = distmap.reshape(self.camera.resolution[::-1])
             depthmap = self.camera.distance2depth(distmap)
             np.save(os.path.splitext(filepath)[0] + ".depth.npy", depthmap)
