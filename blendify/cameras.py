@@ -4,6 +4,7 @@ import bpy
 import numpy as np
 from scipy.spatial import transform
 
+from . import get_scene
 from .internal.positionable import Positionable
 from .internal.types import Vector2d, Vector2di, Vector3d, Vector4d
 
@@ -92,6 +93,10 @@ class Camera(Positionable):
         rotation = transform.Rotation.from_quat(np.roll(self.quaternion, -1))
         camera_ray = rotation.apply(camera_ray)
         return camera_ray
+
+    def _update_position(self):
+        get_scene().renderables.update_camera(self)
+        super()._update_position()
 
 
 class PerspectiveCamera(Camera):

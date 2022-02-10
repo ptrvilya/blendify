@@ -37,7 +37,7 @@ class Positionable(ABC):
     def set_position(self, quaternion: Vector4d, translation: Vector3d):
         self._quaternion = np.array(quaternion, dtype=np.float64)
         self._translation = np.array(translation, dtype=np.float64)
-        self._update_blender_position()
+        self._update_position()
 
     @property
     def quaternion(self):
@@ -46,7 +46,7 @@ class Positionable(ABC):
     @quaternion.setter
     def quaternion(self, val: Vector4d):
         self._quaternion = np.array(val)
-        self._update_blender_position()
+        self._update_position()
 
     @property
     def translation(self):
@@ -55,9 +55,9 @@ class Positionable(ABC):
     @translation.setter
     def translation(self, val: Vector3d):
         self._translation = np.array(val)
-        self._update_blender_position()
+        self._update_position()
 
-    def _update_blender_position(self):
+    def _update_position(self):
         self._set_blender_object_position(self._blender_object)
 
     def _set_blender_object_position(self, blender_object: BlenderGroup):

@@ -2,6 +2,7 @@ from typing import Dict, Iterable
 
 import numpy as np
 
+from .. import get_scene
 from ..internal import Singleton
 from ..internal.types import Vector3d, Vector4d
 from .base import Renderable
@@ -16,7 +17,6 @@ from ..cameras import Camera
 class RenderablesCollection(metaclass=Singleton):
     def __init__(self):
         self._renderables: Dict[str, Renderable] = dict()
-        self.camera: Camera = None
 
     # =================================================== PointClouds ==================================================
     def add_pointcloud(
@@ -104,8 +104,10 @@ class RenderablesCollection(metaclass=Singleton):
             quaternion=quaternion, translation=translation, tag=tag
         )
 
-        if self.camera is not None:
-            obj.update_camera(self.camera)
+        current_camera = get_scene().camera
+        if current_camera is not None:
+            obj.update_camera(current_camera)
+        self._renderables[tag] = obj
 
         return obj
     # =============================================== End of PointClouds ===============================================
@@ -316,7 +318,6 @@ class RenderablesCollection(metaclass=Singleton):
     # ========================================== End of Parametric Primitives ==========================================
 
     def update_camera(self, camera: Camera):
-        self.camera = camera
         for renderable in self._renderables.values():
             renderable.update_camera(camera)
 
