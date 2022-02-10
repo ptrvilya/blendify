@@ -136,9 +136,9 @@ class PointCloud(Renderable):
                 (possible values are PLANE, CUBE, SPHERE, default: CUBE)
             particle_emission_strength (int, optional): strength of the emission from each primitive. This is used to
                 increase realism. Values <= 0 turn emission off, values > 0 set the power of emission (default: 1)
-            quaternion (Vector4d, optional): rotation to apply to Blender object (default: (1,0,0,0))
-            translation (Vector3d, optional): translation to apply to the Blender object (default: (0,0,0))
-            tag (str): name of the collection in Blender that is created
+            quaternion (Vector4d, optional): rotation applied to the Blender object (default: (1,0,0,0))
+            translation (Vector3d, optional): translation applied to the Blender object (default: (0,0,0))
+            tag (str): name of the created collection in Blender
         """
         # TODO hasn't been tested with GlossyBSDFMaterial
 
@@ -537,9 +537,9 @@ class CameraColoredPointCloud(PointCloud):
                 increase realism. Values <= 0 turn emission off, values > 0 set the power of emission (default: 1)
             back_color (Vector3d, optional): color for vertices that are not directly visible from current camera.
                 Values are to be provided without alpha in [0.0, 1.0] (default: (0.6, 0.6, 0.6))
-            quaternion (Vector4d, optional): rotation to apply to Blender object (default: (1,0,0,0))
-            translation (Vector3d, optional): translation to apply to the Blender object (default: (0,0,0))
-            tag (str): name of the collection in Blender that is created
+            quaternion (Vector4d, optional): rotation applied to the Blender object (default: (1,0,0,0))
+            translation (Vector3d, optional): translation applied to the Blender object (default: (0,0,0))
+            tag (str): name of the created collection in Blender
         """
         # Per point normals for each vertex. For example on how to estimate normals for PC refer to utils/pointcloud.py
         self.normals: np.ndarray = normals

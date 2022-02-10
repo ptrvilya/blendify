@@ -23,8 +23,8 @@ class Positionable(ABC):
         Args:
             tag (str): name of the object in Blender that was created in child class
             blender_object (bpy.types.Object): instance of Blender Object that is wrapped by the child class
-            quaternion (Vector4d, optional): rotation to apply to Blender object (default: (1,0,0,0))
-            translation (Vector3d, optional): translation to apply to the Blender object (default: (0,0,0))
+            quaternion (Vector4d, optional): rotation applied to the Blender object (default: (1,0,0,0))
+            translation (Vector3d, optional): translation applied to the Blender object (default: (0,0,0))
         """
         self._blender_object = blender_object
         self._tag = tag

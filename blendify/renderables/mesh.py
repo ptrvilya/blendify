@@ -9,8 +9,9 @@ from .materials import Material
 
 class Mesh(RenderableObject):
     """
-    Basic mesh, supports uniform (UniformColors), per-vertex (VertexColors), per-vertex uv (VertexUV),
-    per-face uv (FacesUV) and texture (TextureColors and FileTextureColors) coloring.
+    Basic mesh, supports uniform (UniformColors), per-vertex (VertexColors)
+    and texture (TextureColors and FileTextureColors) coloring with per-vertex uv (VertexUV) or
+    per-face uv maps (FacesUV).
 
     Properties:
         emit_shadow (bool, optional): control whether mesh will emit shadow from any light source in the scene.
@@ -31,9 +32,9 @@ class Mesh(RenderableObject):
             faces (np.ndarray): mesh faces
             material (Material): Material instance
             colors (Colors): Colors instance
-            quaternion (Vector4d, optional): rotation to apply to Blender object (default: (1,0,0,0))
-            translation (Vector3d, optional): translation to apply to the Blender object (default: (0,0,0))
-            tag (str): name of the object in Blender that is created
+            quaternion (Vector4d, optional): rotation applied to Blender object (default: (1,0,0,0))
+            translation (Vector3d, optional): translation applied to the Blender object (default: (0,0,0))
+            tag (str): name of the created object in Blender
         """
         obj = self._blender_create_object(vertices, faces, tag)
         super().__init__(**kwargs, blender_object=obj, tag=tag)

@@ -29,9 +29,9 @@ class LightsCollection(metaclass=Singleton):
                 in [0, inf] (default: 0.25)
             color (Vector3d, optional): color of the light source (default: (1.0, 1.0, 1.0))
             cast_shadows (bool, optional): whether the light source casts shadows or not (default: True)
-            quaternion (Vector4d, optional): rotation to apply to Blender object (default: (1,0,0,0))
-            translation (Vector3d, optional): translation to apply to the Blender object (default: (0,0,0))
-            tag (str, optional): name of the collection in Blender that is created to represent the point cloud.
+            quaternion (Vector4d, optional): rotation applied to the Blender object (default: (1,0,0,0))
+            translation (Vector3d, optional): translation applied to the Blender object (default: (0,0,0))
+            tag (str, optional): name of the created collection in Blender to represent the point cloud.
                 If None is passed the tag is automatically generated (default: None)
 
         Returns:
@@ -63,9 +63,9 @@ class LightsCollection(metaclass=Singleton):
                 in [0, 3.14159] (default: 0.00918043)
             color (Vector3d, optional): color of the light source (default: (1.0, 1.0, 1.0))
             cast_shadows (bool, optional): whether the light source casts shadows or not (default: True)
-            quaternion (Vector4d, optional): rotation to apply to Blender object (default: (1,0,0,0))
-            translation (Vector3d, optional): translation to apply to the Blender object (default: (0,0,0))
-            tag (str, optional): name of the collection in Blender that is created to represent the point cloud.
+            quaternion (Vector4d, optional): rotation applied to the Blender object (default: (1,0,0,0))
+            translation (Vector3d, optional): translation applied to the Blender object (default: (0,0,0))
+            tag (str, optional): name of the created collection in Blender to represent the point cloud.
                 If None is passed the tag is automatically generated (default: None)
 
         Returns:
@@ -103,9 +103,9 @@ class LightsCollection(metaclass=Singleton):
                 in [0, inf] (default: 0.25)
             color (Vector3d, optional): color of the light source (default: (1.0, 1.0, 1.0))
             cast_shadows (bool, optional): whether the light source casts shadows or not (default: True)
-            quaternion (Vector4d, optional): rotation to apply to Blender object (default: (1,0,0,0))
-            translation (Vector3d, optional): translation to apply to the Blender object (default: (0,0,0))
-            tag (str, optional): name of the collection in Blender that is created to represent the point cloud.
+            quaternion (Vector4d, optional): rotation applied to the Blender object (default: (1,0,0,0))
+            translation (Vector3d, optional): translation applied to the Blender object (default: (0,0,0))
+            tag (str, optional): name of the created collection in Blender to represent the point cloud.
                 If None is passed the tag is automatically generated (default: None)
 
         Returns:
@@ -140,9 +140,9 @@ class LightsCollection(metaclass=Singleton):
                 in all directions (default: 100)
             color (Vector3d, optional): color of the light source (default: (1.0, 1.0, 1.0))
             cast_shadows (bool, optional): whether the light source casts shadows or not (default: True)
-            quaternion (Vector4d, optional): rotation to apply to Blender object (default: (1,0,0,0))
-            translation (Vector3d, optional): translation to apply to the Blender object (default: (0,0,0))
-            tag (str, optional): name of the collection in Blender that is created to represent the point cloud.
+            quaternion (Vector4d, optional): rotation applied to the Blender object (default: (1,0,0,0))
+            translation (Vector3d, optional): translation applied to the Blender object (default: (0,0,0))
+            tag (str, optional): name of the created collection in Blender to represent the point cloud.
                 If None is passed the tag is automatically generated (default: None)
 
         Returns:

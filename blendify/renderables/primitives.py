@@ -32,9 +32,9 @@ class MeshPrimitive(RenderableObject):
             material (Material): Material instance
             colors (Colors): Colors instance
             blender_object (bpy.types.Object): instance of Blender Object that is wrapped by the class
-            quaternion (Vector4d, optional): rotation to apply to Blender object (default: (1,0,0,0))
-            translation (Vector3d, optional): translation to apply to the Blender object (default: (0,0,0))
-            tag (str): name of the object in Blender that is created
+            quaternion (Vector4d, optional): rotation applied to the Blender object (default: (1,0,0,0))
+            translation (Vector3d, optional): translation applied to the Blender object (default: (0,0,0))
+            tag (str): name of the created object in Blender
         """
         super().__init__(**kwargs)
 
@@ -79,9 +79,9 @@ class CircleMesh(MeshPrimitive):
             colors (Colors): Colors instance
             num_vertices (int, optional): number of vertices in primitive in [3, 10000000] (default: 32)
             fill_type (str, optional): fill type, one of [NOTHING, NGON, TRIFAN] (default: NGON)
-            quaternion (Vector4d, optional): rotation to apply to Blender object (default: (1,0,0,0))
-            translation (Vector3d, optional): translation to apply to the Blender object (default: (0,0,0))
-            tag (str): name of the object in Blender that is created
+            quaternion (Vector4d, optional): rotation applied to the Blender object (default: (1,0,0,0))
+            translation (Vector3d, optional): translation applied to the Blender object (default: (0,0,0))
+            tag (str): name of the created object in Blender
         """
         obj = self._blender_create_object(num_vertices, radius, fill_type, tag)
         super().__init__(**kwargs, blender_object=obj, tag=tag)
@@ -142,9 +142,9 @@ class CylinderMesh(MeshPrimitive):
             colors (Colors): Colors instance
             num_vertices (int, optional): number of vertices in primitive in [3, 10000000] (default: 32)
             fill_type (str, optional): fill type, one of [NOTHING, NGON, TRIFAN] (default: NGON)
-            quaternion (Vector4d, optional): rotation to apply to Blender object (default: (1,0,0,0))
-            translation (Vector3d, optional): translation to apply to the Blender object (default: (0,0,0))
-            tag (str): name of the object in Blender that is created
+            quaternion (Vector4d, optional): rotation applied to the Blender object (default: (1,0,0,0))
+            translation (Vector3d, optional): translation applied to the Blender object (default: (0,0,0))
+            tag (str): name of the created object in Blender
         """
         obj = self._blender_create_object(num_vertices, radius, height, fill_type, tag)
         # obj.scale[2] = height / radius
@@ -201,9 +201,9 @@ class ParametricPrimitive(RenderableObject):
             material (Material): Material instance
             colors (Colors): Colors instance
             blender_object (bpy.types.Object): instance of Blender Object that is wrapped by the class
-            quaternion (Vector4d, optional): rotation to apply to Blender object (default: (1,0,0,0))
-            translation (Vector3d, optional): translation to apply to the Blender object (default: (0,0,0))
-            tag (str): name of the object in Blender that is created
+            quaternion (Vector4d, optional): rotation applied to the Blender object (default: (1,0,0,0))
+            translation (Vector3d, optional): translation applied to the Blender object (default: (0,0,0))
+            tag (str): name of the created object in Blender
         """
         super().__init__(**kwargs)
 
@@ -235,9 +235,9 @@ class EllipsoidNURBS(ParametricPrimitive):
             radius (float): radius of a primitive in [0, inf]
             material (Material): Material instance
             colors (Colors): Colors instance
-            quaternion (Vector4d, optional): rotation to apply to Blender object (default: (1,0,0,0))
-            translation (Vector3d, optional): translation to apply to the Blender object (default: (0,0,0))
-            tag (str): name of the object in Blender that is created
+            quaternion (Vector4d, optional): rotation applied to the Blender object (default: (1,0,0,0))
+            translation (Vector3d, optional): translation applied to the Blender object (default: (0,0,0))
+            tag (str): name of the created object in Blender
         """
         obj = self._blender_create_object(radius, tag)
         super().__init__(**kwargs, blender_object=obj, tag=tag)
@@ -273,9 +273,9 @@ class SphereNURBS(EllipsoidNURBS):
             radius (float): radius of a primitive in [0, inf]
             material (Material): Material instance
             colors (Colors): Colors instance
-            quaternion (Vector4d, optional): rotation to apply to Blender object (default: (1,0,0,0))
-            translation (Vector3d, optional): translation to apply to the Blender object (default: (0,0,0))
-            tag (str): name of the object in Blender that is created
+            quaternion (Vector4d, optional): rotation applied to the Blender object (default: (1,0,0,0))
+            translation (Vector3d, optional): translation applied to the Blender object (default: (0,0,0))
+            tag (str): name of the created object in Blender
         """
         super().__init__(**kwargs, radius=(radius, radius, radius), tag=tag)
 
@@ -295,15 +295,15 @@ class CurveBezier(ParametricPrimitive):
         **kwargs
     ):
         """
-        Creates Blender Object that represent Bezier Curve primitive and adds keypoints as intermediate locations to it.
+        Creates Blender Object that represent Bezier Curve primitive - a tube passing through the given keypoints.
         Args:
             keypoints (np.ndarray): keypoints for the curve
-            radius (float): radius of a primitive in [0, inf]
+            radius (float): radius of a tube in [0, inf]
             material (Material): Material instance
             colors (Colors): Colors instance
-            quaternion (Vector4d, optional): rotation to apply to Blender object (default: (1,0,0,0))
-            translation (Vector3d, optional): translation to apply to the Blender object (default: (0,0,0))
-            tag (str): name of the object in Blender that is created
+            quaternion (Vector4d, optional): rotation applied to the Blender object (default: (1,0,0,0))
+            translation (Vector3d, optional): translation applied to the Blender object (default: (0,0,0))
+            tag (str): name of the created object in Blender
         """
         obj = self._blender_create_object(tag)
         obj.data.bevel_depth = radius

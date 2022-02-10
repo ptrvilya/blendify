@@ -20,9 +20,9 @@ class Light(Positionable):
         Passes all arguments to the constructor of the base class.
         Args:
             blender_object (bpy.types.Object): instance of Blender Object that is wrapped by the class
-            quaternion (Vector4d, optional): rotation to apply to Blender object (default: (1,0,0,0))
-            translation (Vector3d, optional): translation to apply to the Blender object (default: (0,0,0))
-            tag (str): name of the object in Blender that is created
+            quaternion (Vector4d, optional): rotation applied to the Blender object (default: (1,0,0,0))
+            translation (Vector3d, optional): translation applied to the Blender object (default: (0,0,0))
+            tag (str): name of the created object in Blender
         """
         super().__init__(**kwargs)
 
@@ -88,9 +88,9 @@ class PointLight(Light):
             shadow_soft_size (float): light size for ray shadow sampling (Raytraced shadows) in [0, inf]
             color (Vector3d): color of the light source
             cast_shadows (bool, optional): whether the light source casts shadows or not (default: True)
-            quaternion (Vector4d, optional): rotation to apply to Blender object (default: (1,0,0,0))
-            translation (Vector3d, optional): translation to apply to the Blender object (default: (0,0,0))
-            tag (str): name of the object in Blender that is created
+            quaternion (Vector4d, optional): rotation applied to the Blender object (default: (1,0,0,0))
+            translation (Vector3d, optional): translation applied to the Blender object (default: (0,0,0))
+            tag (str): name of the created object in Blender
         """
         blender_light = self._blender_create_light(tag, "POINT")
         super().__init__(**kwargs, tag=tag, blender_object=blender_light)
@@ -125,9 +125,9 @@ class DirectionalLight(Light):
             angular_diameter (float): angular diameter of the Sun as seen from the Earth in [0, 3.14159]
             color (Vector3d): color of the light source
             cast_shadows (bool, optional): whether the light source casts shadows or not (default: True)
-            quaternion (Vector4d, optional): rotation to apply to Blender object (default: (1,0,0,0))
-            translation (Vector3d, optional): translation to apply to the Blender object (default: (0,0,0))
-            tag (str): name of the object in Blender that is created
+            quaternion (Vector4d, optional): rotation applied to the Blender object (default: (1,0,0,0))
+            translation (Vector3d, optional): translation applied to the Blender object (default: (0,0,0))
+            tag (str): name of the created object in Blender
         """
         blender_light = self._blender_create_light(tag, "SUN")
         super().__init__(**kwargs, tag=tag, blender_object=blender_light)
@@ -167,9 +167,9 @@ class SpotLight(Light):
             color (Vector3d): color of the light source
             shadow_soft_size (float): light size for ray shadow sampling (Raytraced shadows) in [0, inf]
             cast_shadows (bool, optional): whether the light source casts shadows or not (default: True)
-            quaternion (Vector4d, optional): rotation to apply to Blender object (default: (1,0,0,0))
-            translation (Vector3d, optional): translation to apply to the Blender object (default: (0,0,0))
-            tag (str): name of the object in Blender that is created
+            quaternion (Vector4d, optional): rotation applied to the Blender object (default: (1,0,0,0))
+            translation (Vector3d, optional): translation applied to the Blender object (default: (0,0,0))
+            tag (str): name of the created object in Blender
         """
         # spot_size: Angle of the spotlight beam (float in [0.0174533, 3.14159]) default 0.785398
         # spot_blend: The softness of the spotlight edge (float in [0, 1]) default 0.15
@@ -226,9 +226,9 @@ class AreaLight(Light):
             color (Vector3d): color of the light source
             strength (float): strength of the light source emitted over the entire area of the light in all directions
             cast_shadows (bool, optional): whether the light source casts shadows or not (default: True)
-            quaternion (Vector4d, optional): rotation to apply to Blender object (default: (1,0,0,0))
-            translation (Vector3d, optional): translation to apply to the Blender object (default: (0,0,0))
-            tag (str): name of the object in Blender that is created
+            quaternion (Vector4d, optional): rotation applied to the Blender object (default: (1,0,0,0))
+            translation (Vector3d, optional): translation applied to the Blender object (default: (0,0,0))
+            tag (str): name of the created object in Blender
         """
         blender_light = self._blender_create_light(tag, "AREA")
         super().__init__(**kwargs, tag=tag, blender_object=blender_light)
@@ -250,9 +250,9 @@ class SquareAreaLight(AreaLight):
             strength (float): strength of the light source
             color (Vector3d): color of the light source
             cast_shadows (bool, optional): whether the light source casts shadows or not (default: True)
-            quaternion (Vector4d, optional): rotation to apply to Blender object (default: (1,0,0,0))
-            translation (Vector3d, optional): translation to apply to the Blender object (default: (0,0,0))
-            tag (str): name of the object in Blender that is created
+            quaternion (Vector4d, optional): rotation applied to the Blender object (default: (1,0,0,0))
+            translation (Vector3d, optional): translation applied to the Blender object (default: (0,0,0))
+            tag (str): name of the created object in Blender
         """
         super().__init__(**kwargs)
         self.blender_light.data.shape = "SQUARE"
@@ -280,9 +280,9 @@ class CircleAreaLight(AreaLight):
             strength (float): strength of the light source emitted over the entire area of the light in all directions
             color (Vector3d): color of the light source
             cast_shadows (bool, optional): whether the light source casts shadows or not (default: True)
-            quaternion (Vector4d, optional): rotation to apply to Blender object (default: (1,0,0,0))
-            translation (Vector3d, optional): translation to apply to the Blender object (default: (0,0,0))
-            tag (str): name of the object in Blender that is created
+            quaternion (Vector4d, optional): rotation applied to the Blender object (default: (1,0,0,0))
+            translation (Vector3d, optional): translation applied to the Blender object (default: (0,0,0))
+            tag (str): name of the created object in Blender
         """
         super().__init__(**kwargs)
         self.blender_light.data.shape = "DISK"
@@ -310,9 +310,9 @@ class RectangleAreaLight(AreaLight):
             strength (float): strength of the light source emitted over the entire area of the light in all directions
             color (Vector3d): color of the light source
             cast_shadows (bool, optional): whether the light source casts shadows or not (default: True)
-            quaternion (Vector4d, optional): rotation to apply to Blender object (default: (1,0,0,0))
-            translation (Vector3d, optional): translation to apply to the Blender object (default: (0,0,0))
-            tag (str): name of the object in Blender that is created
+            quaternion (Vector4d, optional): rotation applied to the Blender object (default: (1,0,0,0))
+            translation (Vector3d, optional): translation applied to the Blender object (default: (0,0,0))
+            tag (str): name of the created object in Blender
         """
         super().__init__(**kwargs)
         self.blender_light.data.shape = "RECTANGLE"
@@ -341,9 +341,9 @@ class EllipseAreaLight(AreaLight):
             strength (float): strength of the light source emitted over the entire area of the light in all directions
             color (Vector3d): color of the light source
             cast_shadows (bool, optional): whether the light source casts shadows or not (default: True)
-            quaternion (Vector4d, optional): rotation to apply to Blender object (default: (1,0,0,0))
-            translation (Vector3d, optional): translation to apply to the Blender object (default: (0,0,0))
-            tag (str): name of the object in Blender that is created
+            quaternion (Vector4d, optional): rotation applied to the Blender object (default: (1,0,0,0))
+            translation (Vector3d, optional): translation applied to the Blender object (default: (0,0,0))
+            tag (str): name of the created object in Blender
         """
         super().__init__(**kwargs)
         self.blender_light.data.shape = "ELLIPSE"

@@ -27,9 +27,9 @@ class Camera(Positionable):
             resolution (Vector2di): (w, h), the resolution of the resulting image
             near (float, optional): Camera near clipping distance (default: 0.1)
             far (float, optional): Camera far clipping distance (default: 100)
-            quaternion (Vector4d, optional): rotation to apply to Blender object (default: (1,0,0,0))
-            translation (Vector3d, optional): translation to apply to the Blender object (default: (0,0,0))
-            tag (str): name of the object in Blender that is created
+            quaternion (Vector4d, optional): rotation applied to the Blender object (default: (1,0,0,0))
+            translation (Vector3d, optional): translation applied to the Blender object (default: (0,0,0))
+            tag (str): name of the created object in Blender
         """
         camera_object = self._blender_create_camera(tag)
         super().__init__(**kwargs, tag=tag, blender_object=camera_object)
@@ -114,9 +114,9 @@ class PerspectiveCamera(Camera):
             center (Vector2d, optional): (x, y), horizontal and vertical shifts of the Camera (default: None)
             near (float, optional): Camera near clipping distance (default: 0.1)
             far (float, optional): Camera far clipping distance (default: 100)
-            quaternion (Vector4d, optional): rotation to apply to Blender object (default: (1,0,0,0))
-            translation (Vector3d, optional): translation to apply to the Blender object (default: (0,0,0))
-            tag (str): name of the object in Blender that is created
+            quaternion (Vector4d, optional): rotation applied to the Blender object (default: (1,0,0,0))
+            translation (Vector3d, optional): translation applied to the Blender object (default: (0,0,0))
+            tag (str): name of the created object in Blender
         """
         super().__init__(**kwargs)
         assert not(focal_dist is None and fov_x is None and fov_y is None), \
@@ -199,9 +199,9 @@ class OrthographicCamera(Camera):
             ortho_scale (float, optional): Orthographic Camera scale (similar to zoom) (default: 1.0)
             near (float, optional): Camera near clipping distance (default: 0.1)
             far (float, optional): Camera far clipping distance (default: 100)
-            quaternion (Vector4d, optional): rotation to apply to Blender object (default: (1,0,0,0))
-            translation (Vector3d, optional): translation to apply to the Blender object (default: (0,0,0))
-            tag (str): name of the object in Blender that is created
+            quaternion (Vector4d, optional): rotation applied to the Blender object (default: (1,0,0,0))
+            translation (Vector3d, optional): translation applied to the Blender object (default: (0,0,0))
+            tag (str): name of the created object in Blender
         """
         super().__init__(**kwargs)
         camera_object = self.blender_camera

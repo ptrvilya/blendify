@@ -62,9 +62,9 @@ class Renderable(Positionable):
             material (Material): Material instance
             colors (Colors): Colors instance
             blender_object (bpy.types.Object): instance of Blender Object that is wrapped by the class
-            quaternion (Vector4d, optional): rotation to apply to Blender object (default: (1,0,0,0))
-            translation (Vector3d, optional): translation to apply to the Blender object (default: (0,0,0))
-            tag (str): name of the object in Blender that is created
+            quaternion (Vector4d, optional): rotation applied to the Blender object (default: (1,0,0,0))
+            translation (Vector3d, optional): translation applied to the Blender object (default: (0,0,0))
+            tag (str): name of the created object in Blender
         """
         super().__init__(**kwargs)
         self._make_colorsnode_builders_dict()
@@ -153,9 +153,9 @@ class RenderableObject(Renderable):
             material (Material): Material instance
             colors (Colors): Colors instance
             blender_object (bpy.types.Object): instance of Blender Object that is wrapped by the class
-            quaternion (Vector4d, optional): rotation to apply to Blender object (default: (1,0,0,0))
-            translation (Vector3d, optional): translation to apply to the Blender object (default: (0,0,0))
-            tag (str): name of the object in Blender that is created
+            quaternion (Vector4d, optional): rotation applied to the Blender object (default: (1,0,0,0))
+            translation (Vector3d, optional): translation applied to the Blender object (default: (0,0,0))
+            tag (str): name of the created object in Blender
         """
         self._blender_colornode_builder = None
         self._blender_colors_node = None

@@ -43,9 +43,9 @@ class RenderablesCollection(metaclass=Singleton):
                 (possible values are PLANE, CUBE, SPHERE, default: CUBE)
             particle_emission_strength (int, optional): strength of the emission from each primitive. This is used to
                 increase realism. Values <= 0 turn emission off, values > 0 set the power of emission (default: 1)
-            quaternion (Vector4d, optional): rotation to apply to Blender object (default: (1,0,0,0))
-            translation (Vector3d, optional): translation to apply to the Blender object (default: (0,0,0))
-            tag (str, optional): name of the collection in Blender that is created to represent the point cloud.
+            quaternion (Vector4d, optional): rotation applied to the Blender object (default: (1,0,0,0))
+            translation (Vector3d, optional): translation applied to the Blender object (default: (0,0,0))
+            tag (str, optional): name of the created collection in Blender to represent the point cloud.
                 If None is passed the tag is automatically generated (default: None)
 
         Returns:
@@ -89,9 +89,9 @@ class RenderablesCollection(metaclass=Singleton):
                 increase realism. Values <= 0 turn emission off, values > 0 set the power of emission (default: 1)
             back_color (Vector3d, optional): color for vertices that are not directly visible from current camera.
                 Values are to be provided without alpha in [0.0, 1.0] (default: (0.6, 0.6, 0.6))
-            quaternion (Vector4d, optional): rotation to apply to Blender object (default: (1,0,0,0))
-            translation (Vector3d, optional): translation to apply to the Blender object (default: (0,0,0))
-            tag (str, optional): name of the collection in Blender that is created. If None is passed, the tag
+            quaternion (Vector4d, optional): rotation applied to the Blender object (default: (1,0,0,0))
+            translation (Vector3d, optional): translation applied to the Blender object (default: (0,0,0))
+            tag (str, optional): name of the created collection in Blender. If None is passed, the tag
                 is automatically generated (default: None)
 
         Returns:
@@ -129,9 +129,9 @@ class RenderablesCollection(metaclass=Singleton):
             faces (np.ndarray): mesh faces
             material (Material): Material instance
             colors (Colors): Colors instance
-            quaternion (Vector4d, optional): rotation to apply to Blender object (default: (1,0,0,0))
-            translation (Vector3d, optional): translation to apply to the Blender object (default: (0,0,0))
-            tag (str, optional): name of the object in Blender that is created. If None is passed, the tag
+            quaternion (Vector4d, optional): rotation applied to the Blender object (default: (1,0,0,0))
+            translation (Vector3d, optional): translation applied to the Blender object (default: (0,0,0))
+            tag (str, optional): name of the created object in Blender. If None is passed, the tag
                 is automatically generated (default: None)
 
         Returns:
@@ -164,9 +164,9 @@ class RenderablesCollection(metaclass=Singleton):
             colors (Colors): Colors instance
             num_vertices (int, optional): number of vertices in primitive in [3, 10000000] (default: 32)
             fill_type (str, optional): fill type, one of [NOTHING, NGON, TRIFAN] (default: NGON)
-            quaternion (Vector4d, optional): rotation to apply to Blender object (default: (1,0,0,0))
-            translation (Vector3d, optional): translation to apply to the Blender object (default: (0,0,0))
-            tag (str, optional): name of the object in Blender that is created. If None is passed, the tag
+            quaternion (Vector4d, optional): rotation applied to the Blender object (default: (1,0,0,0))
+            translation (Vector3d, optional): translation applied to the Blender object (default: (0,0,0))
+            tag (str, optional): name of the created object in Blender. If None is passed, the tag
                 is automatically generated (default: None)
 
         Returns:
@@ -201,9 +201,9 @@ class RenderablesCollection(metaclass=Singleton):
             colors (Colors): Colors instance
             num_vertices (int, optional): number of vertices in primitive in [3, 10000000] (default: 32)
             fill_type (str, optional): fill type, one of [NOTHING, NGON, TRIFAN] (default: NGON)
-            quaternion (Vector4d, optional): rotation to apply to Blender object (default: (1,0,0,0))
-            translation (Vector3d, optional): translation to apply to the Blender object (default: (0,0,0))
-            tag (str, optional): name of the object in Blender that is created. If None is passed, the tag
+            quaternion (Vector4d, optional): rotation applied to the Blender object (default: (1,0,0,0))
+            translation (Vector3d, optional): translation applied to the Blender object (default: (0,0,0))
+            tag (str, optional): name of the created object in Blender. If None is passed, the tag
                 is automatically generated (default: None)
 
         Returns:
@@ -235,9 +235,9 @@ class RenderablesCollection(metaclass=Singleton):
             radius (float): radius of a primitive in [0, inf]
             material (Material): Material instance
             colors (Colors): Colors instance
-            quaternion (Vector4d, optional): rotation to apply to Blender object (default: (1,0,0,0))
-            translation (Vector3d, optional): translation to apply to the Blender object (default: (0,0,0))
-            tag (str, optional): name of the object in Blender that is created. If None is passed, the tag
+            quaternion (Vector4d, optional): rotation applied to the Blender object (default: (1,0,0,0))
+            translation (Vector3d, optional): translation applied to the Blender object (default: (0,0,0))
+            tag (str, optional): name of the created object in Blender. If None is passed, the tag
                 is automatically generated (default: None)
 
         Returns:
@@ -265,9 +265,9 @@ class RenderablesCollection(metaclass=Singleton):
             radius (float): radius of a primitive in [0, inf]
             material (Material): Material instance
             colors (Colors): Colors instance
-            quaternion (Vector4d, optional): rotation to apply to Blender object (default: (1,0,0,0))
-            translation (Vector3d, optional): translation to apply to the Blender object (default: (0,0,0))
-            tag (str, optional): name of the object in Blender that is created. If None is passed, the tag
+            quaternion (Vector4d, optional): rotation applied to the Blender object (default: (1,0,0,0))
+            translation (Vector3d, optional): translation applied to the Blender object (default: (0,0,0))
+            tag (str, optional): name of the created object in Blender. If None is passed, the tag
                 is automatically generated (default: None)
 
         Returns:
@@ -298,9 +298,9 @@ class RenderablesCollection(metaclass=Singleton):
             radius (float): radius of a primitive in [0, inf]
             material (Material): Material instance
             colors (Colors): Colors instance
-            quaternion (Vector4d, optional): rotation to apply to Blender object (default: (1,0,0,0))
-            translation (Vector3d, optional): translation to apply to the Blender object (default: (0,0,0))
-            tag (str, optional): name of the object in Blender that is created. If None is passed, the tag
+            quaternion (Vector4d, optional): rotation applied to the Blender object (default: (1,0,0,0))
+            translation (Vector3d, optional): translation applied to the Blender object (default: (0,0,0))
+            tag (str, optional): name of the created object in Blender. If None is passed, the tag
                 is automatically generated (default: None)
 
         Returns:
