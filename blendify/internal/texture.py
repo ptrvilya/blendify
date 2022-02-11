@@ -25,17 +25,23 @@ SOFTWARE.
 
 import bpy
 
-def _copy_values_to_image(value_tripplets, image_name):
+def _copy_values_to_image(value_tuples, image_name):
     """ Copy values to image pixels. """
     image = bpy.data.images[image_name]
     # working on a copy of the pixels results in a MASSIVE performance speed
     local_pixels = list(image.pixels[:])
-    for value_index, tripplet in enumerate(value_tripplets):
+    for value_index, value_tuple in enumerate(value_tuples):
         column_offset = value_index * 4  # (R,G,B,A)
         # Order is R,G,B, opacity
-        local_pixels[column_offset] = tripplet[0]
-        local_pixels[column_offset + 1] = tripplet[1]
-        local_pixels[column_offset + 2] = tripplet[2]
+        local_pixels[column_offset] = value_tuple[0]
+        local_pixels[column_offset + 1] = value_tuple[1]
+        local_pixels[column_offset + 2] = value_tuple[2]
+
         # opacity (0 = transparent, 1 = opaque)
-        # local_pixels[column_offset + 3] = 1.0    # already set by default
+        if len(value_tuple) == 4:
+            local_pixels[column_offset + 3] = value_tuple[3]
+        else:
+            # local_pixels[column_offset + 3] = 1.0    # already set by default
+            pass
+
     image.pixels = local_pixels[:]

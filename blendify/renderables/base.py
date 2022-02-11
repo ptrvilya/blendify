@@ -17,6 +17,7 @@ class Renderable(Positionable):
         colors_class = None
 
         def __init__(self, colors: Colors = None):
+            self.has_aplha = False
             pass
 
         @abstractmethod
@@ -32,6 +33,10 @@ class Renderable(Positionable):
 
     class VertexColorsNodeBuilder(ColorsNodeBuilder):
         colors_class = VertexColors
+
+        def __init__(self, colors: VertexColors):
+            super().__init__()
+            self.has_aplha = colors.vertex_colors.shape[1] == 4
 
     class TextureColorsNodeBuilder(ColorsNodeBuilder):
         colors_class = TextureColors
@@ -262,10 +267,18 @@ class RenderableObject(Renderable):
         Links color and material nodes
         """
         if self._blender_colors_node is not None and self._blender_material_node is not None:
-            self._blender_material_node.node_tree.links.new(self._blender_bsdf_node.inputs[0],
+            if self._blender_bsdf_node.bl_label == "Principled BSDF":
+                bsdf_color_input = "Base Color"
+                if self._blender_colornode_builder.has_alpha:
+                    self._blender_material_node.node_tree.links.new(self._blender_bsdf_node.inputs["Alpha"],
+                                                                    self._blender_colors_node.outputs['Alpha'])
+            elif self._blender_bsdf_node.bl_label == "Glossy BSDF":
+                bsdf_color_input = "Color"
+            else:
+                raise RuntimeError(f"Unsupported material node: {self._blender_bsdf_node.bl_label}"
+                                   f" in link_color2material")
+
+            self._blender_material_node.node_tree.links.new(self._blender_bsdf_node.inputs[bsdf_color_input],
                                                             self._blender_colors_node.outputs['Color'])
-            self._blender_bsdf_node.inputs[0].default_value = [1.0, 0.0, 0.0, 1.0]
-            # self._blender_material_node.node_tree.links.new(self._blender_bsdf_node.inputs['Base Color'],
-            #                                                 self._blender_colors_node.outputs['Color'])
-            # self._blender_bsdf_node.inputs['Base Color'].default_value = [1.0, 0.0, 0.0, 1.0]
+            self._blender_bsdf_node.inputs[bsdf_color_input].default_value = [1.0, 0.0, 0.0, 1.0]
     # ================================================== END OF COLORS =================================================

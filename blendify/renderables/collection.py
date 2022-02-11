@@ -1,4 +1,4 @@
-from typing import Dict, Iterable
+from typing import Dict, Iterable, Union
 
 import numpy as np
 
@@ -68,7 +68,7 @@ class RenderablesCollection(metaclass=Singleton):
         point_size: float = 0.006,
         base_primitive: str = "CUBE",
         particle_emission_strength: int = 1,
-        back_color: Vector3d = (0.6, 0.6, 0.6),
+        back_color: Union[Vector3d, Vector4d] = (0.6, 0.6, 0.6),
         quaternion: Vector4d = (1, 0, 0, 0),
         translation: Vector3d = (0, 0, 0),
         tag: str = None
@@ -86,8 +86,8 @@ class RenderablesCollection(metaclass=Singleton):
                 (possible values are PLANE, CUBE, SPHERE, default: CUBE)
             particle_emission_strength (int, optional): strength of the emission from each primitive. This is used to
                 increase realism. Values <= 0 turn emission off, values > 0 set the power of emission (default: 1)
-            back_color (Vector3d, optional): color for vertices that are not directly visible from current camera.
-                Values are to be provided without alpha in [0.0, 1.0] (default: (0.6, 0.6, 0.6))
+            back_color (Union[Vector3d, Vector4d], optional): color for vertices that are not directly visible from
+                current camera. Values are to be provided in [0.0, 1.0], alpha is optional (default: (0.6, 0.6, 0.6))
             quaternion (Vector4d, optional): rotation applied to the Blender object (default: (1,0,0,0))
             translation (Vector3d, optional): translation applied to the Blender object (default: (0,0,0))
             tag (str, optional): name of the created collection in Blender. If None is passed, the tag

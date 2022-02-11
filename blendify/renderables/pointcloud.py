@@ -22,7 +22,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
-from typing import List
+from typing import List, Union
 
 import bpy
 import numpy as np
@@ -33,7 +33,7 @@ from .colors import Colors, VertexColors, UniformColors
 from .materials import Material
 from ..cameras import Camera
 from ..internal.texture import _copy_values_to_image
-from ..internal.types import Vector3d
+from ..internal.types import Vector3d, Vector4d
 
 
 class PointCloud(Renderable):
@@ -77,8 +77,6 @@ class PointCloud(Renderable):
             particle_color_node = object_material.node_tree.nodes.new("ShaderNodeTexImage")
             particle_color_node.interpolation = "Closest"
             vertex_colors_subset = self.vertex_colors[vertex_offset: vertex_offset + self._max_particles]
-            # TODO test if per-vertex alpha setup is possible.
-            #  Use case: making back vertices transparent in CameraColoredPointCloud
             particle_color_node.image = self._compute_particle_color_texture(vertex_colors_subset)
             particle_info_node = object_material.node_tree.nodes.new("ShaderNodeParticleInfo")
 
@@ -279,7 +277,7 @@ class PointCloud(Renderable):
     def _add_particle_obj(
             particle_obj_name: str,
             mesh_type: str,
-            point_size: int,
+            point_size: float,
             blender_collection: bpy.types.Collection
     ) -> bpy.types.Object:
         """
@@ -287,7 +285,7 @@ class PointCloud(Renderable):
         Args:
             particle_obj_name (str): name of a Blender primitive object to be created
             mesh_type (str): type of primitive for representing each point (possible values are PLANE, CUBE, SPHERE)
-            point_size (int): size of a primitive
+            point_size (float): size of a primitive
             blender_collection (bpy.types.Collection): a Blender collection for storing the primitive
 
         Returns:
@@ -485,12 +483,19 @@ class PointCloud(Renderable):
         """
         if self._blender_colors_nodes[particle_obj_name] is not None and \
                 self._blender_material_nodes[particle_obj_name] is not None:
-            # Add links for base color and emission to improve color visibility
+            # Add link for base color
             self._blender_material_nodes[particle_obj_name].node_tree.links.new(
                 self._blender_colors_nodes[particle_obj_name][0].outputs["Color"],
                 self._blender_bsdf_nodes[particle_obj_name].inputs["Base Color"],
             )
 
+            # Add link for alpha to support transparency
+            self._blender_material_nodes[particle_obj_name].node_tree.links.new(
+                self._blender_colors_nodes[particle_obj_name][0].outputs["Alpha"],
+                self._blender_bsdf_nodes[particle_obj_name].inputs["Alpha"],
+            )
+
+            # Add link for emission to improve color visibility and adjust emission strength
             if self.particle_emission_strength > 0:
                 self._blender_material_nodes[particle_obj_name].node_tree.links.new(
                     self._blender_colors_nodes[particle_obj_name][0].outputs["Color"],
@@ -518,7 +523,7 @@ class CameraColoredPointCloud(PointCloud):
             self,
             normals: np.ndarray,
             tag: str,
-            back_color: Vector3d = (0.6, 0.6, 0.6),
+            back_color: Union[Vector3d, Vector4d] = (0.6, 0.6, 0.6),
             **kwargs
     ):
         """
@@ -535,8 +540,8 @@ class CameraColoredPointCloud(PointCloud):
                 (possible values are PLANE, CUBE, SPHERE, default: CUBE)
             particle_emission_strength (int, optional): strength of the emission from each primitive. This is used to
                 increase realism. Values <= 0 turn emission off, values > 0 set the power of emission (default: 1)
-            back_color (Vector3d, optional): color for vertices that are not directly visible from current camera.
-                Values are to be provided without alpha in [0.0, 1.0] (default: (0.6, 0.6, 0.6))
+            back_color (Union[Vector3d, Vector4d], optional): color for vertices that are not directly visible from
+                current camera. Values are to be provided in [0.0, 1.0], alpha is optional (default: (0.6, 0.6, 0.6))
             quaternion (Vector4d, optional): rotation applied to the Blender object (default: (1,0,0,0))
             translation (Vector3d, optional): translation applied to the Blender object (default: (0,0,0))
             tag (str): name of the created collection in Blender
@@ -597,6 +602,11 @@ class CameraColoredPointCloud(PointCloud):
             self._per_vertex_colors = colors.vertex_colors.astype(np.float32)
         else:
             raise RuntimeError("Only Uniform and Vertex Colors are supported for CameraColoredPointCloud.")
+
+        # Add alpha to support transparent back_color
+        if self._per_vertex_colors.shape[1] == 3:
+            alpha = np.ones((self._per_vertex_colors.shape[0], 1), dtype=np.float32)
+            self._per_vertex_colors = np.concatenate((self._per_vertex_colors, alpha), axis=1)
 
         assert self.num_vertices == len(self._per_vertex_colors), \
             f"Number of colors should be the same as number of vertices(expected {self.num_vertices}, " \
