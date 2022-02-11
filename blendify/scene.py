@@ -186,11 +186,12 @@ class Scene(metaclass=Singleton):
         while self.check_any_exists(temp_filepath, render_suffixes):
             temp_filesuff = next(tempfile._get_candidate_names())
             temp_filepath = str(filepath) + "." + temp_filesuff
-        output_image.file_slots[0].path = temp_filepath + ".color."
+        temp_filename = os.path.basename(temp_filepath)
+        output_image.file_slots[0].path = temp_filename + ".color."
         if save_depth:
-            output_depth.file_slots[0].path = temp_filepath + ".depth."
+            output_depth.file_slots[0].path = temp_filename + ".depth."
         if save_albedo:
-            output_albedo.file_slots[0].path = temp_filepath + ".albedo."
+            output_albedo.file_slots[0].path = temp_filename + ".albedo."
 
         bpy.ops.render.render(write_still=False)
 
