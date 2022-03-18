@@ -110,7 +110,17 @@ class Scene(metaclass=Singleton):
         self.renderables.update_camera(camera)
 
     @staticmethod
-    def read_exr_distmap(path, dist_thresh=1e4):
+    def read_exr_distmap(path: str, dist_thresh: float = 1e4) -> np.ndarray:
+        """
+        Reads the distance map stored in EXR format, filters out all the values after a certain distance threshold.
+            Requires OpenEXR to be installed in the system
+        Args:
+            path (str): path to the .exr file
+            dist_thresh (float): distance clip threshold
+
+        Returns:
+            np.ndarray: distance map in numpy array format
+        """
         import OpenEXR
         import Imath
         exr_input = OpenEXR.InputFile(path)
@@ -119,8 +129,19 @@ class Scene(metaclass=Singleton):
         data[data > dist_thresh] = -np.inf
         return data
 
-    def render(self, filepath: Union[str, Path] = "result.png", use_gpu=True, samples=128, save_depth=False,
-            save_albedo=False):
+    def render(self, filepath: Union[str, Path] = "result.png", use_gpu: bool = True, samples: int = 128,
+            save_depth: bool = False, save_albedo: bool = False):
+        """
+        Start the Blender rendering process.
+        Args:
+            filepath (Union[str, Path]): path to the image (PNG) to render to
+            use_gpu (bool): whether to render on GPU or not
+            samples (bool): number of raytracing samples per pixel
+            save_depth (bool): whether to save the depth in the separate file.
+              If yes, the numpy array <filepath>.depth.npy will be created.
+            save_albedo (bool): whether to save albedo (raw color information) in the separate file.
+              If yes, the PNG image <filepath>.albedo.png with color information will be created.
+        """
         if self.camera is None:
             raise RuntimeError("Can't render without a camera")
 
@@ -206,7 +227,16 @@ class Scene(metaclass=Singleton):
             shutil.move(temp_filepath + ".albedo.0000.png", os.path.splitext(filepath)[0] + ".albedo.png")
 
     @staticmethod
-    def check_any_exists(fileprefix: str, filesuffixes: Sequence[str]):
+    def check_any_exists(fileprefix: str, filesuffixes: Sequence[str]) -> bool:
+        """
+        Check if any of the combinations of <fileprefix>+<any filesuffix> exist in the filesystem
+        Args:
+            fileprefix (str): single file prefix, can the full path or local name
+            filesuffixes (Sequence[str]): a sequence of file suffixes to choose from
+
+        Returns:
+            bool: True is any of the combinations exists in the filesystem, False otherwise
+        """
         for filesuffix in filesuffixes:
             fullpath = fileprefix + filesuffix
             if os.path.exists(fullpath):
@@ -215,10 +245,27 @@ class Scene(metaclass=Singleton):
 
     @staticmethod
     def export(path: Union[str, Path]):
+        """
+        Export the current scene to the .blend file
+        Args:
+            path (Union[str, Path]): path to the target .blend file
+        """
         bpy.ops.wm.save_as_mainfile(filepath=str(path))
 
     @staticmethod
     def attach_blend(path: Union[str, Path]):
+        """
+        Append all the contents of the existing .blend file to the scene.
+            This includes lights, cameras, renderable objects, parameters, materials, etc.
+            The appended modalities will only be present in the internal Blender structures,
+            but not be present in the Scene class structure.
+            However, they will appear on rendering and in the exported .blend files
+        Args:
+            path: path to the .blend file to append the contents from
+        """
+        # TODO: check whether we load all the contents or only the renderables and materials.
+        #  Update the docstring if necessary.
+
         # bpy.ops.wm.open_mainfile(filepath=str(path))
         # bpy.ops.wm.append(filepath=str(path))
         objects, materials = [], []

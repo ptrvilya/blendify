@@ -182,7 +182,15 @@ class PerspectiveCamera(Camera):
         camera.data.shift_x = center_offset[0]
         camera.data.shift_y = center_offset[1]
 
-    def distance2depth(self, distmap):
+    def distance2depth(self, distmap: np.ndarray) -> np.ndarray:
+        """
+        Convert map of camera ray lengths (distmap) to map of distances to image plane (depthmap)
+        Args:
+            distmap (np.ndarray): Distance map
+
+        Returns:
+            np.ndarray: Depth map
+        """
         img_width, img_height = self.resolution
         cx, cy = self.center
         offsets_x = np.arange(img_width) - cx
@@ -222,6 +230,14 @@ class OrthographicCamera(Camera):
     def ortho_scale(self, val: float):
         self.blender_camera.data.ortho_scale = val
 
-    def distance2depth(self, distmap):
+    def distance2depth(self, distmap: np.ndarray) -> np.ndarray:
+        """
+        Convert map of camera ray lengths (distmap) to map of distances to image plane (depthmap)
+        Args:
+            distmap (np.ndarray): Distance map
+
+        Returns:
+            np.ndarray: Depth map
+        """
         # In orthogonal camera rays are orthogonal to the image plane => distmap = depthmap
         return distmap
