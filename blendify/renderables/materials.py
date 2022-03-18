@@ -13,7 +13,16 @@ class Material(ABC):
         pass
 
 
-def material_property(name, blender_name):
+def material_property(name: str, blender_name: str):
+    """
+    Creates a property for the material class to set and get one of the material parameters
+        both in the class and in Blender.
+    Args:
+        name (str): property name
+        blender_name (str): a Blender parameter name to control
+    Returns:
+        property: A class property with defines parameter setting and getting behaviour
+    """
     name = "_" + name
 
     def getter(obj):
@@ -31,6 +40,7 @@ def material_property(name, blender_name):
 
 class PrinsipledBSDFMaterial:
     """
+        A class which manages the parameters of PrinsipledBSDF Blender material.
         Full docs: https://docs.blender.org/manual/en/latest/render/shader_nodes/shader/principled.html
     """
     def __init__(
@@ -56,6 +66,15 @@ class PrinsipledBSDFMaterial:
 
     def create_material(self, name: str = "object_material") \
             -> Tuple[bpy.types.Material, bpy.types.ShaderNodeBsdfPrincipled]:
+        """
+        Create the Blender material with the parameters stored in the current object.
+        Args:
+            name (str): a unique material name for Blender
+
+        Returns:
+            Tuple[bpy.types.Material, bpy.types.ShaderNodeBsdfPrincipled]: Blender material and the
+                shader node which uses the created material.
+        """
         if self._object_material is not None and self._bsdf_node is not None:
             return self._object_material, self._bsdf_node
 
@@ -72,6 +91,7 @@ class PrinsipledBSDFMaterial:
 
 class GlossyBSDFMaterial:
     """
+        A class which manages the parameters of GlossyBSDF Blender material.
         Full docs: https://docs.blender.org/manual/en/latest/render/shader_nodes/shader/glossy.html
     """
     def __init__(self, roughness=0.4, distribution="GGX"):
@@ -83,6 +103,15 @@ class GlossyBSDFMaterial:
 
     def create_material(self, name: str = "object_material") \
             -> Tuple[bpy.types.Material, bpy.types.ShaderNodeBsdfGlossy]:
+        """
+        Create the Blender material with the parameters stored in the current object.
+        Args:
+            name (str): a unique material name for Blender
+
+        Returns:
+            Tuple[bpy.types.Material, bpy.types.ShaderNodeBsdfGlossy]: Blender material and the
+                shader node which uses the created material.
+        """
         if self._object_material is not None and self._bsdf_node is not None:
             return self._object_material, self._bsdf_node
 

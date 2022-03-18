@@ -45,6 +45,11 @@ class MeshPrimitive(RenderableObject):
         super()._blender_set_colors(colors)
 
     def set_smooth(self, smooth: bool = True):
+        """
+        Enables or disables the smooth surface imitation for the object
+        Args:
+            smooth (bool): Whether to turn the smooth surface on or off
+        """
         bpy.context.view_layer.objects.active = self._blender_object
         bpy.ops.object.mode_set(mode='OBJECT')
         if smooth:

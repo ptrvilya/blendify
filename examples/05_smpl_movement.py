@@ -70,6 +70,7 @@ faces = np.array(trimesh_mesh.faces)
 # Load SMPL params and initialize the model
 logger.info("Loading SMPL animation..")
 animation_params = json.load(open("05_assets/animation_data.json"))
+
 # Set different smpl_root to SMPL .pkl files folder if needed
 # Make sure to fix the typo for male model while unpacking SMPL .pkl files:
 # basicmodel_m_lbs_10_207_0_v1.0.0.pkl -> basicModel_m_lbs_10_207_0_v1.0.0.pkl
