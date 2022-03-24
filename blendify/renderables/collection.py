@@ -358,9 +358,6 @@ class RenderablesCollection(metaclass=Singleton):
     def __getitem__(self, key: str) -> Renderable:
         return self._renderables[key]
 
-    def __setitem__(self, key: str, value: Renderable):
-        self._renderables[key] = value
-
     def __delitem__(self, key: str):
         self._renderables[key]._blender_remove_object()
         del self._renderables[key]

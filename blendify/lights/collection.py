@@ -209,9 +209,6 @@ class LightsCollection(metaclass=Singleton):
     def __getitem__(self, key: str) -> Light:
         return self._lights[key]
 
-    def __setitem__(self, key: str, value: Light):
-        self._lights[key] = value
-
     def __delitem__(self, key: str):
         self._lights[key]._blender_remove_object()
         del self._lights[key]
