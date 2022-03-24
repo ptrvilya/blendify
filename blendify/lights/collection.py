@@ -197,6 +197,15 @@ class LightsCollection(metaclass=Singleton):
     def items(self):
         return self._lights.items()
 
+    def remove(self, obj_or_tag: Union[Light, str]):
+        assert isinstance(obj_or_tag, (Light, str)), "Only Light object or it's tag is allowed"
+        if isinstance(obj_or_tag, str):
+            tag = obj_or_tag
+        else:
+            obj = obj_or_tag
+            tag = obj.tag
+        self.__delitem__(tag)
+
     def __getitem__(self, key: str) -> Light:
         return self._lights[key]
 
@@ -204,7 +213,8 @@ class LightsCollection(metaclass=Singleton):
         self._lights[key] = value
 
     def __delitem__(self, key: str):
-        del self.__dict__[key]
+        self._lights[key]._blender_remove_object()
+        del self._lights[key]
 
     def __iter__(self) -> Iterable:
         return iter(self._lights)

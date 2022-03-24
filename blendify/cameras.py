@@ -113,11 +113,11 @@ class PerspectiveCamera(Camera):
         Creates Perspective Camera object in Blender. One of focal_dist, fov_x or fov_y is required to
         set the camera parameters
         Args:
-            resolution (Vector2di): (w, h), the resolution of the resulting image
             focal_dist (float, optional): Perspective Camera focal distance in millimeters (default: None)
             fov_x (float, optional): Camera lens horizontal field of view (default: None)
             fov_y (float, optional): Camera lens vertical field of view (default: None)
             center (Vector2d, optional): (x, y), horizontal and vertical shifts of the Camera (default: None)
+            resolution (Vector2di): (w, h), the resolution of the resulting image
             near (float, optional): Camera near clipping distance (default: 0.1)
             far (float, optional): Camera far clipping distance (default: 100)
             quaternion (Vector4d, optional): rotation applied to the Blender object (default: (1,0,0,0))
@@ -209,8 +209,8 @@ class OrthographicCamera(Camera):
         """
         Creates Orthographic Camera object in Blender.
         Args:
-            resolution (Vector2di): (w, h), the resolution of the resulting image
             ortho_scale (float, optional): Orthographic Camera scale (similar to zoom) (default: 1.0)
+            resolution (Vector2di): (w, h), the resolution of the resulting image
             near (float, optional): Camera near clipping distance (default: 0.1)
             far (float, optional): Camera far clipping distance (default: 100)
             quaternion (Vector4d, optional): rotation applied to the Blender object (default: (1,0,0,0))

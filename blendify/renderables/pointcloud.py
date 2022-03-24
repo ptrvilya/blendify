@@ -48,7 +48,7 @@ class PointCloud(Renderable):
     """
     # ============================================== COLORSNODE BUILDERS ===============================================
     class UniformColorsNodeBuilder(Renderable.UniformColorsNodeBuilder):
-        def __call__(self, object_material: bpy.types.Material, **kwargs):
+        def __call__(self, object_material: bpy.types.Material, vertex_offset: int):
             color_node = object_material.node_tree.nodes.new('ShaderNodeRGB')
             rgba_vec = Vector(self.color.tolist() + [1.]).to_4d()
             color_node.outputs[0].default_value = rgba_vec
@@ -73,7 +73,7 @@ class PointCloud(Renderable):
             image.pack()
             return image
 
-        def __call__(self, object_material: bpy.types.Material, vertex_offset: int, **kwargs):
+        def __call__(self, object_material: bpy.types.Material, vertex_offset: int):
             particle_color_node = object_material.node_tree.nodes.new("ShaderNodeTexImage")
             particle_color_node.interpolation = "Closest"
             vertex_colors_subset = self.vertex_colors[vertex_offset: vertex_offset + self._max_particles]
@@ -412,14 +412,16 @@ class PointCloud(Renderable):
             particle_obj_name (str): unique identifier of Blender particle system object that material is linked to
         """
         if self._blender_material_nodes[particle_obj_name] is not None:
-            for color_node in self._blender_colors_nodes[particle_obj_name]:
-                self._blender_material_nodes[particle_obj_name].node_tree.nodes.remove(color_node)
-            self._blender_bsdf_nodes[particle_obj_name].user_clear()
+            if self._blender_colors_nodes[particle_obj_name] is not None:
+                for color_node in self._blender_colors_nodes[particle_obj_name]:
+                    self._blender_material_nodes[particle_obj_name].node_tree.nodes.remove(color_node)
+                self._blender_colors_nodes[particle_obj_name] = None
+            self._blender_material_nodes[particle_obj_name].node_tree.nodes.remove(
+                self._blender_bsdf_nodes[particle_obj_name])
             self._blender_material_nodes[particle_obj_name].user_clear()
             bpy.data.materials.remove(self._blender_material_nodes[particle_obj_name])
             self._blender_material_nodes[particle_obj_name] = None
             self._blender_bsdf_nodes[particle_obj_name] = None
-            self._blender_colors_nodes[particle_obj_name] = None
 
     # ================================================ END OF MATERIAL =================================================
 
@@ -490,10 +492,11 @@ class PointCloud(Renderable):
             )
 
             # Add link for alpha to support transparency
-            self._blender_material_nodes[particle_obj_name].node_tree.links.new(
-                self._blender_colors_nodes[particle_obj_name][0].outputs["Alpha"],
-                self._blender_bsdf_nodes[particle_obj_name].inputs["Alpha"],
-            )
+            if self._blender_colornode_builder.has_alpha:
+                self._blender_material_nodes[particle_obj_name].node_tree.links.new(
+                    self._blender_colors_nodes[particle_obj_name][0].outputs["Alpha"],
+                    self._blender_bsdf_nodes[particle_obj_name].inputs["Alpha"],
+                )
 
             # Add link for emission to improve color visibility and adjust emission strength
             if self.particle_emission_strength > 0:

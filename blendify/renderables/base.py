@@ -17,7 +17,7 @@ class Renderable(Positionable):
         colors_class = None
 
         def __init__(self, colors: Colors = None):
-            self.has_aplha = False
+            self.has_alpha = False
             pass
 
         @abstractmethod
@@ -36,21 +36,21 @@ class Renderable(Positionable):
 
         def __init__(self, colors: VertexColors):
             super().__init__()
-            self.has_aplha = colors.vertex_colors.shape[1] == 4
+            self.has_alpha = colors.vertex_colors.shape[1] == 4
 
     class TextureColorsNodeBuilder(ColorsNodeBuilder):
         colors_class = TextureColors
 
         def __init__(self, colors: TextureColors):
             super().__init__()
-            self.texture = colors.texture
+            self.texture = colors.blender_texture
 
     class FileTextureColorsNodeBuilder(ColorsNodeBuilder):
         colors_class = FileTextureColors
 
         def __init__(self, colors: FileTextureColors):
             super().__init__()
-            self.texture = colors.texture
+            self.texture = colors.blender_texture
     # =========================================== END OF COLORSNODE BUILDERS ===========================================
 
     @abstractmethod
@@ -216,13 +216,15 @@ class RenderableObject(Renderable):
         Clears Blender material node and nodes connected to it
         """
         if self._blender_material_node is not None:
-            self._blender_colors_node.user_clear()
-            self._blender_bsdf_node.user_clear()
+            if self._blender_colors_node is not None:
+                self._blender_material_node.node_tree.nodes.remove(self._blender_colors_node)
+                self._blender_colors_node = None
+            self._blender_material_node.node_tree.nodes.remove(self._blender_bsdf_node)
             self._blender_material_node.user_clear()
             bpy.data.materials.remove(self._blender_material_node)
             self._blender_material_node = None
             self._blender_bsdf_node = None
-            self._blender_colors_node = None
+
     # ================================================ END OF MATERIAL =================================================
 
     # ===================================================== COLORS =====================================================
@@ -250,7 +252,7 @@ class RenderableObject(Renderable):
         Clears Blender color node and erases node constructor
         """
         if self._blender_colors_node is not None:
-            self._blender_colors_node.user_clear()
+            self._blender_material_node.node_tree.nodes.remove(self._blender_colors_node)
             self._blender_colors_node = None
             self._blender_colornode_builder = None
 
@@ -258,7 +260,7 @@ class RenderableObject(Renderable):
         """
         Creates color node using previously set builder
         """
-        if self._blender_colornode_builder is not None:
+        if self._blender_colornode_builder is not None and self._blender_material_node is not None:
             self._blender_colors_node = self._blender_colornode_builder(self._blender_material_node)
             self._blender_link_color2material()
 

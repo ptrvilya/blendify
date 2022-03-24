@@ -346,6 +346,15 @@ class RenderablesCollection(metaclass=Singleton):
     def items(self):
         return self._renderables.items()
 
+    def remove(self, obj_or_tag: Union[Renderable, str]):
+        assert isinstance(obj_or_tag, (Renderable, str)), "Only Renderable object or it's tag is allowed"
+        if isinstance(obj_or_tag, str):
+            tag = obj_or_tag
+        else:
+            obj = obj_or_tag
+            tag = obj.tag
+        self.__delitem__(tag)
+
     def __getitem__(self, key: str) -> Renderable:
         return self._renderables[key]
 
@@ -353,7 +362,8 @@ class RenderablesCollection(metaclass=Singleton):
         self._renderables[key] = value
 
     def __delitem__(self, key: str):
-        del self.__dict__[key]
+        self._renderables[key]._blender_remove_object()
+        del self._renderables[key]
 
     def __iter__(self) -> Iterable:
         return iter(self._renderables)

@@ -46,16 +46,19 @@ class Scene(metaclass=Singleton):
         # Empty the scene
         bpy.ops.object.select_all(action='SELECT')
         bpy.ops.object.delete(use_global=False)
+        bpy.ops.outliner.orphans_purge()
+        bpy.ops.outliner.orphans_purge()
+        bpy.ops.outliner.orphans_purge()
 
     @property
     def camera(self) -> Camera:
         return self._camera
 
-    def add_perspective_camera(self, resolution: Vector2di, focal_dist: float = None, fov_x: float = None,
+    def set_perspective_camera(self, resolution: Vector2di, focal_dist: float = None, fov_x: float = None,
             fov_y: float = None, center: Vector2d = None, near: float = 0.1, far: float = 100., tag: str = 'camera',
             quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0)) -> PerspectiveCamera:
         """
-        Add perspective camera to the scene. Replaces the previous scene camera, if it exists.
+        Set perspective camera in the scene. Replaces the previous scene camera, if it exists.
             One of focal_dist, fov_x or fov_y is required to set the camera parameters.
         Args:
             resolution (Vector2di): (w, h), the resolution of the resulting image
@@ -77,11 +80,11 @@ class Scene(metaclass=Singleton):
         self._setup_camera(camera)
         return camera
 
-    def add_orthographic_camera(self, resolution: Vector2di, ortho_scale: float = 1.,
+    def set_orthographic_camera(self, resolution: Vector2di, ortho_scale: float = 1.,
             near: float = 0.1, far: float = 100., tag: str = 'camera',
             quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0)) -> OrthographicCamera:
         """
-        Add orthographics camera to the scene. Replaces the previous scene camera, if it exists.
+        Set orthographic camera in the scene. Replaces the previous scene camera, if it exists.
         Args:
             resolution (Vector2di): (w, h), the resolution of the resulting image
             ortho_scale (float, optional): Orthographic Camera scale (similar to zoom) (default: 1.0)
