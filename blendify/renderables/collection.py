@@ -6,7 +6,7 @@ from ..internal import Singleton
 from ..internal.types import Vector3d, Vector4d
 from .base import Renderable
 from .mesh import Mesh
-from .pointcloud import PointCloud, CameraColoredPointCloud
+from .pointcloud import PointCloud
 from .colors import Colors
 from . import primitives
 from .materials import Material
@@ -17,7 +17,7 @@ class RenderablesCollection(metaclass=Singleton):
     def __init__(self):
         self._renderables: Dict[str, Renderable] = dict()
 
-    # =================================================== PointClouds ==================================================
+    # =================================================== PointCloud ===================================================
     def add_pointcloud(
         self,
         vertices: np.ndarray,
@@ -58,61 +58,7 @@ class RenderablesCollection(metaclass=Singleton):
         )
         self._renderables[tag] = obj
         return obj
-
-    def add_camera_colored_pointcloud(
-        self,
-        vertices: np.ndarray,
-        normals: np.ndarray,
-        material: Material,
-        colors: Colors,
-        point_size: float = 0.006,
-        base_primitive: str = "CUBE",
-        particle_emission_strength: int = 1,
-        back_color: Union[Vector3d, Vector4d] = (0.6, 0.6, 0.6),
-        quaternion: Vector4d = (1, 0, 0, 0),
-        translation: Vector3d = (0, 0, 0),
-        tag: str = None
-    ) -> CameraColoredPointCloud:
-        """
-        Add CameraColoredPointCloud object to the scene. The object supports uniform (UniformColors) and
-        per-vertex (VertexColors) coloring.
-        Args:
-            vertices (np.ndarray): point cloud vertices
-            normals (np.ndarray): per-vertex normals for each point int the point cloud
-            material (Material): PrinsipledBSDFMaterial instance
-            colors (Colors): VertexColors or UniformColors instance
-            point_size (float, optional): size of a primitive, represintg each vertex (default: 0.006)
-            base_primitive (str, optional): type of primitive for representing each point
-                (possible values are PLANE, CUBE, SPHERE, default: CUBE)
-            particle_emission_strength (int, optional): strength of the emission from each primitive. This is used to
-                increase realism. Values <= 0 turn emission off, values > 0 set the power of emission (default: 1)
-            back_color (Union[Vector3d, Vector4d], optional): color for vertices that are not directly visible from
-                current camera. Values are to be provided in [0.0, 1.0], alpha is optional (default: (0.6, 0.6, 0.6))
-            quaternion (Vector4d, optional): rotation applied to the Blender object (default: (1,0,0,0))
-            translation (Vector3d, optional): translation applied to the Blender object (default: (0,0,0))
-            tag (str, optional): name of the created collection in Blender. If None is passed, the tag
-                is automatically generated (default: None)
-
-        Returns:
-            CameraColoredPointCloud: created and added to the scene object
-        """
-        # Bad hack to avoid circular import
-        from .. import get_scene
-
-        tag = self._process_tag(tag, "CameraColored_PointCloud")
-        obj = CameraColoredPointCloud(
-            vertices=vertices, normals=normals, material=material, colors=colors, point_size=point_size,
-            base_primitive=base_primitive, particle_emission_strength=particle_emission_strength, back_color=back_color,
-            quaternion=quaternion, translation=translation, tag=tag
-        )
-
-        current_camera = get_scene().camera
-        if current_camera is not None:
-            obj.update_camera(current_camera)
-        self._renderables[tag] = obj
-
-        return obj
-    # =============================================== End of PointClouds ===============================================
+    # =============================================== End of PointCloud ================================================
 
     # ============================================ Mesh and Mesh Primitives ============================================
     def add_mesh(
@@ -318,10 +264,6 @@ class RenderablesCollection(metaclass=Singleton):
         self._renderables[tag] = obj
         return obj
     # ========================================== End of Parametric Primitives ==========================================
-
-    def update_camera(self, camera: Camera):
-        for renderable in self._renderables.values():
-            renderable.update_camera(camera)
 
     def _process_tag(self, tag: str, default_prefix: str = "Renderable"):
         renderable_keys = self._renderables.keys()

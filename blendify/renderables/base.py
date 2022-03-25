@@ -4,7 +4,6 @@ import bpy
 
 from .colors import Colors, UniformColors, VertexColors, TextureColors, FileTextureColors
 from .materials import Material
-from ..cameras import Camera
 from ..internal.positionable import Positionable
 
 
@@ -18,7 +17,6 @@ class Renderable(Positionable):
 
         def __init__(self, colors: Colors = None):
             self.has_alpha = False
-            pass
 
         @abstractmethod
         def __call__(self, object_material: bpy.types.Material):
@@ -106,14 +104,6 @@ class Renderable(Positionable):
         Updates object color properties, sets Blender structures accordingly
         Args:
             colors (Colors): target colors information
-        """
-        pass
-
-    def update_camera(self, camera: Camera):
-        """
-        Updates object based on current camera position
-        Args:
-            camera (Camera): target camera
         """
         pass
 

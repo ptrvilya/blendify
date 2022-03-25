@@ -109,8 +109,6 @@ class Scene(metaclass=Singleton):
         scene.render.resolution_x = camera.resolution[0]
         scene.render.resolution_y = camera.resolution[1]
         scene.render.resolution_percentage = 100
-        # Update Renderables according to new camera
-        self.renderables.update_camera(camera)
 
     @staticmethod
     def read_exr_distmap(path: str, dist_thresh: float = 1e4) -> np.ndarray:

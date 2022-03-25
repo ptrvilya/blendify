@@ -83,8 +83,7 @@ class Camera(Positionable):
     def far(self, val: float):
         self.blender_camera.data.clip_end = val
 
-    def get_camera_ray(self):
-        # TODO substitute for array of rays for each pixel for perspective camera?
+    def get_camera_viewdir(self):
         # Default blender camera: up is aligned with +y, ray: (0,0,-1)
         camera_ray = np.array([0, 0, -1], dtype=np.float32)
 
@@ -94,9 +93,6 @@ class Camera(Positionable):
         return camera_ray
 
     def _update_position(self):
-        # Bad hack to avoid circular import
-        from . import get_scene
-        get_scene().renderables.update_camera(self)
         super()._update_position()
 
 

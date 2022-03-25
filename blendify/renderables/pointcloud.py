@@ -56,6 +56,7 @@ class PointCloud(Renderable):
 
     class VertexColorsNodeBuilder(Renderable.VertexColorsNodeBuilder):
         def __init__(self, colors: VertexColors):
+            super().__init__(colors)
             # This is a constraint imposed by open bug in blender
             # https://developer.blender.org/T81103
             self._max_particles = 10000
@@ -160,16 +161,6 @@ class PointCloud(Renderable):
         collection = self._blender_create_collection(vertices, tag)
         super().__init__(**kwargs, blender_object=collection, tag=tag)
 
-    def update_camera(
-            self,
-            camera: Camera
-    ):
-        """
-        Updates object based on current camera position.
-        Args:
-            camera (Camera): target camera
-        """
-        pass
 
     def update_vertices(
             self,
@@ -508,160 +499,3 @@ class PointCloud(Renderable):
                     self.particle_emission_strength
 
     # ================================================== END OF COLORS =================================================
-
-
-class CameraColoredPointCloud(PointCloud):
-    """
-        Special point cloud that colors only vertices that are visible from the camera, other vertices are colored
-        to a solid pre-defined color. Supports uniform (UniformColors) and per-vertex (VertexColors) coloring.
-        Uses Blender-Photogrammetry-Importer to handle point clouds.
-
-        Properties:
-        emit_shadow (bool, optional): control whether particles representing the point cloud will emit shadow from
-            any light source in the scene. This property may be turned off if the particle_emission_strength is big
-            enough to avoid artifacts.
-    """
-
-    def __init__(
-            self,
-            normals: np.ndarray,
-            tag: str,
-            back_color: Union[Vector3d, Vector4d] = (0.6, 0.6, 0.6),
-            **kwargs
-    ):
-        """
-        Creates Blender Collection that represent given point cloud. The class inherits most functionality from
-        PointCloud and adds additional feature: provided per-vertex normals are used to recolor point cloud vertices
-        that are not directly visible from the current camera (colors are updated after each camera change).
-        Args:
-            vertices (np.ndarray): point cloud vertices
-            normals (np.ndarray): per-vertex normals for each point int the point cloud
-            material (Material): PrinsipledBSDFMaterial object
-            colors (Colors): VertexColors or UniformColors object
-            point_size (float, optional): size of a primitive, represintg each vertex (default: 0.006)
-            base_primitive (str, optional): type of primitive for representing each point
-                (possible values are PLANE, CUBE, SPHERE, default: CUBE)
-            particle_emission_strength (int, optional): strength of the emission from each primitive. This is used to
-                increase realism. Values <= 0 turn emission off, values > 0 set the power of emission (default: 1)
-            back_color (Union[Vector3d, Vector4d], optional): color for vertices that are not directly visible from
-                current camera. Values are to be provided in [0.0, 1.0], alpha is optional (default: (0.6, 0.6, 0.6))
-            quaternion (Vector4d, optional): rotation applied to the Blender object (default: (1,0,0,0))
-            translation (Vector3d, optional): translation applied to the Blender object (default: (0,0,0))
-            tag (str): name of the created collection in Blender
-        """
-        # Per point normals for each vertex. For example on how to estimate normals for PC refer to utils/pointcloud.py
-        self.normals: np.ndarray = normals
-        # Color for vertices that are not directly visible from current camera
-        self.back_color: np.ndarray = np.array(back_color, dtype=np.float32)
-        # We need to keep a local copy of initial per-vertex colors to recolor the PC in case of camera change
-        self._per_vertex_colors: np.ndarray = None
-        # We need to keep a local copy of the current camera ray to recolor the PC in case of colors change
-        self._camera_ray: np.ndarray = None
-
-        super().__init__(**kwargs, tag=tag)
-
-    def update_vertices(
-            self,
-            vertices: np.ndarray,
-            normals: np.ndarray
-    ):
-        """
-        Updates point cloud vertices coordinates and normals, then recolors vertices according to new normals.
-        Args:
-            vertices (np.ndarray): new vertex coordinates
-            normals (np.ndarray): new per-vertex normals
-        """
-        assert self.num_vertices == len(vertices), \
-            f"Number of vertices should be the same (expected {self.num_vertices}, got {len(vertices)})"
-        assert self.num_vertices == len(normals), \
-            f"Number of vertices should be the same (expected {self.num_vertices}, got {len(normals)})"
-
-        for subset_ind, offset in enumerate(range(0, self.num_vertices, self._max_particles)):
-            points_subset = vertices[offset: offset + self._max_particles]
-
-            # update PC object
-            pc_object = self._blender_object.all_objects[f"Particle_{subset_ind}_PC"]
-            for vert_ind, vert in enumerate(pc_object.vertices):
-                vert.co = points_subset[vert_ind]
-            pc_object.update()
-
-            # Update normals and recolor PC
-            self.normals = normals
-            _per_vertex_colors_recolored = self._recompute_colors()
-            self._update_colors_from_recolored(_per_vertex_colors_recolored)
-
-    def update_colors(
-            self,
-            colors: Colors
-    ):
-        """
-        Updates object color properties, sets Blender structures accordingly.
-        Args:
-            colors (Colors): target colors information
-        """
-        if isinstance(colors, UniformColors):
-            self._per_vertex_colors = np.repeat(colors.color[np.newaxis], self.num_vertices, axis=0).astype(np.float32)
-        elif isinstance(colors, VertexColors):
-            self._per_vertex_colors = colors.vertex_colors.astype(np.float32)
-        else:
-            raise RuntimeError("Only Uniform and Vertex Colors are supported for CameraColoredPointCloud.")
-
-        # Add alpha to support transparent back_color
-        if self._per_vertex_colors.shape[1] == 3:
-            alpha = np.ones((self._per_vertex_colors.shape[0], 1), dtype=np.float32)
-            self._per_vertex_colors = np.concatenate((self._per_vertex_colors, alpha), axis=1)
-
-        assert self.num_vertices == len(self._per_vertex_colors), \
-            f"Number of colors should be the same as number of vertices(expected {self.num_vertices}, " \
-            f"got {len(self._per_vertex_colors)})"
-
-        if self._camera_ray is not None:
-            _per_vertex_colors_recolored = self._recompute_colors()
-            self._update_colors_from_recolored(_per_vertex_colors_recolored)
-        else:
-            self._update_colors_from_recolored(self._per_vertex_colors)
-
-    def _update_colors_from_recolored(
-            self,
-            per_vertex_colors: np.ndarray
-    ):
-        """
-        Creates internal VertexColors object with new colors and applies it to all particle systems.
-        Args:
-            per_vertex_colors (np.ndarray): new colors to apply to a point cloud
-        """
-        colors = VertexColors(per_vertex_colors)
-
-        for particle_obj_name, colors_node in self._blender_colors_nodes.items():
-            if colors_node is not None:
-                self._blender_clear_colors(particle_obj_name)
-        self._blender_set_colors(colors)
-
-    def _recompute_colors(self):
-        """
-        Updates per-vertex colors based on angle between camera ray and normals. All invisible vertices are colored
-        in self.back_color.
-        Returns:
-            np.ndarray: updated per-vertex colors
-        """
-        dot_product = (self.normals * self._camera_ray[None, :]).sum(axis=1)
-        back_mask = dot_product > 0.0
-
-        _per_vertex_colors_recolored = self._per_vertex_colors.copy()
-        _per_vertex_colors_recolored[back_mask] = self.back_color[np.newaxis]
-
-        return _per_vertex_colors_recolored
-
-    def update_camera(
-            self,
-            camera: Camera
-    ):
-        """
-        Updates object based on current camera position.
-        Args:
-            camera (Camera): target camera
-        """
-        self._camera_ray = camera.get_camera_ray()
-
-        _per_vertex_colors_recolored = self._recompute_colors()
-        self._update_colors_from_recolored(_per_vertex_colors_recolored)
