@@ -112,7 +112,7 @@ def main(args):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Blendify 05 example: SMPL movement.")
+    parser = argparse.ArgumentParser(description="Blendify example 05: SMPL movement.")
 
     # Paths to output files
     parser.add_argument("-p", "--path", type=str, default="./results/05_smpl_movement.mp4",

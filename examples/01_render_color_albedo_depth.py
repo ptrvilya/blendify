@@ -32,7 +32,7 @@ def main(args):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Blendify 01 example: Render mesh with albedo and depth.")
+    parser = argparse.ArgumentParser(description="Blendify example 01: Render mesh with albedo and depth.")
 
     # Paths to output files
     parser.add_argument("-p", "--path", type=str, default="./results/01_render_color_albedo_depth.png",

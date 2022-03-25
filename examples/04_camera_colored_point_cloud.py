@@ -110,7 +110,7 @@ def main(args):
 
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description="Blendify 04 example: Camera colored PointCloud.")
+    parser = argparse.ArgumentParser(description="Blendify example 04: Camera colored PointCloud.")
 
     # Paths to output files
     parser.add_argument("-p", "--path", type=str, default="./results/04_camera_colored_point_cloud.mp4",

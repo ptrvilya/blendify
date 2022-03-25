@@ -82,7 +82,7 @@ def main(args):
 
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description="Blendify 02 example: Cornell Box.")
+    parser = argparse.ArgumentParser(description="Blendify example 02: Cornell Box.")
 
     # Paths to output files
     parser.add_argument("-p", "--path", type=str, default="./results/02_cornell_box.png",

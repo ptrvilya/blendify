@@ -38,7 +38,7 @@ def main(args):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Blendify 03 example: Simple mesh with texture.")
+    parser = argparse.ArgumentParser(description="Blendify example 03: Simple mesh with texture.")
 
     # Paths to output files
     parser.add_argument("-p", "--path", type=str, default="./results/03_render_with_texture.png",

@@ -39,7 +39,7 @@ def main(args):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Blendify 06 example: NURBS Primitives Rendering.")
+    parser = argparse.ArgumentParser(description="Blendify example 06: NURBS Primitives Rendering.")
 
     # Paths to output files
     parser.add_argument("-p", "--path", type=str, default="./results/06_nurbs_primitives_render.png",
