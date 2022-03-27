@@ -13,7 +13,7 @@ def main(args):
     # Create scene
     scene = blendify.get_scene()
     # Add camera to the scene
-    scene.set_perspective_camera(resolution=args.resolution, focal_dist=640)
+    scene.set_perspective_camera(resolution=args.resolution, focal_dist=1250)
     # Load mesh
     mesh = trimesh.load("./assets/knot.obj", process=False)
     vertices, faces, uv = np.array(mesh.vertices), np.array(mesh.faces), np.array(mesh.visual.uv)
@@ -27,7 +27,7 @@ def main(args):
     # Add mesh to the scene
     mesh = scene.renderables.add_mesh(vertices, faces, material=material, colors=colors)
     # Translate the mesh to better fit the camera frame
-    mesh.translation = mesh.translation + np.array([1, 0, -4.5])
+    mesh.translation = mesh.translation + np.array([1.2, 0, -4.5])
     # Add light to the scene
     light = scene.lights.add_sun(strength=5)
     # Optionally save blend file with the scene
@@ -41,7 +41,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Blendify example 03: Simple mesh with texture.")
 
     # Paths to output files
-    parser.add_argument("-p", "--path", type=str, default="./results/03_render_with_texture.png",
+    parser.add_argument("-p", "--path", type=str, default="./03_render_with_texture.png",
                         help="Path to the resulting image")
     parser.add_argument("-o", "--output-blend", type=str, default=None,
                         help="Path to the resulting blend file")

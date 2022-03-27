@@ -1,45 +1,30 @@
-Minimal scene example
-```
-import numpy as np
-
-from blendify import get_scene
-from blendify.cameras import PerspectiveCamera
-from blendify.renderables.materials import PrinsipledBSDFMaterial
-from blendify.renderables.colors import UniformColors
-
-scene = get_scene()
-scene.lights.add_point(quaternion=(0.571, 0.169, 0.272, 0.756), translation=(4.07, 1.0, 5.9), strength=1000)
-camera = PerspectiveCamera((1920, 1080), 40, fov_x=np.deg2rad(70), quaternion=(0.780, 0.484, 0.209, 0.337), translation=(7.36, -6.93, 4.96))
-scene.camera = camera
-
-verts = np.load("examples/verts.npy")
-faces = np.load("examples/faces.npy")
-
-material = PrinsipledBSDFMaterial()
-color = UniformColors((1.0, 0.0, 0.0))
-scene.renderables.add_mesh(verts, faces, material, color)
-color_1 = UniformColors((0.0, 1.0, 0.0))
-verts_1 = verts.copy()
-verts_1[:, 0] += 3
-scene.renderables.add_pc(verts_1, material, color_1, point_size=0.01)
-
-scene.render(use_gpu=False, samples=64)
-```
-
-## Useful tips
-* Instructions for [building Blender as a Python module]("./doc/building_blender.md")
-* Autocomplete for IDEs: https://github.com/Korchy/blender_autocomplete
-
 ## Examples
+<table>
+  <tr align="center">
+    <td>[**Color, albedo and depth**](examples/01_render_color_albedo_depth.py)</td>
+    <td>[**Cornell Box**](examples/02_cornell_box.py)</td>
+  </tr>
+  <tr align="center">
+    <td>
+      <img src=".github/01_render_color_albedo_depth.jpg" width="1024px"/>
+    </td>
+    <td>
+      <img src=".github/02_cornell_box.jpg" width="1024px"/>
+    </td>
+  </tr>
+  <tr align="center">
+    <td>[**Mesh with texture**](examples/03_render_with_texture.py)</td>
+    <td>[**Camera colored point cloud**](examples/04_camera_colored_point_cloud.py)</td>
+  </tr>
+  <tr align="center">
+    <td>
+      <img src=".github/03_render_with_texture.jpg" width="1024px"/>
+    </td>
+    <td>
+      <img src=".github/04_camera_colored_point_cloud.gif" width="1024px"/>
+    </td>
+  </tr>
+</table>
 
-### Cornell box
-
-<p align="center">
-  <img src="./docs/images/02_example.jpg" alt="drawing" width="50%"/>
-</p>
-
-### Camera colored point cloud
-
-<p align="center">
-  <img src="./docs/images/04_example.jpg" alt="drawing" width="50%"/>
-</p>
+## Acknowledgment
+We thank Verica Lazova for providing her Blender rendering scripts. Our code for processing point clouds is mostly based on the amazing [Blender-Photogrammetry-Importer](https://github.com/SBCV/Blender-Addon-Photogrammetry-Importer) addon.

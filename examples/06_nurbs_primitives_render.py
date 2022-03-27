@@ -42,7 +42,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Blendify example 06: NURBS Primitives Rendering.")
 
     # Paths to output files
-    parser.add_argument("-p", "--path", type=str, default="./results/06_nurbs_primitives_render.png",
+    parser.add_argument("-p", "--path", type=str, default="./06_nurbs_primitives_render.png",
                         help="Path to the resulting image.")
     parser.add_argument("-o", "--output-blend", type=str, default=None,
                         help="Path to the resulting blend file.")

@@ -115,7 +115,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Blendify example 05: SMPL movement.")
 
     # Paths to output files
-    parser.add_argument("-p", "--path", type=str, default="./results/05_smpl_movement.mp4",
+    parser.add_argument("-p", "--path", type=str, default="./05_smpl_movement.mp4",
                         help="Path to the resulting video")
     parser.add_argument("-o", "--output-blend", type=str, default=None,
                         help="Path to the resulting blend file")
