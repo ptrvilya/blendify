@@ -95,6 +95,36 @@ class RenderablesCollection(metaclass=Singleton):
         self._renderables[tag] = obj
         return obj
 
+    def add_cube_mesh(
+        self,
+        size: float,
+        material: Material,
+        colors: Colors,
+        quaternion: Vector4d = (1, 0, 0, 0),
+        translation: Vector3d = (0, 0, 0),
+        tag: str = None
+    ) -> primitives.CubeMesh:
+        """
+        Add primitives.CircleMesh object to the scene. The object supports only uniform coloring (UniformColors).
+        Args:
+            size (float): size of a primitive in [0, inf]
+            material (Material): Material instance
+            colors (Colors): Colors instance
+            quaternion (Vector4d, optional): rotation applied to the Blender object (default: (1,0,0,0))
+            translation (Vector3d, optional): translation applied to the Blender object (default: (0,0,0))
+            tag (str, optional): name of the created object in Blender. If None is passed, the tag
+                is automatically generated (default: None)
+
+        Returns:
+            primitives.CircleMesh: created and added to the scene object
+        """
+        tag = self._process_tag(tag, "Cube")
+        obj = primitives.CubeMesh(
+            size=size, material=material, colors=colors, quaternion=quaternion, translation=translation, tag=tag
+        )
+        self._renderables[tag] = obj
+        return obj
+
     def add_circle_mesh(
         self,
         radius: float,
