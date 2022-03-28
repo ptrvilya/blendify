@@ -47,7 +47,7 @@ class LightsCollection(metaclass=Singleton):
 
     def add_sun(
         self,
-        strength: float = 100,
+        strength: float = 10,
         angular_diameter: float = 0.00918043,
         color: Vector3d = (1.0, 1.0, 1.0),
         cast_shadows=True,
