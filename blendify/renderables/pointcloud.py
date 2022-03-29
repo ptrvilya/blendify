@@ -37,6 +37,10 @@ from ..internal.texture import _compute_particle_color_texture
 
 @ dataclass
 class ParticleMetadata:
+    """
+    Helper class that stores pointers to blender objects (colors, bsdf amd materail nodes),
+    connected to each Particle System object
+    """
     colors_nodes: Optional[List]  # [colors_node]
     vertex_offset: int  # index of a starting vertex
     num_particles: int  # number of particles in particle collection
@@ -343,7 +347,6 @@ class PointCloud(Renderable):
             if metadata.material_node is not None:
                 if metadata.colors_nodes is not None:
                     for colors_node in metadata.colors_nodes:
-                        # TODO process particle_color_node.image
                         metadata.material_node.node_tree.nodes.remove(colors_node)
                 metadata.material_node.node_tree.nodes.remove(metadata.bsdf_node)
                 metadata.material_node.user_clear()
@@ -398,9 +401,16 @@ class PointCloud(Renderable):
         """
         for particle_obj_name, metadata in self._particle_metadata.items():
             if metadata.colors_nodes is not None:
-                for colors_node in metadata.colors_nodes:
-                    metadata.material_node.node_tree.nodes.remove(colors_node)
+                for color_node in metadata.colors_nodes:
+                    metadata.material_node.node_tree.nodes.remove(color_node)
+
+                # Clear artificially created texture 
+                if metadata.texture_image is not None:
+                    # Remove only if the image has no users.
+                    if not metadata.texture_image.users:
+                        bpy.data.images.remove(metadata.texture_image)
                 self._particle_metadata[particle_obj_name].colors_nodes = None
+                self._particle_metadata[particle_obj_name].texture_image = None
                 self._colors_metadata = None
 
     def _blender_create_colors_node(self):
