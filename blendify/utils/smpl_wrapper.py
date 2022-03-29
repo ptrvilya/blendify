@@ -1,11 +1,11 @@
-import torch
 import numpy as np
-
+import torch
 from smplpytorch.pytorch.smpl_layer import SMPL_Layer
 
 
 class SMPLWrapper:
-    """A wrapper for the smplpytorch layer"""
+    """A wrapper for the smplpytorch layer
+    """
 
     def __init__(self, smpl_root: str, gender: str, shape_params: np.ndarray, device: torch.device = None):
         self.device = torch.device(device if device is not None else "cpu")
@@ -15,18 +15,20 @@ class SMPLWrapper:
         self.faces = self.smpl_layer.th_faces.cpu().numpy()
 
     def _preprocess_param(self, param: np.ndarray) -> torch.Tensor:
-        """Prepare the parameters for SMPL layer"""
+        """Prepare the parameters for SMPL layer
+        """
         if not isinstance(param, torch.Tensor):
             param = torch.tensor(param, dtype=torch.float32)
         param = param.to(self.device)
         return param
 
     def get_smpl(self, pose_params: np.ndarray, translation_params: np.ndarray) -> np.ndarray:
-        """
-        Get the SMPL mesh vertices from the target pose and global translation
+        """Get the SMPL mesh vertices from the target pose and global translation
+
         Args:
             pose_params: Pose parameters vector of shape (72)
             translation_params: Global translation vector of shape (3)
+
         Returns:
             np.ndarray: vertices of SMPL model
         """

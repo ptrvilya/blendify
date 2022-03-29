@@ -38,7 +38,8 @@ def _compute_particle_color_texture(colors, name="ParticleColor"):
 
 
 def _copy_values_to_image(value_tuples, image_name):
-    """ Copy values to image pixels. """
+    """ Copy values to image pixels
+    """
     image = bpy.data.images[image_name]
     # working on a copy of the pixels results in a MASSIVE performance speed
     local_pixels = list(image.pixels[:])

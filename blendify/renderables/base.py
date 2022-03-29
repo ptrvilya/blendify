@@ -1,4 +1,4 @@
-from abc import ABC, abstractmethod
+from abc import abstractmethod
 from typing import Optional
 
 import bpy
@@ -19,9 +19,9 @@ class Renderable(Positionable):
         colors: Colors,
         **kwargs
     ):
-        """
-        Creates internal structures, calls functions that connect Material and Colors to the object. Can only be called
-        from child classes as the class is abstract.
+        """Creates internal structures, calls functions that connect Material and Colors to the object.
+        Can only be called from child classes as the class is abstract.
+
         Args:
             material (Material): Material instance
             colors (Colors): Colors instance
@@ -35,16 +35,15 @@ class Renderable(Positionable):
         self.update_colors(colors)
 
     def update_material(self, material: Material):
-        """
-        Updates object material properties, sets Blender structures accordingly
+        """Updates object material properties, sets Blender structures accordingly
         Args:
             material (Material): target material
         """
         pass
 
     def update_colors(self, colors: Colors):
-        """
-        Updates object color properties, sets Blender structures accordingly
+        """Updates object color properties, sets Blender structures accordingly
+
         Args:
             colors (Colors): target colors information
         """
@@ -60,8 +59,8 @@ class RenderableObject(Renderable):
         self,
         **kwargs
     ):
-        """
-        Sets initial values for internal parameters, can only be called from child classes as the class is abstract.
+        """Sets initial values for internal parameters, can only be called from child classes as the class is abstract.
+
         Args:
             material (Material): Material instance
             colors (Colors): Colors instance
@@ -90,7 +89,8 @@ class RenderableObject(Renderable):
         pass
 
     def _blender_remove_object(self):
-        """Removes the object from Blender scene"""
+        """Removes the object from Blender scene
+        """
         self._blender_clear_colors()
         self._blender_clear_material()
         super()._blender_remove_object()
@@ -98,8 +98,8 @@ class RenderableObject(Renderable):
 
     # ==================================================== MATERIAL ====================================================
     def update_material(self, material: Material):
-        """
-        Updates object material properties, sets Blender structures accordingly
+        """Updates object material properties, sets Blender structures accordingly
+
         Args:
             material (Material): target material
         """
@@ -108,8 +108,8 @@ class RenderableObject(Renderable):
         self._blender_set_material(material)
 
     def _blender_set_material(self, material: Material):
-        """
-        Constructs material node, recreates color node if needed
+        """Constructs material node, recreates color node if needed
+
         Args:
             material (Material): target material
         """
@@ -121,8 +121,7 @@ class RenderableObject(Renderable):
         self._blender_link_color2material()
 
     def _blender_clear_material(self):
-        """
-        Clears Blender material node and nodes connected to it
+        """Clears Blender material node and nodes connected to it
         """
         if self._blender_material_node is not None:
             if self._blender_colors_node is not None:
@@ -138,8 +137,8 @@ class RenderableObject(Renderable):
 
     # ===================================================== COLORS =====================================================
     def update_colors(self, colors: Colors):
-        """
-        Updates object color properties, sets Blender structures accordingly
+        """Updates object color properties, sets Blender structures accordingly
+
         Args:
             colors (Colors): target colors information
         """
@@ -148,10 +147,7 @@ class RenderableObject(Renderable):
         self._blender_set_colors(colors)
 
     def _blender_set_colors(self, colors: Colors):
-        """
-        Remembers current color properies, builds a color node for material
-
-        Builds from color metadata
+        """Remembers current color properies, builds a color node for material (from colors_metadata)
         """
         self._colors_metadata = colors.metadata
 
@@ -159,8 +155,7 @@ class RenderableObject(Renderable):
         self._blender_link_color2material()
 
     def _blender_clear_colors(self):
-        """
-        Clears Blender color node and erases node constructor
+        """Clears Blender color node and erases node constructor
         """
         if self._blender_colors_node is not None:
             self._blender_material_node.node_tree.nodes.remove(self._blender_colors_node)
@@ -168,8 +163,7 @@ class RenderableObject(Renderable):
             self._colors_metadata = None
 
     def _blender_create_colors_node(self):
-        """
-        Creates color node using previously set builder
+        """Creates color node using previously set builder
         """
         if self._colors_metadata is not None and self._blender_material_node is not None:
             material_node = self._blender_material_node
@@ -190,8 +184,7 @@ class RenderableObject(Renderable):
             self._blender_colors_node = colors_node
 
     def _blender_link_color2material(self):
-        """
-        Links color and material nodes
+        """Links color and material nodes
         """
         if self._blender_colors_node is not None and self._blender_material_node is not None:
             if self._blender_bsdf_node.bl_label == "Principled BSDF":

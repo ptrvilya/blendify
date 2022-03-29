@@ -1,19 +1,18 @@
-import os
-import tempfile
-import shutil
-import numpy as np
 import array
-
-from typing import Union, Sequence
+import os
+import shutil
+import tempfile
 from pathlib import Path
+from typing import Union, Sequence
 
 import bpy
+import numpy as np
 
-from .lights import LightsCollection
-from .renderables import RenderablesCollection
+from .cameras import Camera, PerspectiveCamera, OrthographicCamera
 from .internal import Singleton
 from .internal.types import Vector2d, Vector2di, Vector3d, Vector4d
-from .cameras import Camera, PerspectiveCamera, OrthographicCamera
+from .lights import LightsCollection
+from .renderables import RenderablesCollection
 
 
 class Scene(metaclass=Singleton):
@@ -57,9 +56,9 @@ class Scene(metaclass=Singleton):
     def set_perspective_camera(self, resolution: Vector2di, focal_dist: float = None, fov_x: float = None,
             fov_y: float = None, center: Vector2d = None, near: float = 0.1, far: float = 100., tag: str = 'camera',
             quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0)) -> PerspectiveCamera:
-        """
-        Set perspective camera in the scene. Replaces the previous scene camera, if it exists.
-            One of focal_dist, fov_x or fov_y is required to set the camera parameters.
+        """Set perspective camera in the scene. Replaces the previous scene camera, if it exists.
+        One of focal_dist, fov_x or fov_y is required to set the camera parameters
+
         Args:
             resolution (Vector2di): (w, h), the resolution of the resulting image
             focal_dist (float, optional): Perspective Camera focal distance in millimeters (default: None)
@@ -71,6 +70,7 @@ class Scene(metaclass=Singleton):
             tag (str): name of the created object in Blender
             quaternion (Vector4d, optional): rotation applied to the Blender object (default: (1,0,0,0))
             translation (Vector3d, optional): translation applied to the Blender object (default: (0,0,0))
+
         Returns:
             PerspectiveCamera: created camera
         """
@@ -83,8 +83,8 @@ class Scene(metaclass=Singleton):
     def set_orthographic_camera(self, resolution: Vector2di, ortho_scale: float = 1.,
             near: float = 0.1, far: float = 100., tag: str = 'camera',
             quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0)) -> OrthographicCamera:
-        """
-        Set orthographic camera in the scene. Replaces the previous scene camera, if it exists.
+        """Set orthographic camera in the scene. Replaces the previous scene camera, if it exists
+
         Args:
             resolution (Vector2di): (w, h), the resolution of the resulting image
             ortho_scale (float, optional): Orthographic Camera scale (similar to zoom) (default: 1.0)
@@ -93,6 +93,7 @@ class Scene(metaclass=Singleton):
             tag (str): name of the created object in Blender
             quaternion (Vector4d, optional): rotation applied to the Blender object (default: (1,0,0,0))
             translation (Vector3d, optional): translation applied to the Blender object (default: (0,0,0))
+
         Returns:
             OrthographicCamera: created camera
         """
@@ -112,9 +113,9 @@ class Scene(metaclass=Singleton):
 
     @staticmethod
     def read_exr_distmap(path: str, dist_thresh: float = 1e4) -> np.ndarray:
-        """
-        Reads the distance map stored in EXR format, filters out all the values after a certain distance threshold.
-            Requires OpenEXR to be installed in the system
+        """Reads the distance map stored in EXR format, filters out all the values after a certain distance threshold.
+        Requires OpenEXR to be installed in the system
+
         Args:
             path (str): path to the .exr file
             dist_thresh (float): distance clip threshold
@@ -132,8 +133,8 @@ class Scene(metaclass=Singleton):
 
     def render(self, filepath: Union[str, Path] = "result.png", use_gpu: bool = True, samples: int = 128,
             save_depth: bool = False, save_albedo: bool = False):
-        """
-        Start the Blender rendering process.
+        """Start the Blender rendering process
+
         Args:
             filepath (Union[str, Path]): path to the image (PNG) to render to
             use_gpu (bool): whether to render on GPU or not
@@ -229,8 +230,8 @@ class Scene(metaclass=Singleton):
 
     @staticmethod
     def check_any_exists(fileprefix: str, filesuffixes: Sequence[str]) -> bool:
-        """
-        Check if any of the combinations of <fileprefix>+<any filesuffix> exist in the filesystem
+        """Check if any of the combinations of <fileprefix>+<any filesuffix> exist in the filesystem
+
         Args:
             fileprefix (str): single file prefix, can the full path or local name
             filesuffixes (Sequence[str]): a sequence of file suffixes to choose from
@@ -246,8 +247,8 @@ class Scene(metaclass=Singleton):
 
     @staticmethod
     def export(path: Union[str, Path]):
-        """
-        Export the current scene to the .blend file
+        """Export the current scene to the .blend file
+
         Args:
             path (Union[str, Path]): path to the target .blend file
         """
@@ -255,12 +256,12 @@ class Scene(metaclass=Singleton):
 
     @staticmethod
     def attach_blend(path: Union[str, Path]):
-        """
-        Append all the contents of the existing .blend file to the scene.
-            This includes lights, cameras, renderable objects, parameters, materials, etc.
-            The appended modalities will only be present in the internal Blender structures,
-            but not be present in the Scene class structure.
-            However, they will appear on rendering and in the exported .blend files
+        """Append all the contents of the existing .blend file to the scene.
+        This includes lights, cameras, renderable objects, parameters, materials, etc.
+        The appended modalities will only be present in the internal Blender structures,
+        but not be present in the Scene class structure.
+        However, they will appear on rendering and in the exported .blend files
+
         Args:
             path: path to the .blend file to append the contents from
         """

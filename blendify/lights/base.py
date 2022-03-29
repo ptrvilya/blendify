@@ -4,20 +4,19 @@ import bpy
 import numpy as np
 
 from ..internal.positionable import Positionable
-from ..internal.types import Vector2d, Vector3d, Vector4d
+from ..internal.types import Vector2d, Vector3d
 
 
 class Light(Positionable):
-    """
-    Abstract base class for all the light sources.
+    """Abstract base class for all the light sources.
     """
     @abstractmethod
     def __init__(
         self,
         **kwargs
     ):
-        """
-        Passes all arguments to the constructor of the base class.
+        """Passes all arguments to the constructor of the base class
+
         Args:
             blender_object (bpy.types.Object): instance of Blender Object that is wrapped by the class
             quaternion (Vector4d, optional): rotation applied to the Blender object (default: (1,0,0,0))
@@ -81,8 +80,8 @@ class PointLight(Light):
         cast_shadows: bool = True,
         **kwargs
     ):
-        """
-        Creates PointLight light source in Blender.
+        """Creates PointLight light source in Blender
+
         Args:
             strength (float): strength of the light source emitted over the entire area of the light in all directions
             shadow_soft_size (float): light size for ray shadow sampling (Raytraced shadows) in [0, inf]
@@ -118,8 +117,8 @@ class DirectionalLight(Light):
         cast_shadows: bool = True,
         **kwargs
     ):
-        """
-        Creates DirectionalLight light source in Blender.
+        """Creates DirectionalLight light source in Blender
+
         Args:
             strength (float): strength of the light source in watts per meter squared (W/m^2)
             angular_diameter (float): angular diameter of the Sun as seen from the Earth in [0, 3.14159]
@@ -157,8 +156,8 @@ class SpotLight(Light):
         cast_shadows: bool = True,
         **kwargs
     ):
-        """
-        Creates SpotLight light source in Blender.
+        """Creates SpotLight light source in Blender
+
         Args:
             strength (float): strength of the light source that light would emit over its entire area if
                 it wasn't limited by the spot angle
@@ -208,8 +207,7 @@ class SpotLight(Light):
 
 
 class AreaLight(Light):
-    """
-    Base class for different AreaLights varying in shape.
+    """Base class for different AreaLights varying in shape.
     """
     @abstractmethod
     def __init__(
@@ -220,8 +218,8 @@ class AreaLight(Light):
         cast_shadows: bool = True,
         **kwargs
     ):
-        """
-        Creates AreaLight light source in Blender. The method is called from child classes.
+        """Creates AreaLight light source in Blender. The method is called from child classes
+
         Args:
             color (Vector3d): color of the light source
             strength (float): strength of the light source emitted over the entire area of the light in all directions
@@ -243,8 +241,8 @@ class SquareAreaLight(AreaLight):
         size: float,
         **kwargs
     ):
-        """
-        Creates SquareAreaLight light source in Blender through constructor of the parent class AreaLight.
+        """Creates SquareAreaLight light source in Blender through constructor of the parent class AreaLight
+
         Args:
             size (float): size of the area of the area light
             strength (float): strength of the light source
@@ -273,8 +271,8 @@ class CircleAreaLight(AreaLight):
         size: float,
         **kwargs
     ):
-        """
-        Creates CircleAreaLight light source in Blender through constructor of the parent class AreaLight.
+        """Creates CircleAreaLight light source in Blender through constructor of the parent class AreaLight
+
         Args:
             size (float): size of the area of the area light
             strength (float): strength of the light source emitted over the entire area of the light in all directions
@@ -303,8 +301,8 @@ class RectangleAreaLight(AreaLight):
         size: Vector2d,
         **kwargs
     ):
-        """
-        Creates RectangleAreaLight light source in Blender through constructor of the parent class AreaLight.
+        """Creates RectangleAreaLight light source in Blender through constructor of the parent class AreaLight
+
         Args:
             size (Vector2d): [x, y] sizes of the area light
             strength (float): strength of the light source emitted over the entire area of the light in all directions
@@ -334,8 +332,8 @@ class EllipseAreaLight(AreaLight):
         size: Vector2d,
         **kwargs
     ):
-        """
-        Creates EllipseAreaLight light source in Blender through constructor of the parent class AreaLight.
+        """Creates EllipseAreaLight light source in Blender through constructor of the parent class AreaLight
+
         Args:
             size (Vector2d): [x, y] sizes of the area light
             strength (float): strength of the light source emitted over the entire area of the light in all directions

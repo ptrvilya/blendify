@@ -22,8 +22,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
-from typing import List, Optional, Dict
 from dataclasses import dataclass
+from typing import List, Optional, Dict
 
 import bpy
 import numpy as np
@@ -37,8 +37,7 @@ from ..internal.texture import _compute_particle_color_texture
 
 @ dataclass
 class ParticleMetadata:
-    """
-    Helper class that stores pointers to blender objects (colors, bsdf amd materail nodes),
+    """Helper class that stores pointers to blender objects (colors, bsdf amd materail nodes),
     connected to each Particle System object
     """
     colors_nodes: Optional[List]  # [colors_node]
@@ -50,9 +49,8 @@ class ParticleMetadata:
 
 
 class PointCloud(Renderable):
-    """
-    Basic point cloud consisting of vertices, supports uniform (UniformColors) and per-vertex (VertexColors) coloring.
-    Uses Blender-Photogrammetry-Importer to handle point clouds as Blender particle systems objects.
+    """Basic point cloud consisting of vertices, supports uniform (UniformColors) and per-vertex (VertexColors) coloring.
+    Uses Blender-Photogrammetry-Importer to handle point clouds as Blender particle systems objects
 
     Properties:
         emit_shadow (bool, optional): control whether particles representing the point cloud will emit shadow from
@@ -68,9 +66,9 @@ class PointCloud(Renderable):
             particle_emission_strength: int = 1,
             **kwargs
     ):
-        """
-        Creates Blender Collection that represent given point cloud. Code for creation particle systems for
-        representing the point clouds is borrowed from https://github.com/SBCV/Blender-Addon-Photogrammetry-Importer .
+        """Creates Blender Collection that represent given point cloud. Code for creation particle systems for
+        representing the point clouds is borrowed from https://github.com/SBCV/Blender-Addon-Photogrammetry-Importer
+
         Args:
             vertices (np.ndarray): point cloud vertices
             material (Material): PrinsipledBSDFMaterial instance
@@ -108,8 +106,8 @@ class PointCloud(Renderable):
             self,
             vertices: np.ndarray
     ):
-        """
-        Updates pc vertices corrdinates.
+        """Updates pc vertices corrdinates
+
         Args:
             vertices (np.ndarray): new coordinates for point cloud vertices
         """
@@ -150,8 +148,8 @@ class PointCloud(Renderable):
             vertices: np.ndarray,
             tag: str
     ) -> bpy.types.Collection:
-        """
-        Creates Blender collection of particle systems, that represent point cloud.
+        """Creates Blender collection of particle systems, that represent point cloud
+
         Args:
             vertices (np.ndarray): all points in the point cloud
             tag (str): a name for a blender collection
@@ -199,8 +197,7 @@ class PointCloud(Renderable):
         return new_collection
 
     def _blender_remove_object(self):
-        """
-        Removes the object from Blender scene.
+        """Removes the object from Blender scene
         """
         self._blender_clear_colors()
         self._blender_clear_material()
@@ -213,8 +210,8 @@ class PointCloud(Renderable):
             point_size: float,
             blender_collection: bpy.types.Collection
     ) -> bpy.types.Object:
-        """
-        Creates particle that will be used in particle system to represent vertices in the point cloud.
+        """Creates particle that will be used in particle system to represent vertices in the point cloud
+
         Args:
             particle_obj_name (str): name of a Blender primitive object to be created
             mesh_type (str): type of primitive for representing each point (possible values are PLANE, CUBE, SPHERE)
@@ -224,7 +221,6 @@ class PointCloud(Renderable):
         Returns:
             bpy.types.Object: a Blender primitive that is used to represent point cloud vertex
         """
-
         # The default size of elements added with
         #   primitive_cube_add, primitive_uv_sphere_add, etc. is (2,2,2)
         point_scale = point_size * 0.5
@@ -252,8 +248,9 @@ class PointCloud(Renderable):
             point_cloud_obj_name: str,
             blender_collection: bpy.types.Collection
     ) -> bpy.types.Object:
-        """
-        Creates particle system that represents a part of the point cloud (up to 10k vertices) using a given primitive.
+        """Creates particle system that represents a part of the point cloud (up to 10k vertices)
+        using a given primitive
+
         Args:
             coords (np.ndarray): coordinates of point cloud vertices
             particle_obj (bpy.types.Object): a Blender primitive object that represents point cloud vertex
@@ -298,8 +295,8 @@ class PointCloud(Renderable):
             self,
             material: Material
     ):
-        """
-        Updates object material properties, sets Blender structures accordingly
+        """Updates object material properties, sets Blender structures accordingly
+
         Args:
             material (Material): target material
         """
@@ -310,8 +307,8 @@ class PointCloud(Renderable):
             self,
             material: Material
     ):
-        """
-        Constructs material node, recreates color node if needed
+        """Constructs material node, recreates color node if needed
+
         Args:
             particle_obj_name (str): unique identifier of Blender particle system object that material is linked to
             material (Material): target material
@@ -338,8 +335,8 @@ class PointCloud(Renderable):
     def _blender_clear_material(
             self,
     ):
-        """
-        Clears Blender material node and nodes connected to it
+        """Clears Blender material node and nodes connected to it
+
         Args:
             particle_obj_name (str): unique identifier of Blender particle system object that material is linked to
         """
@@ -363,8 +360,8 @@ class PointCloud(Renderable):
             self,
             colors: Colors
     ):
-        """
-        Updates object color properties, sets Blender structures accordingly
+        """Updates object color properties, sets Blender structures accordingly
+
         Args:
             colors (Colors): target colors information
         """
@@ -375,8 +372,8 @@ class PointCloud(Renderable):
             self,
             colors: Colors
     ):
-        """
-        Remembers current color properies, builds a color node for material
+        """Remembers current color properies, builds a color node for material
+
         Args:
             colors (Colors): target colors information
         """
@@ -396,8 +393,7 @@ class PointCloud(Renderable):
     def _blender_clear_colors(
             self,
     ):
-        """
-        Clears Blender color node and erases node constructor
+        """Clears Blender color node and erases node constructor
         """
         for particle_obj_name, metadata in self._particle_metadata.items():
             if metadata.colors_nodes is not None:
@@ -414,8 +410,7 @@ class PointCloud(Renderable):
                 self._colors_metadata = None
 
     def _blender_create_colors_node(self):
-        """
-        Creates color node using previously set builder
+        """Creates color node using previously set builder
         """
         if self._colors_metadata is not None:
             for particle_obj_name, metadata in self._particle_metadata.items():
@@ -472,8 +467,7 @@ class PointCloud(Renderable):
     def _blender_link_color2material(
             self
     ):
-        """
-        Links color and material nodes, additionally adds emission to particle color if needed
+        """Links color and material nodes, additionally adds emission to particle color if needed
         """
         for particle_obj_name, metadata in self._particle_metadata.items():
             colors_nodes = metadata.colors_nodes

@@ -5,12 +5,11 @@ import numpy as np
 from scipy.spatial import transform
 
 from .internal.positionable import Positionable
-from .internal.types import Vector2d, Vector2di, Vector3d, Vector4d
+from .internal.types import Vector2d, Vector2di
 
 
 class Camera(Positionable):
-    """
-    Base class for PerspectiveCamera and OrthographicCamera, implementing shared functionality.
+    """Base class for PerspectiveCamera and OrthographicCamera, implementing shared functionality
     """
     @abstractmethod
     def __init__(
@@ -21,8 +20,8 @@ class Camera(Positionable):
         tag: str = 'camera',
         **kwargs
     ):
-        """
-        Implements the creation of camera in Blender. Called by child classes.
+        """Implements the creation of camera in Blender. Called by child classes
+
         Args:
             resolution (Vector2di): (w, h), the resolution of the resulting image
             near (float, optional): Camera near clipping distance (default: 0.1)
@@ -57,8 +56,8 @@ class Camera(Positionable):
 
     @abstractmethod
     def distance2depth(self, distmap: np.ndarray) -> np.ndarray:
-        """
-        Convert map of camera ray lengths (distmap) to map of distances to image plane (depthmap)
+        """Convert map of camera ray lengths (distmap) to map of distances to image plane (depthmap)
+
         Args:
             distmap (np.ndarray): Distance map
 
@@ -105,9 +104,9 @@ class PerspectiveCamera(Camera):
         center: Vector2d = None,
         **kwargs
     ):
-        """
-        Creates Perspective Camera object in Blender. One of focal_dist, fov_x or fov_y is required to
+        """Creates Perspective Camera object in Blender. One of focal_dist, fov_x or fov_y is required to
         set the camera parameters
+
         Args:
             focal_dist (float, optional): Perspective Camera focal distance in millimeters (default: None)
             fov_x (float, optional): Camera lens horizontal field of view (default: None)
@@ -179,8 +178,8 @@ class PerspectiveCamera(Camera):
         camera.data.shift_y = center_offset[1]
 
     def distance2depth(self, distmap: np.ndarray) -> np.ndarray:
-        """
-        Convert map of camera ray lengths (distmap) to map of distances to image plane (depthmap)
+        """Convert map of camera ray lengths (distmap) to map of distances to image plane (depthmap)
+
         Args:
             distmap (np.ndarray): Distance map
 
@@ -202,8 +201,8 @@ class OrthographicCamera(Camera):
         ortho_scale: float = 1.,
         **kwargs
     ):
-        """
-        Creates Orthographic Camera object in Blender.
+        """Creates Orthographic Camera object in Blender
+
         Args:
             ortho_scale (float, optional): Orthographic Camera scale (similar to zoom) (default: 1.0)
             resolution (Vector2di): (w, h), the resolution of the resulting image
@@ -227,8 +226,8 @@ class OrthographicCamera(Camera):
         self.blender_camera.data.ortho_scale = val
 
     def distance2depth(self, distmap: np.ndarray) -> np.ndarray:
-        """
-        Convert map of camera ray lengths (distmap) to map of distances to image plane (depthmap)
+        """Convert map of camera ray lengths (distmap) to map of distances to image plane (depthmap)
+
         Args:
             distmap (np.ndarray): Distance map
 

@@ -4,11 +4,12 @@ from ..internal.types import Vector3d
 
 
 def blend_with_background(img: np.ndarray, bkg_color: Vector3d = (1., 1., 1.)) -> np.ndarray:
-    """
-    Blend the RGBA image with uniform colored background, return RGB image
+    """Blend the RGBA image with uniform colored background, return RGB image
+
     Args:
         img: RGBA foreground image
         bkg_color: RGB uniform background color (default is white)
+
     Returns:
         np.ndarray: RGB image blended with background
     """

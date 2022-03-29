@@ -1,7 +1,6 @@
 """
 Code taken from https://github.com/vguzov/cloudrender/blob/main/cloudrender/camera/trajectory.py
 """
-
 from typing import Sequence
 
 import numpy as np
@@ -31,8 +30,8 @@ class Trajectory:
         return self.trajectory[curr_ind], self.trajectory[curr_ind-1]
 
     def serialize_trajectory(self):
-        """
-        Make trajectory json-serializable
+        """Make trajectory json-serializable
+
         Returns:
             List[dict]: trajectory keypoints - each keypoint has "time", "position" and "quaternion"
         """
@@ -76,12 +75,15 @@ class Trajectory:
         return res
 
     def refine_trajectory(self, time_step:float = 1/60., interp_type:str = "quadratic", smoothness:float = 5.0):
-        """
-        Refines the trajectory by creating keypoints inbetween existion ones via interpolation
+        """Refines the trajectory by creating keypoints inbetween existion ones via interpolation
+
         Args:
-            time_step: how often to create new points
-            interp_type: interpolation type, "linear", "quadratic", "cubic"
-            smoothness: how hard to smooth the pose trajectory
+            time_step (float): how often to create new points
+            interp_type (str): interpolation type, "linear", "quadratic", "cubic"
+            smoothness (float): how hard to smooth the pose trajectory
+
+        Returns:
+             List[dict]: trajectory keypoints - each keypoint has "time", "position" and "quaternion"
         """
         min_pts_for_interp = {"linear": 2, "quadratic": 3, "cubic": 4}
         assert interp_type in min_pts_for_interp.keys(), \
