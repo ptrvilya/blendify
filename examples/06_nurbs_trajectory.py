@@ -69,13 +69,13 @@ def main(args):
     # Create spheres on keypoints
     sphere_color = UniformColors((0.6, 1.0, 0.4))
     for kp in infinity_figure_kp:
-        sphere = scene.renderables.add_sphere_nurbs(radius=0.01, material=material,
+        sphere = scene.renderables.add_sphere_nurbs(radius=0.03, material=material,
                                                     colors=sphere_color, translation=kp)
 
     # Create curve in motion
     curve_len_in_kp = 100
     curr_kp_offset = 0
-    total_frames = 600
+    total_frames = len(infinity_figure_kp)
     curve_color = UniformColors((1., 0.5, 0.2))
     curve = None
 

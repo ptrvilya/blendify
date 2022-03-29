@@ -64,7 +64,7 @@ scene.render(filepath="cube.jpg")
       <img src=".github/05_smpl_movement.gif" width="1024px"/>
     </td>
     <td>
-      <img src=".github/06_nurbs_trajectory.jpg" width="1024px"/>
+      <img src=".github/06_nurbs_trajectory.gif" width="1024px"/>
     </td>
   </tr>
 </table>
