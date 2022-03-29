@@ -405,6 +405,7 @@ class PointCloud(Renderable):
         if self._blender_material_nodes[particle_obj_name] is not None:
             if self._blender_colors_nodes[particle_obj_name] is not None:
                 for color_node in self._blender_colors_nodes[particle_obj_name]:
+                    # TODO process particle_color_node.image
                     self._blender_material_nodes[particle_obj_name].node_tree.nodes.remove(color_node)
                 self._blender_colors_nodes[particle_obj_name] = None
             self._blender_material_nodes[particle_obj_name].node_tree.nodes.remove(

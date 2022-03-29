@@ -1,3 +1,4 @@
+import renderables
 from .scene import Scene
 
 # TODO adjust __all__
