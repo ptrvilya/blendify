@@ -86,8 +86,8 @@ def main(args):
     logger.info("Entering the main drawing loop")
     total_frames = len(animation_params["dynamic_params"])
     with VideoWriter(args.path, resolution=args.resolution, fps=30) as vw:
-        for index, curr_params in enumerate(animation_params["dynamic_params"][200:]):
-            logger.info(f"Rendering frame {index:03d} / {total_frames}")
+        for index, curr_params in enumerate(animation_params["dynamic_params"]):
+            logger.info(f"Rendering frame {index+1} / {total_frames}")
             # Load parameters for the current frame
             smpl_pose = np.array(curr_params["smpl_pose"])
             smpl_translation = np.array(curr_params["smpl_translation"])

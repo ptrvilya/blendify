@@ -398,8 +398,8 @@ class PointCloud(Renderable):
         """
         for particle_obj_name, metadata in self._particle_metadata.items():
             if metadata.colors_nodes is not None:
-                for color_node in metadata.colors_nodes:
-                    metadata.material_node.node_tree.nodes.remove(color_node)
+                for colors_node in metadata.colors_nodes:
+                    metadata.material_node.node_tree.nodes.remove(colors_node)
                 self._particle_metadata[particle_obj_name].colors_nodes = None
                 self._colors_metadata = None
 
@@ -415,7 +415,7 @@ class PointCloud(Renderable):
                     colors_node = material_node.node_tree.nodes.new('ShaderNodeRGB')
                     colors_node.outputs[0].default_value = Vector(self._colors_metadata.color.tolist() + [1.]).to_4d()
                     colors_nodes = [colors_node]
-                elif self._colors_metadata.type is VertexColors:
+                elif self._colors_metadata.type == VertexColors:
                     particle_color_node = material_node.node_tree.nodes.new("ShaderNodeTexImage")
                     particle_color_node.interpolation = "Closest"
                     particle_color_node.image = metadata.texture_image

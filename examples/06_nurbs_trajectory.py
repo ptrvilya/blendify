@@ -67,7 +67,7 @@ def main(args):
     infinity_figure_kp = np.vstack([left_part, line1_kp, right_part[::-1], line2_kp]) #left_part[0:1]
 
     # Create spheres on keypoints
-    sphere_color = UniformColors((0.3, 0, 0.9))
+    sphere_color = UniformColors((0.6, 1.0, 0.4))
     for kp in infinity_figure_kp:
         sphere = scene.renderables.add_sphere_nurbs(radius=0.01, material=material,
                                                     colors=sphere_color, translation=kp)
@@ -75,8 +75,8 @@ def main(args):
     # Create curve in motion
     curve_len_in_kp = 100
     curr_kp_offset = 0
-    total_frames = 60
-    curve_color = UniformColors((1., 0., 0.2))
+    total_frames = 600
+    curve_color = UniformColors((1., 0.5, 0.2))
     curve = None
 
     light = scene.lights.add_sun(strength=5)
@@ -84,29 +84,11 @@ def main(args):
     if args.output_blend is not None:
         scene.export(args.output_blend)
 
-
-    # # Create separate colors for each objects
-    #
-    # colors_sphere = UniformColors((0.3, 0, 0.9))
-    # colors_circle = UniformColors((0.5, 0.3, 0.9))
-    # colors_cylinder = UniformColors((0.0, 0.9, 0.9))
-    # colors_curve = UniformColors((1., 0., 0.2))
-    # # Add primitives to the scene
-    # sphere = scene.renderables.add_sphere_nurbs(1, material, colors_sphere)
-    # circle = scene.renderables.add_circle_mesh(0.7, material, colors_circle)
-    # cylinder = scene.renderables.add_cylinder_mesh(1.3, 2.3, material, colors_cylinder)
-    # keypoints = np.array([[1, 0, 0.], [-1, 0, 0], [0, -2, -4], [-1, -3, -6]])
-    # curve = scene.renderables.add_curve_nurbs(keypoints, 0.1, material, colors_curve)
-    # # Translate objects
-    # cylinder.translation = cylinder.translation + np.array([1, 1, -8])
-    # circle.translation = circle.translation + np.array([0, 1, -4.5])
-    # sphere.translation = sphere.translation + np.array([0, 0, -4.5])
-    # Add light to the scene
     os.makedirs("assets", exist_ok=True)
     tmp_frame_path = "./assets/06_tmp_frame.png"
     with VideoWriter(args.path, resolution=args.resolution, fps=args.fps) as vw:
         for index in range(total_frames):
-            logger.info(f"Rendering frame {index:03d} / {total_frames}")
+            logger.info(f"Rendering frame {index+1} / {total_frames}")
             # Build current curve trajectory
             trajectory_kp = infinity_figure_kp[curr_kp_offset:curr_kp_offset+curve_len_in_kp]
             loop_kp_count = curr_kp_offset+curve_len_in_kp-len(infinity_figure_kp)
@@ -120,9 +102,13 @@ def main(args):
             # Read the resulting frame back
             img = imread(tmp_frame_path)
             # Frames have transparent background; perform an alpha blending with blue background instead
-            img_with_bkg = blend_with_background(img, (0,0,0.7))
+            img_with_bkg = blend_with_background(img, (1.0,1.0,1.0))
             # Add the frame to the video
             vw.write(img_with_bkg)
+            # Shift the curve
+            curr_kp_offset += 1
+            if curr_kp_offset >= len(infinity_figure_kp):
+                curr_kp_offset = 0
     # Clean up
     os.remove(tmp_frame_path)
     logger.info("Rendering complete")

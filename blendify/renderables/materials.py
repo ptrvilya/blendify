@@ -75,8 +75,9 @@ class PrinsipledBSDFMaterial:
             Tuple[bpy.types.Material, bpy.types.ShaderNodeBsdfPrincipled]: Blender material and the
                 shader node which uses the created material.
         """
-        if self._object_material is not None and self._bsdf_node is not None:
-            return self._object_material, self._bsdf_node
+        # This anti-duplicate check causes error as of now, so it was commented out until a proper fix
+        # if self._object_material is not None and self._bsdf_node is not None:
+        #     return self._object_material, self._bsdf_node
 
         self._object_material = bpy.data.materials.new(name=name)
         self._object_material.use_nodes = True
