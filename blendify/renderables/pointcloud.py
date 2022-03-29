@@ -22,18 +22,27 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
-from typing import List, Union
+from typing import List, Optional, Dict
+from dataclasses import dataclass
 
 import bpy
 import numpy as np
 from mathutils import Vector
 
 from .base import Renderable
-from .colors import Colors, VertexColors, UniformColors
+from .colors import Colors, ColorsMetadata, VertexColors, UniformColors
 from .materials import Material
-from ..cameras import Camera
-from ..internal.texture import _copy_values_to_image
-from ..internal.types import Vector3d, Vector4d
+from ..internal.texture import _compute_particle_color_texture
+
+
+@ dataclass
+class ParticleMetadata:
+    colors_nodes: Optional[List]  # [colors_node]
+    vertex_offset: int  # index of a starting vertex
+    num_particles: int  # number of particles in particle collection
+    material_node: Optional[bpy.types.Material]  # material_node
+    bsdf_node: Optional[bpy.types.Material]  # bsdf_node
+    texture_image: Optional[bpy.types.Image]  # texture image for per-vertex colors
 
 
 class PointCloud(Renderable):
@@ -46,74 +55,6 @@ class PointCloud(Renderable):
             any light source in the scene. This property may be turned off if the particle_emission_strength is big
             enough to avoid artifacts.
     """
-    # ============================================== COLORSNODE BUILDERS ===============================================
-    class UniformColorsNodeBuilder(Renderable.UniformColorsNodeBuilder):
-        def __call__(self, object_material: bpy.types.Material, vertex_offset: int):
-            color_node = object_material.node_tree.nodes.new('ShaderNodeRGB')
-            rgba_vec = Vector(self.color.tolist() + [1.]).to_4d()
-            color_node.outputs[0].default_value = rgba_vec
-            return [color_node]
-
-    class VertexColorsNodeBuilder(Renderable.VertexColorsNodeBuilder):
-        def __init__(self, colors: VertexColors):
-            super().__init__(colors)
-            # This is a constraint imposed by open bug in blender
-            # https://developer.blender.org/T81103
-            self._max_particles = 10000
-
-            self.vertex_colors = colors.vertex_colors
-
-        @staticmethod
-        def _compute_particle_color_texture(colors, name="ParticleColor"):
-            # To view the texture we set the height of the texture to vis_image_height
-            image = bpy.data.images.new(name=name, width=len(colors), height=1)
-
-            _copy_values_to_image(colors, image.name)
-            image = bpy.data.images[image.name]
-            # https://docs.blender.org/api/current/bpy.types.Image.html#bpy.types.Image.pack
-            image.pack()
-            return image
-
-        def __call__(self, object_material: bpy.types.Material, vertex_offset: int):
-            particle_color_node = object_material.node_tree.nodes.new("ShaderNodeTexImage")
-            particle_color_node.interpolation = "Closest"
-            vertex_colors_subset = self.vertex_colors[vertex_offset: vertex_offset + self._max_particles]
-            particle_color_node.image = self._compute_particle_color_texture(vertex_colors_subset)
-            particle_info_node = object_material.node_tree.nodes.new("ShaderNodeParticleInfo")
-
-            # Idea: we use the particle idx to compute a texture coordinate
-            # Shift the un-normalized texture coordinate by a half pixel
-            shift_half_pixel_node = object_material.node_tree.nodes.new("ShaderNodeMath")
-            shift_half_pixel_node.operation = "ADD"
-            object_material.node_tree.links.new(
-                particle_info_node.outputs["Index"],
-                shift_half_pixel_node.inputs[0],
-            )
-            shift_half_pixel_node.inputs[1].default_value = 0.5
-
-            # Compute normalized texture coordinates (value between 0 and 1)
-            # by dividing by the number of particles
-            divide_node = object_material.node_tree.nodes.new("ShaderNodeMath")
-            divide_node.operation = "DIVIDE"
-            object_material.node_tree.links.new(
-                shift_half_pixel_node.outputs["Value"],
-                divide_node.inputs[0],
-            )
-            divide_node.inputs[1].default_value = len(vertex_colors_subset)
-
-            # Compute texture coordinate (x axis corresponds to particle idx)
-            shader_node_combine = object_material.node_tree.nodes.new("ShaderNodeCombineXYZ")
-            object_material.node_tree.links.new(
-                divide_node.outputs["Value"], shader_node_combine.inputs["X"]
-            )
-            object_material.node_tree.links.new(
-                shader_node_combine.outputs["Vector"],
-                particle_color_node.inputs["Vector"],
-            )
-
-            return [particle_color_node, particle_info_node, shift_half_pixel_node, divide_node, shader_node_combine]
-    # =========================================== END OF COLORSNODE BUILDERS ===========================================
-
     def __init__(
             self,
             vertices: np.ndarray,
@@ -142,21 +83,18 @@ class PointCloud(Renderable):
         # TODO hasn't been tested with GlossyBSDFMaterial
 
         # internal variables and constants
+        # This is a constraint imposed by open bug in blender https://developer.blender.org/T81103
         self._max_particles: int = 10000
         self._particle_collections = dict()
         self._point_size: float = point_size
         self._base_primitive: str = base_primitive
         self.particle_emission_strength: int = particle_emission_strength
-        self._particle_object_names: List[str] = list()
         self._point_cloud_object_names: List[str] = list()
         self._particle_material_names: List[str] = list()
 
         self.num_vertices: int = 0
-        self._blender_colornode_builder = None
-        self._blender_colors_nodes = dict()    # particle_obj_name: [colors_node]
-        self._blender_vertex_offsets = dict()  # particle_obj_name: index of a starting vertex
-        self._blender_material_nodes = dict()  # particle_obj_name: material_node
-        self._blender_bsdf_nodes = dict()      # particle_obj_name: bsdf_node
+        self._particle_metadata: Dict[str, ParticleMetadata] = dict()  # particle_object_name: ParticleMetadata
+        self._colors_metadata: Optional[ColorsMetadata] = None
 
         collection = self._blender_create_collection(vertices, tag)
         super().__init__(**kwargs, blender_object=collection, tag=tag)
@@ -187,7 +125,7 @@ class PointCloud(Renderable):
     @property
     def emit_shadow(self):
         val = None
-        for particle_obj_name in self._particle_object_names:
+        for particle_obj_name in self._particle_metadata.keys():
             particle_obj = self._blender_object.all_objects[particle_obj_name]
             curr_val = particle_obj.cycles_visibility.shadow
             if val is None:
@@ -198,7 +136,7 @@ class PointCloud(Renderable):
 
     @emit_shadow.setter
     def emit_shadow(self, val: bool):
-        for particle_obj_name in self._particle_object_names:
+        for particle_obj_name in self._particle_metadata.keys():
             particle_obj = self._blender_object.all_objects[particle_obj_name]
             particle_obj.cycles_visibility.shadow = val
 
@@ -223,18 +161,22 @@ class PointCloud(Renderable):
         self.point_cloud_obj_list = []
         self.num_vertices = len(vertices)
         for index, vertex_start in enumerate(range(0, self.num_vertices, self._max_particles)):
-            # This name is used is a unique identifier for all internal dictionaries (e.g. self._blender_colors_nodes)
+            # This name is used is a unique identifier for
+            # the internal dictionary with metadata self._particle_metada
             particle_obj_name = f"Particle_{index}"
             # particle_material_name = f"Particle_{index}_Material"
             point_cloud_obj_name = f"Particle_{index}_PC"
 
-            self._particle_object_names.append(particle_obj_name)
-            self._blender_colors_nodes[particle_obj_name] = None
-            self._blender_material_nodes[particle_obj_name] = None
             self._point_cloud_object_names.append(point_cloud_obj_name)
-
-            self._blender_vertex_offsets[particle_obj_name] = vertex_start
             points_subset = vertices[vertex_start: vertex_start + self._max_particles]
+            self._particle_metadata[particle_obj_name] = ParticleMetadata(
+                colors_nodes=None,
+                vertex_offset=vertex_start,
+                num_particles=len(points_subset),
+                material_node=None,
+                bsdf_node=None,
+                texture_image=None
+            )
 
             particle_obj = self._add_particle_obj(
                 particle_obj_name=particle_obj_name,
@@ -256,12 +198,8 @@ class PointCloud(Renderable):
         """
         Removes the object from Blender scene.
         """
-        for particle_obj_name, colors_nodes in self._blender_colors_nodes.items():
-            if colors_nodes is not None:
-                self._blender_clear_colors(particle_obj_name)
-        for particle_obj_name, material_node in self._blender_material_nodes.items():
-            if material_node is not None:
-                self._blender_clear_material(particle_obj_name)
+        self._blender_clear_colors()
+        self._blender_clear_material()
         super()._blender_remove_object()
 
     @staticmethod
@@ -361,14 +299,11 @@ class PointCloud(Renderable):
         Args:
             material (Material): target material
         """
-        for particle_obj_name, material_node in self._blender_material_nodes.items():
-            if material_node is not None:
-                self._blender_clear_material(particle_obj_name)
-            self._blender_set_material(particle_obj_name, material)
+        self._blender_clear_material()
+        self._blender_set_material(material)
 
     def _blender_set_material(
             self,
-            particle_obj_name: str,
             material: Material
     ):
         """
@@ -377,43 +312,46 @@ class PointCloud(Renderable):
             particle_obj_name (str): unique identifier of Blender particle system object that material is linked to
             material (Material): target material
         """
-        object_material, bsdf_node = material.create_material(name=f"{particle_obj_name}_Material")
+        for particle_obj_name, metadata in self._particle_metadata.items():
+            object_material, bsdf_node = material.create_material(name=f"{particle_obj_name}_Material")
 
-        node_tree = object_material.node_tree
-        material_output_node = node_tree.nodes["Material Output"]
-        node_tree.links.new(
-            bsdf_node.outputs["BSDF"],
-            material_output_node.inputs["Surface"],
-        )
+            node_tree = object_material.node_tree
+            material_output_node = node_tree.nodes["Material Output"]
+            node_tree.links.new(
+                bsdf_node.outputs["BSDF"],
+                material_output_node.inputs["Surface"],
+            )
 
-        self._blender_material_nodes[particle_obj_name] = object_material
-        self._blender_bsdf_nodes[particle_obj_name] = bsdf_node
+            self._particle_metadata[particle_obj_name].material_node = object_material
+            self._particle_metadata[particle_obj_name].bsdf_node = bsdf_node
 
-        particle_obj = self._blender_object.all_objects[particle_obj_name]
-        particle_obj.data.materials.append(object_material)
-        self._blender_create_colornode()
+            particle_obj = self._blender_object.all_objects[particle_obj_name]
+            particle_obj.data.materials.append(object_material)
+
+        self._blender_create_colors_node()
+        self._blender_link_color2material()
 
     def _blender_clear_material(
             self,
-            particle_obj_name: str
     ):
         """
         Clears Blender material node and nodes connected to it
         Args:
             particle_obj_name (str): unique identifier of Blender particle system object that material is linked to
         """
-        if self._blender_material_nodes[particle_obj_name] is not None:
-            if self._blender_colors_nodes[particle_obj_name] is not None:
-                for color_node in self._blender_colors_nodes[particle_obj_name]:
-                    # TODO process particle_color_node.image
-                    self._blender_material_nodes[particle_obj_name].node_tree.nodes.remove(color_node)
-                self._blender_colors_nodes[particle_obj_name] = None
-            self._blender_material_nodes[particle_obj_name].node_tree.nodes.remove(
-                self._blender_bsdf_nodes[particle_obj_name])
-            self._blender_material_nodes[particle_obj_name].user_clear()
-            bpy.data.materials.remove(self._blender_material_nodes[particle_obj_name])
-            self._blender_material_nodes[particle_obj_name] = None
-            self._blender_bsdf_nodes[particle_obj_name] = None
+        for particle_obj_name, metadata in self._particle_metadata.items():
+            if metadata.material_node is not None:
+                if metadata.colors_nodes is not None:
+                    for colors_node in metadata.colors_nodes:
+                        # TODO process particle_color_node.image
+                        metadata.material_node.node_tree.nodes.remove(colors_node)
+                metadata.material_node.node_tree.nodes.remove(metadata.bsdf_node)
+                metadata.material_node.user_clear()
+                bpy.data.materials.remove(metadata.material_node)
+
+                self._particle_metadata[particle_obj_name].colors_nodes = None
+                self._particle_metadata[particle_obj_name].material_node = None
+                self._particle_metadata[particle_obj_name].bsdf_node = None
 
     # ================================================ END OF MATERIAL =================================================
 
@@ -427,9 +365,7 @@ class PointCloud(Renderable):
         Args:
             colors (Colors): target colors information
         """
-        for particle_obj_name, colors_nodes in self._blender_colors_nodes.items():
-            if colors_nodes is not None:
-                self._blender_clear_colors(particle_obj_name)
+        self._blender_clear_colors()
         self._blender_set_colors(colors)
 
     def _blender_set_colors(
@@ -441,62 +377,119 @@ class PointCloud(Renderable):
         Args:
             colors (Colors): target colors information
         """
-        self._blender_colornode_builder = self.get_colorsnode_builder(colors)
-        self._blender_create_colornode()
+        self._colors_metadata = colors.metadata
+
+        # Create artificial textures if we have VertexColors
+        if self._colors_metadata.type is VertexColors:
+            for particle_obj_name, metadata in self._particle_metadata.items():
+                vertex_offset = metadata.vertex_offset
+                vertex_colors_subset = colors.vertex_colors[vertex_offset: vertex_offset + self._max_particles]
+                self._particle_metadata[particle_obj_name].texture_image = \
+                    _compute_particle_color_texture(vertex_colors_subset)
+
+        self._blender_create_colors_node()
+        self._blender_link_color2material()
 
     def _blender_clear_colors(
             self,
-            particle_obj_name: str
     ):
         """
         Clears Blender color node and erases node constructor
         """
-        if self._blender_colors_nodes[particle_obj_name] is not None:
-            for color_node in self._blender_colors_nodes[particle_obj_name]:
-                self._blender_material_nodes[particle_obj_name].node_tree.nodes.remove(color_node)
-            self._blender_colors_nodes[particle_obj_name] = None
-            self._blender_colornode_builder = None
+        for particle_obj_name, metadata in self._particle_metadata.items():
+            if metadata.colors_nodes is not None:
+                for color_node in metadata.colors_nodes:
+                    metadata.material_node.node_tree.nodes.remove(color_node)
+                self._particle_metadata[particle_obj_name].colors_nodes = None
+                self._colors_metadata = None
 
-    def _blender_create_colornode(self):
+    def _blender_create_colors_node(self):
         """
         Creates color node using previously set builder
         """
-        if self._blender_colornode_builder is not None:
-            for particle_obj_name, colors_node in self._blender_colors_nodes.items():
-                self._blender_colors_nodes[particle_obj_name] = \
-                    self._blender_colornode_builder(self._blender_material_nodes[particle_obj_name],
-                                                    self._blender_vertex_offsets[particle_obj_name])
-                self._blender_link_color2material(particle_obj_name)
+        if self._colors_metadata is not None:
+            for particle_obj_name, metadata in self._particle_metadata.items():
+                material_node = metadata.material_node
+
+                if self._colors_metadata.type == UniformColors:
+                    colors_node = material_node.node_tree.nodes.new('ShaderNodeRGB')
+                    colors_node.outputs[0].default_value = Vector(self._colors_metadata.color.tolist() + [1.]).to_4d()
+                    colors_nodes = [colors_node]
+                elif self._colors_metadata.type is VertexColors:
+                    particle_color_node = material_node.node_tree.nodes.new("ShaderNodeTexImage")
+                    particle_color_node.interpolation = "Closest"
+                    particle_color_node.image = metadata.texture_image
+                    particle_info_node = material_node.node_tree.nodes.new("ShaderNodeParticleInfo")
+
+                    # Idea: we use the particle idx to compute a texture coordinate
+                    # Shift the un-normalized texture coordinate by a half pixel
+                    shift_half_pixel_node = material_node.node_tree.nodes.new("ShaderNodeMath")
+                    shift_half_pixel_node.operation = "ADD"
+                    material_node.node_tree.links.new(
+                        particle_info_node.outputs["Index"],
+                        shift_half_pixel_node.inputs[0],
+                    )
+                    shift_half_pixel_node.inputs[1].default_value = 0.5
+
+                    # Compute normalized texture coordinates (value between 0 and 1)
+                    # by dividing by the number of particles
+                    divide_node = material_node.node_tree.nodes.new("ShaderNodeMath")
+                    divide_node.operation = "DIVIDE"
+                    material_node.node_tree.links.new(
+                        shift_half_pixel_node.outputs["Value"],
+                        divide_node.inputs[0],
+                    )
+                    divide_node.inputs[1].default_value = metadata.num_particles
+
+                    # Compute texture coordinate (x axis corresponds to particle idx)
+                    shader_node_combine = material_node.node_tree.nodes.new("ShaderNodeCombineXYZ")
+                    material_node.node_tree.links.new(
+                        divide_node.outputs["Value"], shader_node_combine.inputs["X"]
+                    )
+                    material_node.node_tree.links.new(
+                        shader_node_combine.outputs["Vector"],
+                        particle_color_node.inputs["Vector"],
+                    )
+
+                    colors_nodes = [
+                        particle_color_node, particle_info_node, shift_half_pixel_node, divide_node, shader_node_combine
+                    ]
+                else:
+                    raise NotImplementedError(f"Unsupported colors class '{self._colors_metadata.type}'")
+
+                self._particle_metadata[particle_obj_name].colors_nodes = colors_nodes
 
     def _blender_link_color2material(
-            self,
-            particle_obj_name: str
+            self
     ):
         """
         Links color and material nodes, additionally adds emission to particle color if needed
         """
-        if self._blender_colors_nodes[particle_obj_name] is not None and \
-                self._blender_material_nodes[particle_obj_name] is not None:
-            # Add link for base color
-            self._blender_material_nodes[particle_obj_name].node_tree.links.new(
-                self._blender_colors_nodes[particle_obj_name][0].outputs["Color"],
-                self._blender_bsdf_nodes[particle_obj_name].inputs["Base Color"],
-            )
+        for particle_obj_name, metadata in self._particle_metadata.items():
+            colors_nodes = metadata.colors_nodes
+            material_node = metadata.material_node
+            bsdf_node = metadata.bsdf_node
 
-            # Add link for alpha to support transparency
-            if self._blender_colornode_builder.has_alpha:
-                self._blender_material_nodes[particle_obj_name].node_tree.links.new(
-                    self._blender_colors_nodes[particle_obj_name][0].outputs["Alpha"],
-                    self._blender_bsdf_nodes[particle_obj_name].inputs["Alpha"],
+            if colors_nodes is not None and material_node is not None:
+                # Add link for base color
+                material_node.node_tree.links.new(
+                    colors_nodes[0].outputs["Color"],
+                    bsdf_node.inputs["Base Color"],
                 )
 
-            # Add link for emission to improve color visibility and adjust emission strength
-            if self.particle_emission_strength > 0:
-                self._blender_material_nodes[particle_obj_name].node_tree.links.new(
-                    self._blender_colors_nodes[particle_obj_name][0].outputs["Color"],
-                    self._blender_bsdf_nodes[particle_obj_name].inputs["Emission"],
-                )
-                self._blender_bsdf_nodes[particle_obj_name].inputs["Emission Strength"].default_value = \
-                    self.particle_emission_strength
+                # Add link for alpha to support transparency
+                if self._colors_metadata.has_alpha:
+                    material_node.node_tree.links.new(
+                        colors_nodes[0].outputs["Alpha"],
+                        bsdf_node.inputs["Alpha"],
+                    )
+
+                # Add link for emission to improve color visibility and adjust emission strength
+                if self.particle_emission_strength > 0:
+                    material_node.node_tree.links.new(
+                        colors_nodes[0].outputs["Color"],
+                        bsdf_node.inputs["Emission"],
+                    )
+                    bsdf_node.inputs["Emission Strength"].default_value = self.particle_emission_strength
 
     # ================================================== END OF COLORS =================================================

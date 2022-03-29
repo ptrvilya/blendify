@@ -36,7 +36,7 @@ def estimate_normals_from_pointcloud(pc_vertices: np.ndarray, backend="open3d", 
 
         pc_normals = pc_normals_th.cpu().numpy().astype(np.float32)
     else:
-        raise RuntimeError(f"backend {backend} is not supported. Possible backends: open3d, pytorch3d.")
+        raise NotImplementedError(f"backend {backend} is not supported. Possible backends: open3d, pytorch3d.")
 
     return pc_normals
 
@@ -57,7 +57,7 @@ def approximate_colors_from_camera(camera_viewdir, vertex_normals, per_vertex_co
         assert per_vertex_color.shape[0] == num_vertices, \
             "Length of vertex_colors is to be equal to the number of vertices."
     else:
-        raise RuntimeError("Only uniform or per-vertex colors are supported for color approximation.")
+        raise NotImplementedError("Only uniform or per-vertex colors are supported for color approximation.")
 
     # Add alpha to colors if needed
     if per_vertex_color.shape[1] == 3:

@@ -1,8 +1,18 @@
+from abc import ABC, abstractmethod
+from typing import NamedTuple, Optional
+
 import bpy
 import numpy as np
-from abc import ABC, abstractmethod
+
 from ..internal.texture import _copy_values_to_image
 from ..internal.types import Vector3d
+
+
+class ColorsMetadata(NamedTuple):
+    type: type
+    color: Optional[Vector3d]
+    has_alpha: bool
+    texture: Optional[bpy.types.Image]
 
 
 class Colors(ABC):
@@ -11,7 +21,11 @@ class Colors(ABC):
     """
     @abstractmethod
     def __init__(self):
-        pass
+        self._metadata: Optional[ColorsMetadata] = None
+
+    @property
+    def metadata(self) -> ColorsMetadata:
+        return self._metadata
 
 
 class VertexColors(Colors):
@@ -32,6 +46,12 @@ class VertexColors(Colors):
             "Colors shoud be stored as floating point numbers (np.float32 or np.float64)"
         assert np.all(vertex_colors >= 0) and np.all(vertex_colors <= 1), "Colors should be in range [0.0, 1.0]"
         self._vertex_colors = vertex_colors
+        self._metadata = ColorsMetadata(
+            type=self.__class__,
+            has_alpha=self._vertex_colors.shape[1] == 4,
+            color=None,
+            texture=None
+        )
 
     @property
     def vertex_colors(self) -> np.ndarray:
@@ -58,6 +78,12 @@ class UniformColors(Colors):
         assert len(uniform_color) == 3, "Color should be in RGB format"
         assert uniform_color.max() <= 1. and uniform_color.min() >= 0., "Color values should be in [0,1] range"
         self._color = uniform_color
+        self._metadata = ColorsMetadata(
+            type=self.__class__,
+            has_alpha=False,
+            color=self._color,
+            texture=None
+        )
 
     @property
     def color(self) -> np.ndarray:
@@ -142,6 +168,12 @@ class TextureColors(UVColors):
                                             height=texture.shape[0])
         _copy_values_to_image(texture.reshape(-1, 3), blender_image.name)
         self._texture = blender_image
+        self._metadata = ColorsMetadata(
+            type=self.__class__,
+            has_alpha=False,
+            color=None,
+            texture= self._texture
+        )
 
     @property
     def blender_texture(self) -> bpy.types.Image:
@@ -166,6 +198,12 @@ class FileTextureColors(UVColors):
         """
         super().__init__(uv_map)
         self._texture = bpy.data.images.load(texture_path)
+        self._metadata = ColorsMetadata(
+            type=self.__class__,
+            has_alpha=False,
+            color=None,
+            texture=self._texture
+        )
 
     @property
     def blender_texture(self) -> bpy.types.Image:

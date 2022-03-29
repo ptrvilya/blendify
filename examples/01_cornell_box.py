@@ -82,10 +82,10 @@ def main(args):
 
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description="Blendify example 02: Cornell Box.")
+    parser = argparse.ArgumentParser(description="Blendify example 01: Cornell Box.")
 
     # Paths to output files
-    parser.add_argument("-p", "--path", type=str, default="./02_cornell_box.png",
+    parser.add_argument("-p", "--path", type=str, default="./01_cornell_box.png",
                         help="Path to the resulting image")
     parser.add_argument("-o", "--output-blend", type=str, default=None,
                         help="Path to the resulting blend file")

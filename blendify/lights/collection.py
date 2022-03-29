@@ -170,7 +170,7 @@ class LightsCollection(metaclass=Singleton):
                 quaternion=quaternion, translation=translation, tag=tag
             )
         else:
-            raise RuntimeError(f"Unknown AreaLight shape: {shape}")
+            raise NotImplementedError(f"Unknown AreaLight shape: {shape}")
         self._lights[tag] = light
         return light
 
