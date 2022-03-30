@@ -3,8 +3,10 @@ from typing import Optional
 
 import bpy
 
-from .colors import Colors, ColorsMetadata, UniformColors, VertexColors, TextureColors, FileTextureColors
-from .materials import Material
+from blendify.colors import UniformColors, VertexColors
+from ..colors.texture import TextureColors, FileTextureColors
+from ..colors.base import ColorsMetadata, Colors
+from blendify.materials.base import Material
 from ..internal.positionable import Positionable
 
 

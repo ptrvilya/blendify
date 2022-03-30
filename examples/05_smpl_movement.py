@@ -12,8 +12,8 @@ from videoio import VideoWriter
 from urllib import request
 
 from blendify import get_scene
-from blendify.renderables.colors import UniformColors, FileTextureColors, FacesUV
-from blendify.renderables.materials import PrinsipledBSDFMaterial
+from blendify.colors import UniformColors, FacesUV, FileTextureColors
+from blendify.materials import PrinsipledBSDFMaterial
 from blendify.utils.smpl_wrapper import SMPLWrapper
 from blendify.utils.image import blend_with_background
 

@@ -30,8 +30,9 @@ import numpy as np
 from mathutils import Vector
 
 from .base import Renderable
-from .colors import Colors, ColorsMetadata, VertexColors, UniformColors
-from .materials import Material
+from blendify.colors import VertexColors, UniformColors
+from ..colors.base import ColorsMetadata, Colors
+from blendify.materials.base import Material
 from ..internal.texture import _compute_particle_color_texture
 
 

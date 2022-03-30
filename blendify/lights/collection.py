@@ -1,7 +1,8 @@
 from typing import Dict, Iterable, Union
 
-from .base import Light, PointLight, DirectionalLight, SpotLight, \
-    SquareAreaLight, CircleAreaLight, RectangleAreaLight, EllipseAreaLight, AreaLight
+from .base import Light
+from .common import PointLight, DirectionalLight, SpotLight
+from .area import AreaLight, SquareAreaLight, CircleAreaLight, RectangleAreaLight, EllipseAreaLight
 from ..internal import Singleton
 from ..internal.types import Vector2d, Vector3d, Vector4d
 

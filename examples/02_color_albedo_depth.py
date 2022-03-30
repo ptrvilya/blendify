@@ -4,8 +4,8 @@ import numpy as np
 import trimesh
 
 import blendify
-from blendify.renderables.colors import UniformColors
-from blendify.renderables.materials import PrinsipledBSDFMaterial
+from blendify.colors import UniformColors
+from blendify.materials import PrinsipledBSDFMaterial
 
 
 def main(args):

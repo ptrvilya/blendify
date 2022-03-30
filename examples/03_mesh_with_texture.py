@@ -5,8 +5,8 @@ import trimesh
 from skimage.io import imread
 
 import blendify
-from blendify.renderables.colors import TextureColors, VertexUV
-from blendify.renderables.materials import PrinsipledBSDFMaterial
+from blendify.colors import VertexUV, TextureColors
+from blendify.materials import PrinsipledBSDFMaterial
 
 
 def main(args):

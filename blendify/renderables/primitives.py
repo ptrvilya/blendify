@@ -4,8 +4,9 @@ import bpy
 import numpy as np
 
 from .base import RenderableObject
-from .colors import Colors, UniformColors
-from .materials import Material
+from blendify.colors import UniformColors
+from ..colors.base import Colors
+from blendify.materials.base import Material
 from ..internal.types import Vector3d
 
 

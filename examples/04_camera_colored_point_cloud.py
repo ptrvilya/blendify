@@ -9,8 +9,8 @@ from skimage.io import imread
 from videoio import VideoWriter
 
 import blendify
-from blendify.renderables.colors import UniformColors, VertexColors
-from blendify.renderables.materials import PrinsipledBSDFMaterial
+from blendify.colors import UniformColors, VertexColors
+from blendify.materials import PrinsipledBSDFMaterial
 from blendify.utils.camera_trajectory import Trajectory
 from blendify.utils.pointcloud import estimate_normals_from_pointcloud, approximate_colors_from_camera
 

@@ -7,8 +7,8 @@ from videoio import VideoWriter
 from skimage.io import imread
 
 import blendify
-from blendify.renderables.colors import UniformColors
-from blendify.renderables.materials import PrinsipledBSDFMaterial
+from blendify.colors import UniformColors
+from blendify.materials import PrinsipledBSDFMaterial
 from blendify.utils.image import blend_with_background
 
 

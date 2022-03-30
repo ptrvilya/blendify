@@ -8,7 +8,8 @@ from typing import Union, Sequence
 import bpy
 import numpy as np
 
-from .cameras import Camera, PerspectiveCamera, OrthographicCamera
+from .cameras import PerspectiveCamera, OrthographicCamera
+from .cameras.base import Camera
 from .internal import Singleton
 from .internal.types import Vector2d, Vector2di, Vector3d, Vector4d
 from .lights import LightsCollection

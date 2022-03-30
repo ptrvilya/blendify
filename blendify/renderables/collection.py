@@ -2,12 +2,12 @@ from typing import Dict, Iterable, Union
 
 import numpy as np
 
+from blendify.materials.base import Material
 from . import primitives
 from .base import Renderable
-from .colors import Colors
-from .materials import Material
 from .mesh import Mesh
 from .pointcloud import PointCloud
+from ..colors.base import Colors
 from ..internal import Singleton
 from ..internal.types import Vector3d, Vector4d
 

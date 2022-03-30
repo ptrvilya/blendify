@@ -3,8 +3,8 @@ import argparse
 import numpy as np
 
 import blendify
-from blendify.renderables.colors import UniformColors
-from blendify.renderables.materials import PrinsipledBSDFMaterial, GlossyBSDFMaterial
+from blendify.colors import UniformColors
+from blendify.materials import PrinsipledBSDFMaterial, GlossyBSDFMaterial
 
 
 def main(args):

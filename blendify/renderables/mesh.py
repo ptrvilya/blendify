@@ -3,8 +3,10 @@ import bpy
 import numpy as np
 
 from .base import RenderableObject
-from .colors import Colors, VertexColors, UniformColors, UVColors, VertexUV, FacesUV
-from .materials import Material
+from blendify.colors import VertexColors, UniformColors
+from ..colors.texture import VertexUV, FacesUV, UVColors
+from ..colors.base import Colors
+from blendify.materials.base import Material
 
 
 class Mesh(RenderableObject):
