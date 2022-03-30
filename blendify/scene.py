@@ -48,6 +48,7 @@ class Scene(metaclass=Singleton):
         bpy.ops.outliner.orphans_purge()
         bpy.ops.outliner.orphans_purge()
         bpy.ops.outliner.orphans_purge()
+        # bpy.ops.file.autopack_toggle()
 
     @property
     def camera(self) -> Camera:
@@ -246,12 +247,16 @@ class Scene(metaclass=Singleton):
         return False
 
     @staticmethod
-    def export(path: Union[str, Path]):
+    def export(path: Union[str, Path], include_images: bool = True):
         """Export the current scene to the .blend file
 
         Args:
             path (Union[str, Path]): path to the target .blend file
+            include_images (bool): whether to write texture images inside .blend file
         """
+        if include_images:
+            for image in bpy.data.images:
+                image.pack()
         bpy.ops.wm.save_as_mainfile(filepath=str(path))
 
     @staticmethod

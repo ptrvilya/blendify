@@ -14,6 +14,11 @@ class ColorsMetadata(NamedTuple):
     has_alpha: bool
     texture: Optional[bpy.types.Image]
 
+    def __del__(self):
+        if self.texture is not None:
+            if not self.texture.users:
+                bpy.data.images.remove(self.texture)
+
 
 class Colors(ABC):
     """An abstract container template for storing the object coloring information
