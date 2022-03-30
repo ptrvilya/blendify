@@ -4,15 +4,15 @@ import bpy
 import numpy as np
 
 from .base import RenderableObject
-from .colors import Colors, UniformColors
-from .materials import Material
+from blendify.colors import UniformColors
+from ..colors.base import Colors
+from blendify.materials.base import Material
 from ..internal.types import Vector3d
 
 
 # =================================================== Mesh Primitives ==================================================
 class MeshPrimitive(RenderableObject):
-    """
-    Base class for mesh primitives. Used to throw Exceptions for non-implemented Colors
+    """Base class for mesh primitives. Used to throw Exceptions for non-implemented Colors
     subclasses (only UniformColors is supported) and add shared method for setting smooth shading.
 
     Properties:
@@ -26,8 +26,8 @@ class MeshPrimitive(RenderableObject):
         self,
         **kwargs
     ):
-        """
-        Passes all arguments to the constructor of the base class.
+        """Passes all arguments to the constructor of the base class
+
         Args:
             material (Material): Material instance
             colors (Colors): Colors instance
@@ -45,8 +45,8 @@ class MeshPrimitive(RenderableObject):
         super()._blender_set_colors(colors)
 
     def set_smooth(self, smooth: bool = True):
-        """
-        Enables or disables the smooth surface imitation for the object
+        """Enables or disables the smooth surface imitation for the object
+
         Args:
             smooth (bool): Whether to turn the smooth surface on or off
         """
@@ -59,8 +59,7 @@ class MeshPrimitive(RenderableObject):
 
 
 class CubeMesh(MeshPrimitive):
-    """
-    Cube mesh primitive, supports only uniform coloring (UniformColors).
+    """Cube mesh primitive, supports only uniform coloring (UniformColors)
 
     Properties:
         emit_shadow (bool, optional): control whether the object will emit shadow from any light source in the scene.
@@ -74,8 +73,8 @@ class CubeMesh(MeshPrimitive):
         tag: str,
         **kwargs
     ):
-        """
-        Creates Blender Object that represent Cube mesh primitive.
+        """Creates Blender Object that represent Cube mesh primitive
+
         Args:
             size (float): size of a primitive in [0, inf]
             material (Material): Material instance
@@ -101,8 +100,8 @@ class CubeMesh(MeshPrimitive):
         self,
         colors: Colors
 ):
-        """
-        Remembers current color properties, builds a color node for material, sets color information to mesh
+        """Remembers current color properties, builds a color node for material, sets color information to mesh
+
         Args:
             colors (Colors): target colors information
         """
@@ -114,11 +113,10 @@ class CubeMesh(MeshPrimitive):
 
 
 class CircleMesh(MeshPrimitive):
-    """
-    Circle mesh primitive, supports only uniform coloring (UniformColors).
+    """Circle mesh primitive, supports only uniform coloring (UniformColors)
 
     Properties:
-        emit_shadow (bool, optional): control whether the object will emit shadow from any light source in the scene.
+        emit_shadow (bool, optional): control whether the object will emit shadow from any light source in the scene
 
     Methods:
         set_smooth(bool): turns smooth shading on and off based on the bool argument.
@@ -131,8 +129,8 @@ class CircleMesh(MeshPrimitive):
         fill_type: str = "NGON",
         **kwargs
     ):
-        """
-        Creates Blender Object that represent Circle mesh primitive.
+        """Creates Blender Object that represent Circle mesh primitive
+
         Args:
             radius (float): radius of a primitive in [0, inf]
             material (Material): Material instance
@@ -162,8 +160,8 @@ class CircleMesh(MeshPrimitive):
         self,
         colors: Colors
 ):
-        """
-        Remembers current color properties, builds a color node for material, sets color information to mesh
+        """Remembers current color properties, builds a color node for material, sets color information to mesh
+
         Args:
             colors (Colors): target colors information
         """
@@ -175,8 +173,7 @@ class CircleMesh(MeshPrimitive):
 
 
 class CylinderMesh(MeshPrimitive):
-    """
-    Cylinder mesh primitive, supports only uniform coloring (UniformColors).
+    """Cylinder mesh primitive, supports only uniform coloring (UniformColors)
 
     Properties:
         emit_shadow (bool, optional): control whether the object will emit shadow from any light source in the scene.
@@ -193,8 +190,8 @@ class CylinderMesh(MeshPrimitive):
         fill_type: str = "NGON",
         **kwargs
     ):
-        """
-        Creates Blender Object that represent Cylinder mesh primitive.
+        """Creates Blender Object that represent Cylinder mesh primitive
+
         Args:
             radius (float): radius of a primitive in [0, inf]
             height (float): height of a primitive in [0, inf]
@@ -227,8 +224,8 @@ class CylinderMesh(MeshPrimitive):
             self,
             colors: Colors
     ):
-        """
-        Remembers current color properties, builds a color node for material, sets color information to mesh
+        """Remembers current color properties, builds a color node for material, sets color information to mesh
+
         Args:
             colors (Colors): target colors information
         """
@@ -242,9 +239,8 @@ class CylinderMesh(MeshPrimitive):
 
 # ================================================ Parametric Primitives ===============================================
 class ParametricPrimitive(RenderableObject):
-    """
-    Base class for parametric primitives. Used to throw Exceptions for non-implemented Colors
-    subclasses (only UniformColors is supported).
+    """Base class for parametric primitives. Used to throw Exceptions for non-implemented Colors
+    subclasses (only UniformColors is supported)
 
     Properties:
         emit_shadow (bool, optional): control whether the object will emit shadow from any light source in the scene.
@@ -255,8 +251,8 @@ class ParametricPrimitive(RenderableObject):
         self,
         **kwargs
     ):
-        """
-        Passes all arguments to the constructor of the base class.
+        """Passes all arguments to the constructor of the base class
+
         Args:
             material (Material): Material instance
             colors (Colors): Colors instance
@@ -275,12 +271,11 @@ class ParametricPrimitive(RenderableObject):
 
 
 class EllipsoidNURBS(ParametricPrimitive):
-    """
-    NURBS Ellipsoid, implemented as NURBS Sphere that is rescaled along axes,
-    supports only uniform coloring (UniformColors).
+    """NURBS Ellipsoid, implemented as NURBS Sphere that is rescaled along axes,
+     supports only uniform coloring (UniformColors)
 
     Properties:
-        emit_shadow (bool, optional): control whether the object will emit shadow from any light source in the scene.
+        emit_shadow (bool, optional): control whether the object will emit shadow from any light source in the scene
     """
     def __init__(
         self,
@@ -288,9 +283,9 @@ class EllipsoidNURBS(ParametricPrimitive):
         tag: str,
         **kwargs
     ):
-        """
-        Creates Blender Object that represent NURBS Surface Sphere primitive with different scales along axis,
-        resulting in Ellipsoid shape.
+        """Creates Blender Object that represent NURBS Surface Sphere primitive with different scales along axis,
+        resulting in Ellipsoid shape
+
         Args:
             radius (float): radius of a primitive in [0, inf]
             material (Material): Material instance
@@ -315,11 +310,10 @@ class EllipsoidNURBS(ParametricPrimitive):
 
 
 class SphereNURBS(EllipsoidNURBS):
-    """
-    NURBS Sphere, supports only uniform coloring (UniformColors).
+    """NURBS Sphere, supports only uniform coloring (UniformColors)
 
     Properties:
-        emit_shadow (bool, optional): control whether the object will emit shadow from any light source in the scene.
+        emit_shadow (bool, optional): control whether the object will emit shadow from any light source in the scene
     """
     def __init__(
         self,
@@ -327,8 +321,8 @@ class SphereNURBS(EllipsoidNURBS):
         tag: str,
         **kwargs
     ):
-        """
-        Creates Blender Object that represent NURBS Surface Sphere primitive.
+        """Creates Blender Object that represent NURBS Surface Sphere primitive
+
         Args:
             radius (float): radius of a primitive in [0, inf]
             material (Material): Material instance
@@ -341,11 +335,10 @@ class SphereNURBS(EllipsoidNURBS):
 
 
 class CurveBezier(ParametricPrimitive):
-    """
-    Bezier Curve, supports only uniform coloring (UniformColors).
+    """Bezier Curve, supports only uniform coloring (UniformColors)
 
     Properties:
-        emit_shadow (bool, optional): control whether the object will emit shadow from any light source in the scene.
+        emit_shadow (bool, optional): control whether the object will emit shadow from any light source in the scene
     """
     def __init__(
         self,
@@ -354,8 +347,8 @@ class CurveBezier(ParametricPrimitive):
         tag: str,
         **kwargs
     ):
-        """
-        Creates Blender Object that represent Bezier Curve primitive - a tube passing through the given keypoints.
+        """Creates Blender Object that represent Bezier Curve primitive - a tube passing through the given keypoints
+
         Args:
             keypoints (np.ndarray): keypoints for the curve
             radius (float): radius of a tube in [0, inf]

@@ -12,8 +12,8 @@ from videoio import VideoWriter
 from urllib import request
 
 from blendify import get_scene
-from blendify.renderables.colors import UniformColors, FileTextureColors, FacesUV
-from blendify.renderables.materials import PrinsipledBSDFMaterial
+from blendify.colors import UniformColors, FacesUV, FileTextureColors
+from blendify.materials import PrinsipledBSDFMaterial
 from blendify.utils.smpl_wrapper import SMPLWrapper
 from blendify.utils.image import blend_with_background
 
@@ -86,8 +86,8 @@ def main(args):
     logger.info("Entering the main drawing loop")
     total_frames = len(animation_params["dynamic_params"])
     with VideoWriter(args.path, resolution=args.resolution, fps=30) as vw:
-        for index, curr_params in enumerate(animation_params["dynamic_params"][200:]):
-            logger.info(f"Rendering frame {index:03d} / {total_frames}")
+        for index, curr_params in enumerate(animation_params["dynamic_params"]):
+            logger.info(f"Rendering frame {index+1} / {total_frames}")
             # Load parameters for the current frame
             smpl_pose = np.array(curr_params["smpl_pose"])
             smpl_translation = np.array(curr_params["smpl_translation"])

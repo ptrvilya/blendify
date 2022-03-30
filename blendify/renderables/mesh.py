@@ -3,18 +3,19 @@ import bpy
 import numpy as np
 
 from .base import RenderableObject
-from .colors import Colors, VertexColors, UniformColors, UVColors, VertexUV, FacesUV
-from .materials import Material
+from blendify.colors import VertexColors, UniformColors
+from ..colors.texture import VertexUV, FacesUV, UVColors
+from ..colors.base import Colors
+from blendify.materials.base import Material
 
 
 class Mesh(RenderableObject):
-    """
-    Basic mesh, supports uniform (UniformColors), per-vertex (VertexColors)
+    """Basic mesh, supports uniform (UniformColors), per-vertex (VertexColors)
     and texture (TextureColors and FileTextureColors) coloring with per-vertex uv (VertexUV) or
     per-face uv maps (FacesUV).
 
     Properties:
-        emit_shadow (bool, optional): control whether mesh will emit shadow from any light source in the scene.
+        emit_shadow (bool, optional): control whether mesh will emit shadow from any light source in the scene
     """
 
     def __init__(
@@ -24,8 +25,7 @@ class Mesh(RenderableObject):
         tag: str,
         **kwargs
     ):
-        """
-        Creates Blender Object that represent given mesh.
+        """Creates Blender Object that represent given mesh
 
         Args:
             vertices (np.ndarray): mesh vertices
@@ -45,11 +45,12 @@ class Mesh(RenderableObject):
         faces: np.ndarray,
         tag: str
     ) -> bpy.types.Object:
-        """
-        Creates mesh object in Blender
+        """Creates mesh object in Blender
+
         Args:
             vertices (np.ndarray): mesh vertices
             faces (np.ndarray): mesh faces
+
         Returns:
             bpy.types.Object: Blender mesh
         """
@@ -61,8 +62,8 @@ class Mesh(RenderableObject):
         return obj
 
     def set_smooth(self, smooth: bool = True):
-        """
-        Turns smooth shading on and off based on the bool argument.
+        """Turns smooth shading on and off based on the bool argument
+
         Args:
             smooth (bool, optional): If True shade smooth else shade flat (default: True)
         """
@@ -81,8 +82,8 @@ class Mesh(RenderableObject):
         self,
         colors: Colors
     ):
-        """
-        Remembers current color properties, builds a color node for material, sets color information to mesh.
+        """Remembers current color properties, builds a color node for material, sets color information to mesh
+
         Args:
             colors (Colors): target colors information
         """
@@ -121,8 +122,8 @@ class Mesh(RenderableObject):
         self,
         vertices: np.ndarray
     ):
-        """
-        Updates mesh vertices coordinates
+        """Updates mesh vertices coordinates
+
         Args:
             vertices (np.ndarray): new vertex coordinates
         """

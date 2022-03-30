@@ -4,8 +4,8 @@ import numpy as np
 import trimesh
 
 import blendify
-from blendify.renderables.colors import UniformColors
-from blendify.renderables.materials import PrinsipledBSDFMaterial
+from blendify.colors import UniformColors
+from blendify.materials import PrinsipledBSDFMaterial
 
 
 def main(args):
@@ -32,10 +32,10 @@ def main(args):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Blendify example 01: Render mesh with albedo and depth.")
+    parser = argparse.ArgumentParser(description="Blendify example 02: Render mesh with albedo and depth.")
 
     # Paths to output files
-    parser.add_argument("-p", "--path", type=str, default="./01_render_color_albedo_depth.png",
+    parser.add_argument("-p", "--path", type=str, default="./02_color_albedo_depth.png",
                         help="Path to the resulting image")
     parser.add_argument("-o", "--output-blend", type=str, default=None,
                         help="Path to the resulting blend file")

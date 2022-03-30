@@ -25,8 +25,21 @@ SOFTWARE.
 
 import bpy
 
+
+def _compute_particle_color_texture(colors, name="ParticleColor"):
+    # To view the texture we set the height of the texture to vis_image_height
+    image = bpy.data.images.new(name=name, width=len(colors), height=1)
+
+    _copy_values_to_image(colors, image.name)
+    image = bpy.data.images[image.name]
+    # https://docs.blender.org/api/current/bpy.types.Image.html#bpy.types.Image.pack
+    image.pack()
+    return image
+
+
 def _copy_values_to_image(value_tuples, image_name):
-    """ Copy values to image pixels. """
+    """ Copy values to image pixels
+    """
     image = bpy.data.images[image_name]
     # working on a copy of the pixels results in a MASSIVE performance speed
     local_pixels = list(image.pixels[:])

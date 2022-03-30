@@ -1,7 +1,8 @@
 from typing import Dict, Iterable, Union
 
-from .base import Light, PointLight, DirectionalLight, SpotLight, \
-    SquareAreaLight, CircleAreaLight, RectangleAreaLight, EllipseAreaLight, AreaLight
+from .base import Light
+from .common import PointLight, DirectionalLight, SpotLight
+from .area import AreaLight, SquareAreaLight, CircleAreaLight, RectangleAreaLight, EllipseAreaLight
 from ..internal import Singleton
 from ..internal.types import Vector2d, Vector3d, Vector4d
 
@@ -20,8 +21,8 @@ class LightsCollection(metaclass=Singleton):
         translation: Vector3d = (0, 0, 0),
         tag=None
     ) -> PointLight:
-        """
-        Add PointLight light source to the scene.
+        """Add PointLight light source to the scene
+
         Args:
             strength (float, optional): strength of the light source emitted over the entire area of the light
                 in all directions (default: 100)
@@ -55,8 +56,8 @@ class LightsCollection(metaclass=Singleton):
         translation: Vector3d = (0, 0, 0),
         tag=None
     ) -> DirectionalLight:
-        """
-        Add DirectionalLight light source to the scene.
+        """Add DirectionalLight light source to the scene
+
         Args:
             strength (float, optional): strength of the light source in watts per meter squared (W/m^2) (default: 100)
             angular_diameter (float, optional): angular diameter of the Sun as seen from the Earth
@@ -92,8 +93,8 @@ class LightsCollection(metaclass=Singleton):
         translation: Vector3d = (0, 0, 0),
         tag=None
     ) -> SpotLight:
-        """
-        Add SpotLight light source to the scene.
+        """Add SpotLight light source to the scene
+
         Args:
             strength (float, optional): strength of the light source that light would emit over its entire area if
                 it wasn't limited by the spot angle (default: 100)
@@ -130,8 +131,8 @@ class LightsCollection(metaclass=Singleton):
         translation: Vector3d = (0, 0, 0),
         tag = None
     ) -> AreaLight:
-        """
-        Add AreaLight light source to the scene. Shape of the area is controlled by shape parameter.
+        """Add AreaLight light source to the scene. Shape of the area is controlled by shape parameter
+
         Args:
             shape (str): type of the AreaLight, one of: [square, circle, rectangle, ellipse]
             size (Union[float, Vector2d]): size of the area of the area light for circle and square or
@@ -170,7 +171,7 @@ class LightsCollection(metaclass=Singleton):
                 quaternion=quaternion, translation=translation, tag=tag
             )
         else:
-            raise RuntimeError(f"Unknown AreaLight shape: {shape}")
+            raise NotImplementedError(f"Unknown AreaLight shape: {shape}")
         self._lights[tag] = light
         return light
 

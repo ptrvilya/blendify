@@ -2,15 +2,14 @@ from typing import Dict, Iterable, Union
 
 import numpy as np
 
-from ..internal import Singleton
-from ..internal.types import Vector3d, Vector4d
+from blendify.materials.base import Material
+from . import primitives
 from .base import Renderable
 from .mesh import Mesh
 from .pointcloud import PointCloud
-from .colors import Colors
-from . import primitives
-from .materials import Material
-from ..cameras import Camera
+from ..colors.base import Colors
+from ..internal import Singleton
+from ..internal.types import Vector3d, Vector4d
 
 
 class RenderablesCollection(metaclass=Singleton):
@@ -30,9 +29,9 @@ class RenderablesCollection(metaclass=Singleton):
         translation: Vector3d = (0, 0, 0),
         tag: str = None
     ) -> PointCloud:
-        """
-        Add PointCloud object to the scene. The object supports uniform (UniformColors) and
-        per-vertex (VertexColors) coloring.
+        """Add PointCloud object to the scene.
+        The object supports uniform (UniformColors) and per-vertex (VertexColors) coloring.
+
         Args:
             vertices (np.ndarray): point cloud vertices
             material (Material): PrinsipledBSDFMaterial instance
@@ -71,9 +70,10 @@ class RenderablesCollection(metaclass=Singleton):
         translation: Vector3d = (0, 0, 0),
         tag: str = None
     ) -> Mesh:
-        """
-        Add Mesh object to the scene. The object supports uniform (UniformColors), per-vertex (VertexColors),
-        per-vertex uv (VertexUV), per-face uv (FacesUV) and texture (TextureColors and FileTextureColors) coloring.
+        """Add Mesh object to the scene.
+        The object supports uniform (UniformColors), per-vertex (VertexColors), per-vertex uv (VertexUV),
+        per-face uv (FacesUV) and texture (TextureColors and FileTextureColors) coloring.
+
         Args:
             vertices (np.ndarray): mesh vertices
             faces (np.ndarray): mesh faces
@@ -104,8 +104,9 @@ class RenderablesCollection(metaclass=Singleton):
         translation: Vector3d = (0, 0, 0),
         tag: str = None
     ) -> primitives.CubeMesh:
-        """
-        Add primitives.CircleMesh object to the scene. The object supports only uniform coloring (UniformColors).
+        """Add primitives.CircleMesh object to the scene.
+        The object supports only uniform coloring (UniformColors).
+
         Args:
             size (float): size of a primitive in [0, inf]
             material (Material): Material instance
@@ -136,8 +137,9 @@ class RenderablesCollection(metaclass=Singleton):
         translation: Vector3d = (0, 0, 0),
         tag: str = None
     ) -> primitives.CircleMesh:
-        """
-        Add primitives.CircleMesh object to the scene. The object supports only uniform coloring (UniformColors).
+        """Add primitives.CircleMesh object to the scene.
+        The object supports only uniform coloring (UniformColors).
+
         Args:
             radius (float): radius of a primitive in [0, inf]
             material (Material): Material instance
@@ -172,8 +174,9 @@ class RenderablesCollection(metaclass=Singleton):
         translation: Vector3d = (0, 0, 0),
         tag: str = None
     ) -> primitives.CylinderMesh:
-        """
-        Add primitives.CylinderMesh object to the scene. The object supports only uniform coloring (UniformColors).
+        """Add primitives.CylinderMesh object to the scene.
+        The object supports only uniform coloring (UniformColors).
+
         Args:
             radius (float): radius of a primitive in [0, inf]
             height (float): height of a primitive in [0, inf]
@@ -208,9 +211,9 @@ class RenderablesCollection(metaclass=Singleton):
         translation: Vector3d = (0, 0, 0),
         tag: str = None
     ) -> primitives.EllipsoidNURBS:
-        """
-        Add primitives.EllipsoidNURBS object to the scene. Implemented as NURBS Sphere that is rescaled along axes,
-        supports only uniform coloring (UniformColors).
+        """Add primitives.EllipsoidNURBS object to the scene.
+        Implemented as NURBS Sphere that is rescaled along axes, supports only uniform coloring (UniformColors).
+
         Args:
             radius (float): radius of a primitive in [0, inf]
             material (Material): Material instance
@@ -239,8 +242,9 @@ class RenderablesCollection(metaclass=Singleton):
         translation: Vector3d = (0, 0, 0),
         tag: str = None
     ) -> primitives.SphereNURBS:
-        """
-        Add primitives.SphereNURBS object to the scene. The object supports only uniform coloring (UniformColors).
+        """Add primitives.SphereNURBS object to the scene.
+        The object supports only uniform coloring (UniformColors).
+
         Args:
             radius (float): radius of a primitive in [0, inf]
             material (Material): Material instance
@@ -270,9 +274,10 @@ class RenderablesCollection(metaclass=Singleton):
         translation: Vector3d = (0, 0, 0),
         tag: str = None
     ) -> primitives.CurveBezier:
-        """
-        Add primitives.CurveBezier object to the scene. Keypoints are intermediate points of the Bezier Curve.
-        The object supports only uniform coloring (UniformColors)
+        """Add primitives.CurveBezier object to the scene.
+        Keypoints are intermediate points of the Bezier Curve. The object supports
+        only uniform coloring (UniformColors).
+
         Args:
             keypoints (np.ndarray): keypoints for the curve
             radius (float): radius of a primitive in [0, inf]

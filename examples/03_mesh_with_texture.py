@@ -5,8 +5,8 @@ import trimesh
 from skimage.io import imread
 
 import blendify
-from blendify.renderables.colors import TextureColors, VertexUV
-from blendify.renderables.materials import PrinsipledBSDFMaterial
+from blendify.colors import VertexUV, TextureColors
+from blendify.materials import PrinsipledBSDFMaterial
 
 
 def main(args):
@@ -41,7 +41,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Blendify example 03: Simple mesh with texture.")
 
     # Paths to output files
-    parser.add_argument("-p", "--path", type=str, default="./03_render_with_texture.png",
+    parser.add_argument("-p", "--path", type=str, default="./03_mesh_with_texture.png",
                         help="Path to the resulting image")
     parser.add_argument("-o", "--output-blend", type=str, default=None,
                         help="Path to the resulting blend file")

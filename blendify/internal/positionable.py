@@ -7,8 +7,7 @@ from ..internal.types import BlenderGroup, Vector3d, Vector4d
 
 
 class Positionable(ABC):
-    """
-    Base class for all classes that wrap Blender objects with location in space (Camera, Light, Renderable).
+    """Base class for all classes that wrap Blender objects with location in space (Camera, Light, Renderable)
     """
     @abstractmethod
     def __init__(
@@ -18,8 +17,8 @@ class Positionable(ABC):
             quaternion: Vector4d = (1, 0, 0, 0),
             translation: Vector3d = (0, 0, 0)
     ):
-        """
-        Sets initial position of the Blender object and stores it. Called from child classes.
+        """Sets initial position of the Blender object and stores it. Called from child classes
+
         Args:
             tag (str): name of the object in Blender that was created in child class
             blender_object (bpy.types.Object): instance of Blender Object that is wrapped by the child class
