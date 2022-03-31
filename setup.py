@@ -16,7 +16,9 @@ classifiers = [
     ]
 
 requirements = [
-        "numpy"
+        "python>=3.9",
+        "numpy",
+        "scipy"
 ]
 
 setup(

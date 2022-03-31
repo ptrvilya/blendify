@@ -3,13 +3,21 @@
 ![blendify Logo](.github/blendify_logo_light_bg.png)
 
 ## Introduction
-Blendify is a simple framework providing high-level API to create and render scenes with Blender directly from Python.
+Blendify is a framework providing high-level API to create and render scenes with Blender directly from Python.
+Blendify is designed to provide simplified access to selected blender structures and makes it possible to work with 
+them from any python script.
 
 Key-features:
+* Quick and easy start: no need to dive into Blender API
+* Focus on common mesh and point cloud visualization tasks
+* Simple and unified interface to populate scene with objects, lights amd camera
+* Support for textured meshes and colored point clouds 
 
 
 ## Installation instructions
-[building blender](docs/building_blender.md)
+Installing blendify from git: `pip install git+https://gitlab.com/real-virtual-humans/visuals/blendify.git`
+
+Blendify also requires a standalone Blender Python module to be built. For detailed instructions refer to [INSTALL.md](INSTALL.md).
 
 
 ## Quick Start
@@ -71,7 +79,7 @@ Examples are described in [examples.md](docs/examples.md).
 </table>
 
 
-## Works that used blendify
+## Works that use blendify
 * [B.L. Bhatnagar, X. Xie, **I. Petrov**, C. Sminchisescu, C. Theobalt, G. Pons-Moll: 
   BEHAVE: Dataset and Method for Tracking Human Object Interactions, in CVPR'22](https://virtualhumans.mpi-inf.mpg.de/behave/)
 

@@ -2,6 +2,7 @@ import argparse
 import json
 import logging
 import os
+from urllib import request
 
 import numpy as np
 import smplpytorch
@@ -9,13 +10,12 @@ import trimesh
 from scipy.spatial.transform.rotation import Rotation
 from skimage.io import imread
 from videoio import VideoWriter
-from urllib import request
 
 from blendify import get_scene
 from blendify.colors import UniformColors, FacesUV, FileTextureColors
 from blendify.materials import PrinsipledBSDFMaterial
-from blendify.utils.smpl_wrapper import SMPLWrapper
 from blendify.utils.image import blend_with_background
+from blendify.utils.smpl_wrapper import SMPLWrapper
 
 
 def main(args):
