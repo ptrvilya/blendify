@@ -256,9 +256,12 @@ class Scene(metaclass=Singleton):
             path (Union[str, Path]): path to the target .blend file
             include_file_textures (bool): whether to write textures loaded from external files inside .blend file
         """
+        # hack to overcome BKE_bpath_relative_convert: basedir='', this is a bug
+        path = str(os.path.abspath(path))
+
         if include_file_textures:
             bpy.ops.file.pack_all()
-        bpy.ops.wm.save_as_mainfile(filepath=str(path))
+        bpy.ops.wm.save_as_mainfile(filepath=path)
 
     @staticmethod
     def attach_blend(path: Union[str, Path]):
@@ -271,11 +274,6 @@ class Scene(metaclass=Singleton):
         Args:
             path: path to the .blend file to append the contents from
         """
-        # TODO: check whether we load all the contents or only the renderables and materials.
-        #  Update the docstring if necessary.
-
-        # bpy.ops.wm.open_mainfile(filepath=str(path))
-        # bpy.ops.wm.append(filepath=str(path))
         objects, materials = [], []
         with bpy.data.libraries.load(str(path), link=False) as (data_from, data_to):
             # data_to.materials = data_from.materials
@@ -287,12 +285,3 @@ class Scene(metaclass=Singleton):
 
         bpy.ops.wm.append(directory=str(path) + "/Object/", files=objects)
         bpy.ops.wm.append(directory=str(path) + "/Material/", files=materials)
-
-        # # append everything
-        # with bpy.data.libraries.load(filepath) as (data_from, data_to):
-        #     for attr in dir(data_to):
-        #         setattr(data_to, attr, getattr(data_from, attr))
-        #
-        # # load a single scene we know the name of.
-        # with bpy.data.libraries.load(filepath) as (data_from, data_to):
-        #     data_to.scenes = ["Scene"]
