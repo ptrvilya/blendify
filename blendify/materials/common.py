@@ -1,11 +1,12 @@
 from typing import Tuple
+from functools import partial
 
 import bpy
 
 from blendify.materials.base import Material, material_property
 
 
-class PrinsipledBSDFMaterial:
+class PrinsipledBSDFMaterial(Material):
     """A class which manages the parameters of PrinsipledBSDF Blender material.
     Full docs: https://docs.blender.org/manual/en/latest/render/shader_nodes/shader/principled.html
     """
@@ -14,6 +15,7 @@ class PrinsipledBSDFMaterial:
         sheen=0.0, sheen_tint=0.5, clearcoat=0.0, clearcoat_roughness=0.0, ior=1.45, transmission=0.0,
         transmission_roughness=0.0, emission=(0, 0, 0, 0), emission_strength=0.0, alpha=1.0
     ):
+        super().__init__()
         self._property2blender_mapping = {
             "metallic": "Metallic", "specular": "Specular", "specular_tint": "Specular Tint", "roughness": "Roughness",
             "anisotropic": "Anisotropic", "anisotropic_rotation": "Anisotropic Rotation", "sheen": "Sheen",
@@ -22,10 +24,9 @@ class PrinsipledBSDFMaterial:
             "emission": "Emission", "emission_strength": "Emission Strength", "alpha": "Alpha"
         }
         for argname, argvalue in locals().items():
-            if argname == "self":
-                continue
-            self.__setattr__(argname, material_property(argname, self._property2blender_mapping[argname]))
-            self.__setattr__("_" + argname, argvalue)
+            if argname in self._property2blender_mapping.keys():
+                self.__setattr__(argname, material_property("_" + argname))
+                self.__setattr__("_" + argname, argvalue)
 
         self._object_material = None
         self._bsdf_node = None
@@ -51,17 +52,18 @@ class PrinsipledBSDFMaterial:
 
         # Set material properties
         for property_name, blender_name in self._property2blender_mapping.items():
-            self._bsdf_node.inputs[blender_name].default_value = self.__getattribute__("_" + property_name)
+            self._bsdf_node.inputs[blender_name].default_value = self.__getattribute__(property_name)
 
         return self._object_material, self._bsdf_node
 
 
-class GlossyBSDFMaterial:
+class GlossyBSDFMaterial(Material):
     """A class which manages the parameters of GlossyBSDF Blender material.
     Full docs: https://docs.blender.org/manual/en/latest/render/shader_nodes/shader/glossy.html
     """
     def __init__(self, roughness=0.4, distribution="GGX"):
-        self.roughness, self._roughness = material_property("roughness", "Roughness"), roughness
+        super().__init__()
+        self.roughness, self._roughness = material_property("roughness"), roughness
         self._distribution = distribution
 
         self._object_material = None
@@ -98,9 +100,3 @@ class GlossyBSDFMaterial:
     @property
     def distribution(self):
         return self._distribution
-
-    @distribution.setter
-    def distribution(self, value):
-        self._distribution = value
-        if self._object_material is not None and self._bsdf_node is not None:
-            self._bsdf_node.distribution = self._distribution
