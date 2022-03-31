@@ -225,7 +225,7 @@ class PointCloud(Renderable):
         # The default size of elements added with
         #   primitive_cube_add, primitive_uv_sphere_add, etc. is (2,2,2)
         point_scale = point_size * 0.5
-
+        bpy.ops.object.mode_set(mode='OBJECT')
         bpy.ops.object.select_all(action="DESELECT")
         if mesh_type == "PLANE":
             bpy.ops.mesh.primitive_plane_add(size=point_scale)

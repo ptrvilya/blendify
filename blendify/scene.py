@@ -248,16 +248,15 @@ class Scene(metaclass=Singleton):
         return False
 
     @staticmethod
-    def export(path: Union[str, Path], include_images: bool = True):
+    def export(path: Union[str, Path], include_file_textures: bool = True):
         """Export the current scene to the .blend file
 
         Args:
             path (Union[str, Path]): path to the target .blend file
-            include_images (bool): whether to write texture images inside .blend file
+            include_file_textures (bool): whether to write textures loaded from external files inside .blend file
         """
-        if include_images:
-            for image in bpy.data.images:
-                image.pack()
+        if include_file_textures:
+            bpy.ops.file.pack_all()
         bpy.ops.wm.save_as_mainfile(filepath=str(path))
 
     @staticmethod
