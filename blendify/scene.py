@@ -11,6 +11,7 @@ import numpy as np
 from .cameras import PerspectiveCamera, OrthographicCamera
 from .cameras.base import Camera
 from .internal import Singleton
+from .internal.io import catch_stdout
 from .internal.types import Vector2d, Vector2di, Vector3d, Vector4d
 from .lights import LightsCollection
 from .renderables import RenderablesCollection
@@ -138,8 +139,8 @@ class Scene(metaclass=Singleton):
         return data
 
     def render(
-        self, filepath: Union[str, Path] = "result.png", use_gpu: bool = True, samples: int = 128,
-        save_depth: bool = False, save_albedo: bool = False
+            self, filepath: Union[str, Path] = "result.png", use_gpu: bool = True, samples: int = 128,
+            save_depth: bool = False, save_albedo: bool = False, verbose: bool = False
     ):
         """Start the Blender rendering process
 
@@ -151,6 +152,7 @@ class Scene(metaclass=Singleton):
               If yes, the numpy array <filepath>.depth.npy will be created.
             save_albedo (bool): whether to save albedo (raw color information) in the separate file.
               If yes, the PNG image <filepath>.albedo.png with color information will be created.
+            verbose (bool): whether to allow blender to log its status to stdout during rendering
         """
         if self.camera is None:
             raise RuntimeError("Can't render without a camera")
@@ -224,7 +226,8 @@ class Scene(metaclass=Singleton):
         if save_albedo:
             output_albedo.file_slots[0].path = temp_filename + ".albedo."
 
-        bpy.ops.render.render(write_still=False)
+        with catch_stdout(skip=verbose):
+            bpy.ops.render.render(write_still=False)
 
         shutil.move(temp_filepath + ".color.0000.png", filepath)
         if save_depth:
@@ -254,19 +257,21 @@ class Scene(metaclass=Singleton):
         return False
 
     @staticmethod
-    def export(path: Union[str, Path], include_file_textures: bool = True):
+    def export(path: Union[str, Path], include_file_textures: bool = True, verbose: bool = False):
         """Export the current scene to the .blend file
 
         Args:
             path (Union[str, Path]): path to the target .blend file
             include_file_textures (bool): whether to write textures loaded from external files inside .blend file
+            verbose (bool): whether to allow blender to log its status to stdout during exporting
         """
-        # hack to overcome BKE_bpath_relative_convert: basedir='', this is a bug
+        # hack to overcome Blender error message "BKE_bpath_relative_convert: basedir='', this is a bug"
         path = str(os.path.abspath(path))
 
-        if include_file_textures:
-            bpy.ops.file.pack_all()
-        bpy.ops.wm.save_as_mainfile(filepath=path)
+        with catch_stdout(skip=verbose):
+            if include_file_textures:
+                bpy.ops.file.pack_all()
+            bpy.ops.wm.save_as_mainfile(filepath=path)
 
     @staticmethod
     def attach_blend(path: Union[str, Path]):
