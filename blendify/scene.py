@@ -27,7 +27,6 @@ class Scene(metaclass=Singleton):
 
     @staticmethod
     def _set_default_blender_scene():
-        # TODO inspect all lines (maybe add something)
         # Setup scene parameters
         scene = bpy.data.scenes[0]
         scene.use_nodes = True
@@ -44,12 +43,12 @@ class Scene(metaclass=Singleton):
         bpy.context.scene.cycles.samples = 128  # Default value, can be changed in .render
 
         # Empty the scene
+        bpy.ops.object.mode_set(mode='OBJECT')
         bpy.ops.object.select_all(action='SELECT')
         bpy.ops.object.delete(use_global=False)
         bpy.ops.outliner.orphans_purge()
         bpy.ops.outliner.orphans_purge()
         bpy.ops.outliner.orphans_purge()
-        # bpy.ops.file.autopack_toggle()
 
     @property
     def camera(self) -> Camera:
@@ -105,8 +104,10 @@ class Scene(metaclass=Singleton):
         return camera
 
     def _setup_camera(self, camera: Camera):
-        # TODO add old camera destructor
-        # Set camera
+        # Delete old camera
+        if self._camera is not None:
+            self._camera._blender_remove_object()
+        # Set new camera
         self._camera = camera
         scene = bpy.data.scenes[0]
         scene.render.resolution_x = camera.resolution[0]
