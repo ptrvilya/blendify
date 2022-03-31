@@ -130,8 +130,13 @@ class Scene(metaclass=Singleton):
         Returns:
             np.ndarray: distance map in numpy array format
         """
-        import OpenEXR
-        import Imath
+        try:
+            import OpenEXR
+            import Imath
+        except ModuleNotFoundError:
+            raise ModuleNotFoundError("OpenEXR is not installed (required to save the depth). "
+                                "To fix, please refer to Blendify installation instructions "
+                                "(INSTALL.md -> Optional requirements)")
         exr_input = OpenEXR.InputFile(path)
         exr_float_type = Imath.PixelType(Imath.PixelType.FLOAT)
         data = np.array(array.array('f', exr_input.channel("R", exr_float_type)).tolist())
