@@ -1,5 +1,5 @@
-from blendify.internal.types import Vector3d
-from blendify.lights.base import Light
+from .base import Light
+from ..internal.types import Vector3d
 
 
 class PointLight(Light):

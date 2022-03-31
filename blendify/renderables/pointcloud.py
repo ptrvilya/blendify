@@ -22,19 +22,19 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
+import warnings
 from dataclasses import dataclass
 from typing import List, Optional, Dict, Tuple
 
 import bpy
 import numpy as np
-import warnings
 from mathutils import Vector
 
 from .base import Renderable
-from blendify.colors import VertexColors, UniformColors
+from ..colors import VertexColors, UniformColors
 from ..colors.base import ColorsMetadata, Colors
-from blendify.materials.base import Material
-from ..internal.texture import _compute_particle_color_texture
+from ..internal.texture import compute_particle_color_texture
+from ..materials.base import Material
 
 
 @ dataclass
@@ -74,7 +74,7 @@ class PointCloud(Renderable):
 
         Args:
             vertices (np.ndarray): point cloud vertices
-            material (Material): PrinsipledBSDFMaterial instance
+            material (Material): Material instance
             colors (Colors): VertexColors or UniformColors instance
             point_size (float, optional): size of a primitive, representing each vertex (default: 0.006)
             base_primitive (str, optional): type of primitive for representing each point
@@ -103,12 +103,11 @@ class PointCloud(Renderable):
         collection = self._blender_create_collection(vertices, tag)
         super().__init__(**kwargs, blender_object=collection, tag=tag)
 
-
     def update_vertices(
             self,
             vertices: np.ndarray
     ):
-        """Updates pc vertices corrdinates
+        """Updates pc vertices coordinates
 
         Args:
             vertices (np.ndarray): new coordinates for point cloud vertices
@@ -166,7 +165,7 @@ class PointCloud(Renderable):
         self.num_vertices = len(vertices)
         for index, vertex_start in enumerate(range(0, self.num_vertices, self._max_particles)):
             # This name is used is a unique identifier for
-            # the internal dictionary with metadata self._particle_metada
+            # the internal dictionary with metadata self._particle_metadata
             particle_obj_name = f"Particle_{index}"
             # particle_material_name = f"Particle_{index}_Material"
             point_cloud_obj_name = f"Particle_{index}_PC"
@@ -377,7 +376,7 @@ class PointCloud(Renderable):
             self,
             colors: Colors
     ):
-        """Remembers current color properies, builds a color node for material
+        """Remembers current color properties, builds a color node for material
 
         Args:
             colors (Colors): target colors information
@@ -389,8 +388,7 @@ class PointCloud(Renderable):
             for particle_obj_name, metadata in self._particle_metadata.items():
                 vertex_offset = metadata.vertex_offset
                 vertex_colors_subset = colors.vertex_colors[vertex_offset: vertex_offset + self._max_particles]
-                metadata.texture_image = \
-                    _compute_particle_color_texture(vertex_colors_subset)
+                metadata.texture_image = compute_particle_color_texture(vertex_colors_subset)
 
         self._blender_create_colors_node()
         self._blender_link_color2material()
@@ -515,7 +513,5 @@ class PointCloud(Renderable):
                 else:
                     raise NotImplementedError(f"Unsupported material node: {bsdf_node.bl_label}"
                                               f" in _blender_link_color2material")
-
-
 
     # ================================================== END OF COLORS =================================================

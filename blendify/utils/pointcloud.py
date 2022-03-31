@@ -4,7 +4,7 @@ import numpy as np
 import trimesh
 from scipy.spatial import KDTree
 
-from blendify.internal.types import Vector3d, Vector4d
+from ..internal.types import Vector3d, Vector4d
 
 
 def estimate_pc_normals_from_mesh(pc_vertices: np.ndarray, mesh: trimesh.base.Trimesh):

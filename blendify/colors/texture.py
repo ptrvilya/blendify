@@ -3,8 +3,8 @@ from abc import ABC, abstractmethod
 import bpy
 import numpy as np
 
-from blendify.colors.base import Colors, ColorsMetadata
-from blendify.internal.texture import _copy_values_to_image
+from .base import Colors, ColorsMetadata
+from ..internal.texture import _copy_values_to_image
 
 
 class UVMap(ABC):

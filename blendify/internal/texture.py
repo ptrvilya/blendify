@@ -26,7 +26,7 @@ SOFTWARE.
 import bpy
 
 
-def _compute_particle_color_texture(colors, name="ParticleColor"):
+def compute_particle_color_texture(colors, name="ParticleColor"):
     # To view the texture we set the height of the texture to vis_image_height
     image = bpy.data.images.new(name=name, width=len(colors), height=1)
 

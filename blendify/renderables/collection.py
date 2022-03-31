@@ -2,7 +2,6 @@ from typing import Dict, Iterable, Union
 
 import numpy as np
 
-from blendify.materials.base import Material
 from . import primitives
 from .base import Renderable
 from .mesh import Mesh
@@ -10,6 +9,7 @@ from .pointcloud import PointCloud
 from ..colors.base import Colors
 from ..internal import Singleton
 from ..internal.types import Vector3d, Vector4d
+from ..materials.base import Material
 
 
 class RenderablesCollection(metaclass=Singleton):
@@ -34,9 +34,9 @@ class RenderablesCollection(metaclass=Singleton):
 
         Args:
             vertices (np.ndarray): point cloud vertices
-            material (Material): PrinsipledBSDFMaterial instance
+            material (Material): Material instance
             colors (Colors): VertexColors or UniformColors instance
-            point_size (float, optional): size of a primitive, represintg each vertex (default: 0.006)
+            point_size (float, optional): size of a primitive, representing each vertex (default: 0.006)
             base_primitive (str, optional): type of primitive for representing each point
                 (possible values are PLANE, CUBE, SPHERE, default: CUBE)
             particle_emission_strength (int, optional): strength of the emission from each primitive. This is used to

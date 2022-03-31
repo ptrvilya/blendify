@@ -3,7 +3,7 @@ from typing import NamedTuple, Optional
 
 import bpy
 
-from blendify.internal.types import Vector3d
+from ..internal.types import Vector3d
 
 
 class ColorsMetadata(NamedTuple):

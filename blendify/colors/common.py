@@ -1,7 +1,7 @@
 import numpy as np
 
-from blendify.colors.base import ColorsMetadata, Colors
-from blendify.internal.types import Vector3d
+from .base import ColorsMetadata, Colors
+from ..internal.types import Vector3d
 
 
 class VertexColors(Colors):

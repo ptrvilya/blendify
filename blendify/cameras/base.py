@@ -4,8 +4,8 @@ import bpy
 import numpy as np
 from scipy.spatial import transform
 
-from blendify.internal.positionable import Positionable
-from blendify.internal.types import Vector2di
+from ..internal.positionable import Positionable
+from ..internal.types import Vector2di
 
 
 class Camera(Positionable):

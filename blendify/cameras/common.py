@@ -1,7 +1,7 @@
 import numpy as np
 
-from blendify.cameras.base import Camera
-from blendify.internal.types import Vector2d
+from .base import Camera
+from ..internal.types import Vector2d
 
 
 class PerspectiveCamera(Camera):

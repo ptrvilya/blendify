@@ -3,11 +3,11 @@ from typing import Optional
 
 import bpy
 
-from blendify.colors import UniformColors, VertexColors
-from ..colors.texture import TextureColors, FileTextureColors
+from ..colors import UniformColors, VertexColors
 from ..colors.base import ColorsMetadata, Colors
-from blendify.materials.base import Material
+from ..colors.texture import TextureColors, FileTextureColors
 from ..internal.positionable import Positionable
+from ..materials.base import Material
 
 
 class Renderable(Positionable):

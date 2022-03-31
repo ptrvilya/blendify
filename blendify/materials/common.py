@@ -2,7 +2,7 @@ from typing import Tuple
 
 import bpy
 
-from blendify.materials.base import Material, material_property
+from .base import Material, material_property
 
 
 class PrinsipledBSDFMaterial(Material):

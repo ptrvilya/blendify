@@ -2,8 +2,8 @@ from abc import abstractmethod
 
 import numpy as np
 
-from blendify.internal.types import Vector3d, Vector2d
-from blendify.lights.base import Light
+from .base import Light
+from ..internal.types import Vector3d, Vector2d
 
 
 class AreaLight(Light):

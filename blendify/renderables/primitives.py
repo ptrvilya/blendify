@@ -4,10 +4,10 @@ import bpy
 import numpy as np
 
 from .base import RenderableObject
-from blendify.colors import UniformColors
+from ..colors import UniformColors
 from ..colors.base import Colors
-from blendify.materials.base import Material
 from ..internal.types import Vector3d
+from ..materials.base import Material
 
 
 # =================================================== Mesh Primitives ==================================================
