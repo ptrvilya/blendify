@@ -17,10 +17,10 @@ class Trajectory:
     def set_trajectory(self, keypoints):
         self.trajectory = [{k: np.array(v) for k, v in x.items()} for x in keypoints]
 
-    def find_closest_kp_in_traj(self, time:float):
+    def find_closest_kp_in_traj(self, time: float):
         times = np.array([x['time'] for x in self.trajectory])
-        times_diff = times-time
-        times_mask = times_diff>0
+        times_diff = times - time
+        times_mask = times_diff > 0
         if times_mask.sum() == 0:
             return self.trajectory[-1], self.trajectory[-1]
         times_inds = np.flatnonzero(times_mask)
@@ -48,7 +48,7 @@ class Trajectory:
                      time: float, check_time: bool = True):
         keypoint = {"position": np.array(position), "quaternion": np.array(quaternion), "time": time}
         if check_time:
-            times = np.array([x['time'] for i,x in enumerate(self.trajectory)])
+            times = np.array([x['time'] for i, x in enumerate(self.trajectory)])
             diff = times - keypoint['time']
             if np.any(np.abs(diff) < 1e-4):
                 return
@@ -57,24 +57,24 @@ class Trajectory:
 
     def rot_gaussian_smoothing(self, rots, sigma=5.):
         def get_rot_ind(ind):
-            while ind>=len(rots) or ind < 0:
+            while ind >= len(rots) or ind < 0:
                 if ind >= len(rots):
-                    ind = 2*len(rots)-1-ind
+                    ind = 2 * len(rots) - 1 - ind
                 if ind < 0:
                     ind = -ind
             return ind
 
-        winradius = round(2*3*sigma)
-        if winradius<1:
+        winradius = round(2 * 3 * sigma)
+        if winradius < 1:
             return rots
-        weights = gaussian(winradius*2+1, sigma)
+        weights = gaussian(winradius * 2 + 1, sigma)
         res = []
         for ind in range(len(rots)):
-            window_inds = [get_rot_ind(i) for i in range(ind-winradius,ind+winradius+1)]
+            window_inds = [get_rot_ind(i) for i in range(ind - winradius, ind + winradius + 1)]
             res.append(rots[window_inds].mean(weights))
         return res
 
-    def refine_trajectory(self, time_step:float = 1/60., interp_type:str = "quadratic", smoothness:float = 5.0):
+    def refine_trajectory(self, time_step: float = 1/60., interp_type: str = "quadratic", smoothness: float = 5.0):
         """Refines the trajectory by creating keypoints inbetween existion ones via interpolation
 
         Args:
@@ -94,17 +94,17 @@ class Trajectory:
         start_time = self.trajectory[0]['time']
         end_time = self.trajectory[-1]['time']
         cam_times = [x['time'] for x in self.trajectory]
-        cam_rots = Rotation.from_quat([np.roll(x['quaternion'],-1) for x in self.trajectory])
+        cam_rots = Rotation.from_quat([np.roll(x['quaternion'], -1) for x in self.trajectory])
         cam_poses = [x['position'] for x in self.trajectory]
         rot_slerp = Slerp(cam_times, cam_rots)
-        interp_times = np.concatenate([np.arange(start_time,end_time, time_step), [end_time]])
+        interp_times = np.concatenate([np.arange(start_time, end_time, time_step), [end_time]])
         interp_rots = rot_slerp(interp_times)
         pos_intrp = interp1d(cam_times, cam_poses, axis=0, kind=interp_type)
         interp_poses = pos_intrp(interp_times)
         interp_poses = np.array(list(zip(*[gaussian_filter1d(x, smoothness) for x in zip(*interp_poses)])))
         interp_rots = self.rot_gaussian_smoothing(interp_rots, smoothness)
-        interp_quats = [np.roll(x.as_quat(),1) for x in interp_rots]
-        interp_traj = [{'position':interp_poses[i], 'quaternion':interp_quats[i], 'time':interp_times[i]}
+        interp_quats = [np.roll(x.as_quat(), 1) for x in interp_rots]
+        interp_traj = [{'position': interp_poses[i], 'quaternion': interp_quats[i], 'time': interp_times[i]}
                        for i in range(len(interp_times))]
         self.trajectory = interp_traj
 

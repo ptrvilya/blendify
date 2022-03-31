@@ -7,7 +7,17 @@ from scipy.spatial import KDTree
 from blendify.internal.types import Vector3d, Vector4d
 
 
-def estimate_normals_from_mesh(pc_vertices: np.ndarray, mesh: trimesh.base.Trimesh):
+def estimate_pc_normals_from_mesh(pc_vertices: np.ndarray, mesh: trimesh.base.Trimesh):
+    """Approximate PC per-vertex normals from mesh that is registered to PC.
+    For each PC vertex averages vertex normals for 5 nearest mesh vertices.
+
+    Args:
+        pc_vertices (np.ndarray): pointcloud vertices (n_vertices x 3)
+        mesh (trimesh.base.Trimesh): mesh, registered to the PC;
+
+    Returns:
+        np.ndarray: estimated normals n_vertices x 3
+    """
     mesh_normals = mesh.vertex_normals
     tree = KDTree(mesh.vertices)
     dd, nn_index = tree.query(pc_vertices, k=5, p=2, workers=-1)
@@ -19,6 +29,17 @@ def estimate_normals_from_mesh(pc_vertices: np.ndarray, mesh: trimesh.base.Trime
 
 
 def estimate_normals_from_pointcloud(pc_vertices: np.ndarray, backend="open3d", device="gpu"):
+    """Approximate PC per-vertex normals using algorithms implemented in opend3d or pytorch3d.
+
+    Args:
+        pc_vertices (np.ndarray): pointcloud vertices (n_vertices x 3)
+        backend (str, optional): backend that is used to estimate normals,
+            pytorch3d and open3d are supported (default: "open3d")
+        device (str, optional): pytorch device (default: "gpu")
+
+    Returns:
+        np.ndarray: estimated normals n_vertices x 3
+    """
     if backend == "open3d":
         import open3d as o3d
 
@@ -41,8 +62,25 @@ def estimate_normals_from_pointcloud(pc_vertices: np.ndarray, backend="open3d", 
     return pc_normals
 
 
-def approximate_colors_from_camera(camera_viewdir, vertex_normals, per_vertex_color: Union[Vector3d, Vector4d],
-                                   back_color: Union[Vector3d, Vector4d] = (0.6, 0.6, 0.6)):
+def approximate_colors_from_camera(
+    camera_viewdir: np.ndarray, vertex_normals: np.ndarray, per_vertex_color: Union[Vector3d, Vector4d],
+    back_color: Union[Vector3d, Vector4d] = (0.6, 0.6, 0.6)
+):
+    """Approximation of visible vertices from camera.
+    PC vertices are colored with their initial color only if they are visible from camera (here we use the approximation
+    of visibility, by calculating the angle between vertex normal and camera's view direction), otherwise the vertices
+    are colored with back_color.
+
+    Args:
+        camera_viewdir (np.ndarray): view direction of the camera
+        vertex_normals (np.ndarray): per-vertex normals of the point cloud
+        per_vertex_color (Union[Vector3d, Vector4d]): colors for the point cloud
+        back_color (Union[Vector3d, Vector4d], optional): color for vertices that are not visible from camera. With
+            the approximation of visibility, described above (default: (0.6, 0.6, 0.6))
+
+    Returns:
+        np.ndarray: new per-vertex coloring with invisible vertices colored in back_color
+    """
     # Add alpha
     back_color = np.array(back_color)
     if back_color.shape[0] == 3:

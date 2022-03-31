@@ -54,9 +54,11 @@ class Scene(metaclass=Singleton):
     def camera(self) -> Camera:
         return self._camera
 
-    def set_perspective_camera(self, resolution: Vector2di, focal_dist: float = None, fov_x: float = None,
-            fov_y: float = None, center: Vector2d = None, near: float = 0.1, far: float = 100., tag: str = 'camera',
-            quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0)) -> PerspectiveCamera:
+    def set_perspective_camera(
+        self, resolution: Vector2di, focal_dist: float = None, fov_x: float = None, fov_y: float = None,
+        center: Vector2d = None, near: float = 0.1, far: float = 100., tag: str = 'camera',
+        quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0)
+    ) -> PerspectiveCamera:
         """Set perspective camera in the scene. Replaces the previous scene camera, if it exists.
         One of focal_dist, fov_x or fov_y is required to set the camera parameters
 
@@ -81,9 +83,10 @@ class Scene(metaclass=Singleton):
         self._setup_camera(camera)
         return camera
 
-    def set_orthographic_camera(self, resolution: Vector2di, ortho_scale: float = 1.,
-            near: float = 0.1, far: float = 100., tag: str = 'camera',
-            quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0)) -> OrthographicCamera:
+    def set_orthographic_camera(
+        self, resolution: Vector2di, ortho_scale: float = 1., near: float = 0.1, far: float = 100.,
+        tag: str = 'camera', quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0)
+    ) -> OrthographicCamera:
         """Set orthographic camera in the scene. Replaces the previous scene camera, if it exists
 
         Args:
@@ -134,8 +137,10 @@ class Scene(metaclass=Singleton):
         data[data > dist_thresh] = -np.inf
         return data
 
-    def render(self, filepath: Union[str, Path] = "result.png", use_gpu: bool = True, samples: int = 128,
-            save_depth: bool = False, save_albedo: bool = False):
+    def render(
+        self, filepath: Union[str, Path] = "result.png", use_gpu: bool = True, samples: int = 128,
+        save_depth: bool = False, save_albedo: bool = False
+    ):
         """Start the Blender rendering process
 
         Args:
@@ -202,16 +207,16 @@ class Scene(metaclass=Singleton):
 
         # Render
         bpy.context.scene.frame_current = 0
-        temp_filesuff = next(tempfile._get_candidate_names())
-        temp_filepath = str(filepath) + "." + temp_filesuff
+        temp_filesuffix = next(tempfile._get_candidate_names())
+        temp_filepath = str(filepath) + "." + temp_filesuffix
         render_suffixes = [".color.0000.png"]
         if save_depth:
             render_suffixes.append(".depth.0000.exr")
         if save_albedo:
             render_suffixes.append(".albedo.0000.png")
         while self.check_any_exists(temp_filepath, render_suffixes):
-            temp_filesuff = next(tempfile._get_candidate_names())
-            temp_filepath = str(filepath) + "." + temp_filesuff
+            temp_filesuffix = next(tempfile._get_candidate_names())
+            temp_filepath = str(filepath) + "." + temp_filesuffix
         temp_filename = os.path.basename(temp_filepath)
         output_image.file_slots[0].path = temp_filename + ".color."
         if save_depth:

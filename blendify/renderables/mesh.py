@@ -113,7 +113,7 @@ class Mesh(RenderableObject):
                     for loop, loop_uv_coords in zip(face.loops, face_uv):
                         loop[uv_layer].uv = loop_uv_coords.tolist()
             else:
-                raise NotImplementedError(f"Unkown UV map type: {uv_map.__class__.__name__}")
+                raise NotImplementedError(f"Unknown UV map type: {uv_map.__class__.__name__}")
         elif not isinstance(colors, UniformColors):
             raise NotImplementedError(f"Unknown Colors type {colors.__class__.__name__}")
         super()._blender_set_colors(colors)

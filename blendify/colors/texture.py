@@ -80,7 +80,7 @@ class TextureColors(UVColors):
             type=self.__class__,
             has_alpha=False,
             color=None,
-            texture= self._texture
+            texture=self._texture
         )
 
     @property

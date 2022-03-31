@@ -12,7 +12,7 @@ from ..internal.positionable import Positionable
 
 class Renderable(Positionable):
     """
-    Base class for all renderable objects (Meshes, PointClouds, Priimitives).
+    Base class for all renderable objects (Meshes, PointClouds, Primitives).
     """
     @abstractmethod
     def __init__(
@@ -149,7 +149,7 @@ class RenderableObject(Renderable):
         self._blender_set_colors(colors)
 
     def _blender_set_colors(self, colors: Colors):
-        """Remembers current color properies, builds a color node for material (from colors_metadata)
+        """Remembers current color properties, builds a color node for material (from colors_metadata)
         """
         self._colors_metadata = colors.metadata
 

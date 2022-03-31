@@ -99,7 +99,7 @@ class CubeMesh(MeshPrimitive):
     def _blender_set_colors(
         self,
         colors: Colors
-):
+    ):
         """Remembers current color properties, builds a color node for material, sets color information to mesh
 
         Args:
@@ -159,7 +159,7 @@ class CircleMesh(MeshPrimitive):
     def _blender_set_colors(
         self,
         colors: Colors
-):
+    ):
         """Remembers current color properties, builds a color node for material, sets color information to mesh
 
         Args:

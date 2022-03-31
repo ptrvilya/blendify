@@ -129,7 +129,7 @@ class LightsCollection(metaclass=Singleton):
         cast_shadows=True,
         quaternion: Vector4d = (1, 0, 0, 0),
         translation: Vector3d = (0, 0, 0),
-        tag = None
+        tag: str = None
     ) -> AreaLight:
         """Add AreaLight light source to the scene. Shape of the area is controlled by shape parameter
 
@@ -147,7 +147,7 @@ class LightsCollection(metaclass=Singleton):
                 If None is passed the tag is automatically generated (default: None)
 
         Returns:
-            AreaLight: subclass of AreaLight (depending on shape), reated and added to the scene
+            AreaLight: subclass of AreaLight (depending on shape), created and added to the scene
         """
         tag = self._process_tag(tag, "Area")
         if shape == "square":
@@ -175,7 +175,7 @@ class LightsCollection(metaclass=Singleton):
         self._lights[tag] = light
         return light
 
-    def _process_tag(self, tag: str, default_prefix:str = "Light"):
+    def _process_tag(self, tag: str, default_prefix: str = "Light"):
         lights_keys = self._lights.keys()
 
         if tag is None:

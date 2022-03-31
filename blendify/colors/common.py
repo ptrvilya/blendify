@@ -16,9 +16,9 @@ class VertexColors(Colors):
         """
         super().__init__()
         assert (np.ndim(vertex_colors) == 2 and 3 <= vertex_colors.shape[1] <= 4), \
-                f"Expected colors array of shape (N,3) or (N,4) got shape {vertex_colors.shape}"
+            f"Expected colors array of shape (N,3) or (N,4) got shape {vertex_colors.shape}"
         assert vertex_colors.dtype in [np.float32, np.float64],\
-            "Colors shoud be stored as floating point numbers (np.float32 or np.float64)"
+            "Colors should be stored as floating point numbers (np.float32 or np.float64)"
         assert np.all(vertex_colors >= 0) and np.all(vertex_colors <= 1), "Colors should be in range [0.0, 1.0]"
         self._vertex_colors = vertex_colors
         self._metadata = ColorsMetadata(

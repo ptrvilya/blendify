@@ -1,5 +1,4 @@
 from typing import Tuple
-from functools import partial
 
 import bpy
 
@@ -90,7 +89,7 @@ class GlossyBSDFMaterial(Material):
         self._bsdf_node = material_nodes.new("ShaderNodeBsdfGlossy")
         material_nodes.remove(material_nodes['Principled BSDF'])
         self._object_material.node_tree.links.new(material_nodes["Material Output"].inputs["Surface"],
-                                            self._bsdf_node.outputs[0])
+                                                  self._bsdf_node.outputs[0])
         # Set material properties
         self._bsdf_node.inputs["Roughness"].default_value = self._roughness
         self._bsdf_node.distribution = self._distribution
