@@ -22,7 +22,7 @@ def main(args):
     # Configure logging
     logging.basicConfig(level=logging.INFO)
     logger = logging.getLogger("Blendify 05 example")
-    # Load the scene (don't forget to download resources with 05_download_assets.sh
+    # Load the scene
     logger.info("Loading scene resources...")
     trimesh_mesh = trimesh.load("./assets/05_smpl_movement/scene_mesh.ply")
     uv_map = np.load("./assets/05_smpl_movement/scene_face_uvmap.npy")
