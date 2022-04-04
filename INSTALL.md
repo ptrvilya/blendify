@@ -86,3 +86,6 @@ pip install OpenEXR
 
 [PyTorch](https://pytorch.org/) with [PyTorch3d](https://github.com/facebookresearch/pytorch3d/blob/main/INSTALL.md) and
 `pip install trimesh open3d smplpytorch videoio scikit-image`
+
+To make `smplpytorch` work, SMPL model files need to be downloaded, follow the install instructions in smplpytorch 
+[README](https://github.com/gulvarol/smplpytorch/blob/master/README.md).
