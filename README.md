@@ -82,6 +82,8 @@ Examples are described in [examples.md](docs/examples.md).
 ## Works that use blendify
 * [B.L. Bhatnagar, X. Xie, **I. Petrov**, C. Sminchisescu, C. Theobalt, G. Pons-Moll: 
   BEHAVE: Dataset and Method for Tracking Human Object Interactions, in CVPR'22](https://virtualhumans.mpi-inf.mpg.de/behave/)
+* [V. Lazova, E. Insafutdinov, G. Pons-Moll: 360-Degree Textures of People in Clothing from a Single Image
+in 3DV'19.](https://virtualhumans.mpi-inf.mpg.de/360tex/)
 
 
 ## Contributors
