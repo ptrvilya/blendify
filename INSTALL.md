@@ -89,3 +89,9 @@ pip install OpenEXR
 
 To make `smplpytorch` work, SMPL model files need to be downloaded, follow the install instructions in smplpytorch 
 [README](https://github.com/gulvarol/smplpytorch/blob/master/README.md).
+
+## 4. Common issues
+Sometimes system libstdc++ is dfferent to the one that was used to build the library. In that case one can install local version of this lib to conda via (version is given as an example here, change accordingly):
+```bash
+conda install gxx_linux-64 "libstdcxx-ng>=12.1" -c conda-forge
+```
