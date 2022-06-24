@@ -8,7 +8,7 @@ keywords = ["rendering", "pointcloud", "blender", "mesh"]
 
 classifiers = [
         'Intended Audience :: Developers',
-        'License :: Other/Proprietary License',
+        'License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)',
         'Natural Language :: English',
         'Operating System :: Unix',
         'Programming Language :: Python',
@@ -16,7 +16,6 @@ classifiers = [
     ]
 
 requirements = [
-        "python>=3.9",
         "numpy",
         "scipy"
 ]
@@ -33,5 +32,6 @@ setup(
     long_description=long_description,
     long_description_content_type='text/markdown',
     install_requires=requirements,
-    classifiers=classifiers
+    classifiers=classifiers,
+    python_requires=">=3.9"
 )
