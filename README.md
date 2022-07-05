@@ -84,6 +84,10 @@ Examples are described in [examples.md](docs/examples.md).
   BEHAVE: Dataset and Method for Tracking Human Object Interactions, in CVPR'22](https://virtualhumans.mpi-inf.mpg.de/behave/)
 * [V. Lazova, E. Insafutdinov, G. Pons-Moll: 360-Degree Textures of People in Clothing from a Single Image
 in 3DV'19.](https://virtualhumans.mpi-inf.mpg.de/360tex/)
+* [X. Zhang, B.L. Bhatnagar, **V. Guzov**, S. Starke, G. Pons-Moll: 
+  COUCH: Towards Controllable Human-Chair Interactions](http://virtualhumans.mpi-inf.mpg.de/couch/)
+* [G. Tiwari, D. Antic, J. E. Lenssen, N. Sarafianos, T. Tung, G. Pons-Moll: Pose-NDF: 
+Modeling Human Pose Manifolds with Neural Distance Fields](https://virtualhumans.mpi-inf.mpg.de/posendf/)
 
 
 ## Contributors
