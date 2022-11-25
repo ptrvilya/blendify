@@ -237,6 +237,8 @@ class PointCloud(Renderable):
         else:
             bpy.ops.mesh.primitive_uv_sphere_add(radius=point_scale)
         particle_obj = bpy.context.object
+        # Purposely repeating object name setting 2 times - for some primitives (cubes) setting it just ones sometimes doesn't work
+        particle_obj.name = particle_obj_name
         particle_obj.name = particle_obj_name
         blender_collection.objects.link(particle_obj)
         bpy.context.collection.objects.unlink(particle_obj)
