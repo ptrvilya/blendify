@@ -17,7 +17,8 @@ classifiers = [
 
 requirements = [
         "numpy",
-        "scipy"
+        "scipy",
+        "bpy==3.4.0"
 ]
 
 setup(
@@ -33,5 +34,5 @@ setup(
     long_description_content_type='text/markdown',
     install_requires=requirements,
     classifiers=classifiers,
-    python_requires=">=3.9"
+    python_requires=">=3.10"
 )

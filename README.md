@@ -17,8 +17,6 @@ Key-features:
 ## Installation instructions
 Installing blendify from git: `pip install git+https://gitlab.com/real-virtual-humans/visuals/blendify.git`
 
-Blendify also requires a standalone Blender Python module to be built. For detailed instructions refer to [INSTALL.md](INSTALL.md).
-
 
 ## Quick Start
 ```python

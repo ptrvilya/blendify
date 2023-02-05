@@ -56,9 +56,9 @@ class Scene(metaclass=Singleton):
         return self._camera
 
     def set_perspective_camera(
-        self, resolution: Vector2di, focal_dist: float = None, fov_x: float = None, fov_y: float = None,
-        center: Vector2d = None, near: float = 0.1, far: float = 100., tag: str = 'camera',
-        quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0)
+            self, resolution: Vector2di, focal_dist: float = None, fov_x: float = None, fov_y: float = None,
+            center: Vector2d = None, near: float = 0.1, far: float = 100., tag: str = 'camera',
+            quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0)
     ) -> PerspectiveCamera:
         """Set perspective camera in the scene. Replaces the previous scene camera, if it exists.
         One of focal_dist, fov_x or fov_y is required to set the camera parameters
@@ -85,8 +85,8 @@ class Scene(metaclass=Singleton):
         return camera
 
     def set_orthographic_camera(
-        self, resolution: Vector2di, ortho_scale: float = 1., near: float = 0.1, far: float = 100.,
-        tag: str = 'camera', quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0)
+            self, resolution: Vector2di, ortho_scale: float = 1., near: float = 0.1, far: float = 100.,
+            tag: str = 'camera', quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0)
     ) -> OrthographicCamera:
         """Set orthographic camera in the scene. Replaces the previous scene camera, if it exists
 
@@ -135,8 +135,8 @@ class Scene(metaclass=Singleton):
             import Imath
         except ModuleNotFoundError:
             raise ModuleNotFoundError("OpenEXR is not installed (required to save the depth). "
-                                "To fix, please refer to Blendify installation instructions "
-                                "(INSTALL.md -> Optional requirements)")
+                                      "To fix, please refer to Blendify installation instructions "
+                                      "(INSTALL.md -> Optional requirements)")
         exr_input = OpenEXR.InputFile(path)
         exr_float_type = Imath.PixelType(Imath.PixelType.FLOAT)
         data = np.array(array.array('f', exr_input.channel("R", exr_float_type)).tolist())
@@ -176,9 +176,9 @@ class Scene(metaclass=Singleton):
 
         # Configure output
         bpy.context.scene.cycles.samples = samples
-        bpy.context.scene.view_layers['View Layer'].use_pass_combined = True
-        bpy.context.scene.view_layers['View Layer'].use_pass_diffuse_color = True
-        bpy.context.scene.view_layers['View Layer'].use_pass_z = True
+        bpy.context.scene.view_layers['ViewLayer'].use_pass_combined = True
+        bpy.context.scene.view_layers['ViewLayer'].use_pass_diffuse_color = True
+        bpy.context.scene.view_layers['ViewLayer'].use_pass_z = True
         scene_node_tree = bpy.context.scene.node_tree
 
         for n in scene_node_tree.nodes:
@@ -202,15 +202,26 @@ class Scene(metaclass=Singleton):
             for scene in bpy.data.scenes:
                 scene.cycles.device = 'GPU'
 
-            # Enable CUDA
-            bpy.context.preferences.addons['cycles'].preferences.compute_device_type = 'CUDA'
+            # Detect the appropriate GPU rendering mode
+            rendering_mode_priority_list = ['OPTIX', 'HIP', 'ONEAPI', 'CUDA']
+            rendering_preferences = bpy.context.preferences.addons['cycles'].preferences
+            rendering_preferences.refresh_devices()
+            devices = rendering_preferences.devices
+            available_rendering_modes = set()
+            for dev in devices:
+                available_rendering_modes.add(dev.type)
+            chosen_rendering_mode = "NONE"
+            for mode in rendering_mode_priority_list:
+                if mode in available_rendering_modes:
+                    chosen_rendering_mode = mode
+                    break
 
-            # Enable and list all devices, or optionally disable CPU
-            for devices in bpy.context.preferences.addons['cycles'].preferences.get_devices():
-                for d in devices:
-                    d.use = True
-                    if d.type == 'CPU':
-                        d.use = False
+            # Set GPU rendering mode to detected one
+            rendering_preferences.compute_device_type = chosen_rendering_mode
+
+            # Optionally, list the devices before rendering
+            # for dev in devices:
+            #     print(f"ID:{dev.id} Name:{dev.name} Type:{dev.type} Use:{dev.use}")
 
         # Render
         bpy.context.scene.frame_current = 0
@@ -236,7 +247,7 @@ class Scene(metaclass=Singleton):
 
         shutil.move(temp_filepath + ".color.0000.png", filepath)
         if save_depth:
-            distmap = self.read_exr_distmap(temp_filepath + ".depth.0000.exr", dist_thresh=self.camera.far*1.1)
+            distmap = self.read_exr_distmap(temp_filepath + ".depth.0000.exr", dist_thresh=self.camera.far * 1.1)
             distmap = distmap.reshape(self.camera.resolution[::-1])
             depthmap = self.camera.distance2depth(distmap)
             np.save(os.path.splitext(filepath)[0] + ".depth.npy", depthmap)
