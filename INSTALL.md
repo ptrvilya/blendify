@@ -10,8 +10,7 @@ pip install git+https://gitlab.com/real-virtual-humans/visuals/blendify.git
 ## 2. Optional requirements
 **Saving depth:**
 ```bash
-sudo apt-get install libopenexr-dev
-pip install OpenEXR
+pip install opencv-python
 ```
 
 **Requirements for examples and utils:**

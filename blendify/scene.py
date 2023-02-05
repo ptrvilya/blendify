@@ -131,15 +131,13 @@ class Scene(metaclass=Singleton):
             np.ndarray: distance map in numpy array format
         """
         try:
-            import OpenEXR
-            import Imath
+            import os
+            os.environ["OPENCV_IO_ENABLE_OPENEXR"] = "1"
+            import cv2
         except ModuleNotFoundError:
-            raise ModuleNotFoundError("OpenEXR is not installed (required to save the depth). "
-                                      "To fix, please refer to Blendify installation instructions "
-                                      "(INSTALL.md -> Optional requirements)")
-        exr_input = OpenEXR.InputFile(path)
-        exr_float_type = Imath.PixelType(Imath.PixelType.FLOAT)
-        data = np.array(array.array('f', exr_input.channel("R", exr_float_type)).tolist())
+            raise ModuleNotFoundError("OpenCV is not installed (required to save the depth). "
+                                      "To fix, run pip install opencv-python")
+        data = cv2.imread(path, cv2.IMREAD_UNCHANGED)[:,:,0]
         data[data > dist_thresh] = -np.inf
         return data
 
@@ -248,7 +246,6 @@ class Scene(metaclass=Singleton):
         shutil.move(temp_filepath + ".color.0000.png", filepath)
         if save_depth:
             distmap = self.read_exr_distmap(temp_filepath + ".depth.0000.exr", dist_thresh=self.camera.far * 1.1)
-            distmap = distmap.reshape(self.camera.resolution[::-1])
             depthmap = self.camera.distance2depth(distmap)
             np.save(os.path.splitext(filepath)[0] + ".depth.npy", depthmap)
             os.remove(temp_filepath + ".depth.0000.exr")
