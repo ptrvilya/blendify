@@ -33,7 +33,7 @@ def move_collection(parent, collection, linked=False):
             bpy.data.collections.remove(c, do_unlink=True)
 
     _move_collection(parent, collection, linked)
-    print(dupe_lookuptable)
+
     for o, dupe in tuple(dupe_lookuptable.items()):
         parent = dupe_lookuptable[o.parent]
         if parent:

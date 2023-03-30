@@ -145,7 +145,7 @@ class Scene(metaclass=Singleton):
 
     def render(
             self, filepath: Union[str, Path] = "result.png", use_gpu: bool = True, samples: int = 128,
-            save_depth: bool = False, save_albedo: bool = False, verbose: bool = False
+            save_depth: bool = False, save_albedo: bool = False, verbose: bool = False, use_denoiser: bool = False
     ):
         """Start the Blender rendering process
 
@@ -158,6 +158,7 @@ class Scene(metaclass=Singleton):
             save_albedo (bool): whether to save albedo (raw color information) in the separate file.
               If yes, the PNG image <filepath>.albedo.png with color information will be created.
             verbose (bool): whether to allow blender to log its status to stdout during rendering
+            use_denoiser (bool): use openimage denoiser to denoise the result
         """
         if self.camera is None:
             raise RuntimeError("Can't render without a camera")
@@ -174,6 +175,17 @@ class Scene(metaclass=Singleton):
         # bpy.context.object.data.dof.focus_object = object
         # input("Scene has been built. Press any key to start rendering")
 
+        # Setup denoising
+        if use_denoiser:
+            bpy.context.scene.cycles.use_denoising = True
+            bpy.context.scene.cycles.denoiser = 'OPENIMAGEDENOISE'
+            bpy.context.scene.view_layers[0].cycles.use_denoising = True
+            bpy.context.view_layer.cycles.denoising_store_passes = True
+        else:
+            bpy.context.scene.cycles.use_denoising = False
+            bpy.context.scene.view_layers[0].cycles.use_denoising = False
+            bpy.context.view_layer.cycles.denoising_store_passes = False
+
         # Configure output
         bpy.context.scene.cycles.samples = samples
         bpy.context.scene.view_layers['ViewLayer'].use_pass_combined = True
@@ -184,8 +196,27 @@ class Scene(metaclass=Singleton):
         for n in scene_node_tree.nodes:
             scene_node_tree.nodes.remove(n)
         render_layer = scene_node_tree.nodes.new(type="CompositorNodeRLayers")
-        output_image = scene_node_tree.nodes.new(type="CompositorNodeOutputFile")
-        scene_node_tree.links.new(render_layer.outputs['Image'], output_image.inputs['Image'])
+
+        # check if we have shadow catchers
+        use_shadow_catcher = False
+        for obj in bpy.data.objects:
+            if obj.is_shadow_catcher:
+                use_shadow_catcher = True
+                break
+
+        # create output node
+        if use_shadow_catcher:
+            bpy.context.view_layer.cycles.use_pass_shadow_catcher = True
+            alpha_over = scene_node_tree.nodes.new(type="CompositorNodeAlphaOver")
+            scene_node_tree.links.new(render_layer.outputs['Shadow Catcher'], alpha_over.inputs[1])
+            scene_node_tree.links.new(render_layer.outputs['Image'], alpha_over.inputs[2])
+
+            output_image = scene_node_tree.nodes.new(type="CompositorNodeOutputFile")
+            scene_node_tree.links.new(alpha_over.outputs['Image'], output_image.inputs['Image'])
+        else:
+            bpy.context.view_layer.cycles.use_pass_shadow_catcher = False
+            output_image = scene_node_tree.nodes.new(type="CompositorNodeOutputFile")
+            scene_node_tree.links.new(render_layer.outputs['Image'], output_image.inputs['Image'])
 
         if save_depth:
             output_depth = scene_node_tree.nodes.new(type="CompositorNodeOutputFile")
