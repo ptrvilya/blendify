@@ -49,13 +49,13 @@ Examples are described in [examples.md](docs/examples.md).
   </tr>
   <tr align="center">
     <td>
-      <img src=".github/01_cornell_box.jpg" width="1024px"/>
+      <img src=".github/01_cornell_box.jpg" width="310px"/>
     </td>
     <td>
-      <img src=".github/02_color_albedo_depth.jpg" width="1024px"/>
+      <img src=".github/02_color_albedo_depth.jpg" width="310px"/>
     </td>
     <td>
-      <img src=".github/03_mesh_with_texture.jpg" width="1024px"/>
+      <img src=".github/03_mesh_with_texture.jpg" width="310px"/>
     </td>
   </tr>
   <tr align="center">
@@ -65,13 +65,13 @@ Examples are described in [examples.md](docs/examples.md).
   </tr>
   <tr align="center">
     <td>
-      <img src=".github/04_camera_colored_point_cloud.gif" width="1024px"/>
+      <img src=".github/04_camera_colored_point_cloud.gif" width="310px"/>
     </td>
     <td>
-      <img src=".github/05_smpl_movement.gif" width="1024px"/>
+      <img src=".github/05_smpl_movement.gif" width="310px"/>
     </td>
     <td>
-      <img src=".github/06_nurbs_trajectory.gif" width="1024px"/>
+      <img src=".github/06_nurbs_trajectory.gif" width="310px"/>
     </td>
   </tr>
 </table>
