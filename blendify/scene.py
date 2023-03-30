@@ -1,4 +1,3 @@
-import array
 import os
 import shutil
 import tempfile
@@ -13,6 +12,7 @@ from .cameras.base import Camera
 from .internal import Singleton
 from .internal.io import catch_stdout
 from .internal.types import Vector2d, Vector2di, Vector3d, Vector4d
+from .internal import parser
 from .lights import LightsCollection
 from .renderables import RenderablesCollection
 
@@ -56,9 +56,10 @@ class Scene(metaclass=Singleton):
         return self._camera
 
     def set_perspective_camera(
-            self, resolution: Vector2di, focal_dist: float = None, fov_x: float = None, fov_y: float = None,
-            center: Vector2d = None, near: float = 0.1, far: float = 100., tag: str = 'camera',
-            quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0)
+        self, resolution: Vector2di, focal_dist: float = None, fov_x: float = None, fov_y: float = None,
+        center: Vector2d = None, near: float = 0.1, far: float = 100., tag: str = 'camera',
+        quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0),
+        resolution_percentage: float = 100.
     ) -> PerspectiveCamera:
         """Set perspective camera in the scene. Replaces the previous scene camera, if it exists.
         One of focal_dist, fov_x or fov_y is required to set the camera parameters
@@ -74,19 +75,20 @@ class Scene(metaclass=Singleton):
             tag (str): name of the created object in Blender
             quaternion (Vector4d, optional): rotation applied to the Blender object (default: (1,0,0,0))
             translation (Vector3d, optional): translation applied to the Blender object (default: (0,0,0))
-
+            resolution_percentage (float, optional):
         Returns:
             PerspectiveCamera: created camera
         """
         camera = PerspectiveCamera(resolution=resolution, focal_dist=focal_dist, fov_x=fov_x, fov_y=fov_y,
                                    center=center, near=near, far=far, tag=tag,
                                    quaternion=quaternion, translation=translation)
-        self._setup_camera(camera)
+        self._setup_camera(camera, resolution_percentage)
         return camera
 
     def set_orthographic_camera(
-            self, resolution: Vector2di, ortho_scale: float = 1., near: float = 0.1, far: float = 100.,
-            tag: str = 'camera', quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0)
+        self, resolution: Vector2di, ortho_scale: float = 1., near: float = 0.1, far: float = 100.,
+        tag: str = 'camera', quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0),
+        resolution_percentage: float = 100.
     ) -> OrthographicCamera:
         """Set orthographic camera in the scene. Replaces the previous scene camera, if it exists
 
@@ -98,16 +100,16 @@ class Scene(metaclass=Singleton):
             tag (str): name of the created object in Blender
             quaternion (Vector4d, optional): rotation applied to the Blender object (default: (1,0,0,0))
             translation (Vector3d, optional): translation applied to the Blender object (default: (0,0,0))
-
+            resolution_percentage (float, optional):
         Returns:
             OrthographicCamera: created camera
         """
         camera = OrthographicCamera(resolution=resolution, ortho_scale=ortho_scale, far=far, near=near, tag=tag,
                                     quaternion=quaternion, translation=translation)
-        self._setup_camera(camera)
+        self._setup_camera(camera, resolution_percentage)
         return camera
 
-    def _setup_camera(self, camera: Camera):
+    def _setup_camera(self, camera: Camera, resolution_percentage: float =100.):
         # Delete old camera
         if self._camera is not None:
             self._camera._blender_remove_object()
@@ -116,7 +118,7 @@ class Scene(metaclass=Singleton):
         scene = bpy.data.scenes[0]
         scene.render.resolution_x = camera.resolution[0]
         scene.render.resolution_y = camera.resolution[1]
-        scene.render.resolution_percentage = 100
+        scene.render.resolution_percentage = resolution_percentage
 
     @staticmethod
     def read_exr_distmap(path: str, dist_thresh: float = 1e4) -> np.ndarray:
@@ -288,8 +290,8 @@ class Scene(metaclass=Singleton):
 
     @staticmethod
     def attach_blend(path: Union[str, Path]):
-        """Append all the contents of the existing .blend file to the scene.
-        This includes lights, cameras, renderable objects, parameters, materials, etc.
+        """Append objects and materials from the existing .blend file to the scene.
+        This includes lights, renderable objects, materials, etc.
         The appended modalities will only be present in the internal Blender structures,
         but not be present in the Scene class structure.
         However, they will appear on rendering and in the exported .blend files
@@ -308,3 +310,72 @@ class Scene(metaclass=Singleton):
 
         bpy.ops.wm.append(directory=str(path) + "/Object/", files=objects)
         bpy.ops.wm.append(directory=str(path) + "/Material/", files=materials)
+
+    def attach_blend_with_camera(self, path: Union[str, Path]):
+        """Append objects and materials from the existing .blend file to the scene.
+        This includes lights, renderable objects, materials, etc.
+        The appended modalities will only be present in the internal Blender structures,
+        but not be present in the Scene class structure.
+        However, they will appear on rendering and in the exported .blend files
+
+        Args:
+            path: path to the .blend file to append the contents from
+        """
+        main_scene_name = bpy.data.scenes.keys()[0]
+        objects, materials = [], []
+        with bpy.data.libraries.load(str(path), link=False) as (data_from, data_to):
+            for name in data_from.materials:
+                materials.append({'name': name})
+
+            for name in data_from.objects:
+                objects.append({'name': name})
+
+            # Check number of cameras by looking at cameras settings
+            assert len(data_from.cameras) == 1, f"Expect to have only single camera in .blend, got {len(data_from.cameras)}"
+
+            # Parse resolution parameters from scene
+            assert len(data_from.scenes) == 1, f"Expect to have only single scene in .blend, got {len(data_from.scenes)}"
+            data_to.scenes = data_from.scenes
+
+        # Parse resolution
+        res_x = data_to.scenes[0].render.resolution_x
+        res_y = data_to.scenes[0].render.resolution_y
+        resolution_percentage = data_to.scenes[0].render.resolution_percentage
+        resolution = np.array([res_x, res_y])
+
+        # Delete old camera
+        if self._camera is not None:
+            self._camera._blender_remove_object()
+
+        # Add materials to the current scene
+        bpy.ops.wm.append(directory=str(path) + "/Material/", files=materials, link=True)
+
+        # Recursively copy collection
+        main_scene = bpy.data.scenes[main_scene_name]
+        import_scene = data_to.scenes[0]
+        parser.move_collection(main_scene.collection, import_scene.collection, True)
+
+        # Remove scene
+        bpy.data.scenes.remove(import_scene, do_unlink=True)
+
+        # Camera was appended as object, now we need to parse its parameters
+        for obj in bpy.data.objects:
+            if obj.type == "CAMERA":
+                camera_type, camera_dict = parser.parse_camera_from_blendfile(obj, resolution)
+
+                # Remove current camera, because we need to recreate it
+                bpy.data.cameras.remove(bpy.data.cameras[0])
+
+                if camera_type == "ORTHO":
+                    self.set_orthographic_camera(
+                        resolution_percentage=resolution_percentage, **camera_dict
+                    )
+                elif camera_type == "PERSP":
+                    self.set_perspective_camera(
+                        resolution_percentage=resolution_percentage, **camera_dict
+                    )
+                else:
+                    raise NotImplementedError(f"Unsupported camera type {camera_type}")
+
+                # Camera is parsed, exiting
+                break
