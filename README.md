@@ -83,10 +83,10 @@ Examples are described in [examples.md](docs/examples.md).
 * [V. Lazova, E. Insafutdinov, G. Pons-Moll: 360-Degree Textures of People in Clothing from a Single Image
 in 3DV'19.](https://virtualhumans.mpi-inf.mpg.de/360tex/)
 * [X. Zhang, B.L. Bhatnagar, **V. Guzov**, S. Starke, G. Pons-Moll: 
-  COUCH: Towards Controllable Human-Chair Interactions](http://virtualhumans.mpi-inf.mpg.de/couch/)
+  COUCH: Towards Controllable Human-Chair Interactions](https://virtualhumans.mpi-inf.mpg.de/couch/)
 * [G. Tiwari, D. Antic, J. E. Lenssen, N. Sarafianos, T. Tung, G. Pons-Moll: Pose-NDF: 
 Modeling Human Pose Manifolds with Neural Distance Fields](https://virtualhumans.mpi-inf.mpg.de/posendf/)
-
+* [**I. Petrov**, R. Marin, J. Chibane, G. Pons-Moll: Object pop-up: Can we infer 3D objects and their poses from human interactions alone?](https://virtualhumans.mpi-inf.mpg.de/object_popup/)
 
 ## Contributors
 Blendify is written and maintained by [Vladimir Guzov](https://github.com/vguzov) and [Ilya Petrov](https://github.com/ptrvilya).
