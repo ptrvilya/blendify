@@ -59,7 +59,7 @@ class Scene(metaclass=Singleton):
         self, resolution: Vector2di, focal_dist: float = None, fov_x: float = None, fov_y: float = None,
         center: Vector2d = None, near: float = 0.1, far: float = 100., tag: str = 'camera',
         quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0),
-        resolution_percentage: float = 100.
+        resolution_percentage: int = 100
     ) -> PerspectiveCamera:
         """Set perspective camera in the scene. Replaces the previous scene camera, if it exists.
         One of focal_dist, fov_x or fov_y is required to set the camera parameters
@@ -75,7 +75,7 @@ class Scene(metaclass=Singleton):
             tag (str): name of the created object in Blender
             quaternion (Vector4d, optional): rotation applied to the Blender object (default: (1,0,0,0))
             translation (Vector3d, optional): translation applied to the Blender object (default: (0,0,0))
-            resolution_percentage (float, optional):
+            resolution_percentage (int, optional):
         Returns:
             PerspectiveCamera: created camera
         """
@@ -88,7 +88,7 @@ class Scene(metaclass=Singleton):
     def set_orthographic_camera(
         self, resolution: Vector2di, ortho_scale: float = 1., near: float = 0.1, far: float = 100.,
         tag: str = 'camera', quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0),
-        resolution_percentage: float = 100.
+        resolution_percentage: int = 100
     ) -> OrthographicCamera:
         """Set orthographic camera in the scene. Replaces the previous scene camera, if it exists
 
@@ -100,7 +100,7 @@ class Scene(metaclass=Singleton):
             tag (str): name of the created object in Blender
             quaternion (Vector4d, optional): rotation applied to the Blender object (default: (1,0,0,0))
             translation (Vector3d, optional): translation applied to the Blender object (default: (0,0,0))
-            resolution_percentage (float, optional):
+            resolution_percentage (int, optional):
         Returns:
             OrthographicCamera: created camera
         """
@@ -109,7 +109,7 @@ class Scene(metaclass=Singleton):
         self._setup_camera(camera, resolution_percentage)
         return camera
 
-    def _setup_camera(self, camera: Camera, resolution_percentage: float =100.):
+    def _setup_camera(self, camera: Camera, resolution_percentage: int = 100):
         # Delete old camera
         if self._camera is not None:
             self._camera._blender_remove_object()

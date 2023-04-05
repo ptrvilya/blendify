@@ -79,11 +79,11 @@ class RenderableObject(Renderable):
 
     @property
     def emit_shadows(self) -> bool:
-        return self._blender_object.cycles_visibility.shadow
+        return self._blender_object.visible_shadow
 
     @emit_shadows.setter
     def emit_shadows(self, val: bool):
-        self._blender_object.cycles_visibility.shadow = val
+        self._blender_object.visible_shadow = val
 
     # ===================================================== OBJECT =====================================================
     @abstractmethod
