@@ -15,7 +15,19 @@ Key-features:
 
 
 ## Installation instructions
-Installing blendify from git: `pip install git+https://gitlab.com/real-virtual-humans/visuals/blendify.git`
+### Installing from git
+```bash
+pip install git+https://gitlab.com/real-virtual-humans/visuals/blendify.git
+```
+### Optional requirements
+```bash
+pip install blendify[features / utils / examples / all]
+```
+
+Running examples 4 and 5 requires [PyTorch](https://pytorch.org/) with [PyTorch3D](https://github.com/facebookresearch/pytorch3d/blob/main/INSTALL.md).
+
+Running example 5 requires SMPL model files, please refer to the installation instructions in 
+[README](https://github.com/vchoutas/smplx#downloading-the-model).
 
 
 ## Quick Start
