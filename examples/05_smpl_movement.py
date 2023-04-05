@@ -5,9 +5,8 @@ import os
 from urllib import request
 
 import numpy as np
-import smplpytorch
 import trimesh
-from scipy.spatial.transform.rotation import Rotation
+from scipy.spatial.transform import Rotation
 from skimage.io import imread
 from videoio import VideoWriter
 
@@ -34,9 +33,9 @@ def main(args):
     logger.info("Loading SMPL animation..")
     animation_params = json.load(open("./assets/05_smpl_movement/animation_data.json"))
     # Set different smpl_root to SMPL .pkl files folder if needed
-    # Make sure to fix the typo for male model while unpacking SMPL .pkl files:
-    # basicmodel_m_lbs_10_207_0_v1.0.0.pkl -> basicModel_m_lbs_10_207_0_v1.0.0.pkl
-    smpl_model = SMPLWrapper(smpl_root=os.path.join(os.path.dirname(smplpytorch.__file__), "native/models"),
+    # Please refer to https://github.com/vchoutas/smplx#loading-smpl-x-smplh-and-smpl
+    # for details on SMPL model setup
+    smpl_model = SMPLWrapper(smpl_root=args.smpl_path,
                              gender=animation_params["static_params"]["smpl_gender"],
                              shape_params=animation_params["static_params"]["smpl_shape"])
 
@@ -129,6 +128,10 @@ if __name__ == "__main__":
                         help="Use CPU for rendering (by default GPU is used)")
     parser.add_argument("-sk", "--skip_download", action="store_true",
                         help="Skip asset downloads")
+
+    # Additional parameters
+    parser.add_argument("-s", "--smpl-path", type=str, default="data/smpl_model",
+                        help="Path to SMPL model files.")
 
     arguments = parser.parse_args()
 
