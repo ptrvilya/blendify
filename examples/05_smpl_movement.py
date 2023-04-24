@@ -35,9 +35,15 @@ def main(args):
     # Set different smpl_root to SMPL .pkl files folder if needed
     # Please refer to https://github.com/vchoutas/smplx#loading-smpl-x-smplh-and-smpl
     # for details on SMPL model setup
-    smpl_model = SMPLWrapper(smpl_root=args.smpl_path,
+    if os.path.isdir(os.path.join(args.smpl_path, 'smpl')):
+        smpl_model = SMPLWrapper(smpl_root=args.smpl_path,
                              gender=animation_params["static_params"]["smpl_gender"],
                              shape_params=animation_params["static_params"]["smpl_shape"])
+    else:
+        logger.error(f"Could not find SMPL model files in {args.smpl_path}. Please refer to "
+                     f"https://github.com/vchoutas/smplx#loading-smpl-x-smplh-and-smpl "
+                     "for details on SMPL model setup and provide the path to the root folder containing SMPL model files with -s flag.")
+        return
 
     logger.info("Setting up the Blender scene")
     scene = get_scene()
@@ -130,8 +136,8 @@ if __name__ == "__main__":
                         help="Skip asset downloads")
 
     # Additional parameters
-    parser.add_argument("-s", "--smpl-path", type=str, default="data/smpl_model",
-                        help="Path to SMPL model files.")
+    parser.add_argument("-s", "--smpl-path", type=str, default="data/smplx_data",
+                        help="Path to SMPL/SMPLX model files.")
 
     arguments = parser.parse_args()
 
