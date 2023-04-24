@@ -170,9 +170,12 @@ class RenderableObject(Renderable):
         if self._colors_metadata is not None and self._blender_material_node is not None:
             material_node = self._blender_material_node
 
-            if self._colors_metadata.type == UniformColors:
+            if self._colors_metadata.type is UniformColors:
                 colors_node = material_node.node_tree.nodes.new('ShaderNodeRGB')
-                colors_node.outputs["Color"].default_value = self._colors_metadata.color.tolist() + [1.]
+                if self._colors_metadata.has_alpha:
+                    colors_node.outputs["Color"].default_value = self._colors_metadata.color.tolist()
+                else:
+                    colors_node.outputs["Color"].default_value = self._colors_metadata.color.tolist() + [1.] # add alpha 1.0
             elif self._colors_metadata.type is VertexColors:
                 colors_node = material_node.node_tree.nodes.new('ShaderNodeVertexColor')
             elif self._colors_metadata.type is TextureColors:

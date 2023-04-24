@@ -68,17 +68,19 @@ class TextureColors(UVColors):
             texture (np.ndarray): pixels data
             uv_map (UVMap): corresponding UV map
         """
+        assert texture.ndim == 3 and texture.shape[2] in (3, 4), "Texture must be a 3D array of shape (H, W, 3) or (H, W, 4)"
         super().__init__(uv_map)
         if texture.dtype == np.uint8:
             texture = texture.astype(np.float32)/255.
         blender_image = bpy.data.images.new(name="tex_image", width=texture.shape[1],
                                             height=texture.shape[0])
-        _copy_values_to_image(texture.reshape(-1, 3), blender_image.name)
+        last_dim = texture.shape[2]
+        _copy_values_to_image(texture.reshape(-1, last_dim), blender_image.name)
         blender_image.pack()
         self._texture = blender_image
         self._metadata = ColorsMetadata(
             type=self.__class__,
-            has_alpha=False,
+            has_alpha=last_dim == 4,
             color=None,
             texture=self._texture
         )
@@ -107,7 +109,7 @@ class FileTextureColors(UVColors):
         self._texture = bpy.data.images.load(texture_path)
         self._metadata = ColorsMetadata(
             type=self.__class__,
-            has_alpha=False,
+            has_alpha=True,
             color=None,
             texture=self._texture
         )

@@ -49,12 +49,12 @@ class UniformColors(Colors):
         """
         super().__init__()
         uniform_color = np.array(uniform_color)
-        assert len(uniform_color) == 3, "Color should be in RGB format"
+        assert len(uniform_color) in (3, 4), "Color should be in RGB or RGBA format"
         assert uniform_color.max() <= 1. and uniform_color.min() >= 0., "Color values should be in [0,1] range"
         self._color = uniform_color
         self._metadata = ColorsMetadata(
             type=self.__class__,
-            has_alpha=False,
+            has_alpha=self._color.shape[0] == 4,
             color=self._color,
             texture=None
         )
