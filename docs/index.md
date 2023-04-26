@@ -78,9 +78,9 @@ scene.render(filepath="cube.jpg")
 Examples are described in [examples.md](examples.md).
 <table>
   <tr align="center">
-    <td><a href="../examples/01_cornell_box.py"><b>Cornell Box</b></a></td>
-    <td><a href="../examples/02_color_albedo_depth.py"><b>Color, albedo and depth</b></a></td>
-    <td><a href="../examples/03_mesh_with_texture.py"><b>Mesh with texture</b></a></td>
+    <td><a href="https://github.com/ptrvilya/blendify/blob/main/examples/01_cornell_box.py"><b>Cornell Box</b></a></td>
+    <td><a href="https://github.com/ptrvilya/blendify/blob/main/examples/02_color_albedo_depth.py"><b>Color, albedo and depth</b></a></td>
+    <td><a href="https://github.com/ptrvilya/blendify/blob/main/examples/03_mesh_with_texture.py"><b>Mesh with texture</b></a></td>
   </tr>
   <tr align="center">
     <td>
@@ -94,9 +94,9 @@ Examples are described in [examples.md](examples.md).
     </td>
   </tr>
   <tr align="center">
-    <td><a href="../examples/04_camera_colored_point_cloud.py"><b>Camera colored point cloud</b></a></td>
-    <td><a href="../examples/05_smpl_movement.py"><b>SMPL movement</b></a></td>
-    <td><a href="../examples/06_nurbs_trajectory.py"><b>NURBS trajectory</b></a></td>
+    <td><a href="https://github.com/ptrvilya/blendify/blob/main/examples/04_camera_colored_point_cloud.py"><b>Camera colored point cloud</b></a></td>
+    <td><a href="https://github.com/ptrvilya/blendify/blob/main/examples/05_smpl_movement.py"><b>SMPL movement</b></a></td>
+    <td><a href="https://github.com/ptrvilya/blendify/blob/main/examples/06_nurbs_trajectory.py"><b>NURBS trajectory</b></a></td>
   </tr>
   <tr align="center">
     <td>
