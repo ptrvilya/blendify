@@ -220,6 +220,9 @@ class LightsCollection(metaclass=Singleton):
     def __len__(self) -> int:
         return len(self._lights)
 
+    def _reset(self):
+        self._lights = dict()
+
     # def __str__(self):
     #     return str(self.__dict__)
     #

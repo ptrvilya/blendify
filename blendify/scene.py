@@ -3,7 +3,6 @@ import shutil
 import tempfile
 from pathlib import Path
 from typing import Union, Sequence
-
 import bpy
 import numpy as np
 
@@ -20,14 +19,13 @@ from .renderables import RenderablesCollection
 class Scene(metaclass=Singleton):
     def __init__(self):
         # Initialise Blender scene
-        self._set_default_blender_scene()
-
         self.renderables = RenderablesCollection()
         self.lights = LightsCollection()
         self._camera = None
+        self._reset_scene()
 
     @staticmethod
-    def _set_default_blender_scene():
+    def _set_default_blender_parameters():
         # Setup scene parameters
         scene = bpy.data.scenes[0]
         scene.use_nodes = True
@@ -43,7 +41,9 @@ class Scene(metaclass=Singleton):
         bpy.context.scene.view_settings.view_transform = 'Raw'
         bpy.context.scene.cycles.samples = 128  # Default value, can be changed in .render
 
-        # Empty the scene
+    @staticmethod
+    def _remove_all_objects():
+        """Removes all objects from the scene. Previously used to remove the default cube"""
         bpy.ops.object.mode_set(mode='OBJECT')
         bpy.ops.object.select_all(action='SELECT')
         bpy.ops.object.delete(use_global=False)
@@ -51,15 +51,36 @@ class Scene(metaclass=Singleton):
         bpy.ops.outliner.orphans_purge()
         bpy.ops.outliner.orphans_purge()
 
+    @staticmethod
+    def _load_empty_scene():
+        """Resets the scene to the empty state"""
+        bpy.ops.wm.read_homefile(use_empty=True)
+        bpy.ops.outliner.orphans_purge()
+
+    def _reset_scene(self):
+        """Resets the scene to the empty state"""
+        with catch_stdout():
+            self._load_empty_scene()
+        scene = bpy.data.scenes[0]
+        scene.world = bpy.data.worlds.new("BlendifyWorld")
+        self._set_default_blender_parameters()
+        self.renderables._reset()
+        self.lights._reset()
+        self._camera = None
+
+    def clear(self):
+        """Clears the scene"""
+        self._reset_scene()
+
     @property
     def camera(self) -> Camera:
         return self._camera
 
     def set_perspective_camera(
-        self, resolution: Vector2di, focal_dist: float = None, fov_x: float = None, fov_y: float = None,
-        center: Vector2d = None, near: float = 0.1, far: float = 100., tag: str = 'camera',
-        quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0),
-        resolution_percentage: int = 100
+            self, resolution: Vector2di, focal_dist: float = None, fov_x: float = None, fov_y: float = None,
+            center: Vector2d = None, near: float = 0.1, far: float = 100., tag: str = 'camera',
+            quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0),
+            resolution_percentage: int = 100
     ) -> PerspectiveCamera:
         """Set perspective camera in the scene. Replaces the previous scene camera, if it exists.
         One of focal_dist, fov_x or fov_y is required to set the camera parameters
@@ -86,9 +107,9 @@ class Scene(metaclass=Singleton):
         return camera
 
     def set_orthographic_camera(
-        self, resolution: Vector2di, ortho_scale: float = 1., near: float = 0.1, far: float = 100.,
-        tag: str = 'camera', quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0),
-        resolution_percentage: int = 100
+            self, resolution: Vector2di, ortho_scale: float = 1., near: float = 0.1, far: float = 100.,
+            tag: str = 'camera', quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0),
+            resolution_percentage: int = 100
     ) -> OrthographicCamera:
         """Set orthographic camera in the scene. Replaces the previous scene camera, if it exists
 
@@ -139,7 +160,7 @@ class Scene(metaclass=Singleton):
         except ModuleNotFoundError:
             raise ModuleNotFoundError("OpenCV is not installed (required to save the depth). "
                                       "To fix, run pip install opencv-python")
-        data = cv2.imread(path, cv2.IMREAD_UNCHANGED)[:,:,0]
+        data = cv2.imread(path, cv2.IMREAD_UNCHANGED)[:, :, 0]
         data[data > dist_thresh] = -np.inf
         return data
 

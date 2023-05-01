@@ -344,3 +344,6 @@ class RenderablesCollection(metaclass=Singleton):
 
     def __len__(self) -> int:
         return len(self._renderables)
+
+    def _reset(self):
+        self._renderables = dict()

@@ -1,6 +1,6 @@
 import os
 import sys
-
+from io import open
 
 class catch_stdout:
     """Stdout hook to ignore or reroute the blender output
@@ -15,7 +15,7 @@ class catch_stdout:
         self.skip = skip
         self.logfile_path = logfile if logfile is not None else os.devnull
 
-    def __enter__(self):
+    def set_hook(self):
         if self.skip:
             return
         self.logfile = open(self.logfile_path, 'w')
@@ -34,7 +34,7 @@ class catch_stdout:
             os.close(self.internal_stdout_fd)
             os.dup2(self.logfile_fd, self.internal_stdout_fd)
 
-    def __exit__(self, exc_type, exc_val, exc_tb):
+    def release_hook(self):
         if self.skip:
             return
         os.close(self.stdout_fd)
@@ -45,3 +45,8 @@ class catch_stdout:
             os.dup2(self.saved_internal_stdout_fd, self.internal_stdout_fd)
             os.close(self.saved_internal_stdout_fd)
         self.logfile.close()
+
+    def __enter__(self):
+        self.set_hook()
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.release_hook()
