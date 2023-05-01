@@ -12,7 +12,7 @@ from blendify.materials import PrinsipledBSDFMaterial
 from blendify.utils.image import blend_with_background
 
 
-def circle_points(radius=1, count=100, angle_shift = np.pi/4):
+def circle_points(radius=1, count=100, angle_shift=np.pi / 4):
     angle_step = 2 * np.pi / count
     angles = np.arange(count) * angle_step + angle_shift
     coords = np.stack([np.cos(angles), np.sin(angles), np.zeros(count)], axis=-1) * radius
@@ -44,27 +44,27 @@ def main(args):
     material = PrinsipledBSDFMaterial()
 
     # Create infinity symbol; for that, we need to generate a circle, split it in half and connect halves with lines
-    figure_center = np.array([0,0.,-4])
-    figure_size = np.array([4.,1.,0.1])
+    figure_center = np.array([0, 0., -4])
+    figure_size = np.array([4., 1., 0.1])
     circle_kp_count = 100
     line_kp_count = 30
     circle_kp = circle_points(figure_size[1], count=circle_kp_count)
     circle_kp = circle_kp + figure_center[None, :]
-    left_part = circle_kp[:3*circle_kp_count//4]
-    right_part = np.vstack([circle_kp[circle_kp_count//2:], circle_kp[0:circle_kp_count//4]])
-    halves_distance = figure_size[0]-figure_size[1]
-    left_part = left_part + np.array([[-halves_distance/2,0.,0.]])
-    right_part = right_part + np.array([[halves_distance/2,0.,0.]])
-    #Add height difference
-    height_diffs = np.linspace(-figure_size[2]/2., figure_size[2]/2., len(left_part))
+    left_part = circle_kp[:3 * circle_kp_count // 4]
+    right_part = np.vstack([circle_kp[circle_kp_count // 2:], circle_kp[0:circle_kp_count // 4]])
+    halves_distance = figure_size[0] - figure_size[1]
+    left_part = left_part + np.array([[-halves_distance / 2, 0., 0.]])
+    right_part = right_part + np.array([[halves_distance / 2, 0., 0.]])
+    # Add height difference between points
+    height_diffs = np.linspace(-figure_size[2] / 2., figure_size[2] / 2., len(left_part))
     height_diffs = np.hstack([np.zeros((len(left_part), 2)), height_diffs[:, None]])
     left_part = left_part + height_diffs
     right_part = right_part + height_diffs
 
-    #Connect two parts with lines and combine all the keypoints into the single figure
+    # Connect two parts with lines and combine all the keypoints into the single figure
     line1_kp = line_points(left_part[-1], right_part[-1], count=line_kp_count)
     line2_kp = line_points(right_part[0], left_part[0], count=line_kp_count)
-    infinity_figure_kp = np.vstack([left_part, line1_kp, right_part[::-1], line2_kp]) #left_part[0:1]
+    infinity_figure_kp = np.vstack([left_part, line1_kp, right_part[::-1], line2_kp])
 
     # Create spheres on keypoints
     sphere_color = UniformColors((0.6, 1.0, 0.4))
@@ -88,10 +88,10 @@ def main(args):
     tmp_frame_path = "./assets/06_tmp_frame.png"
     with VideoWriter(args.path, resolution=args.resolution, fps=args.fps) as vw:
         for index in range(total_frames):
-            logger.info(f"Rendering frame {index+1} / {total_frames}")
+            logger.info(f"Rendering frame {index + 1} / {total_frames}")
             # Build current curve trajectory
-            trajectory_kp = infinity_figure_kp[curr_kp_offset:curr_kp_offset+curve_len_in_kp]
-            loop_kp_count = curr_kp_offset+curve_len_in_kp-len(infinity_figure_kp)
+            trajectory_kp = infinity_figure_kp[curr_kp_offset:curr_kp_offset + curve_len_in_kp]
+            loop_kp_count = curr_kp_offset + curve_len_in_kp - len(infinity_figure_kp)
             if loop_kp_count > 0:
                 trajectory_kp = np.vstack([trajectory_kp, infinity_figure_kp[:loop_kp_count]])
             if curve is not None:
@@ -101,8 +101,8 @@ def main(args):
             scene.render(tmp_frame_path, use_gpu=not args.cpu, samples=args.n_samples)
             # Read the resulting frame back
             img = imread(tmp_frame_path)
-            # Frames have transparent background; perform an alpha blending with blue background instead
-            img_with_bkg = blend_with_background(img, (1.0,1.0,1.0))
+            # Frames have transparent background; perform an alpha blending with white background instead
+            img_with_bkg = blend_with_background(img, (1.0, 1.0, 1.0))
             # Add the frame to the video
             vw.write(img_with_bkg)
             # Shift the curve

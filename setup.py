@@ -25,6 +25,12 @@ features_requirements = [
     "opencv-python",    # Features: saving depth
 ]
 
+docs_requirements = [
+    "sphinx",
+    "myst_parser",
+    "furo"
+]
+
 utils_requirements = [
     "open3d",           # Utils: normals estimation
 ]
@@ -36,7 +42,7 @@ examples_requirements = [
     "trimesh"           # Examples 2,3,4,5
 ]
 
-requirements_all = features_requirements + utils_requirements + examples_requirements
+requirements_all = features_requirements + utils_requirements + examples_requirements + docs_requirements
 
 setup(
     name="blendify",
@@ -56,6 +62,7 @@ setup(
         "features": features_requirements,
         "utils": utils_requirements,
         "examples": examples_requirements,
+        "docs": docs_requirements,
         "all": requirements_all
     }
 )
