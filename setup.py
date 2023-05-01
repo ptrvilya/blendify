@@ -39,7 +39,8 @@ examples_requirements = [
     "smplx",            # Example 5
     "videoio",          # Examples 4,5,6
     "scikit-image",     # Examples 3,4,5,6
-    "trimesh"           # Examples 2,3,4,5
+    "trimesh",          # Examples 2,3,4,5
+    "opencv-python"     # Example 2
 ]
 
 requirements_all = features_requirements + utils_requirements + examples_requirements + docs_requirements

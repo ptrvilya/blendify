@@ -44,27 +44,16 @@ autosectionlabel_prefix_document = True
 
 html_theme_options = {
     "light_css_variables": {
-        "color-brand-primary": "#d34600",
-        "color-brand-content": "#ff6f00",
+        "color-brand-primary": "#3FDC55",
+        "color-brand-content": "#4B9B28",
     },
     "dark_css_variables": {
-        "color-brand-primary": "#fdd06c",
-        "color-brand-content": "##fea96a",
+        "color-brand-primary": "#CAFD6C",
+        "color-brand-content": "#95FE6A",
     },
     "light_logo": "logo/blendify_logo_small.png",
     "dark_logo": "logo/blendify_logo_small.png",
 }
-
-# html_sidebars = {
-#     "**": [
-#         "sidebar/scroll-start.html",
-#         "sidebar/brand.html",
-#         "sidebar/search.html",
-#         "sidebar/navigation.html",
-#         "sidebar/ethical-ads.html",
-#         "sidebar/scroll-end.html",
-#     ]
-# }
 
 napoleon_google_docstring = True
 napoleon_numpy_docstring = False
