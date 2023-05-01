@@ -351,6 +351,8 @@ class PointCloud(Renderable):
                     for extra_node in metadata.extra_nodes:
                         metadata.material_node.node_tree.nodes.remove(extra_node)
                 metadata.material_node.node_tree.nodes.remove(metadata.bsdf_node)
+                particle_obj = self._blender_object.all_objects[particle_obj_name]
+                particle_obj.data.materials.clear()
                 metadata.material_node.user_clear()
                 bpy.data.materials.remove(metadata.material_node)
 

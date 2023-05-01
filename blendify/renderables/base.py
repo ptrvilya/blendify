@@ -130,6 +130,7 @@ class RenderableObject(Renderable):
                 self._blender_material_node.node_tree.nodes.remove(self._blender_colors_node)
                 self._blender_colors_node = None
             self._blender_material_node.node_tree.nodes.remove(self._blender_bsdf_node)
+            self._blender_object.active_material = None
             self._blender_material_node.user_clear()
             bpy.data.materials.remove(self._blender_material_node)
             self._blender_material_node = None
