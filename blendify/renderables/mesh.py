@@ -19,11 +19,11 @@ class Mesh(RenderableObject):
     """
 
     def __init__(
-        self,
-        vertices: np.ndarray,
-        faces: np.ndarray,
-        tag: str,
-        **kwargs
+            self,
+            vertices: np.ndarray,
+            faces: np.ndarray,
+            tag: str,
+            **kwargs
     ):
         """Creates Blender Object that represent given mesh
 
@@ -40,10 +40,10 @@ class Mesh(RenderableObject):
         super().__init__(**kwargs, blender_object=obj, tag=tag)
 
     def _blender_create_object(
-        self,
-        vertices: np.ndarray,
-        faces: np.ndarray,
-        tag: str
+            self,
+            vertices: np.ndarray,
+            faces: np.ndarray,
+            tag: str
     ) -> bpy.types.Object:
         """Creates mesh object in Blender
 
@@ -79,8 +79,8 @@ class Mesh(RenderableObject):
             bpy.ops.object.shade_flat()
 
     def _blender_set_colors(
-        self,
-        colors: Colors
+            self,
+            colors: Colors
     ):
         """Remembers current color properties, builds a color node for material, sets color information to mesh
 
@@ -95,6 +95,8 @@ class Mesh(RenderableObject):
             for face in bm.faces:
                 for loop in face.loops:
                     loop[color_layer] = colors.vertex_colors[loop.vert.index]
+            bpy.ops.object.mode_set(mode='OBJECT')
+            self._blender_mesh.vertex_colors["color"].active_render = True
         elif isinstance(colors, UVColors):
             bpy.context.view_layer.objects.active = self._blender_object
             bpy.ops.object.mode_set(mode='EDIT')
@@ -114,13 +116,14 @@ class Mesh(RenderableObject):
                         loop[uv_layer].uv = loop_uv_coords.tolist()
             else:
                 raise NotImplementedError(f"Unknown UV map type: {uv_map.__class__.__name__}")
+            bpy.ops.object.mode_set(mode='OBJECT')
         elif not isinstance(colors, UniformColors):
             raise NotImplementedError(f"Unknown Colors type {colors.__class__.__name__}")
         super()._blender_set_colors(colors)
 
     def update_vertices(
-        self,
-        vertices: np.ndarray
+            self,
+            vertices: np.ndarray
     ):
         """Updates mesh vertices coordinates
 

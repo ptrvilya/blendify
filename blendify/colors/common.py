@@ -8,6 +8,7 @@ class VertexColors(Colors):
     """A container which stores a color information for each vertex of an object
     (vertex colors are interpolated over the faces)
     """
+
     def __init__(self, vertex_colors: np.ndarray):
         """Create the vertex color container
 
@@ -17,13 +18,16 @@ class VertexColors(Colors):
         super().__init__()
         assert (np.ndim(vertex_colors) == 2 and 3 <= vertex_colors.shape[1] <= 4), \
             f"Expected colors array of shape (N,3) or (N,4) got shape {vertex_colors.shape}"
-        assert vertex_colors.dtype in [np.float32, np.float64],\
+        assert vertex_colors.dtype in [np.float32, np.float64], \
             "Colors should be stored as floating point numbers (np.float32 or np.float64)"
         assert np.all(vertex_colors >= 0) and np.all(vertex_colors <= 1), "Colors should be in range [0.0, 1.0]"
-        self._vertex_colors = vertex_colors
+        has_alpha = vertex_colors.shape[1] == 4
+        if not has_alpha:
+            vertex_colors = np.hstack([vertex_colors, np.ones((vertex_colors.shape[0], 1), dtype=vertex_colors.dtype)])
+        self._vertex_colors = vertex_colors.copy()
         self._metadata = ColorsMetadata(
             type=self.__class__,
-            has_alpha=self._vertex_colors.shape[1] == 4,
+            has_alpha=has_alpha,
             color=None,
             texture=None
         )
@@ -41,6 +45,7 @@ class VertexColors(Colors):
 class UniformColors(Colors):
     """A container which stores a single uniform color for the whole object
     """
+
     def __init__(self, uniform_color: Vector3d):
         """Create the uniform color container
 

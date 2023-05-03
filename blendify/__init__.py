@@ -1,4 +1,4 @@
-import bpy
+import bpy  # imported first to prepare internal Blender environment
 from . import renderables
 from .scene import Scene
 

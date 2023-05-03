@@ -18,7 +18,7 @@ classifiers = [
 requirements = [
     "numpy",
     "scipy",
-    "bpy==3.4.0"
+    "bpy==3.5.0"
 ]
 
 features_requirements = [

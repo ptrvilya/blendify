@@ -14,12 +14,13 @@ class Renderable(Positionable):
     """
     Base class for all renderable objects (Meshes, PointClouds, Primitives).
     """
+
     @abstractmethod
     def __init__(
-        self,
-        material: Material,
-        colors: Colors,
-        **kwargs
+            self,
+            material: Material,
+            colors: Colors,
+            **kwargs
     ):
         """Creates internal structures, calls functions that connect Material and Colors to the object.
         Can only be called from child classes as the class is abstract.
@@ -56,10 +57,11 @@ class RenderableObject(Renderable):
     """
     Base class for renderable objects, that can be represented by a single bpy.types.Object (Meshes and Primitives).
     """
+
     @abstractmethod
     def __init__(
-        self,
-        **kwargs
+            self,
+            **kwargs
     ):
         """Sets initial values for internal parameters, can only be called from child classes as the class is abstract.
 
@@ -96,6 +98,7 @@ class RenderableObject(Renderable):
         self._blender_clear_colors()
         self._blender_clear_material()
         super()._blender_remove_object()
+
     # ================================================== END OF OBJECT =================================================
 
     # ==================================================== MATERIAL ====================================================
@@ -161,6 +164,9 @@ class RenderableObject(Renderable):
         """Clears Blender color node and erases node constructor
         """
         if self._blender_colors_node is not None:
+            if self._colors_metadata.type is UniformColors and self._colors_metadata.has_alpha:
+                # return the alpha channel back to the default value
+                self._blender_bsdf_node.inputs['Alpha'].default_value = 1.
             self._blender_material_node.node_tree.nodes.remove(self._blender_colors_node)
             self._blender_colors_node = None
             self._colors_metadata = None
@@ -176,7 +182,7 @@ class RenderableObject(Renderable):
                 if self._colors_metadata.has_alpha:
                     colors_node.outputs["Color"].default_value = self._colors_metadata.color.tolist()
                 else:
-                    colors_node.outputs["Color"].default_value = self._colors_metadata.color.tolist() + [1.] # add alpha 1.0
+                    colors_node.outputs["Color"].default_value = self._colors_metadata.color.tolist() + [1.]  # add alpha 1.0
             elif self._colors_metadata.type is VertexColors:
                 colors_node = material_node.node_tree.nodes.new('ShaderNodeVertexColor')
             elif self._colors_metadata.type is TextureColors:
@@ -196,8 +202,11 @@ class RenderableObject(Renderable):
             if self._blender_bsdf_node.bl_label == "Principled BSDF":
                 bsdf_color_input = "Base Color"
                 if self._colors_metadata.has_alpha:
-                    self._blender_material_node.node_tree.links.new(self._blender_bsdf_node.inputs["Alpha"],
-                                                                    self._blender_colors_node.outputs['Alpha'])
+                    if self._colors_metadata.type is UniformColors:
+                        self._blender_bsdf_node.inputs['Alpha'].default_value = self._colors_metadata.color[3]
+                    else:
+                        self._blender_material_node.node_tree.links.new(self._blender_bsdf_node.inputs["Alpha"],
+                                                                        self._blender_colors_node.outputs['Alpha'])
             elif self._blender_bsdf_node.bl_label == "Glossy BSDF":
                 bsdf_color_input = "Color"
             else:
