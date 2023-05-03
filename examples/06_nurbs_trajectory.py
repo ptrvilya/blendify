@@ -6,7 +6,7 @@ import numpy as np
 from videoio import VideoWriter
 from skimage.io import imread
 
-import blendify
+from blendify import scene
 from blendify.colors import UniformColors
 from blendify.materials import PrinsipledBSDFMaterial
 from blendify.utils.image import blend_with_background
@@ -35,8 +35,6 @@ def main(args):
     # Configure logging
     logging.basicConfig(level=logging.INFO)
     logger = logging.getLogger("Blendify 06 example")
-    # Create scene
-    scene = blendify.get_scene()
     # Add camera to the scene
     scene.set_perspective_camera(resolution=args.resolution, focal_dist=640, quaternion=(0.983, 0.182, 0, 0),
                                  translation=(0, -1.15, -1.54))

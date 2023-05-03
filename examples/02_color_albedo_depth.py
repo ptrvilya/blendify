@@ -3,14 +3,12 @@ import argparse
 import numpy as np
 import trimesh
 
-import blendify
+from blendify import scene
 from blendify.colors import UniformColors
 from blendify.materials import PrinsipledBSDFMaterial
 
 
 def main(args):
-    # Create scene
-    scene = blendify.get_scene()
     # Add camera to the scene
     scene.set_perspective_camera(args.resolution, focal_dist=1250)
     # Load mesh

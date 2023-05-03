@@ -8,7 +8,7 @@ import trimesh
 from skimage.io import imread
 from videoio import VideoWriter
 
-import blendify
+from blendify import scene
 from blendify.colors import UniformColors, VertexColors
 from blendify.materials import PrinsipledBSDFMaterial
 from blendify.utils.camera_trajectory import Trajectory
@@ -19,8 +19,6 @@ def main(args):
     # Configure logging
     logging.basicConfig(level=logging.INFO)
     logger = logging.getLogger("Blendify 04 example")
-    # Create scene
-    scene = blendify.get_scene()
     # Attach blender file with scene (walls and floor)
     logger.info("Attaching blend to the scene")
     scene.attach_blend("./assets/light_box.blend")

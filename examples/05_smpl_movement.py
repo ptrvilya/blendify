@@ -10,7 +10,7 @@ from scipy.spatial.transform import Rotation
 from skimage.io import imread
 from videoio import VideoWriter
 
-from blendify import get_scene
+from blendify import scene
 from blendify.colors import UniformColors, FacesUV, FileTextureColors
 from blendify.materials import PrinsipledBSDFMaterial
 from blendify.utils.image import blend_with_background
@@ -46,7 +46,6 @@ def main(args):
         return
 
     logger.info("Setting up the Blender scene")
-    scene = get_scene()
 
     # Add the camera
     camera = scene.set_perspective_camera(args.resolution, fov_y=np.deg2rad(75))

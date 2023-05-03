@@ -2,14 +2,12 @@ import argparse
 
 import numpy as np
 
-import blendify
+from blendify import scene
 from blendify.colors import UniformColors
 from blendify.materials import PrinsipledBSDFMaterial, GlossyBSDFMaterial
 
 
 def main(args):
-    # Create scene
-    scene = blendify.get_scene()
     # Attach blender file with scene (walls, floor and ceiling)
     scene.attach_blend("./assets/cornell_box.blend")
     # Add camera to the scene
