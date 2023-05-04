@@ -82,8 +82,7 @@ def main(args):
     if args.output_blend is not None:
         scene.export(args.output_blend)
 
-    os.makedirs("assets", exist_ok=True)
-    tmp_frame_path = "./assets/06_tmp_frame.png"
+    # Render the scene
     with VideoWriter(args.path, resolution=args.resolution, fps=args.fps) as vw:
         for index in range(total_frames):
             logger.info(f"Rendering frame {index + 1} / {total_frames}")
@@ -96,9 +95,7 @@ def main(args):
                 scene.renderables.remove(curve)
             curve = scene.renderables.add_curve_nurbs(trajectory_kp, 0.04, material, curve_color)
             # Render the scene to temporary image
-            scene.render(tmp_frame_path, use_gpu=not args.cpu, samples=args.n_samples)
-            # Read the resulting frame back
-            img = imread(tmp_frame_path)
+            img = scene.render(use_gpu=not args.cpu, samples=args.n_samples)
             # Frames have transparent background; perform an alpha blending with white background instead
             img_with_bkg = blend_with_background(img, (1.0, 1.0, 1.0))
             # Add the frame to the video
@@ -107,8 +104,6 @@ def main(args):
             curr_kp_offset += 1
             if curr_kp_offset >= len(infinity_figure_kp):
                 curr_kp_offset = 0
-    # Clean up
-    os.remove(tmp_frame_path)
     logger.info("Rendering complete")
 
 

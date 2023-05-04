@@ -1,3 +1,4 @@
+from pkg_resources import DistributionNotFound, get_distribution
 from setuptools import setup, find_packages
 version = '1.2.0'
 
@@ -15,14 +16,23 @@ classifiers = [
     'Programming Language :: Python :: 3'
 ]
 
+# Check if any of OpenCV packages is installed, if not, install the first one
+possible_opencv_packages = ("opencv-python-headless", "opencv-python", "opencv-contrib-python", "opencv-contrib-python-headless")
+selected_opencv_package = possible_opencv_packages[0]
+for package in possible_opencv_packages:
+    try:
+        get_distribution(package)
+        selected_opencv_package = package
+        break
+    except DistributionNotFound:
+        pass
+
+
 requirements = [
     "numpy",
     "scipy",
-    "bpy==3.5.0"
-]
-
-features_requirements = [
-    "opencv-python",    # Features: saving depth
+    "bpy==3.5.0",
+    selected_opencv_package
 ]
 
 docs_requirements = [
@@ -39,11 +49,10 @@ examples_requirements = [
     "smplx",            # Example 5
     "videoio",          # Examples 4,5,6
     "scikit-image",     # Examples 3,4,5,6
-    "trimesh",          # Examples 2,3,4,5
-    "opencv-python"     # Example 2
+    "trimesh"           # Examples 2,3,4,5
 ]
 
-requirements_all = features_requirements + utils_requirements + examples_requirements + docs_requirements
+requirements_all = requirements + utils_requirements + examples_requirements + docs_requirements
 
 setup(
     name="blendify",
@@ -60,7 +69,6 @@ setup(
     classifiers=classifiers,
     python_requires=">=3.10",
     extras_require={
-        "features": features_requirements,
         "utils": utils_requirements,
         "examples": examples_requirements,
         "docs": docs_requirements,

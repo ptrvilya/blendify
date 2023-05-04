@@ -77,7 +77,6 @@ def main(args):
         scene.export(args.output_blend)
 
     # Render the video frame by frame
-    tmp_frame_path = "./assets/04_tmp_frame.png"
     logger.info("Entering the main drawing loop")
     total_frames = len(camera_trajectory)
     with VideoWriter(args.path, resolution=args.resolution, fps=30) as vw:
@@ -94,16 +93,13 @@ def main(args):
             pointcloud_colors_new = VertexColors(per_vertex_recolor)
             pointcloud.update_colors(pointcloud_colors_new)
             # Render the scene to temporary image
-            scene.render(filepath=tmp_frame_path, use_gpu=not args.cpu, samples=args.n_samples)
+            img = scene.render(use_gpu=not args.cpu, samples=args.n_samples)
             # Read the resulting frame back
-            img = imread(tmp_frame_path)
             # Frames have transparent background; perform an alpha blending with white background instead
             alpha = img[:, :, 3:4].astype(np.int32)
             img_white_bkg = ((img[:, :, :3] * alpha + 255 * (255 - alpha)) // 255).astype(np.uint8)
             # Add the frame to the video
             vw.write(img_white_bkg)
-    # Clean up
-    os.remove(tmp_frame_path)
     logger.info("Rendering complete")
 
 

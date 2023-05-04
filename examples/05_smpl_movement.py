@@ -86,7 +86,6 @@ def main(args):
         scene.export(args.output_blend)
 
     # Rendering loop
-    tmp_frame_path = "./assets/05_tmp_frame.png"  # This is the name of the temporary file to store each frame
     logger.info("Entering the main drawing loop")
     total_frames = len(animation_params["dynamic_params"])
     with VideoWriter(args.path, resolution=args.resolution, fps=30) as vw:
@@ -103,15 +102,11 @@ def main(args):
             # Set the current camera position
             camera.set_position(camera_quaternion, camera_translation)
             # Render the scene to temporary image
-            scene.render(tmp_frame_path, use_gpu=not args.cpu, samples=args.n_samples)
-            # Read the resulting frame back
-            img = imread(tmp_frame_path)
+            img = scene.render(use_gpu=not args.cpu, samples=args.n_samples)
             # Frames have transparent background; perform an alpha blending with white background instead
             img_white_bkg = blend_with_background(img, (1.0, 1.0, 1.0))
             # Add the frame to the video
             vw.write(img_white_bkg)
-    # Clean up
-    os.remove(tmp_frame_path)
     logger.info("Rendering complete")
 
 

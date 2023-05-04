@@ -3,8 +3,11 @@ import shutil
 import tempfile
 from pathlib import Path
 from typing import Union, Sequence
+from contextlib import nullcontext
 import bpy
 import numpy as np
+os.environ["OPENCV_IO_ENABLE_OPENEXR"] = "1"
+import cv2
 
 from .cameras import PerspectiveCamera, OrthographicCamera
 from .cameras.base import Camera
@@ -153,158 +156,184 @@ class Scene(metaclass=Singleton):
         Returns:
             np.ndarray: distance map in numpy array format
         """
-        try:
-            import os
-            os.environ["OPENCV_IO_ENABLE_OPENEXR"] = "1"
-            import cv2
-        except ModuleNotFoundError:
-            raise ModuleNotFoundError("OpenCV is not installed (required to save the depth). "
-                                      "To fix, run pip install opencv-python")
         data = cv2.imread(path, cv2.IMREAD_UNCHANGED)[:, :, 0]
         data[data > dist_thresh] = -np.inf
         return data
 
+    @staticmethod
+    def read_image(path: str) -> np.ndarray:
+        """Reads the image stored in PNG or JPG format
+
+        Args:
+            path (str): path to the image file
+
+        Returns:
+            np.ndarray: image in numpy array format
+        """
+        return cv2.cvtColor(cv2.imread(path, cv2.IMREAD_UNCHANGED), cv2.COLOR_BGRA2RGBA)
+
     def render(
-            self, filepath: Union[str, Path] = "result.png", use_gpu: bool = True, samples: int = 128,
+            self, filepath: Union[str, Path] = None, use_gpu: bool = True, samples: int = 128,
             save_depth: bool = False, save_albedo: bool = False, verbose: bool = False, use_denoiser: bool = False
     ):
         """Start the Blender rendering process
 
         Args:
-            filepath (Union[str, Path]): path to the image (PNG) to render to
+            filepath (Union[str, Path]): path to the image (PNG) to render to, returns the image as numpy array if None
             use_gpu (bool): whether to render on GPU or not
             samples (bool): number of raytracing samples per pixel
             save_depth (bool): whether to save the depth in the separate file.
-              If yes, the numpy array <filepath>.depth.npy will be created.
+              If yes, the numpy array <filepath>.depth.npy will be created if filepath is set, otherwise appends the array to the output.
             save_albedo (bool): whether to save albedo (raw color information) in the separate file.
-              If yes, the PNG image <filepath>.albedo.png with color information will be created.
+              If yes, the PNG image <filepath>.albedo.png with color information will be created
+              if filepath is set, otherwise appends the array to the output.
             verbose (bool): whether to allow blender to log its status to stdout during rendering
             use_denoiser (bool): use openimage denoiser to denoise the result
         """
         if self.camera is None:
             raise RuntimeError("Can't render without a camera")
 
-        filepath = Path(filepath)
+        render_to_ram = filepath is None
+        with tempfile.TemporaryDirectory() if render_to_ram else nullcontext() as tmpdir:
+            if render_to_ram:
+                filepath = Path(tmpdir) / 'result.png'
+            else:
+                filepath = Path(filepath)
 
-        scene = bpy.data.scenes[0]
-        scene.render.resolution_x = self.camera.resolution[0]
-        scene.render.resolution_y = self.camera.resolution[1]
-        scene.render.resolution_percentage = 100
-        scene.render.filepath = str(filepath.parent)
+            scene = bpy.data.scenes[0]
+            scene.render.resolution_x = self.camera.resolution[0]
+            scene.render.resolution_y = self.camera.resolution[1]
+            scene.render.resolution_percentage = 100
+            scene.render.filepath = str(filepath.parent)
 
-        bpy.context.scene.camera = self.camera.blender_camera
-        # bpy.context.object.data.dof.focus_object = object
-        # input("Scene has been built. Press any key to start rendering")
+            bpy.context.scene.camera = self.camera.blender_camera
+            # bpy.context.object.data.dof.focus_object = object
+            # input("Scene has been built. Press any key to start rendering")
 
-        # Setup denoising
-        if use_denoiser:
-            bpy.context.scene.cycles.use_denoising = True
-            bpy.context.scene.cycles.denoiser = 'OPENIMAGEDENOISE'
-            bpy.context.scene.view_layers[0].cycles.use_denoising = True
-            bpy.context.view_layer.cycles.denoising_store_passes = True
-        else:
-            bpy.context.scene.cycles.use_denoising = False
-            bpy.context.scene.view_layers[0].cycles.use_denoising = False
-            bpy.context.view_layer.cycles.denoising_store_passes = False
+            # Setup denoising
+            if use_denoiser:
+                bpy.context.scene.cycles.use_denoising = True
+                bpy.context.scene.cycles.denoiser = 'OPENIMAGEDENOISE'
+                bpy.context.scene.view_layers[0].cycles.use_denoising = True
+                bpy.context.view_layer.cycles.denoising_store_passes = True
+            else:
+                bpy.context.scene.cycles.use_denoising = False
+                bpy.context.scene.view_layers[0].cycles.use_denoising = False
+                bpy.context.view_layer.cycles.denoising_store_passes = False
 
-        # Configure output
-        bpy.context.scene.cycles.samples = samples
-        bpy.context.scene.view_layers['ViewLayer'].use_pass_combined = True
-        bpy.context.scene.view_layers['ViewLayer'].use_pass_diffuse_color = True
-        bpy.context.scene.view_layers['ViewLayer'].use_pass_z = True
-        scene_node_tree = bpy.context.scene.node_tree
+            # Configure output
+            bpy.context.scene.cycles.samples = samples
+            bpy.context.scene.view_layers['ViewLayer'].use_pass_combined = True
+            bpy.context.scene.view_layers['ViewLayer'].use_pass_diffuse_color = True
+            bpy.context.scene.view_layers['ViewLayer'].use_pass_z = True
+            scene_node_tree = bpy.context.scene.node_tree
 
-        for n in scene_node_tree.nodes:
-            scene_node_tree.nodes.remove(n)
-        render_layer = scene_node_tree.nodes.new(type="CompositorNodeRLayers")
+            for n in scene_node_tree.nodes:
+                scene_node_tree.nodes.remove(n)
+            render_layer = scene_node_tree.nodes.new(type="CompositorNodeRLayers")
 
-        # check if we have shadow catchers
-        use_shadow_catcher = False
-        for obj in bpy.data.objects:
-            if obj.is_shadow_catcher:
-                use_shadow_catcher = True
-                break
-
-        # create output node
-        if use_shadow_catcher:
-            bpy.context.view_layer.cycles.use_pass_shadow_catcher = True
-            alpha_over = scene_node_tree.nodes.new(type="CompositorNodeAlphaOver")
-            scene_node_tree.links.new(render_layer.outputs['Shadow Catcher'], alpha_over.inputs[1])
-            scene_node_tree.links.new(render_layer.outputs['Image'], alpha_over.inputs[2])
-
-            output_image = scene_node_tree.nodes.new(type="CompositorNodeOutputFile")
-            scene_node_tree.links.new(alpha_over.outputs['Image'], output_image.inputs['Image'])
-        else:
-            bpy.context.view_layer.cycles.use_pass_shadow_catcher = False
-            output_image = scene_node_tree.nodes.new(type="CompositorNodeOutputFile")
-            scene_node_tree.links.new(render_layer.outputs['Image'], output_image.inputs['Image'])
-
-        if save_depth:
-            output_depth = scene_node_tree.nodes.new(type="CompositorNodeOutputFile")
-            output_depth.format.file_format = "OPEN_EXR"
-            scene_node_tree.links.new(render_layer.outputs['Depth'], output_depth.inputs['Image'])
-
-        if save_albedo:
-            output_albedo = scene_node_tree.nodes.new(type="CompositorNodeOutputFile")
-            scene_node_tree.links.new(render_layer.outputs['DiffCol'], output_albedo.inputs['Image'])
-
-        if use_gpu:
-            bpy.context.scene.cycles.device = 'GPU'
-
-            for scene in bpy.data.scenes:
-                scene.cycles.device = 'GPU'
-
-            # Detect the appropriate GPU rendering mode
-            rendering_mode_priority_list = ['OPTIX', 'HIP', 'ONEAPI', 'CUDA']
-            rendering_preferences = bpy.context.preferences.addons['cycles'].preferences
-            rendering_preferences.refresh_devices()
-            devices = rendering_preferences.devices
-            available_rendering_modes = set()
-            for dev in devices:
-                available_rendering_modes.add(dev.type)
-            chosen_rendering_mode = "NONE"
-            for mode in rendering_mode_priority_list:
-                if mode in available_rendering_modes:
-                    chosen_rendering_mode = mode
+            # check if we have shadow catchers
+            use_shadow_catcher = False
+            for obj in bpy.data.objects:
+                if obj.is_shadow_catcher:
+                    use_shadow_catcher = True
                     break
 
-            # Set GPU rendering mode to detected one
-            rendering_preferences.compute_device_type = chosen_rendering_mode
+            # create output node
+            if use_shadow_catcher:
+                bpy.context.view_layer.cycles.use_pass_shadow_catcher = True
+                alpha_over = scene_node_tree.nodes.new(type="CompositorNodeAlphaOver")
+                scene_node_tree.links.new(render_layer.outputs['Shadow Catcher'], alpha_over.inputs[1])
+                scene_node_tree.links.new(render_layer.outputs['Image'], alpha_over.inputs[2])
 
-            # Optionally, list the devices before rendering
-            # for dev in devices:
-            #     print(f"ID:{dev.id} Name:{dev.name} Type:{dev.type} Use:{dev.use}")
+                output_image = scene_node_tree.nodes.new(type="CompositorNodeOutputFile")
+                scene_node_tree.links.new(alpha_over.outputs['Image'], output_image.inputs['Image'])
+            else:
+                bpy.context.view_layer.cycles.use_pass_shadow_catcher = False
+                output_image = scene_node_tree.nodes.new(type="CompositorNodeOutputFile")
+                scene_node_tree.links.new(render_layer.outputs['Image'], output_image.inputs['Image'])
 
-        # Render
-        bpy.context.scene.frame_current = 0
-        temp_filesuffix = next(tempfile._get_candidate_names())
-        temp_filepath = str(filepath) + "." + temp_filesuffix
-        render_suffixes = [".color.0000.png"]
-        if save_depth:
-            render_suffixes.append(".depth.0000.exr")
-        if save_albedo:
-            render_suffixes.append(".albedo.0000.png")
-        while self.check_any_exists(temp_filepath, render_suffixes):
+            if save_depth:
+                output_depth = scene_node_tree.nodes.new(type="CompositorNodeOutputFile")
+                output_depth.format.file_format = "OPEN_EXR"
+                scene_node_tree.links.new(render_layer.outputs['Depth'], output_depth.inputs['Image'])
+
+            if save_albedo:
+                output_albedo = scene_node_tree.nodes.new(type="CompositorNodeOutputFile")
+                scene_node_tree.links.new(render_layer.outputs['DiffCol'], output_albedo.inputs['Image'])
+
+            if use_gpu:
+                bpy.context.scene.cycles.device = 'GPU'
+
+                for scene in bpy.data.scenes:
+                    scene.cycles.device = 'GPU'
+
+                # Detect the appropriate GPU rendering mode
+                rendering_mode_priority_list = ['OPTIX', 'HIP', 'ONEAPI', 'CUDA']
+                rendering_preferences = bpy.context.preferences.addons['cycles'].preferences
+                rendering_preferences.refresh_devices()
+                devices = rendering_preferences.devices
+                available_rendering_modes = set()
+                for dev in devices:
+                    available_rendering_modes.add(dev.type)
+                chosen_rendering_mode = "NONE"
+                for mode in rendering_mode_priority_list:
+                    if mode in available_rendering_modes:
+                        chosen_rendering_mode = mode
+                        break
+
+                # Set GPU rendering mode to detected one
+                rendering_preferences.compute_device_type = chosen_rendering_mode
+
+                # Optionally, list the devices before rendering
+                # for dev in devices:
+                #     print(f"ID:{dev.id} Name:{dev.name} Type:{dev.type} Use:{dev.use}")
+
+            # Render
+            bpy.context.scene.frame_current = 0
             temp_filesuffix = next(tempfile._get_candidate_names())
             temp_filepath = str(filepath) + "." + temp_filesuffix
-        temp_filename = os.path.basename(temp_filepath)
-        output_image.file_slots[0].path = temp_filename + ".color."
-        if save_depth:
-            output_depth.file_slots[0].path = temp_filename + ".depth."
-        if save_albedo:
-            output_albedo.file_slots[0].path = temp_filename + ".albedo."
+            render_suffixes = [".color.0000.png"]
+            if save_depth:
+                render_suffixes.append(".depth.0000.exr")
+            if save_albedo:
+                render_suffixes.append(".albedo.0000.png")
+            while self.check_any_exists(temp_filepath, render_suffixes):
+                temp_filesuffix = next(tempfile._get_candidate_names())
+                temp_filepath = str(filepath) + "." + temp_filesuffix
+            temp_filename = os.path.basename(temp_filepath)
+            output_image.file_slots[0].path = temp_filename + ".color."
+            if save_depth:
+                output_depth.file_slots[0].path = temp_filename + ".depth."
+            if save_albedo:
+                output_albedo.file_slots[0].path = temp_filename + ".albedo."
 
-        with catch_stdout(skip=verbose):
-            bpy.ops.render.render(write_still=False)
+            with catch_stdout(skip=verbose):
+                bpy.ops.render.render(write_still=False)
 
-        shutil.move(temp_filepath + ".color.0000.png", filepath)
-        if save_depth:
-            distmap = self.read_exr_distmap(temp_filepath + ".depth.0000.exr", dist_thresh=self.camera.far * 1.1)
-            depthmap = self.camera.distance2depth(distmap)
-            np.save(os.path.splitext(filepath)[0] + ".depth.npy", depthmap)
-            os.remove(temp_filepath + ".depth.0000.exr")
-        if save_albedo:
-            shutil.move(temp_filepath + ".albedo.0000.png", os.path.splitext(filepath)[0] + ".albedo.png")
+            if render_to_ram:
+                image_data = self.read_image(temp_filepath + ".color.0000.png")
+                outputs = [image_data]
+                if save_depth:
+                    distmap = self.read_exr_distmap(temp_filepath + ".depth.0000.exr", dist_thresh=self.camera.far * 1.1)
+                    depthmap = self.camera.distance2depth(distmap)
+                    outputs.append(depthmap)
+                if save_albedo:
+                    albedomap = self.read_image(temp_filepath + ".albedo.0000.png")
+                    outputs.append(albedomap)
+                if len(outputs) == 1:
+                    return outputs[0]
+                else:
+                    return outputs
+            else:
+                shutil.move(temp_filepath + ".color.0000.png", filepath)
+                if save_depth:
+                    distmap = self.read_exr_distmap(temp_filepath + ".depth.0000.exr", dist_thresh=self.camera.far * 1.1)
+                    depthmap = self.camera.distance2depth(distmap)
+                    np.save(os.path.splitext(filepath)[0] + ".depth.npy", depthmap)
+                    os.remove(temp_filepath + ".depth.0000.exr")
+                if save_albedo:
+                    shutil.move(temp_filepath + ".albedo.0000.png", os.path.splitext(filepath)[0] + ".albedo.png")
 
     @staticmethod
     def check_any_exists(fileprefix: str, filesuffixes: Sequence[str]) -> bool:
