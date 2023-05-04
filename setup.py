@@ -48,7 +48,7 @@ utils_requirements = [
 examples_requirements = [
     "smplx",            # Example 5
     "videoio",          # Examples 4,5,6
-    "scikit-image",     # Examples 3,4,5,6
+    "scikit-image",     # Examples 3
     "trimesh"           # Examples 2,3,4,5
 ]
 

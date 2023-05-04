@@ -7,7 +7,6 @@ from urllib import request
 import numpy as np
 import trimesh
 from scipy.spatial.transform import Rotation
-from skimage.io import imread
 from videoio import VideoWriter
 
 from blendify import scene

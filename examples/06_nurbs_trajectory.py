@@ -1,10 +1,8 @@
 import argparse
 import logging
-import os
 
 import numpy as np
 from videoio import VideoWriter
-from skimage.io import imread
 
 from blendify import scene
 from blendify.colors import UniformColors

@@ -1,11 +1,9 @@
 import argparse
 import logging
-import os
 
 import bpy
 import numpy as np
 import trimesh
-from skimage.io import imread
 from videoio import VideoWriter
 
 from blendify import scene
