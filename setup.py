@@ -43,16 +43,16 @@ docs_requirements = [
 
 utils_requirements = [
     "open3d",           # Utils: normals estimation
+    "smplx",            # Utils: smpl wrapper
 ]
 
-examples_requirements = [
-    "smplx",            # Example 5
+examples_requirements = utils_requirements + [
     "videoio",          # Examples 4,5,6
     "scikit-image",     # Examples 3
     "trimesh"           # Examples 2,3,4,5
 ]
 
-requirements_all = requirements + utils_requirements + examples_requirements + docs_requirements
+requirements_all = requirements + examples_requirements + docs_requirements
 
 setup(
     name="blendify",
