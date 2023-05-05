@@ -235,7 +235,7 @@ class Scene(metaclass=Singleton):
             # check if we have shadow catchers
             use_shadow_catcher = False
             for obj in bpy.data.objects:
-                if obj.is_shadow_catcher:
+                if obj.type != "LIGHT" and obj.is_shadow_catcher:
                     use_shadow_catcher = True
                     break
 
