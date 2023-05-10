@@ -45,13 +45,13 @@ commonly used routines and functions:
 
 
 ## Installation instructions
-### Installing from git
+### Install from pip
 ```bash
 pip install blendify
 ```
 ### Optional requirements
 ```bash
-pip install blendify[features / utils / examples / all]
+pip install blendify[utils / examples / docs / all]
 ```
 
 Running examples 4 and 5 requires [PyTorch](https://pytorch.org/) with [PyTorch3D](https://github.com/facebookresearch/pytorch3d/blob/main/INSTALL.md).
@@ -63,17 +63,17 @@ Running example 5 requires SMPL model files, please refer to the installation in
 ## Quick Start
 ```python
 # Script to render cube
-import blendify as bfy
-# Get scene
-scene = bfy.get_scene()
+from blendify import scene
+from blendify.materials import PrinsipledBSDFMaterial
+from blendify.colors import UniformColors
 # Add light
 scene.lights.add_point(strength=1000, translation=(4, -2, 4))
 # Add camera
 scene.set_perspective_camera((512, 512), fov_x=0.7, quaternion=(0.82, 0.42, 0.18, 0.34), translation=(5, -5, 5))
 # Create material
-material = bfy.materials.PrinsipledBSDFMaterial()
+material = PrinsipledBSDFMaterial()
 # Create color
-color = bfy.colors.UniformColors((0.0, 1.0, 0.0))
+color = UniformColors((0.0, 1.0, 0.0))
 # Add cube mesh
 scene.renderables.add_cube_mesh(1.0, material, color)
 # Render scene
@@ -134,7 +134,7 @@ Modeling Human Pose Manifolds with Neural Distance Fields](https://virtualhumans
 Blendify is written and maintained by [Vladimir Guzov](https://github.com/vguzov) and [Ilya Petrov](https://github.com/ptrvilya).
 
 
-## Acknowledgment
+## Acknowledgments
 We thank Verica Lazova for providing her Blender rendering scripts. 
 Our code for processing point clouds is mostly based on the amazing [Blender-Photogrammetry-Importer][BPI] addon.
 
