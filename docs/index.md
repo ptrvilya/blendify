@@ -26,15 +26,22 @@ api/modules
 ```
 
 ## Introduction
-Blendify is a framework providing high-level API to create and render scenes with Blender directly from Python.
-Blendify is designed to provide simplified access to selected blender structures and makes it possible to work with 
-them from any python script.
+Blendify is a lightweight Python framework that provides a high-level API for creating and rendering scenes with Blender. Developed with a focus on 3D computer vision visualization, Blendify simplifies access to selected Blender functions and objects.
 
-Key-features:
-* Quick and easy start: no need to dive into Blender API
-* Focus on common mesh and point cloud visualization tasks
-* Simple and unified interface to populate scene with objects, lights amd camera
-* Support for textured meshes and colored point clouds 
+Key features of Blendify:
+
+1. Simple interface: Blendify provides a user-friendly interface for performing common visualization tasks without having to dive into the complicated Blender API.
+
+2. Easy integration: Blendify seamlessly integrates with development scripts, implementing
+commonly used routines and functions:
+    * native support of point clouds, meshes, and primitives;
+    * support of per-vertex colors and textures;
+    * advanced shadows with shadow catcher objects;
+    * video rendering with smooth camera trajectories;
+    * support for common camera models;
+    * import and export of .blend files for deeper integration with Blender.
+
+3. Quick start: Blendify is easy to get started with and does not require a standalone Blender installation. All you need to do is run `pip install blendify`.
 
 
 ## Installation instructions
