@@ -82,7 +82,6 @@ scene.render(filepath="cube.jpg")
 
 
 ## Examples
-Examples are described in [examples.md](examples.md).
 <table>
   <tr align="center">
     <td><a href="https://github.com/ptrvilya/blendify/blob/main/examples/01_cornell_box.py"><b>Cornell Box</b></a></td>
@@ -90,15 +89,9 @@ Examples are described in [examples.md](examples.md).
     <td><a href="https://github.com/ptrvilya/blendify/blob/main/examples/03_mesh_with_texture.py"><b>Mesh with texture</b></a></td>
   </tr>
   <tr align="center">
-    <td>
-      <img src="_static/examples/01_cornell_box.jpg" width="310px"/>
-    </td>
-    <td>
-      <img src="_static/examples/02_color_albedo_depth.jpg" width="310px"/>
-    </td>
-    <td>
-      <img src="_static/examples/03_mesh_with_texture.jpg" width="310px"/>
-    </td>
+    <td><img src="_static/examples/01_cornell_box.jpg" width="310px"/></td>
+    <td><img src="_static/examples/02_color_albedo_depth.jpg" width="310px"/></td>
+    <td><img src="_static/examples/03_mesh_with_texture.jpg" width="310px"/></td>
   </tr>
   <tr align="center">
     <td><a href="https://github.com/ptrvilya/blendify/blob/main/examples/04_camera_colored_point_cloud.py"><b>Camera colored point cloud</b></a></td>
@@ -106,29 +99,23 @@ Examples are described in [examples.md](examples.md).
     <td><a href="https://github.com/ptrvilya/blendify/blob/main/examples/06_nurbs_trajectory.py"><b>NURBS trajectory</b></a></td>
   </tr>
   <tr align="center">
-    <td>
-      <img src="_static/examples/04_camera_colored_point_cloud.gif" width="310px"/>
-    </td>
-    <td>
-      <img src="_static/examples/05_smpl_movement.gif" width="310px"/>
-    </td>
-    <td>
-      <img src="_static/examples/06_nurbs_trajectory.gif" width="310px"/>
-    </td>
+    <td><img src="_static/examples/04_camera_colored_point_cloud.gif" width="310px"/></td>
+    <td><img src="_static/examples/05_smpl_movement.gif" width="310px"/></td>
+    <td><img src="_static/examples/06_nurbs_trajectory.gif" width="310px"/></td>
   </tr>
 </table>
 
 
 ## Works that use blendify
-* [B.L. Bhatnagar, X. Xie, **I. Petrov**, C. Sminchisescu, C. Theobalt, G. Pons-Moll: 
-  BEHAVE: Dataset and Method for Tracking Human Object Interactions, in CVPR'22](https://virtualhumans.mpi-inf.mpg.de/behave/)
-* [V. Lazova, E. Insafutdinov, G. Pons-Moll: 360-Degree Textures of People in Clothing from a Single Image
-in 3DV'19.](https://virtualhumans.mpi-inf.mpg.de/360tex/)
-* [X. Zhang, B.L. Bhatnagar, **V. Guzov**, S. Starke, G. Pons-Moll: 
-  COUCH: Towards Controllable Human-Chair Interactions](https://virtualhumans.mpi-inf.mpg.de/couch/)
-* [G. Tiwari, D. Antic, J. E. Lenssen, N. Sarafianos, T. Tung, G. Pons-Moll: Pose-NDF: 
-Modeling Human Pose Manifolds with Neural Distance Fields](https://virtualhumans.mpi-inf.mpg.de/posendf/)
-* [**I. Petrov**, R. Marin, J. Chibane, G. Pons-Moll: Object pop-up: Can we infer 3D objects and their poses from human interactions alone?](https://virtualhumans.mpi-inf.mpg.de/object_popup/)
+* V. Lazova, E. Insafutdinov, G. Pons-Moll: []360-Degree Textures of People in Clothing from a Single Image](https://virtualhumans.mpi-inf.mpg.de/360tex/)
+in 3DV'19
+* B.L. Bhatnagar, X. Xie, **I. Petrov**, C. Sminchisescu, C. Theobalt, G. Pons-Moll: 
+  [BEHAVE: Dataset and Method for Tracking Human Object Interactions](https://virtualhumans.mpi-inf.mpg.de/behave/), in CVPR'22
+* X. Zhang, B.L. Bhatnagar, **V. Guzov**, S. Starke, G. Pons-Moll: 
+  [COUCH: Towards Controllable Human-Chair Interactions](https://virtualhumans.mpi-inf.mpg.de/couch/), in ECCV'22
+* G. Tiwari, D. Antic, J. E. Lenssen, N. Sarafianos, T. Tung, G. Pons-Moll: [Pose-NDF: 
+Modeling Human Pose Manifolds with Neural Distance Fields](https://virtualhumans.mpi-inf.mpg.de/posendf/), in ECCV'22
+* **I. Petrov**, R. Marin, J. Chibane, G. Pons-Moll: []Object pop-up: Can we infer 3D objects and their poses from human interactions alone?](https://virtualhumans.mpi-inf.mpg.de/object_popup/), in CVPR'23
 
 ## Contributors
 Blendify is written and maintained by [Vladimir Guzov](https://github.com/vguzov) and [Ilya Petrov](https://github.com/ptrvilya).
