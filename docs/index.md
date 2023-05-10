@@ -30,9 +30,9 @@ Blendify is a lightweight Python framework that provides a high-level API for cr
 
 Key features of Blendify:
 
-1. Simple interface: Blendify provides a user-friendly interface for performing common visualization tasks without having to dive into the complicated Blender API.
+1. **Simple interface:** Blendify provides a user-friendly interface for performing common visualization tasks without having to dive into the complicated Blender API.
 
-2. Easy integration: Blendify seamlessly integrates with development scripts, implementing
+2. **Easy integration:** Blendify seamlessly integrates with development scripts, implementing
 commonly used routines and functions:
     * native support of point clouds, meshes, and primitives;
     * support of per-vertex colors and textures;
@@ -41,8 +41,16 @@ commonly used routines and functions:
     * support for common camera models;
     * import and export of .blend files for deeper integration with Blender.
 
-3. Quick start: Blendify is easy to get started with and does not require a standalone Blender installation. All you need to do is run `pip install blendify`.
+3. **Quick start:** Blendify is easy to get started with and does not require a standalone Blender installation. All you need to do is run `pip install blendify`.
 
+Blendify simplifies interaction with Blender, allowing you to focus on developing your application. 
+The following example shows the simplicity of visualizing with Blendify in comparison to the native Blender API:
+
+```{image} _static/examples/blender_api_vs_blendify.jpg
+:width: 800
+:align: center
+:alt: blender_vs_blendify
+```
 
 ## Installation instructions
 ### Install from pip
