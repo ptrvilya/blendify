@@ -1,6 +1,4 @@
-<!-- ![blendify Logo](.github/blendify_logo_dark_bg.png#gh-dark-mode-only) -->
-<!-- ![blendify Logo](.github/blendify_logo_light_bg.png#gh-light-mode-only) -->
-![blendify Logo](.github/blendify_logo_light_bg.png)
+![blendify Logo](https://github.com/ptrvilya/blendify/blob/main/.github/blendify_logo_light_bg.png?raw=true)
 
 ## Introduction
 Blendify is a lightweight Python framework that provides a high-level API for creating and rendering scenes with Blender. Developed with a focus on 3D computer vision visualization, Blendify simplifies access to selected Blender functions and objects.
@@ -59,32 +57,7 @@ scene.render(filepath="cube.png")
 
 
 ## Examples
-<table>
-  <tr align="center">
-    <td><a href="examples/01_cornell_box.py"><b>Cornell Box</b></a></td>
-    <td><a href="examples/02_color_albedo_depth.py"><b>Color, albedo and depth</b></a></td>
-  </tr>
-  <tr align="center">
-    <td><img src=".github/01_cornell_box.jpg" width="310px"/></td>
-    <td><img src=".github/02_color_albedo_depth.jpg" width="310px"/></td>
-  </tr>
-  <tr align="center">
-    <td><a href="examples/03_mesh_with_texture.py"><b>Mesh with texture</b></a></td>
-    <td><a href="examples/04_camera_colored_point_cloud.py"><b>Camera colored point cloud</b></a></td>
-  </tr>
-  <tr align="center">
-    <td><img src=".github/03_mesh_with_texture.jpg" width="310px"/></td>
-    <td><img src=".github/04_camera_colored_point_cloud.gif" width="310px"/></td>
-  </tr>
-  <tr align="center">
-    <td><a href="examples/05_smpl_movement.py"><b>SMPL movement</b></a></td>
-    <td><a href="examples/06_nurbs_trajectory.py"><b>NURBS trajectory</b></a></td>
-  </tr>
-  <tr align="center">
-    <td><img src=".github/05_smpl_movement.gif" width="310px"/></td>
-    <td><img src=".github/06_nurbs_trajectory.gif" width="310px"/></td>
-  </tr>
-</table>
+Check examples in our repository [here](https://github.com/ptrvilya/blendify#Examples).
 
 
 ## Works that use blendify

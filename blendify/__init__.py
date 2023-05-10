@@ -7,7 +7,7 @@ __all__ = [
     "__version__"
 ]
 
-VERSION = (1, 2, 0)  # PEP 386
+VERSION = (1, 2, 1)  # PEP 386
 __version__ = ".".join([str(x) for x in VERSION])
 
 scene = Scene()

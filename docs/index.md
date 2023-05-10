@@ -77,7 +77,7 @@ color = UniformColors((0.0, 1.0, 0.0))
 # Add cube mesh
 scene.renderables.add_cube_mesh(1.0, material, color)
 # Render scene
-scene.render(filepath="cube.jpg")
+scene.render(filepath="cube.png")
 ```
 
 
@@ -107,7 +107,7 @@ scene.render(filepath="cube.jpg")
 
 
 ## Works that use blendify
-* V. Lazova, E. Insafutdinov, G. Pons-Moll: []360-Degree Textures of People in Clothing from a Single Image](https://virtualhumans.mpi-inf.mpg.de/360tex/)
+* V. Lazova, E. Insafutdinov, G. Pons-Moll: [360-Degree Textures of People in Clothing from a Single Image](https://virtualhumans.mpi-inf.mpg.de/360tex/)
 in 3DV'19
 * B.L. Bhatnagar, X. Xie, **I. Petrov**, C. Sminchisescu, C. Theobalt, G. Pons-Moll: 
   [BEHAVE: Dataset and Method for Tracking Human Object Interactions](https://virtualhumans.mpi-inf.mpg.de/behave/), in CVPR'22
@@ -115,7 +115,7 @@ in 3DV'19
   [COUCH: Towards Controllable Human-Chair Interactions](https://virtualhumans.mpi-inf.mpg.de/couch/), in ECCV'22
 * G. Tiwari, D. Antic, J. E. Lenssen, N. Sarafianos, T. Tung, G. Pons-Moll: [Pose-NDF: 
 Modeling Human Pose Manifolds with Neural Distance Fields](https://virtualhumans.mpi-inf.mpg.de/posendf/), in ECCV'22
-* **I. Petrov**, R. Marin, J. Chibane, G. Pons-Moll: []Object pop-up: Can we infer 3D objects and their poses from human interactions alone?](https://virtualhumans.mpi-inf.mpg.de/object_popup/), in CVPR'23
+* **I. Petrov**, R. Marin, J. Chibane, G. Pons-Moll: [Object pop-up: Can we infer 3D objects and their poses from human interactions alone?](https://virtualhumans.mpi-inf.mpg.de/object_popup/), in CVPR'23
 
 ## Contributors
 Blendify is written and maintained by [Vladimir Guzov](https://github.com/vguzov) and [Ilya Petrov](https://github.com/ptrvilya).

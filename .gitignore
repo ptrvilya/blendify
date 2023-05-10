@@ -2,4 +2,7 @@
 .DS_store
 *.pyc
 .data/
+build/
+dist/
+blendify.egg-info/
 

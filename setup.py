@@ -1,8 +1,8 @@
 from pkg_resources import DistributionNotFound, get_distribution
 from setuptools import setup, find_packages
-version = '1.2.0'
+version = '1.2.1'
 
-with open("README.md", "r") as fi:
+with open("docs/pip_readme.md", "r") as fi:
     long_description = fi.read()
 
 keywords = ["rendering", "pointcloud", "blender", "mesh"]
