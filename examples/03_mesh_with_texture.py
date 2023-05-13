@@ -6,7 +6,7 @@ from skimage.io import imread
 
 from blendify import scene
 from blendify.colors import VertexUV, TextureColors
-from blendify.materials import PrinsipledBSDFMaterial
+from blendify.materials import PrincipledBSDFMaterial
 
 
 def main(args):
@@ -21,7 +21,7 @@ def main(args):
     img = imread("./assets/knot_texture.jpg")
     colors = TextureColors(img, uv_map)
     # Create material with default parameters
-    material = PrinsipledBSDFMaterial()
+    material = PrincipledBSDFMaterial()
     # Add mesh to the scene
     mesh = scene.renderables.add_mesh(vertices, faces, material=material, colors=colors)
     # Translate the mesh to better fit the camera frame

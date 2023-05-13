@@ -6,7 +6,7 @@ from videoio import VideoWriter
 
 from blendify import scene
 from blendify.colors import UniformColors
-from blendify.materials import PrinsipledBSDFMaterial
+from blendify.materials import PrincipledBSDFMaterial
 from blendify.utils.image import blend_with_background
 
 
@@ -37,7 +37,7 @@ def main(args):
     scene.set_perspective_camera(resolution=args.resolution, focal_dist=640, quaternion=(0.983, 0.182, 0, 0),
                                  translation=(0, -1.15, -1.54))
     # Create one material for all objects
-    material = PrinsipledBSDFMaterial()
+    material = PrincipledBSDFMaterial()
 
     # Create infinity symbol; for that, we need to generate a circle, split it in half and connect halves with lines
     figure_center = np.array([0, 0., -4])

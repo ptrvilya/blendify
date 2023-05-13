@@ -11,7 +11,7 @@ from videoio import VideoWriter
 
 from blendify import scene
 from blendify.colors import UniformColors, FacesUV, FileTextureColors
-from blendify.materials import PrinsipledBSDFMaterial
+from blendify.materials import PrincipledBSDFMaterial
 from blendify.utils.image import blend_with_background
 from blendify.utils.smpl_wrapper import SMPLWrapper
 
@@ -51,10 +51,10 @@ def main(args):
 
     # Define the materials
     # Material and Colors for SMPL mesh
-    smpl_material = PrinsipledBSDFMaterial()
+    smpl_material = PrincipledBSDFMaterial()
     smpl_colors = UniformColors((0.3, 0.3, 0.3))
     # Material and Colors for background scene mesh
-    scene_mesh_material = PrinsipledBSDFMaterial()
+    scene_mesh_material = PrincipledBSDFMaterial()
     scene_mesh_material.specular = 1.0
     scene_mesh_material.roughness = 1.0
     scene_mesh_colors = FileTextureColors(texture_path, FacesUV(uv_map))

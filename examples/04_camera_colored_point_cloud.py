@@ -8,7 +8,7 @@ from videoio import VideoWriter
 
 from blendify import scene
 from blendify.colors import UniformColors, VertexColors
-from blendify.materials import PrinsipledBSDFMaterial
+from blendify.materials import PrincipledBSDFMaterial
 from blendify.utils.camera_trajectory import Trajectory
 from blendify.utils.pointcloud import estimate_normals_from_pointcloud, approximate_colors_from_camera
 
@@ -61,7 +61,7 @@ def main(args):
     else:
         normals = estimate_normals_from_pointcloud(vertices, backend=args.backend, device="cpu" if args.cpu else "cuda")
     # create material
-    poincloud_material = PrinsipledBSDFMaterial(specular=0.5)
+    poincloud_material = PrincipledBSDFMaterial(specular=0.5)
     # create default color (will be changed in the rendering loop)
     pointcloud_colors_init = UniformColors((51/255, 204/255, 204/255))
     # add pointcloud to the scene

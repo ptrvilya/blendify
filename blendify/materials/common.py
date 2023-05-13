@@ -5,8 +5,8 @@ import bpy
 from .base import Material, material_property
 
 
-class PrinsipledBSDFMaterial(Material):
-    """A class which manages the parameters of PrinsipledBSDF Blender material.
+class PrincipledBSDFMaterial(Material):
+    """A class which manages the parameters of PrincipledBSDF Blender material.
     Full docs: https://docs.blender.org/manual/en/latest/render/shader_nodes/shader/principled.html
     """
 
@@ -56,6 +56,10 @@ class PrinsipledBSDFMaterial(Material):
             self._bsdf_node.inputs[blender_name].default_value = self.__getattribute__("_" + property_name)
 
         return self._object_material, self._bsdf_node
+
+
+# Alias for backward compatibility
+PrinsipledBSDFMaterial = PrincipledBSDFMaterial
 
 
 class GlossyBSDFMaterial(Material):

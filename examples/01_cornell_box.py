@@ -4,7 +4,7 @@ import numpy as np
 
 from blendify import scene
 from blendify.colors import UniformColors
-from blendify.materials import PrinsipledBSDFMaterial, GlossyBSDFMaterial
+from blendify.materials import PrincipledBSDFMaterial, GlossyBSDFMaterial
 
 
 def main(args):
@@ -22,7 +22,7 @@ def main(args):
     )
     # Fill up the scene with objects
     # Add Sphere 1
-    sphere_1_material = PrinsipledBSDFMaterial(
+    sphere_1_material = PrincipledBSDFMaterial(
         specular=0.5,
         sheen=0.0,
         sheen_tint=0.4,
@@ -38,7 +38,7 @@ def main(args):
         0.08, sphere_1_material, sphere_1_color, translation=[-0.22, 0.05, 0.08]
     )
     # Add Sphere 2
-    sphere_2_material = PrinsipledBSDFMaterial(
+    sphere_2_material = PrincipledBSDFMaterial(
         metallic=1.0,
         specular=0.5,
         roughness=0.07,
@@ -59,7 +59,7 @@ def main(args):
         0.08, 0.3, cylinder_material, cylinder_color, translation=[-0.32, 0.25, 0.15]
     )
     # Add Circle
-    circle_material = PrinsipledBSDFMaterial(
+    circle_material = PrincipledBSDFMaterial(
         metallic=1.0,
         specular=0.5,
         roughness=0.05,

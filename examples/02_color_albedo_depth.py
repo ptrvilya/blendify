@@ -5,7 +5,7 @@ import trimesh
 
 from blendify import scene
 from blendify.colors import UniformColors
-from blendify.materials import PrinsipledBSDFMaterial
+from blendify.materials import PrincipledBSDFMaterial
 
 
 def main(args):
@@ -15,7 +15,7 @@ def main(args):
     mesh = trimesh.load("./assets/knot.obj", process=False)
     vertices, faces, uv = np.array(mesh.vertices), np.array(mesh.faces), np.array(mesh.visual.uv)
     # Add mesh with uniform color to the scene
-    material = PrinsipledBSDFMaterial()
+    material = PrincipledBSDFMaterial()
     colors = UniformColors((0.3, 0, 0.9))
     mesh = scene.renderables.add_mesh(vertices, faces, material=material, colors=colors)
     # Translate the mesh to better fit the camera frame

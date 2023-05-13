@@ -1,1 +1,1 @@
-from .common import PrinsipledBSDFMaterial, GlossyBSDFMaterial
+from .common import PrincipledBSDFMaterial, PrinsipledBSDFMaterial, GlossyBSDFMaterial
