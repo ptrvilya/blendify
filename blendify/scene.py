@@ -1,4 +1,5 @@
 import os
+import sys
 import shutil
 import tempfile
 from pathlib import Path
@@ -334,6 +335,104 @@ class Scene(metaclass=Singleton):
                     os.remove(temp_filepath + ".depth.0000.exr")
                 if save_albedo:
                     shutil.move(temp_filepath + ".albedo.0000.png", os.path.splitext(filepath)[0] + ".albedo.png")
+
+    def preview(self, filepath: Union[str, Path] = None, save_depth: bool = False, save_albedo: bool = False, verbose: bool = False):
+        """[BETA] Renders a scene using Blender's OpenGL renderer. Linux Only."""
+        assert sys.platform.startswith('linux'), "Preview is only supported on Linux"
+
+        # Switch to OpenGL renderer
+        bpy.context.scene.render.engine = 'BLENDER_EEVEE'
+
+        if self.camera is None:
+            raise RuntimeError("Can't render without a camera")
+
+        render_to_ram = filepath is None
+        with tempfile.TemporaryDirectory() if render_to_ram else nullcontext() as tmpdir:
+            if render_to_ram:
+                filepath = Path(tmpdir) / 'result.png'
+            else:
+                filepath = Path(filepath)
+
+            scene = bpy.data.scenes[0]
+            scene.render.resolution_x = self.camera.resolution[0]
+            scene.render.resolution_y = self.camera.resolution[1]
+            scene.render.resolution_percentage = 100
+            scene.render.filepath = str(filepath.parent)
+
+            bpy.context.scene.camera = self.camera.blender_camera
+            # bpy.context.object.data.dof.focus_object = object
+            # input("Scene has been built. Press any key to start rendering")
+
+            bpy.context.scene.view_layers['ViewLayer'].use_pass_combined = True
+            bpy.context.scene.view_layers['ViewLayer'].use_pass_diffuse_color = True
+            bpy.context.scene.view_layers['ViewLayer'].use_pass_z = True
+            scene_node_tree = bpy.context.scene.node_tree
+
+            for n in scene_node_tree.nodes:
+                scene_node_tree.nodes.remove(n)
+            render_layer = scene_node_tree.nodes.new(type="CompositorNodeRLayers")
+            output_image = scene_node_tree.nodes.new(type="CompositorNodeOutputFile")
+            scene_node_tree.links.new(render_layer.outputs['Image'], output_image.inputs['Image'])
+
+            if save_depth:
+                output_depth = scene_node_tree.nodes.new(type="CompositorNodeOutputFile")
+                output_depth.format.file_format = "OPEN_EXR"
+                scene_node_tree.links.new(render_layer.outputs['Depth'], output_depth.inputs['Image'])
+
+            if save_albedo:
+                output_albedo = scene_node_tree.nodes.new(type="CompositorNodeOutputFile")
+                scene_node_tree.links.new(render_layer.outputs['DiffCol'], output_albedo.inputs['Image'])
+
+
+            # Render
+            bpy.context.scene.frame_current = 0
+            temp_filesuffix = next(tempfile._get_candidate_names())
+            temp_filepath = str(filepath) + "." + temp_filesuffix
+            render_suffixes = [".color.0000.png"]
+            if save_depth:
+                render_suffixes.append(".depth.0000.exr")
+            if save_albedo:
+                render_suffixes.append(".albedo.0000.png")
+            while self.check_any_exists(temp_filepath, render_suffixes):
+                temp_filesuffix = next(tempfile._get_candidate_names())
+                temp_filepath = str(filepath) + "." + temp_filesuffix
+            temp_filename = os.path.basename(temp_filepath)
+            output_image.file_slots[0].path = temp_filename + ".color."
+            if save_depth:
+                output_depth.file_slots[0].path = temp_filename + ".depth."
+            if save_albedo:
+                output_albedo.file_slots[0].path = temp_filename + ".albedo."
+
+            with catch_stdout(skip=verbose):
+                bpy.ops.render.render(write_still=False)
+
+            if render_to_ram:
+                image_data = self.read_image(temp_filepath + ".color.0000.png")
+                outputs = [image_data]
+                if save_depth:
+                    distmap = self.read_exr_distmap(temp_filepath + ".depth.0000.exr", dist_thresh=self.camera.far * 1.1)
+                    depthmap = self.camera.distance2depth(distmap)
+                    outputs.append(depthmap)
+                if save_albedo:
+                    albedomap = self.read_image(temp_filepath + ".albedo.0000.png")
+                    outputs.append(albedomap)
+                if len(outputs) == 1:
+                    return outputs[0]
+                else:
+                    return outputs
+            else:
+                shutil.move(temp_filepath + ".color.0000.png", filepath)
+                if save_depth:
+                    distmap = self.read_exr_distmap(temp_filepath + ".depth.0000.exr", dist_thresh=self.camera.far * 1.1)
+                    depthmap = self.camera.distance2depth(distmap)
+                    np.save(os.path.splitext(filepath)[0] + ".depth.npy", depthmap)
+                    os.remove(temp_filepath + ".depth.0000.exr")
+                if save_albedo:
+                    shutil.move(temp_filepath + ".albedo.0000.png", os.path.splitext(filepath)[0] + ".albedo.png")
+
+        # Return to Cycles renderer
+        bpy.context.scene.render.engine = 'CYCLES'
+
 
     @staticmethod
     def check_any_exists(fileprefix: str, filesuffixes: Sequence[str]) -> bool:
