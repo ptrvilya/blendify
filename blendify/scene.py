@@ -336,12 +336,17 @@ class Scene(metaclass=Singleton):
                 if save_albedo:
                     shutil.move(temp_filepath + ".albedo.0000.png", os.path.splitext(filepath)[0] + ".albedo.png")
 
-    def preview(self, filepath: Union[str, Path] = None, save_depth: bool = False, save_albedo: bool = False, verbose: bool = False):
+    def preview(self, filepath: Union[str, Path] = None, save_depth: bool = False, save_albedo: bool = False, verbose: bool = False, renderer: str = 'eevee'):
         """[BETA] Renders a scene using Blender's OpenGL renderer. Linux Only."""
         assert sys.platform.startswith('linux'), "Preview is only supported on Linux"
 
         # Switch to OpenGL renderer
-        bpy.context.scene.render.engine = 'BLENDER_EEVEE'
+        if renderer.lower() == 'eevee':
+            bpy.context.scene.render.engine = 'BLENDER_EEVEE'
+        elif renderer.lower() == 'workbench':
+            bpy.context.scene.render.engine = 'BLENDER_WORKBENCH'
+        else:
+            raise ValueError(f"Unknown renderer: {renderer}")
 
         if self.camera is None:
             raise RuntimeError("Can't render without a camera")
