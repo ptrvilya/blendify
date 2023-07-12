@@ -2,7 +2,7 @@
 <!-- ![blendify Logo](.github/blendify_logo_light_bg.png#gh-light-mode-only) -->
 ![blendify Logo](.github/blendify_logo_light_bg.png)
 
-[![Open In Colab](https://colab.research.google.com/github/ptrvilya/blendify/blob/main/examples/ipynb/blendify_collab_demo.ipynb]
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ptrvilya/blendify/blob/main/examples/ipynb/blendify_colab_demo.ipynb)
 
 ## Introduction
 Blendify is a lightweight Python framework that provides a high-level API for creating and rendering scenes with Blender. Developed with a focus on 3D computer vision visualization, Blendify simplifies access to selected Blender functions and objects.
@@ -22,7 +22,7 @@ commonly used routines and functions:
 
 3. **Quick start:** Blendify is easy to get started with and does not require a standalone Blender installation. All you need to do is run `pip install blendify`.
 
-4. **Blendify works in Collab:** check out [our Google Collab demo](https://colab.research.google.com/github/ptrvilya/blendify/blob/main/examples/ipynb/blendify_collab_demo.ipynb)!
+4. **Blendify works in Colab:** check out [our Google Colab demo](https://colab.research.google.com/github/ptrvilya/blendify/blob/main/examples/ipynb/blendify_colab_demo.ipynb)!
 
 ## Installation instructions
 Please note: **Blendify requires Python 3.10**
