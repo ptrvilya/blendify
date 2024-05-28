@@ -1,11 +1,12 @@
 from abc import abstractmethod
 
 import bpy
+import bmesh
 import numpy as np
-
+from typing import Sequence
 from .base import RenderableObject
 from ..colors import UniformColors
-from ..colors.base import Colors
+from ..colors.base import ColorsList, Colors
 from ..internal.types import Vector3d
 from ..materials.base import Material
 
@@ -24,6 +25,7 @@ class MeshPrimitive(RenderableObject):
     @abstractmethod
     def __init__(
         self,
+            material_faces: Sequence[Sequence[int]] = None,
         **kwargs
     ):
         """Passes all arguments to the constructor of the base class
@@ -36,10 +38,13 @@ class MeshPrimitive(RenderableObject):
             translation (Vector3d, optional): translation applied to the Blender object (default: (0,0,0))
             tag (str): name of the created object in Blender
         """
+        self._material_faces = material_faces
         super().__init__(**kwargs)
 
-    def _blender_set_colors(self, colors: Colors):
-        if not isinstance(colors, UniformColors):
+
+    def _blender_set_colors(self, colors: ColorsList):
+        colors = [colors] if isinstance(colors, Colors) else colors
+        if not all(isinstance(x, UniformColors) for x in colors):
             raise NotImplementedError("Non-uniform colors or textures are not supported in primitives, "
                                       "consider creating a primitive through Mesh for that")
         super()._blender_set_colors(colors)
@@ -56,6 +61,26 @@ class MeshPrimitive(RenderableObject):
             bpy.ops.object.shade_smooth()
         else:
             bpy.ops.object.shade_flat()
+
+    def _blender_assign_materials(self):
+        super()._blender_assign_materials()
+        assert self._material_faces is None or (len(self._material_faces) == self._materials_count), \
+            "Number of material faces should be equal to the number of materials"
+        if not (len(self._material_instances) == 1 or self._material_faces is None):
+            bpy.context.view_layer.objects.active = self._blender_object
+            bpy.ops.object.mode_set(mode='EDIT')
+            bpy.ops.mesh.select_mode(type="FACE")
+            bpy.ops.mesh.select_all(action='DESELECT')
+            bm = bmesh.from_edit_mesh(self._blender_mesh)
+            for mat_ind, faces in enumerate(self._material_faces):
+                for face in bm.faces:
+                    if face.index in faces:
+                        face.select = True
+                self._blender_object.active_material_index = mat_ind
+                bpy.ops.object.material_slot_assign()
+                bpy.ops.mesh.select_all(action='DESELECT')
+            # bmesh.update_edit_mesh(self._blender_object.data)
+            bpy.ops.object.mode_set(mode='OBJECT')
 
 
 class CubeMesh(MeshPrimitive):
@@ -84,6 +109,7 @@ class CubeMesh(MeshPrimitive):
             tag (str): name of the created object in Blender
         """
         obj = self._blender_create_object(size, tag)
+        self._blender_mesh = obj.data
         super().__init__(**kwargs, blender_object=obj, tag=tag)
 
     def _blender_create_object(
@@ -142,6 +168,7 @@ class CircleMesh(MeshPrimitive):
             tag (str): name of the created object in Blender
         """
         obj = self._blender_create_object(num_vertices, radius, fill_type, tag)
+        self._blender_mesh = obj.data
         super().__init__(**kwargs, blender_object=obj, tag=tag)
 
     def _blender_create_object(
@@ -204,6 +231,7 @@ class CylinderMesh(MeshPrimitive):
             tag (str): name of the created object in Blender
         """
         obj = self._blender_create_object(num_vertices, radius, height, fill_type, tag)
+        self._blender_mesh = obj.data
         # obj.scale[2] = height / radius
         super().__init__(**kwargs, blender_object=obj, tag=tag)
 
@@ -263,9 +291,9 @@ class ParametricPrimitive(RenderableObject):
         """
         super().__init__(**kwargs)
 
-    def _blender_set_colors(self, colors: Colors):
+    def _blender_set_colors(self, colors: ColorsList):
         if not isinstance(colors, UniformColors):
-            raise NotImplementedError("Non-uniform colors or textures are not supported in primitives, "
+            raise NotImplementedError("Multiple materials, non-uniform colors or textures are not supported in primitives, "
                                       "consider creating a primitive through Mesh for that")
         super()._blender_set_colors(colors)
 

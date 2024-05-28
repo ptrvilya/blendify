@@ -2,7 +2,7 @@ from typing import Tuple
 
 import bpy
 
-from .base import Material, material_property
+from .base import Material, material_property, MaterialInstance
 
 
 class PrincipledBSDFMaterial(Material):
@@ -29,11 +29,7 @@ class PrincipledBSDFMaterial(Material):
                 self.__setattr__(argname, material_property(argname))
                 self.__setattr__("_" + argname, argvalue)
 
-        self._object_material = None
-        self._bsdf_node = None
-
-    def create_material(self, name: str = "object_material") \
-            -> Tuple[bpy.types.Material, bpy.types.ShaderNodeBsdfPrincipled]:
+    def create_material(self, name: str = "object_material") -> MaterialInstance:
         """Create the Blender material with the parameters stored in the current object
 
         Args:
@@ -43,19 +39,18 @@ class PrincipledBSDFMaterial(Material):
             Tuple[bpy.types.Material, bpy.types.ShaderNodeBsdfPrincipled]: Blender material and the
                 shader node which uses the created material
         """
-        # This anti-duplicate check causes error as of now, so it was commented out until a proper fix
-        # if self._object_material is not None and self._bsdf_node is not None:
-        #     return self._object_material, self._bsdf_node
 
-        self._object_material = bpy.data.materials.new(name=name)
-        self._object_material.use_nodes = True
-        self._bsdf_node = self._object_material.node_tree.nodes["Principled BSDF"]
+        object_material = bpy.data.materials.new(name=name)
+        object_material.use_nodes = True
+        bsdf_node = object_material.node_tree.nodes["Principled BSDF"]
+        material_instance = MaterialInstance(blender_material=object_material,
+                                             inputs={"Color": bsdf_node.inputs["Base Color"], "Alpha": bsdf_node.inputs["Alpha"]})
 
         # Set material properties
         for property_name, blender_name in self._property2blender_mapping.items():
-            self._bsdf_node.inputs[blender_name].default_value = self.__getattribute__("_" + property_name)
+            bsdf_node.inputs[blender_name].default_value = self.__getattribute__("_" + property_name)
 
-        return self._object_material, self._bsdf_node
+        return material_instance
 
 
 # Alias for backward compatibility
@@ -72,11 +67,7 @@ class GlossyBSDFMaterial(Material):
         self.roughness, self._roughness = material_property("roughness"), roughness
         self._distribution = distribution
 
-        self._object_material = None
-        self._bsdf_node = None
-
-    def create_material(self, name: str = "object_material") \
-            -> Tuple[bpy.types.Material, bpy.types.ShaderNodeBsdfGlossy]:
+    def create_material(self, name: str = "object_material") -> MaterialInstance:
         """Create the Blender material with the parameters stored in the current object
 
         Args:
@@ -86,23 +77,23 @@ class GlossyBSDFMaterial(Material):
             Tuple[bpy.types.Material, bpy.types.ShaderNodeBsdfGlossy]: Blender material and the
                 shader node which uses the created material
         """
-        # This anti-duplicate check causes error as of now, so it was commented out until a proper fix
-        # if self._object_material is not None and self._bsdf_node is not None:
-        #     return self._object_material, self._bsdf_node
 
-        self._object_material = bpy.data.materials.new(name=name)
-        self._object_material.use_nodes = True
-        material_nodes = self._object_material.node_tree.nodes
+        object_material = bpy.data.materials.new(name=name)
+        object_material.use_nodes = True
+        material_nodes = object_material.node_tree.nodes
 
-        self._bsdf_node = material_nodes.new("ShaderNodeBsdfGlossy")
+        bsdf_node = material_nodes.new("ShaderNodeBsdfGlossy")
         material_nodes.remove(material_nodes['Principled BSDF'])
-        self._object_material.node_tree.links.new(material_nodes["Material Output"].inputs["Surface"],
-                                                  self._bsdf_node.outputs[0])
+        object_material.node_tree.links.new(material_nodes["Material Output"].inputs["Surface"],
+                                            bsdf_node.outputs[0])
         # Set material properties
-        self._bsdf_node.inputs["Roughness"].default_value = self._roughness
-        self._bsdf_node.distribution = self._distribution
+        bsdf_node.inputs["Roughness"].default_value = self._roughness
+        bsdf_node.distribution = self._distribution
 
-        return self._object_material, self._bsdf_node
+        material_instance = MaterialInstance(blender_material=object_material,
+                                             inputs={"Color": bsdf_node.inputs["Color"]})
+
+        return material_instance
 
     @property
     def distribution(self):

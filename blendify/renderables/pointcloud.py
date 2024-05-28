@@ -32,9 +32,9 @@ from mathutils import Vector
 
 from .base import Renderable
 from ..colors import VertexColors, UniformColors
-from ..colors.base import ColorsMetadata, Colors
+from ..colors.base import ColorsMetadata, ColorsList, Colors
 from ..internal.texture import compute_particle_color_texture
-from ..materials.base import Material
+from ..materials.base import MaterialList, Material
 
 
 @ dataclass
@@ -297,13 +297,16 @@ class PointCloud(Renderable):
     # ==================================================== MATERIAL ====================================================
     def update_material(
             self,
-            material: Material
+            material: MaterialList
     ):
         """Updates object material properties, sets Blender structures accordingly
 
         Args:
             material (Material): target material
         """
+        if not isinstance(material, Material):
+            assert len(material) == 1, "Only one material can be provided for the point cloud"
+            material = material[0]
         self._blender_clear_material()
         self._blender_set_material(material)
 
@@ -366,13 +369,16 @@ class PointCloud(Renderable):
     # ===================================================== COLORS =====================================================
     def update_colors(
             self,
-            colors: Colors
+            colors: ColorsList
     ):
         """Updates object color properties, sets Blender structures accordingly
 
         Args:
             colors (Colors): target colors information
         """
+        if not isinstance(colors, Colors):
+            assert len(colors) == 1, "Only one color can be provided for the point cloud"
+            colors = colors[0]
         self._blender_clear_colors()
         self._blender_set_colors(colors)
 

@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import NamedTuple, Optional
+from typing import NamedTuple, Optional, Union, Sequence
 
 import bpy
 
@@ -21,6 +21,7 @@ class ColorsMetadata(NamedTuple):
 class Colors(ABC):
     """An abstract container template for storing the object coloring information
     """
+
     @abstractmethod
     def __init__(self):
         self._metadata: Optional[ColorsMetadata] = None
@@ -28,3 +29,6 @@ class Colors(ABC):
     @property
     def metadata(self) -> ColorsMetadata:
         return self._metadata
+
+
+ColorsList = Union[Sequence[Colors], Colors]

@@ -1,7 +1,15 @@
 from abc import ABC, abstractmethod
-from typing import Tuple
+from typing import Sequence, Union, Dict, Optional
+from dataclasses import dataclass
 
 import bpy
+
+
+@dataclass
+class MaterialInstance:
+    blender_material: bpy.types.Material
+    inputs: Dict[str, bpy.types.NodeSocket]
+    colors_node: Optional[bpy.types.ShaderNode] = None
 
 
 class Material(ABC):
@@ -9,8 +17,11 @@ class Material(ABC):
         pass
 
     @abstractmethod
-    def create_material(self, name: str = "object_material") -> Tuple[bpy.types.Material, bpy.types.ShaderNode]:
+    def create_material(self, name: str = "object_material") -> MaterialInstance:
         pass
+
+
+MaterialList = Union[Sequence[Material], Material]
 
 
 def material_property(name: str):

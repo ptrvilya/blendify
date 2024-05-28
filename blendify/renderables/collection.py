@@ -1,4 +1,4 @@
-from typing import Dict, Iterable, Union
+from typing import Dict, Iterable, Union, Sequence
 
 import numpy as np
 
@@ -6,10 +6,10 @@ from . import primitives
 from .base import Renderable
 from .mesh import Mesh
 from .pointcloud import PointCloud
-from ..colors.base import Colors
+from ..colors.base import Colors, ColorsList
 from ..internal import Singleton
 from ..internal.types import Vector3d, Vector4d
-from ..materials.base import Material
+from ..materials.base import Material, MaterialList
 
 
 class RenderablesCollection(metaclass=Singleton):
@@ -64,8 +64,9 @@ class RenderablesCollection(metaclass=Singleton):
         self,
         vertices: np.ndarray,
         faces: np.ndarray,
-        material: Material,
-        colors: Colors,
+        material: MaterialList,
+        colors: ColorsList,
+        material_faces: Sequence[Sequence[int]] = None,
         quaternion: Vector4d = (1, 0, 0, 0),
         translation: Vector3d = (0, 0, 0),
         tag: str = None
@@ -77,8 +78,9 @@ class RenderablesCollection(metaclass=Singleton):
         Args:
             vertices (np.ndarray): mesh vertices
             faces (np.ndarray): mesh faces
-            material (Material): Material instance
-            colors (Colors): Colors instance
+            material (MaterialList): Material instance or list of Material instances
+            colors (ColorsList): Colors instance or list of Colors instances
+            material_faces (Sequence[Sequence[int]], optional): for each material, the face indexes it is assigned to
             quaternion (Vector4d, optional): rotation applied to the Blender object (default: (1,0,0,0))
             translation (Vector3d, optional): translation applied to the Blender object (default: (0,0,0))
             tag (str, optional): name of the created object in Blender. If None is passed, the tag
@@ -90,7 +92,7 @@ class RenderablesCollection(metaclass=Singleton):
         tag = self._process_tag(tag, "Mesh")
         obj = Mesh(
             vertices=vertices, faces=faces, material=material, colors=colors, quaternion=quaternion,
-            translation=translation, tag=tag
+            translation=translation, tag=tag, material_faces=material_faces
         )
         self._renderables[tag] = obj
         return obj
@@ -98,8 +100,9 @@ class RenderablesCollection(metaclass=Singleton):
     def add_cube_mesh(
         self,
         size: float,
-        material: Material,
-        colors: Colors,
+        material: MaterialList,
+        colors: ColorsList,
+        material_faces: Sequence[Sequence[int]] = None,
         quaternion: Vector4d = (1, 0, 0, 0),
         translation: Vector3d = (0, 0, 0),
         tag: str = None
@@ -109,8 +112,9 @@ class RenderablesCollection(metaclass=Singleton):
 
         Args:
             size (float): size of a primitive in [0, inf]
-            material (Material): Material instance
-            colors (Colors): Colors instance
+            material (MaterialList): Material instance or list of Material instances
+            colors (ColorsList): Colors instance or list of Colors instances
+            material_faces (Sequence[Sequence[int]], optional): for each material, the face indexes it is assigned to
             quaternion (Vector4d, optional): rotation applied to the Blender object (default: (1,0,0,0))
             translation (Vector3d, optional): translation applied to the Blender object (default: (0,0,0))
             tag (str, optional): name of the created object in Blender. If None is passed, the tag
@@ -121,7 +125,7 @@ class RenderablesCollection(metaclass=Singleton):
         """
         tag = self._process_tag(tag, "Cube")
         obj = primitives.CubeMesh(
-            size=size, material=material, colors=colors, quaternion=quaternion, translation=translation, tag=tag
+            size=size, material=material, colors=colors, quaternion=quaternion, translation=translation, tag=tag, material_faces=material_faces
         )
         self._renderables[tag] = obj
         return obj
@@ -131,6 +135,7 @@ class RenderablesCollection(metaclass=Singleton):
         radius: float,
         material: Material,
         colors: Colors,
+        material_faces: Sequence[Sequence[int]] = None,
         num_vertices: int = 32,
         fill_type: str = "NGON",
         quaternion: Vector4d = (1, 0, 0, 0),
@@ -142,8 +147,9 @@ class RenderablesCollection(metaclass=Singleton):
 
         Args:
             radius (float): radius of a primitive in [0, inf]
-            material (Material): Material instance
-            colors (Colors): Colors instance
+            material (MaterialList): Material instance or list of Material instances
+            colors (ColorsList): Colors instance or list of Colors instances
+            material_faces (Sequence[Sequence[int]], optional): for each material, the face indexes it is assigned to
             num_vertices (int, optional): number of vertices in primitive in [3, 10000000] (default: 32)
             fill_type (str, optional): fill type, one of [NOTHING, NGON, TRIFAN] (default: NGON)
             quaternion (Vector4d, optional): rotation applied to the Blender object (default: (1,0,0,0))
@@ -157,7 +163,7 @@ class RenderablesCollection(metaclass=Singleton):
         tag = self._process_tag(tag, "Circle")
         obj = primitives.CircleMesh(
             radius=radius, material=material, colors=colors, num_vertices=num_vertices, fill_type=fill_type,
-            quaternion=quaternion, translation=translation, tag=tag
+            quaternion=quaternion, translation=translation, tag=tag, material_faces=material_faces
         )
         self._renderables[tag] = obj
         return obj
@@ -168,6 +174,7 @@ class RenderablesCollection(metaclass=Singleton):
         height: float,
         material: Material,
         colors: Colors,
+        material_faces: Sequence[Sequence[int]] = None,
         num_vertices: int = 32,
         fill_type: str = "NGON",
         quaternion: Vector4d = (1, 0, 0, 0),
@@ -180,8 +187,9 @@ class RenderablesCollection(metaclass=Singleton):
         Args:
             radius (float): radius of a primitive in [0, inf]
             height (float): height of a primitive in [0, inf]
-            material (Material): Material instance
-            colors (Colors): Colors instance
+            material (MaterialList): Material instance or list of Material instances
+            colors (ColorsList): Colors instance or list of Colors instances
+            material_faces (Sequence[Sequence[int]], optional): for each material, the face indexes it is assigned to
             num_vertices (int, optional): number of vertices in primitive in [3, 10000000] (default: 32)
             fill_type (str, optional): fill type, one of [NOTHING, NGON, TRIFAN] (default: NGON)
             quaternion (Vector4d, optional): rotation applied to the Blender object (default: (1,0,0,0))
@@ -195,7 +203,7 @@ class RenderablesCollection(metaclass=Singleton):
         tag = self._process_tag(tag, "Cylinder")
         obj = primitives.CylinderMesh(
             radius=radius, height=height, material=material, colors=colors, num_vertices=num_vertices,
-            fill_type=fill_type, quaternion=quaternion, translation=translation, tag=tag
+            fill_type=fill_type, quaternion=quaternion, translation=translation, tag=tag, material_faces=material_faces
         )
         self._renderables[tag] = obj
         return obj
