@@ -336,17 +336,29 @@ class Scene(metaclass=Singleton):
                 if save_albedo:
                     shutil.move(temp_filepath + ".albedo.0000.png", os.path.splitext(filepath)[0] + ".albedo.png")
 
-    def preview(self, filepath: Union[str, Path] = None, save_depth: bool = False, save_albedo: bool = False, verbose: bool = False, renderer: str = 'eevee'):
-        """[BETA] Renders a scene using Blender's OpenGL renderer. Linux Only."""
-        assert sys.platform.startswith('linux'), "Preview is only supported on Linux"
+    def preview(self, filepath: Union[str, Path] = None, save_depth: bool = False, save_albedo: bool = False, verbose: bool = False, fast: bool = False):
+        """Renders a scene using Blender's OpenGL renderer. Linux and MacOS Only.
+
+                Args:
+                    filepath (Union[str, Path]): path to the image (PNG) to render to, returns the image as numpy array if None
+                    use_gpu (bool): whether to render on GPU or not
+                    samples (bool): number of raytracing samples per pixel
+                    save_depth (bool): whether to save the depth in the separate file.
+                      If yes, the numpy array <filepath>.depth.npy will be created if filepath is set, otherwise appends the array to the output.
+                    save_albedo (bool): whether to save albedo (raw color information) in the separate file.
+                      If yes, the PNG image <filepath>.albedo.png with color information will be created
+                      if filepath is set, otherwise appends the array to the output.
+                    verbose (bool): whether to allow blender to log its status to stdout during rendering
+                    use_denoiser (bool): use openimage denoiser to denoise the result
+                    fast (bool): whether to use fast and colorless preview mode (workbench engine)
+                """
+        assert sys.platform.startswith('linux') or sys.platform.startswith('darwin'), "Preview is only supported on Linux and MacOS"
 
         # Switch to OpenGL renderer
-        if renderer.lower() == 'eevee':
+        if not fast:
             bpy.context.scene.render.engine = 'BLENDER_EEVEE'
-        elif renderer.lower() == 'workbench':
-            bpy.context.scene.render.engine = 'BLENDER_WORKBENCH'
         else:
-            raise ValueError(f"Unknown renderer: {renderer}")
+            bpy.context.scene.render.engine = 'BLENDER_WORKBENCH'
 
         if self.camera is None:
             raise RuntimeError("Can't render without a camera")
