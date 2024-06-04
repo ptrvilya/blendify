@@ -6,29 +6,13 @@ import numpy as np
 from scipy.spatial.transform import Rotation
 
 
-def _move_objects(from_col, to_col, linked, dupe_lut):
-    for o in from_col.objects:
-        dupe = o.copy()
-        if not linked and o.data:
-            dupe.data = dupe.data.copy()
-        to_col.objects.link(dupe)
-        from_col.objects.unlink(o)
-
-        # Fix naming: blender appends .001, .002, etc. to new names
-        orig_name = o.name
-        created_name = dupe.name
-        o.name = created_name
-        dupe.name = orig_name
-
-        dupe_lut[o] = dupe
-
-
-def move_collection(parent, collection, linked=False):
+def move_collection(parent, collection):
     # from https://blender.stackexchange.com/questions/157828/how-to-duplicate-a-certain-collection-using-python
-    dupe_lookuptable = defaultdict(lambda: None)
-
-    def _move_collection(parent, collection, linked=False):
-        _move_objects(collection, parent, linked, dupe_lookuptable)
+    def _move_collection(parent, collection):
+        # re-link objects
+        for o in collection.objects:
+            collection.objects.unlink(o)
+            parent.objects.link(o)
 
         for c in collection.children:
             # Create child and link it
@@ -40,24 +24,12 @@ def move_collection(parent, collection, linked=False):
             c.name = created_name
             cc.name = orig_name
             # Recursively move everything that is inside
-            _move_collection(cc, c, linked)
+            _move_collection(cc, c)
 
         for c in collection.children:
             bpy.data.collections.remove(c, do_unlink=True)
 
-    _move_collection(parent, collection, linked)
-
-    objects_to_delete = []
-    for o, dupe in tuple(dupe_lookuptable.items()):
-        parent = dupe_lookuptable[o.parent]
-        if parent is not None:
-            dupe.parent = parent
-
-        objects_to_delete.append(o)
-
-    # Remove old objects
-    with bpy.context.temp_override(selected_objects=objects_to_delete):
-        bpy.ops.object.delete()
+    _move_collection(parent, collection)
 
 
 def parse_camera_from_blendfile(obj: bpy.types.Object, resolution: np.ndarray):
@@ -135,3 +107,35 @@ def parse_camera_from_blendfile(obj: bpy.types.Object, resolution: np.ndarray):
         camera_dict["far"] = obj.data.clip_end
 
     return obj.data.type, camera_dict
+
+def parse_light_from_blendfile(obj: bpy.types.Object):
+    # Parse common parameters
+    translation, quaternion, scale = obj.matrix_world.decompose()
+    # "scale", "multiple_importance", "shadow_caustics" are not supported
+    light_dict = {
+        "strength": obj.data.energy,
+        "color": np.array(obj.data.color),
+        "cast_shadows": obj.data.cycles.cast_shadow,
+        "quaternion": quaternion,
+        "translation": translation,
+        "tag": obj.name
+    }
+
+    # Parse type specific parameters
+    light_type = obj.data.type
+    if light_type == "POINT":
+        light_dict["shadow_soft_size"] = obj.data.shadow_soft_size
+    elif light_type == "SUN":
+        light_dict["angular_diameter"] = obj.data.angle
+    elif light_type == "SPOT":
+        light_dict["spot_size"] = obj.data.spot_size
+        light_dict["spot_blend"] = obj.data.spot_blend
+        light_dict["shadow_soft_size"] = obj.data.shadow_soft_size
+    elif light_type == "AREA":
+        light_dict["shape"] = obj.data.shape
+        if light_dict["shape"] in ["RECTANGLE", "ELLIPSE"]:
+            light_dict["size"] = np.array([obj.data.size, obj.data.size_y], dtype=np.float32)
+        else:
+            light_dict["size"] = obj.data.size
+
+    return light_type, light_dict

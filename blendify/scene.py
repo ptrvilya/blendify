@@ -537,12 +537,13 @@ class Scene(metaclass=Singleton):
         # Recursively copy collection
         main_scene = bpy.data.scenes[main_scene_name]
         import_scene = data_to.scenes[0]
-        parser.move_collection(main_scene.collection, import_scene.collection, True)
+        parser.move_collection(main_scene.collection, import_scene.collection)
 
         # Remove scene
         bpy.data.scenes.remove(import_scene, do_unlink=True)
 
         # Parse selected objects (lights and camera)
+        bpy.context.view_layer.update()
         for obj in bpy.data.objects:
             if with_camera and obj.type == "CAMERA":
                 camera_type, camera_dict = parser.parse_camera_from_blendfile(obj, resolution)
@@ -560,6 +561,23 @@ class Scene(metaclass=Singleton):
                     )
                 else:
                     raise NotImplementedError(f"Unsupported camera type {camera_type}")
+            elif obj.type == "LIGHT":
+                light_type, light_dict = parser.parse_light_from_blendfile(obj)
+
+                # Remove light before re-creaing it
+                with bpy.context.temp_override(selected_objects=[obj]):
+                    bpy.ops.object.delete()
+
+                if light_type == "POINT":
+                    self.lights.add_point(**light_dict)
+                elif light_type == "SUN":
+                    self.lights.add_sun(**light_dict)
+                elif light_type == "SPOT":
+                    self.lights.add_spot(**light_dict)
+                elif light_type == "AREA":
+                    self.lights.add_area(**light_dict)
+                else:
+                    raise NotImplementedError(f"Unsupported light type {light_type}")
 
     def attach_blend_with_camera(self, path: Union[str, Path]):
         """Append objects and materials from the existing .blend file to the scene.
