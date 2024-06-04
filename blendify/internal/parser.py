@@ -14,6 +14,12 @@ def _move_objects(from_col, to_col, linked, dupe_lut):
         to_col.objects.link(dupe)
         from_col.objects.unlink(o)
 
+        # Fix naming: blender appends .001, .002, etc. to new names
+        orig_name = o.name
+        created_name = dupe.name
+        o.name = created_name
+        dupe.name = orig_name
+
         dupe_lut[o] = dupe
 
 
@@ -22,22 +28,36 @@ def move_collection(parent, collection, linked=False):
     dupe_lookuptable = defaultdict(lambda: None)
 
     def _move_collection(parent, collection, linked=False):
-        cc = bpy.data.collections.new(collection.name)
-        _move_objects(collection, cc, linked, dupe_lookuptable)
+        _move_objects(collection, parent, linked, dupe_lookuptable)
 
         for c in collection.children:
+            # Create child and link it
+            cc = bpy.data.collections.new(c.name)
+            parent.children.link(cc)
+            # Fix naming: blender appends .001, .002, etc. to new names
+            orig_name = c.name
+            created_name = cc.name
+            c.name = created_name
+            cc.name = orig_name
+            # Recursively move everything that is inside
             _move_collection(cc, c, linked)
 
-        parent.children.link(cc)
         for c in collection.children:
             bpy.data.collections.remove(c, do_unlink=True)
 
     _move_collection(parent, collection, linked)
 
+    objects_to_delete = []
     for o, dupe in tuple(dupe_lookuptable.items()):
         parent = dupe_lookuptable[o.parent]
-        if parent:
+        if parent is not None:
             dupe.parent = parent
+
+        objects_to_delete.append(o)
+
+    # Remove old objects
+    with bpy.context.temp_override(selected_objects=objects_to_delete):
+        bpy.ops.object.delete()
 
 
 def parse_camera_from_blendfile(obj: bpy.types.Object, resolution: np.ndarray):

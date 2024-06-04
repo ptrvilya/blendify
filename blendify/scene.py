@@ -485,64 +485,51 @@ class Scene(metaclass=Singleton):
                 bpy.ops.file.pack_all()
             bpy.ops.wm.save_as_mainfile(filepath=path)
 
-    @staticmethod
-    def attach_blend(path: Union[str, Path]):
+    def attach_blend(self, path: Union[str, Path], with_camera: bool = False):
         """Append objects and materials from the existing .blend file to the scene.
-        This includes lights, renderable objects, materials, etc.
+        The only two modalities that can be added to blendify Scene are lights and optionally camera,
+        others (renderable objects, materials, etc.) are only appended.
         The appended modalities will only be present in the internal Blender structures,
-        but not be present in the Scene class structure.
+        but will not be added to the blendify Scene class structure.
         However, they will appear on rendering and in the exported .blend files
 
         Args:
             path: path to the .blend file to append the contents from
-        """
-        objects, materials = [], []
-        with bpy.data.libraries.load(str(path), link=False) as (data_from, data_to):
-            # data_to.materials = data_from.materials
-            for name in data_from.materials:
-                materials.append({'name': name})
-
-            for name in data_from.objects:
-                objects.append({'name': name})
-
-        bpy.ops.wm.append(directory=str(path) + "/Object/", files=objects)
-        bpy.ops.wm.append(directory=str(path) + "/Material/", files=materials)
-
-    def attach_blend_with_camera(self, path: Union[str, Path]):
-        """Append objects and materials from the existing .blend file to the scene.
-        This includes lights, renderable objects, materials, etc.
-        The appended modalities will only be present in the internal Blender structures,
-        but not be present in the Scene class structure.
-        However, they will appear on rendering and in the exported .blend files
-
-        Args:
-            path: path to the .blend file to append the contents from
+            with_camera: parse camera parameters from the .blend file or keep existing camera
         """
         main_scene_name = bpy.data.scenes.keys()[0]
-        objects, materials = [], []
-        with bpy.data.libraries.load(str(path), link=False) as (data_from, data_to):
+        materials = []
+        with (bpy.data.libraries.load(str(path), link=False) as (data_from, data_to)):
             for name in data_from.materials:
                 materials.append({'name': name})
 
-            for name in data_from.objects:
-                objects.append({'name': name})
+            if with_camera:
+                # Check number of cameras by looking at cameras settings
+                assert len(data_from.cameras) == 1, \
+                    f"Expect to have only single camera in .blend, got {len(data_from.cameras)}"
 
-            # Check number of cameras by looking at cameras settings
-            assert len(data_from.cameras) == 1, f"Expect to have only single camera in .blend, got {len(data_from.cameras)}"
+                # Parse resolution parameters from scene
+                assert len(data_from.scenes) == 1, \
+                        f"Expect to have only single scene in .blend, got {len(data_from.scenes)}"
 
-            # Parse resolution parameters from scene
-            assert len(data_from.scenes) == 1, f"Expect to have only single scene in .blend, got {len(data_from.scenes)}"
             data_to.scenes = data_from.scenes
 
-        # Parse resolution
-        res_x = data_to.scenes[0].render.resolution_x
-        res_y = data_to.scenes[0].render.resolution_y
-        resolution_percentage = data_to.scenes[0].render.resolution_percentage
-        resolution = np.array([res_x, res_y])
+        if with_camera:
+            # Parse resolution
+            res_x = data_to.scenes[0].render.resolution_x
+            res_y = data_to.scenes[0].render.resolution_y
+            resolution_percentage = data_to.scenes[0].render.resolution_percentage
+            resolution = np.array([res_x, res_y])
 
-        # Delete old camera
-        if self._camera is not None:
-            self._camera._blender_remove_object()
+            # Delete old camera
+            if self._camera is not None:
+                self._camera._blender_remove_object()
+        else:
+            # Remove camera from the imported scene
+            camera_obj = data_to.scenes[0].camera
+
+            with bpy.context.temp_override(selected_objects=[camera_obj]):
+                bpy.ops.object.delete()
 
         # Add materials to the current scene
         bpy.ops.wm.append(directory=str(path) + "/Material/", files=materials, link=True)
@@ -555,9 +542,9 @@ class Scene(metaclass=Singleton):
         # Remove scene
         bpy.data.scenes.remove(import_scene, do_unlink=True)
 
-        # Camera was appended as object, now we need to parse its parameters
+        # Parse selected objects (lights and camera)
         for obj in bpy.data.objects:
-            if obj.type == "CAMERA":
+            if with_camera and obj.type == "CAMERA":
                 camera_type, camera_dict = parser.parse_camera_from_blendfile(obj, resolution)
 
                 # Remove current camera, because we need to recreate it
@@ -574,5 +561,15 @@ class Scene(metaclass=Singleton):
                 else:
                     raise NotImplementedError(f"Unsupported camera type {camera_type}")
 
-                # Camera is parsed, exiting
-                break
+    def attach_blend_with_camera(self, path: Union[str, Path]):
+        """Append objects and materials from the existing .blend file to the scene.
+        The only two modalities that can be added to blendify Scene are lights and camera,
+        others (renderable objects, materials, etc.) are only appended.
+        The appended modalities will only be present in the internal Blender structures,
+        but will not be added to the blendify Scene class structure.
+        However, they will appear on rendering and in the exported .blend files
+
+        Args:
+            path: path to the .blend file to append the contents from
+        """
+        self.attach_blend(path, with_camera=True)
