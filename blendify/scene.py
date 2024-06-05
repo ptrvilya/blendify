@@ -197,15 +197,19 @@ class Scene(metaclass=Singleton):
         render_to_ram = filepath is None
         with tempfile.TemporaryDirectory() if render_to_ram else nullcontext() as tmpdir:
             if render_to_ram:
-                filepath = Path(tmpdir) / 'result.png'
+                basepath = tmpdir
+                filename = 'result.png'
+                filepath = Path(tmpdir) / filename
             else:
                 filepath = Path(filepath)
+                basepath = str(filepath.parent.absolute())
+                filename = filepath.stem
 
             scene = bpy.data.scenes[0]
             scene.render.resolution_x = self.camera.resolution[0]
             scene.render.resolution_y = self.camera.resolution[1]
             scene.render.resolution_percentage = 100
-            scene.render.filepath = str(filepath.parent)
+            scene.render.filepath = str(basepath)
 
             bpy.context.scene.camera = self.camera.blender_camera
             # bpy.context.object.data.dof.focus_object = object
@@ -303,6 +307,7 @@ class Scene(metaclass=Singleton):
                 temp_filesuffix = next(tempfile._get_candidate_names())
                 temp_filepath = str(filepath) + "." + temp_filesuffix
             temp_filename = os.path.basename(temp_filepath)
+            output_image.base_path = basepath
             output_image.file_slots[0].path = temp_filename + ".color."
             if save_depth:
                 output_depth.file_slots[0].path = temp_filename + ".depth."
@@ -328,13 +333,16 @@ class Scene(metaclass=Singleton):
                     return outputs
             else:
                 shutil.move(temp_filepath + ".color.0000.png", filepath)
+                output_image.file_slots[0].path = filename
                 if save_depth:
                     distmap = self.read_exr_distmap(temp_filepath + ".depth.0000.exr", dist_thresh=self.camera.far * 1.1)
                     depthmap = self.camera.distance2depth(distmap)
                     np.save(os.path.splitext(filepath)[0] + ".depth.npy", depthmap)
                     os.remove(temp_filepath + ".depth.0000.exr")
+                    output_depth.file_slots[0].path = filename + ".depth."
                 if save_albedo:
                     shutil.move(temp_filepath + ".albedo.0000.png", os.path.splitext(filepath)[0] + ".albedo.png")
+                    output_albedo.file_slots[0].path =  filename + ".albedo."
 
     def preview(self, filepath: Union[str, Path] = None, save_depth: bool = False, save_albedo: bool = False, verbose: bool = False, fast: bool = False):
         """Renders a scene using Blender's OpenGL renderer. Linux and MacOS Only.
@@ -366,9 +374,13 @@ class Scene(metaclass=Singleton):
         render_to_ram = filepath is None
         with tempfile.TemporaryDirectory() if render_to_ram else nullcontext() as tmpdir:
             if render_to_ram:
-                filepath = Path(tmpdir) / 'result.png'
+                basepath = tmpdir
+                filename = 'result.png'
+                filepath = Path(tmpdir) / filename
             else:
                 filepath = Path(filepath)
+                basepath = str(filepath.parent.absolute())
+                filename = filepath.stem
 
             scene = bpy.data.scenes[0]
             scene.render.resolution_x = self.camera.resolution[0]
@@ -400,7 +412,6 @@ class Scene(metaclass=Singleton):
                 output_albedo = scene_node_tree.nodes.new(type="CompositorNodeOutputFile")
                 scene_node_tree.links.new(render_layer.outputs['DiffCol'], output_albedo.inputs['Image'])
 
-
             # Render
             bpy.context.scene.frame_current = 0
             temp_filesuffix = next(tempfile._get_candidate_names())
@@ -414,6 +425,7 @@ class Scene(metaclass=Singleton):
                 temp_filesuffix = next(tempfile._get_candidate_names())
                 temp_filepath = str(filepath) + "." + temp_filesuffix
             temp_filename = os.path.basename(temp_filepath)
+            output_image.base_path = basepath
             output_image.file_slots[0].path = temp_filename + ".color."
             if save_depth:
                 output_depth.file_slots[0].path = temp_filename + ".depth."
@@ -439,13 +451,16 @@ class Scene(metaclass=Singleton):
                     return outputs
             else:
                 shutil.move(temp_filepath + ".color.0000.png", filepath)
+                output_image.file_slots[0].path = filename
                 if save_depth:
                     distmap = self.read_exr_distmap(temp_filepath + ".depth.0000.exr", dist_thresh=self.camera.far * 1.1)
                     depthmap = self.camera.distance2depth(distmap)
                     np.save(os.path.splitext(filepath)[0] + ".depth.npy", depthmap)
                     os.remove(temp_filepath + ".depth.0000.exr")
+                    output_depth.file_slots[0].path = filename + ".depth."
                 if save_albedo:
                     shutil.move(temp_filepath + ".albedo.0000.png", os.path.splitext(filepath)[0] + ".albedo.png")
+                    output_albedo.file_slots[0].path = filename + ".albedo."
 
         # Return to Cycles renderer
         bpy.context.scene.render.engine = 'CYCLES'
@@ -479,6 +494,9 @@ class Scene(metaclass=Singleton):
         """
         # hack to overcome Blender error message "BKE_bpath_relative_convert: basedir='', this is a bug"
         path = str(os.path.abspath(path))
+
+        # Create folder
+        Path(path).parent.mkdir(parents=True, exist_ok=True)
 
         with catch_stdout(skip=verbose):
             if include_file_textures:

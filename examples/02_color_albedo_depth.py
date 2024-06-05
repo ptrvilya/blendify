@@ -22,11 +22,11 @@ def main(args):
     mesh.translation = mesh.translation + np.array([1.2, 0, -4.5])
     # Add light to the scene
     light = scene.lights.add_sun(strength=5)
+    # Render the scene
+    scene.render(filepath=args.path, use_gpu=not args.cpu, samples=args.n_samples, save_depth=True, save_albedo=True)
     # Optionally save blend file with the scene
     if args.output_blend is not None:
         scene.export(args.output_blend)
-    # Render the scene
-    scene.render(filepath=args.path, use_gpu=not args.cpu, samples=args.n_samples, save_depth=True, save_albedo=True)
 
 
 if __name__ == "__main__":

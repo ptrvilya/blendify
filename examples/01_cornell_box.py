@@ -72,11 +72,11 @@ def main(args):
         0.17, circle_material, circle_color,
         quaternion=[0.720, 0.262, 0.604, -0.220], translation=[-0.43, 0.32, 0.18]
     )
+    # Render the scene
+    scene.render(filepath=args.path, use_gpu=not args.cpu, samples=args.n_samples)
     # Optionally save blend file with the scene
     if args.output_blend is not None:
         scene.export(args.output_blend)
-    # Render the scene
-    scene.render(filepath=args.path, use_gpu=not args.cpu, samples=args.n_samples)
 
 
 if __name__ == '__main__':
