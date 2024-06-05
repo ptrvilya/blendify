@@ -2,6 +2,7 @@ from abc import abstractmethod
 from typing import Optional, List
 
 import bpy
+import warnings
 
 from ..colors import UniformColors, VertexColors
 from ..colors.base import ColorsMetadata, ColorsList, Colors
@@ -191,7 +192,8 @@ class RenderableObject(Renderable):
                 if colors_metadata.type is UniformColors and colors_metadata.has_alpha:
                     # return the alpha channel back to the default value
                     material_instance.inputs['Alpha'].default_value = 1.
-                material_instance.node_tree.nodes.remove(material_instance.colors_node)
+                blender_material = material_instance.blender_material
+                blender_material.node_tree.nodes.remove(material_instance.colors_node)
                 material_instance.colors_node = None
         self._colors_metadatas = None
 
@@ -229,10 +231,13 @@ class RenderableObject(Renderable):
                     blender_material.node_tree.links.new(material_instance.inputs['Color'],
                                                          material_instance.colors_node.outputs['Color'])
                     material_instance.inputs['Color'].default_value = [1.0, 0.0, 0.0, 1.0]
-                    if colors_metadata.has_alpha and ('Alpha' in material_instance.inputs):
-                        if colors_metadata.type is UniformColors:
-                            material_instance.inputs['Alpha'].default_value = colors_metadata.color[3]
+                    if colors_metadata.has_alpha:
+                        if 'Alpha' in material_instance.inputs:
+                            if colors_metadata.type is UniformColors:
+                                material_instance.inputs['Alpha'].default_value = colors_metadata.color[3]
+                            else:
+                                blender_material.node_tree.links.new(material_instance.inputs['Alpha'],
+                                                                     material_instance.colors_node.outputs['Alpha'])
                         else:
-                            blender_material.node_tree.links.new(material_instance.inputs['Alpha'],
-                                                                 material_instance.colors_node.outputs['Alpha'])
+                            warnings.warn("This material does not support transparency; alpha color channel is ignored")
     # ================================================== END OF COLORS =================================================

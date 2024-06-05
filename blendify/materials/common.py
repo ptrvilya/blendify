@@ -44,7 +44,9 @@ class PrincipledBSDFMaterial(Material):
         object_material.use_nodes = True
         bsdf_node = object_material.node_tree.nodes["Principled BSDF"]
         material_instance = MaterialInstance(blender_material=object_material,
-                                             inputs={"Color": bsdf_node.inputs["Base Color"], "Alpha": bsdf_node.inputs["Alpha"]})
+                                             inputs={"Color": bsdf_node.inputs["Base Color"], "Alpha": bsdf_node.inputs["Alpha"],
+                                                     "Emission": bsdf_node.inputs["Emission"],
+                                                     "Emission Strength": bsdf_node.inputs["Emission Strength"]})
 
         # Set material properties
         for property_name, blender_name in self._property2blender_mapping.items():
