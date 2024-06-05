@@ -132,7 +132,7 @@ def parse_light_from_blendfile(obj: bpy.types.Object):
         light_dict["spot_blend"] = obj.data.spot_blend
         light_dict["shadow_soft_size"] = obj.data.shadow_soft_size
     elif light_type == "AREA":
-        light_dict["shape"] = obj.data.shape
+        light_dict["shape"] = obj.data.shape.lower()
         if light_dict["shape"] in ["RECTANGLE", "ELLIPSE"]:
             light_dict["size"] = np.array([obj.data.size, obj.data.size_y], dtype=np.float32)
         else:
