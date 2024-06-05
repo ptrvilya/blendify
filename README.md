@@ -1,6 +1,7 @@
-<!-- ![blendify Logo](.github/blendify_logo_dark_bg.png#gh-dark-mode-only) -->
-<!-- ![blendify Logo](.github/blendify_logo_light_bg.png#gh-light-mode-only) -->
-![blendify Logo](.github/blendify_logo_light_bg.png)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset=".github/blendify_logo_dark_bg.png">
+  <img alt="blendify logo" src=".github/blendify_logo_light_bg.png">
+</picture>
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ptrvilya/blendify/blob/main/examples/ipynb/blendify_colab_demo.ipynb)
 
