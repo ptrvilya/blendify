@@ -179,6 +179,10 @@ class Scene(metaclass=Singleton):
     ):
         """Start the Blender rendering process
 
+        Automatically detects if shadow catcher objects are present in the scene by checking is_shadow_catcher property
+        of Blender objects. For rendering with shadow catchers background is made white, because since Blender 3.0
+        shadow catcher rendering pass is made to be multiplied with the background.
+
         Args:
             filepath (Union[str, Path]): path to the image (PNG) to render to, returns the image as numpy array if None
             use_gpu (bool): whether to render on GPU or not
