@@ -1,5 +1,8 @@
 from typing import Dict, Iterable, Union
 
+import bpy
+import numpy as np
+
 from .base import Light
 from .common import PointLight, DirectionalLight, SpotLight
 from .area import AreaLight, SquareAreaLight, CircleAreaLight, RectangleAreaLight, EllipseAreaLight
@@ -10,6 +13,65 @@ from ..internal.types import Vector2d, Vector3d, Vector4d
 class LightsCollection(metaclass=Singleton):
     def __init__(self):
         self._lights: Dict[str, Light] = dict()
+        self._background_light_nodes = None
+
+    def remove_background_light(self):
+        """
+        Remove background light from the scene. Also removes ShaderNodeBackground if
+        it was added via scene.attach_blend.
+
+        Returns:
+            None
+        """
+        world = bpy.context.scene.world
+        world.use_nodes = True
+        world_tree = world.node_tree
+
+        if self._background_light_nodes is not None:
+            for node_name in self._background_light_nodes:
+                node = world_tree.nodes.get(node_name)
+                world_tree.nodes.remove(node)
+            self._background_light_nodes = None
+        else:
+            for node in world_tree.nodes:
+                if node.type == 'BACKGROUND':
+                    world_tree.nodes.remove(node)
+
+    def set_background_light(self, strength: float = 1.0, color: Vector3d = (1.0, 1.0, 1.0)):
+        """
+        Set background light in a scene. Can be used to create ambient lightning in a scene.
+
+        Returns:
+            None
+        """
+        color = np.array(color)
+        assert color.dtype in [np.float32, np.float64], \
+            "Color should be stored as floating point numbers (np.float32 or np.float64)"
+        world = bpy.context.scene.world
+        world.use_nodes = True
+        world_tree = world.node_tree
+
+        self.remove_background_light()
+        # Create light node and output node
+        bg_node = world_tree.nodes.new(type='ShaderNodeBackground')
+        for node in world_tree.nodes:
+            if node.type == 'OUTPUT_WORLD':
+                output_node = node
+                break
+        else:
+            output_node = world_tree.nodes.new(type='ShaderNodeOutputWorld')
+
+        # Set light color
+        if len(color == 3):
+            color = (*color, 1.0)
+        bg_node.inputs['Color'].default_value = color
+
+        # Link light to output and set strength
+        world_tree.links.new(bg_node.outputs['Background'], output_node.inputs['Surface'])
+        bg_node.inputs['Strength'].default_value = strength
+
+        # Save created nodes to remove them later
+        self._background_light_nodes = [bg_node.name, output_node.name]
 
     def add_point(
         self,
@@ -222,6 +284,7 @@ class LightsCollection(metaclass=Singleton):
 
     def _reset(self):
         self._lights = dict()
+        self.remove_background_light()
 
     # def __str__(self):
     #     return str(self.__dict__)
