@@ -1,12 +1,15 @@
 import os
-import sys
 import shutil
+import sys
 import tempfile
+import warnings
+from contextlib import nullcontext
 from pathlib import Path
 from typing import Union, Sequence
-from contextlib import nullcontext
+
 import bpy
 import numpy as np
+
 os.environ["OPENCV_IO_ENABLE_OPENEXR"] = "1"
 import cv2
 
@@ -42,7 +45,7 @@ class Scene(metaclass=Singleton):
         bpy.context.scene.render.film_transparent = True
         bpy.context.scene.cycles.filter_width = 0  # turn off anti-aliasing
         # Important if you want to get a pure color background (eg. white background)
-        bpy.context.scene.view_settings.view_transform = 'Raw'
+        bpy.context.scene.view_settings.view_transform = 'Standard'
         bpy.context.scene.cycles.samples = 128  # Default value, can be changed in .render
 
     @staticmethod
@@ -175,7 +178,8 @@ class Scene(metaclass=Singleton):
 
     def render(
             self, filepath: Union[str, Path] = None, use_gpu: bool = True, samples: int = 128,
-            save_depth: bool = False, save_albedo: bool = False, verbose: bool = False, use_denoiser: bool = False
+            save_depth: bool = False, save_albedo: bool = False, verbose: bool = False,
+            use_denoiser: bool = False, aa_filter_width: float = 1.5
     ):
         """Start the Blender rendering process
 
@@ -194,9 +198,17 @@ class Scene(metaclass=Singleton):
               if filepath is set, otherwise appends the array to the output.
             verbose (bool): whether to allow blender to log its status to stdout during rendering
             use_denoiser (bool): use openimage denoiser to denoise the result
+            aa_filter_width (float): width of the anti-aliasing filter, set 0 to turn off
         """
         if self.camera is None:
             raise RuntimeError("Can't render without a camera")
+
+        # setup anti-aliasing
+        aa_filter_width = max(0, aa_filter_width)
+        bpy.context.scene.cycles.filter_width = aa_filter_width
+        bpy.context.scene.cycles.pixel_filter_type = 'BLACKMAN_HARRIS'
+        if save_depth and aa_filter_width != 0:
+            warnings.warn("Anti-aliasing filter is enabled. Saved depth will not be exact.")
 
         render_to_ram = filepath is None
         with tempfile.TemporaryDirectory() if render_to_ram else nullcontext() as tmpdir:
@@ -554,7 +566,8 @@ class Scene(metaclass=Singleton):
                 bpy.ops.object.delete()
 
         # Add materials to the current scene
-        bpy.ops.wm.append(directory=str(path) + "/Material/", files=materials, link=True)
+        if len(materials) > 0:
+            bpy.ops.wm.append(directory=str(path) + "/Material/", files=materials, link=True)
 
         # Recursively copy collection
         main_scene = bpy.data.scenes[main_scene_name]
