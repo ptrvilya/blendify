@@ -1,1 +1,1 @@
-from .common import PrincipledBSDFMaterial, PrinsipledBSDFMaterial, GlossyBSDFMaterial
+from .bsdf import PrincipledBSDFMaterial, GlossyBSDFMaterial, PrincipledBSDFWireframeMaterial

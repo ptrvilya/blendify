@@ -3,6 +3,7 @@ from typing import Tuple
 import bpy
 
 from .base import Material, material_property, MaterialInstance
+from .wireframe import WireframeMaterial
 
 
 class PrincipledBSDFMaterial(Material):
@@ -12,9 +13,9 @@ class PrincipledBSDFMaterial(Material):
 
     def __init__(
             self, metallic=0.0, specular=0.3, specular_tint=0.0, roughness=0.4, anisotropic=0.0,
-            anisotropic_rotation=0.0,
-            sheen=0.0, sheen_tint=0.5, clearcoat=0.0, clearcoat_roughness=0.0, ior=1.45, transmission=0.0,
-            transmission_roughness=0.0, emission=(0, 0, 0, 0), emission_strength=0.0, alpha=1.0
+            anisotropic_rotation=0.0, sheen=0.0, sheen_tint=0.5, clearcoat=0.0, clearcoat_roughness=0.0,
+            ior=1.45, transmission=0.0, transmission_roughness=0.0, emission=(0, 0, 0, 0),
+            emission_strength=0.0, alpha=1.0
     ):
         super().__init__()
         self._property2blender_mapping = {
@@ -53,10 +54,6 @@ class PrincipledBSDFMaterial(Material):
             bsdf_node.inputs[blender_name].default_value = self.__getattribute__("_" + property_name)
 
         return material_instance
-
-
-# Alias for backward compatibility
-PrinsipledBSDFMaterial = PrincipledBSDFMaterial
 
 
 class GlossyBSDFMaterial(Material):
@@ -100,3 +97,40 @@ class GlossyBSDFMaterial(Material):
     @property
     def distribution(self):
         return self._distribution
+
+
+class PrincipledBSDFWireframeMaterial(WireframeMaterial, PrincipledBSDFMaterial):
+    def __init__(
+            self, wireframe_thickness=0.01, wireframe_color=(0, 0, 0, 0), **kwargs
+    ):
+        super().__init__(
+            wireframe_thickness=wireframe_thickness, wireframe_color=wireframe_color, **kwargs
+        )
+
+    def create_material(self, name: str = "object_material") -> MaterialInstance:
+        object_material = bpy.data.materials.new(name=name)
+        object_material.use_nodes = True
+        material_nodes = object_material.node_tree.nodes
+
+        # Create BSDF
+        bsdf_node = object_material.node_tree.nodes["Principled BSDF"]
+
+        # Set BSDF properties
+        for property_name, blender_name in self._property2blender_mapping.items():
+            bsdf_node.inputs[blender_name].default_value = self.__getattribute__("_" + property_name)
+
+        # Create and link wireframe
+        self.overlay_wireframe(object_material, bsdf_node)
+
+        # Create internal representation
+        material_instance = MaterialInstance(
+            blender_material=object_material,
+            inputs={
+                "Color": bsdf_node.inputs["Base Color"],
+                "Alpha": bsdf_node.inputs["Alpha"],
+                "Emission": bsdf_node.inputs["Emission"],
+                "Emission Strength": bsdf_node.inputs["Emission Strength"]
+            }
+        )
+
+        return material_instance
