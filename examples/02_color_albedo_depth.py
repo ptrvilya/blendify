@@ -12,7 +12,7 @@ def main(args):
     # Add camera to the scene
     scene.set_perspective_camera(args.resolution, focal_dist=1250)
     # Load mesh
-    mesh = trimesh.load("./assets/knot.obj", process=False)
+    mesh = trimesh.load("./assets/knot.ply", process=False)
     vertices, faces, uv = np.array(mesh.vertices), np.array(mesh.faces), np.array(mesh.visual.uv)
     # Add mesh with uniform color to the scene
     material = PrincipledBSDFMaterial()
@@ -21,9 +21,12 @@ def main(args):
     # Translate the mesh to better fit the camera frame
     mesh.translation = mesh.translation + np.array([1.2, 0, -4.5])
     # Add light to the scene
-    light = scene.lights.add_sun(strength=5)
+    light = scene.lights.add_sun(strength=3.5)
     # Render the scene
-    scene.render(filepath=args.path, use_gpu=not args.cpu, samples=args.n_samples, save_depth=True, save_albedo=True)
+    scene.render(
+        filepath=args.path, use_gpu=not args.cpu, samples=args.n_samples, aa_filter_width=0,
+        save_depth=True, save_albedo=True
+    )
     # Optionally save blend file with the scene
     if args.output_blend is not None:
         scene.export(args.output_blend)

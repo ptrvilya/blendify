@@ -47,13 +47,13 @@ def main(args):
 
     # Add lights to the scene
     logger.info("Setting up the Blender scene")
-    scene.lights.add_point(quaternion=(0.571, 0.169, 0.272, 0.756), translation=(21.0, 0.0, 7.0), strength=10000)
-    scene.lights.add_point(quaternion=(0.571, 0.169, 0.272, 0.756), translation=(0.0, -21, 7.0), strength=10000)
+    scene.lights.add_point(quaternion=(0.571, 0.169, 0.272, 0.756), translation=(21.0, 0.0, 7.0), strength=5000)
+    scene.lights.add_point(quaternion=(0.571, 0.169, 0.272, 0.756), translation=(0.0, -21, 7.0), strength=5000)
 
     # Camera colored PointCloud
     # source of the mesh https://graphics.stanford.edu/data/3Dscanrep/
     # load only vertices of the example mesh
-    mesh = trimesh.load("./assets/bunny.obj", process=False, validate=False)
+    mesh = trimesh.load("./assets/bunny.ply", process=False, validate=False)
     vertices = mesh.vertices
     # estimate normals
     if args.backend == "orig":
@@ -67,7 +67,7 @@ def main(args):
     # add pointcloud to the scene
     pointcloud = scene.renderables.add_pointcloud(
         vertices=vertices, material=poincloud_material, colors=pointcloud_colors_init, point_size=0.03,
-        particle_emission_strength=0.1, quaternion=(1, 0, 0, 0), translation=(0, 0, 0)
+        particle_emission_strength=0.05, quaternion=(1, 0, 0, 0), translation=(0, 0, 0)
     )
 
     # Optionally save blend file with the scene at frame 0

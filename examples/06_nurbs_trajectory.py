@@ -75,7 +75,7 @@ def main(args):
     curve_color = UniformColors((1., 0.5, 0.2))
     curve = None
 
-    light = scene.lights.add_sun(strength=5)
+    light = scene.lights.add_sun(strength=2)
     # Optionally save blend file with the scene
     if args.output_blend is not None:
         scene.export(args.output_blend)

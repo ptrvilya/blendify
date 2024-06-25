@@ -73,10 +73,10 @@ def main(args):
 
     # Set the lights; one main sunlight and a secondary light without visible shadows to make the scene overall brighter
     sunlight = scene.lights.add_sun(
-        strength=4.3, quaternion=np.roll(Rotation.from_euler('yz', (-45, -90), degrees=True).as_quat(), 1)
+        strength=2.3, quaternion=np.roll(Rotation.from_euler('yz', (-45, -90), degrees=True).as_quat(), 1)
     )
     sunlight2 = scene.lights.add_sun(
-        strength=5, quaternion=np.roll(Rotation.from_euler('yz', (-45, 165), degrees=True).as_quat(), 1)
+        strength=3, quaternion=np.roll(Rotation.from_euler('yz', (-45, 165), degrees=True).as_quat(), 1)
     )
     sunlight2.cast_shadows = False
 
