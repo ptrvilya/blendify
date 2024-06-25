@@ -262,6 +262,74 @@ class CylinderMesh(MeshPrimitive):
         # bpy.context.space_data.context = 'MODIFIER'
         bpy.ops.object.modifier_add(type='EDGE_SPLIT')
         super()._blender_set_colors(colors)
+
+
+class PlaneMesh(MeshPrimitive):
+    """Plane mesh primitive, supports only uniform coloring (UniformColors)
+
+        Properties:
+            emit_shadow (bool, optional): control whether the object will emit shadow from any light source in the scene.
+            shadow_catcher (bool, optional): control whether the object will act as a shadow catcher (i.e. object
+                geometry is hidden from the render, only casted shadows are rendered).
+        Methods:
+            set_smooth(bool): turns smooth shading on and off based on the bool argument.
+        """
+
+    def __init__(
+            self,
+            size: float,
+            tag: str,
+            shadow_catcher: bool = False,
+            **kwargs
+    ):
+        """Creates Blender Object that represent Plane mesh primitive
+
+        Args:
+            size (float): size of a primitive in [0, inf]
+            material (Material): Material instance
+            colors (Colors): Colors instance
+            shadow_catcher (bool, optional): control whether the object will act as a shadow catcher
+            quaternion (Vector4d, optional): rotation applied to the Blender object (default: (1,0,0,0))
+            translation (Vector3d, optional): translation applied to the Blender object (default: (0,0,0))
+            tag (str): name of the created object in Blender
+        """
+        obj = self._blender_create_object(size, tag, shadow_catcher)
+        self._blender_mesh = obj.data
+        super().__init__(**kwargs, blender_object=obj, tag=tag)
+
+    def _blender_create_object(
+            self,
+            size: float,
+            tag: str,
+            shadow_catcher: bool
+    ):
+        bpy.ops.mesh.primitive_plane_add(size=size)
+        obj = bpy.context.object
+        obj.name = tag
+
+        if shadow_catcher:
+            obj.is_shadow_catcher = True
+            obj.visible_glossy = False
+            obj.visible_diffuse = False
+            obj.visible_transmission = False
+            obj.visible_volume_scatter = False
+
+        return obj
+
+    def _blender_set_colors(
+            self,
+            colors: Colors
+    ):
+        """Remembers current color properties, builds a color node for material, sets color information to mesh
+
+        Args:
+            colors (Colors): target colors information
+        """
+        bpy.context.view_layer.objects.active = self._blender_object
+        bpy.ops.object.shade_smooth()
+        # bpy.context.space_data.context = 'MODIFIER'
+        bpy.ops.object.modifier_add(type='EDGE_SPLIT')
+        super()._blender_set_colors(colors)
 # =============================================== End of Mesh Primitives ===============================================
 
 

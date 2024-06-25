@@ -207,6 +207,42 @@ class RenderablesCollection(metaclass=Singleton):
         )
         self._renderables[tag] = obj
         return obj
+
+    def add_plane_mesh(
+        self,
+        size: float,
+        material: Material,
+        colors: Colors,
+        material_faces: Sequence[Sequence[int]] = None,
+        shadow_catcher: bool = False,
+        quaternion: Vector4d = (1, 0, 0, 0),
+        translation: Vector3d = (0, 0, 0),
+        tag: str = None
+    ) -> primitives.PlaneMesh:
+        """Add primitives.PlaneMesh object to the scene.
+        The object supports only uniform coloring (UniformColors).
+
+        Args:
+            size (float): size of a plane in [0, inf]
+            material (MaterialList): Material instance or list of Material instances
+            colors (ColorsList): Colors instance or list of Colors instances
+            material_faces (Sequence[Sequence[int]], optional): for each material, the face indexes it is assigned to
+            shadow_catcher (bool, optional): if True, the plane will act as a shadow catcher (default: False)
+            quaternion (Vector4d, optional): rotation applied to the Blender object (default: (1,0,0,0))
+            translation (Vector3d, optional): translation applied to the Blender object (default: (0,0,0))
+            tag (str, optional): name of the created object in Blender. If None is passed, the tag
+                is automatically generated (default: None)
+
+        Returns:
+            primitives.PlaneMesh: created and added to the scene object
+        """
+        tag = self._process_tag(tag, "Plane")
+        obj = primitives.PlaneMesh(
+            size=size, material=material, colors=colors, shadow_catcher=shadow_catcher,
+            quaternion=quaternion, translation=translation, tag=tag, material_faces=material_faces
+        )
+        self._renderables[tag] = obj
+        return obj
     # ======================================== End of Mesh and Mesh Primitives =========================================
 
     # ============================================= Parametric Primitives ==============================================
