@@ -89,6 +89,14 @@ scene.render(filepath="cube.png")
     <td><img src=".github/05_smpl_movement.gif" width="310px"/></td>
     <td><img src=".github/06_nurbs_trajectory.gif" width="310px"/></td>
   </tr>
+  <tr align="center">
+    <td><a href="examples/07_materials_and_shadow_catcher.py"><b>Various materials and shadow catcher</b></a></td>
+    <td</td>
+  </tr>
+  <tr align="center">
+    <td><img src=".github/07_materials_and_shadow_catcher.jpg" width="310px"/></td>
+    <td></td>
+  </tr>
 </table>
 
 
