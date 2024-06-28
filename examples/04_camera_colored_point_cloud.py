@@ -47,8 +47,8 @@ def main(args):
 
     # Add lights to the scene
     logger.info("Setting up the Blender scene")
-    scene.lights.add_point(rotation=(0.571, 0.169, 0.272, 0.756), translation=(21.0, 0.0, 7.0), strength=5000)
-    scene.lights.add_point(rotation=(0.571, 0.169, 0.272, 0.756), translation=(0.0, -21, 7.0), strength=5000)
+    scene.lights.add_point(rotation=(0.571, 0.169, 0.272, 0.756), translation=(21.0, 0.0, 7.0), strength=8000)
+    scene.lights.add_point(rotation=(0.571, 0.169, 0.272, 0.756), translation=(0.0, -21, 7.0), strength=8000)
 
     # Camera colored PointCloud
     # source of the mesh https://graphics.stanford.edu/data/3Dscanrep/
