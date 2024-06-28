@@ -1,5 +1,4 @@
 import argparse
-from urllib import request
 
 import numpy as np
 import trimesh

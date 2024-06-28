@@ -91,11 +91,11 @@ scene.render(filepath="cube.png")
   </tr>
   <tr align="center">
     <td><a href="examples/07_materials_and_shadow_catcher.py"><b>Various materials and shadow catcher</b></a></td>
-    <td</td>
+    <td><a href="examples/08_per_face_material.py"><b>Per-face material</b></a></td>
   </tr>
   <tr align="center">
     <td><img src=".github/07_materials_and_shadow_catcher.jpg" width="310px"/></td>
-    <td></td>
+    <td><img src=".github/08_per_face_material.jpg" width="310px"/></td>
   </tr>
 </table>
 
