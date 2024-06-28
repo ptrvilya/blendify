@@ -73,10 +73,10 @@ def main(args):
 
     # Set the lights; one main sunlight and a secondary light without visible shadows to make the scene overall brighter
     sunlight = scene.lights.add_sun(
-        strength=2.3, quaternion=np.roll(Rotation.from_euler('yz', (-45, -90), degrees=True).as_quat(), 1)
+        strength=2.3, rotation_mode="euleryz", rotation=(-45, -90)
     )
     sunlight2 = scene.lights.add_sun(
-        strength=3, quaternion=np.roll(Rotation.from_euler('yz', (-45, 165), degrees=True).as_quat(), 1)
+        strength=3, rotation_mode="euleryz", rotation=(-45, 165)
     )
     sunlight2.cast_shadows = False
 
@@ -99,7 +99,7 @@ def main(args):
             smpl_vertices = smpl_model.get_smpl(smpl_pose, smpl_translation)
             smpl_mesh.update_vertices(smpl_vertices)
             # Set the current camera position
-            camera.set_position(camera_quaternion, camera_translation)
+            camera.set_position(rotation=camera_quaternion, translation=camera_translation)
             # Render the scene to temporary image
             img = scene.render(use_gpu=not args.cpu, samples=args.n_samples)
             # Frames have transparent background; perform an alpha blending with white background instead

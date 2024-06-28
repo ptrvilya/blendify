@@ -48,8 +48,9 @@ def main(args):
     plane.translation = np.array([0, -4, vertices[:, 2].min() - 0.01])
     # Set camera
     scene.set_perspective_camera(
-        args.resolution, fov_x=np.deg2rad(30), translation=(0.6, 13.5, 4.5),
-        quaternion=(0, 0, 0.584, 0.812)
+        args.resolution, fov_x=np.deg2rad(30),
+        translation=(0.6, 13.5, 4.5),
+        rotation_mode="look_at", rotation=mesh_metal
     )
     # Set lights
     scene.lights.set_background_light(0.03)
@@ -58,7 +59,7 @@ def main(args):
     )
     scene.lights.add_spot(
         strength=250, spot_size=np.deg2rad(47.6), spot_blend=0.458,
-        translation=(-1.5, 4.15, 5), quaternion=(0.930, -0.321, -0.152, -0.093)
+        translation=(-1.5, 4.15, 5), rotation=(0.930, -0.321, -0.152, -0.093)
     )
     # Render the scene
     scene.render(filepath=args.path, use_gpu=not args.cpu, samples=args.n_samples)

@@ -12,13 +12,13 @@ def main(args):
     scene.attach_blend("./assets/cornell_box.blend")
     # Add camera to the scene
     scene.set_perspective_camera(
-        args.resolution, fov_x=np.deg2rad(39.1), quaternion=(-0.707, -0.707, 0.0, 0.0),
+        args.resolution, fov_x=np.deg2rad(39.1), rotation=(-0.707, -0.707, 0.0, 0.0),
         translation=[-0.278, -0.800, 0.273]
     )
     # Add light to the scene
     scene.lights.add_area(
         shape="square", size=5, strength=40, cast_shadows=False,
-        quaternion=(-0.707, -0.707, 0.0, 0.0), translation=[-0.278, -1, 0.273]
+        rotation=(-0.707, -0.707, 0.0, 0.0), translation=[-0.278, -1, 0.273]
     )
     # Fill up the scene with objects
     # Add Sphere 1
@@ -70,7 +70,7 @@ def main(args):
     circle_color = UniformColors((1.0, 1.0, 1.0))
     circle = scene.renderables.add_circle_mesh(
         0.17, circle_material, circle_color,
-        quaternion=[0.720, 0.262, 0.604, -0.220], translation=[-0.43, 0.32, 0.18]
+        rotation=[0.720, 0.262, 0.604, -0.220], translation=[-0.43, 0.32, 0.18]
     )
     # Render the scene
     scene.render(filepath=args.path, use_gpu=not args.cpu, samples=args.n_samples)

@@ -34,7 +34,7 @@ def main(args):
     logging.basicConfig(level=logging.INFO)
     logger = logging.getLogger("Blendify 06 example")
     # Add camera to the scene
-    scene.set_perspective_camera(resolution=args.resolution, focal_dist=640, quaternion=(0.983, 0.182, 0, 0),
+    scene.set_perspective_camera(resolution=args.resolution, focal_dist=640, rotation=(0.983, 0.182, 0, 0),
                                  translation=(0, -1.15, -1.54))
     # Create one material for all objects
     material = PrincipledBSDFMaterial()

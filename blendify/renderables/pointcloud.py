@@ -313,7 +313,6 @@ class PointCloud(Renderable):
         """Constructs material node, recreates color node if needed
 
         Args:
-            particle_obj_name (str): unique identifier of Blender particle system object that material is linked to
             material (Material): target material
         """
         for particle_obj_name, metadata in self._particle_metadata.items():
@@ -330,9 +329,6 @@ class PointCloud(Renderable):
             self,
     ):
         """Clears Blender material node and nodes connected to it
-
-        Args:
-            particle_obj_name (str): unique identifier of Blender particle system object that material is linked to
         """
         for particle_obj_name, metadata in self._particle_metadata.items():
             if metadata.material_instance is not None:

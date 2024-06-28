@@ -49,14 +49,14 @@ def parse_camera_from_blendfile(obj: bpy.types.Object, resolution: np.ndarray):
     # position
     camera_dict["translation"] = np.array(obj.location)
     if obj.rotation_mode == "QUATERNION":
-        camera_dict["quaternion"] = np.array(obj.rotation_quaternion)
+        camera_dict["rotation"] = np.array(obj.rotation_quaternion)
     elif obj.rotation_mode == "AXIS_ANGLE":
         rotvec = np.array(obj.rotation_axis_angle)
         angle, axis = rotvec[0], rotvec[1:]
         rotvec = (axis / np.linalg.norm(axis)) * angle
 
         rot = Rotation.from_rotvec(rotvec)
-        camera_dict["quaternion"] = np.roll(rot.as_quat(), 1)
+        camera_dict["rotation"] = np.roll(rot.as_quat(), 1)
     else:
         # euler angles
         rot_data = obj.rotation_euler
@@ -64,7 +64,7 @@ def parse_camera_from_blendfile(obj: bpy.types.Object, resolution: np.ndarray):
         angles = np.array(rot_data[:])
 
         rot = Rotation.from_euler(mode.lower(), angles, degrees=False)
-        camera_dict["quaternion"] = np.roll(rot.as_quat(), 1)
+        camera_dict["rotation"] = np.roll(rot.as_quat(), 1)
 
     # camera parameters
     if obj.data.type == "ORTHO":
@@ -116,7 +116,7 @@ def parse_light_from_blendfile(obj: bpy.types.Object):
         "strength": obj.data.energy,
         "color": np.array(obj.data.color),
         "cast_shadows": obj.data.cycles.cast_shadow,
-        "quaternion": quaternion,
+        "rotation": quaternion,
         "translation": translation,
         "tag": obj.name
     }

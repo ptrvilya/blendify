@@ -26,7 +26,20 @@ class Camera(Positionable):
             resolution (Vector2di): (w, h), the resolution of the resulting image
             near (float, optional): Camera near clipping distance (default: 0.1)
             far (float, optional): Camera far clipping distance (default: 100)
-            quaternion (Vector4d, optional): rotation applied to the Blender object (default: (1,0,0,0))
+            rotation_mode (str): type of rotation representation.
+                Can be one of the following:
+                - "quaternionWXYZ" - WXYZ quaternion
+                - "quaternionXYZW" - XYZW quaternion
+                - "rotvec" - axis-angle representation of rotation
+                - "rotmat" - 3x3 rotation matrix
+                - "euler<mode>" - Euler angles with the specified order of rotation, e.g. XYZ, xyz, ZXZ, etc. Refer to scipy.spatial.transform.Rotation.from_euler for details.
+                - "look_at" - look at rotation, the rotation is defined by the point to look at and, optional, the rotation around the forward direction vector (a single float value in tuple or list)
+            rotation (RotationParams): rotation parameters according to the rotation_mode
+                - for "quaternionWXYZ" and "quaternionXYZW" - Vec4d
+                - for "rotvec" - Vec3d
+                - for "rotmat" - Mat3x3
+                - for "euler<mode>" - Vec3d
+                - for "look_at" - Vec3d, Positionable or Tuple[Vec3d/Positionable, float], where float is the rotation around the forward direction vector in degrees
             translation (Vector3d, optional): translation applied to the Blender object (default: (0,0,0))
             tag (str): name of the created object in Blender
         """

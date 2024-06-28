@@ -9,14 +9,15 @@ from ..internal.types import Vector3d, Vector2d
 class AreaLight(Light):
     """Base class for different AreaLights varying in shape.
     """
+
     @abstractmethod
     def __init__(
-        self,
-        color: Vector3d,
-        strength: float,
-        tag: str,
-        cast_shadows: bool = True,
-        **kwargs
+            self,
+            color: Vector3d,
+            strength: float,
+            tag: str,
+            cast_shadows: bool = True,
+            **kwargs
     ):
         """Creates AreaLight light source in Blender. The method is called from child classes
 
@@ -24,7 +25,20 @@ class AreaLight(Light):
             color (Vector3d): color of the light source
             strength (float): strength of the light source emitted over the entire area of the light in all directions
             cast_shadows (bool, optional): whether the light source casts shadows or not (default: True)
-            quaternion (Vector4d, optional): rotation applied to the Blender object (default: (1,0,0,0))
+            rotation_mode (str): type of rotation representation.
+                Can be one of the following:
+                - "quaternionWXYZ" - WXYZ quaternion
+                - "quaternionXYZW" - XYZW quaternion
+                - "rotvec" - axis-angle representation of rotation
+                - "rotmat" - 3x3 rotation matrix
+                - "euler<mode>" - Euler angles with the specified order of rotation, e.g. XYZ, xyz, ZXZ, etc. Refer to scipy.spatial.transform.Rotation.from_euler for details.
+                - "look_at" - look at rotation, the rotation is defined by the point to look at and, optional, the rotation around the forward direction vector (a single float value in tuple or list)
+            rotation (RotationParams): rotation parameters according to the rotation_mode
+                - for "quaternionWXYZ" and "quaternionXYZW" - Vec4d
+                - for "rotvec" - Vec3d
+                - for "rotmat" - Mat3x3
+                - for "euler<mode>" - Vec3d
+                - for "look_at" - Vec3d, Positionable or Tuple[Vec3d/Positionable, float], where float is the rotation around the forward direction vector in degrees
             translation (Vector3d, optional): translation applied to the Blender object (default: (0,0,0))
             tag (str): name of the created object in Blender
         """
@@ -37,9 +51,9 @@ class AreaLight(Light):
 
 class SquareAreaLight(AreaLight):
     def __init__(
-        self,
-        size: float,
-        **kwargs
+            self,
+            size: float,
+            **kwargs
     ):
         """Creates SquareAreaLight light source in Blender through constructor of the parent class AreaLight
 
@@ -48,7 +62,20 @@ class SquareAreaLight(AreaLight):
             strength (float): strength of the light source
             color (Vector3d): color of the light source
             cast_shadows (bool, optional): whether the light source casts shadows or not (default: True)
-            quaternion (Vector4d, optional): rotation applied to the Blender object (default: (1,0,0,0))
+            rotation_mode (str): type of rotation representation.
+                Can be one of the following:
+                - "quaternionWXYZ" - WXYZ quaternion
+                - "quaternionXYZW" - XYZW quaternion
+                - "rotvec" - axis-angle representation of rotation
+                - "rotmat" - 3x3 rotation matrix
+                - "euler<mode>" - Euler angles with the specified order of rotation, e.g. XYZ, xyz, ZXZ, etc. Refer to scipy.spatial.transform.Rotation.from_euler for details.
+                - "look_at" - look at rotation, the rotation is defined by the point to look at and, optional, the rotation around the forward direction vector (a single float value in tuple or list)
+            rotation (RotationParams): rotation parameters according to the rotation_mode
+                - for "quaternionWXYZ" and "quaternionXYZW" - Vec4d
+                - for "rotvec" - Vec3d
+                - for "rotmat" - Mat3x3
+                - for "euler<mode>" - Vec3d
+                - for "look_at" - Vec3d, Positionable or Tuple[Vec3d/Positionable, float], where float is the rotation around the forward direction vector in degrees
             translation (Vector3d, optional): translation applied to the Blender object (default: (0,0,0))
             tag (str): name of the created object in Blender
         """
@@ -67,9 +94,9 @@ class SquareAreaLight(AreaLight):
 
 class CircleAreaLight(AreaLight):
     def __init__(
-        self,
-        size: float,
-        **kwargs
+            self,
+            size: float,
+            **kwargs
     ):
         """Creates CircleAreaLight light source in Blender through constructor of the parent class AreaLight
 
@@ -78,7 +105,20 @@ class CircleAreaLight(AreaLight):
             strength (float): strength of the light source emitted over the entire area of the light in all directions
             color (Vector3d): color of the light source
             cast_shadows (bool, optional): whether the light source casts shadows or not (default: True)
-            quaternion (Vector4d, optional): rotation applied to the Blender object (default: (1,0,0,0))
+            rotation_mode (str): type of rotation representation.
+                Can be one of the following:
+                - "quaternionWXYZ" - WXYZ quaternion
+                - "quaternionXYZW" - XYZW quaternion
+                - "rotvec" - axis-angle representation of rotation
+                - "rotmat" - 3x3 rotation matrix
+                - "euler<mode>" - Euler angles with the specified order of rotation, e.g. XYZ, xyz, ZXZ, etc. Refer to scipy.spatial.transform.Rotation.from_euler for details.
+                - "look_at" - look at rotation, the rotation is defined by the point to look at and, optional, the rotation around the forward direction vector (a single float value in tuple or list)
+            rotation (RotationParams): rotation parameters according to the rotation_mode
+                - for "quaternionWXYZ" and "quaternionXYZW" - Vec4d
+                - for "rotvec" - Vec3d
+                - for "rotmat" - Mat3x3
+                - for "euler<mode>" - Vec3d
+                - for "look_at" - Vec3d, Positionable or Tuple[Vec3d/Positionable, float], where float is the rotation around the forward direction vector in degrees
             translation (Vector3d, optional): translation applied to the Blender object (default: (0,0,0))
             tag (str): name of the created object in Blender
         """
@@ -97,9 +137,9 @@ class CircleAreaLight(AreaLight):
 
 class RectangleAreaLight(AreaLight):
     def __init__(
-        self,
-        size: Vector2d,
-        **kwargs
+            self,
+            size: Vector2d,
+            **kwargs
     ):
         """Creates RectangleAreaLight light source in Blender through constructor of the parent class AreaLight
 
@@ -108,7 +148,20 @@ class RectangleAreaLight(AreaLight):
             strength (float): strength of the light source emitted over the entire area of the light in all directions
             color (Vector3d): color of the light source
             cast_shadows (bool, optional): whether the light source casts shadows or not (default: True)
-            quaternion (Vector4d, optional): rotation applied to the Blender object (default: (1,0,0,0))
+            rotation_mode (str): type of rotation representation.
+                Can be one of the following:
+                - "quaternionWXYZ" - WXYZ quaternion
+                - "quaternionXYZW" - XYZW quaternion
+                - "rotvec" - axis-angle representation of rotation
+                - "rotmat" - 3x3 rotation matrix
+                - "euler<mode>" - Euler angles with the specified order of rotation, e.g. XYZ, xyz, ZXZ, etc. Refer to scipy.spatial.transform.Rotation.from_euler for details.
+                - "look_at" - look at rotation, the rotation is defined by the point to look at and, optional, the rotation around the forward direction vector (a single float value in tuple or list)
+            rotation (RotationParams): rotation parameters according to the rotation_mode
+                - for "quaternionWXYZ" and "quaternionXYZW" - Vec4d
+                - for "rotvec" - Vec3d
+                - for "rotmat" - Mat3x3
+                - for "euler<mode>" - Vec3d
+                - for "look_at" - Vec3d, Positionable or Tuple[Vec3d/Positionable, float], where float is the rotation around the forward direction vector in degrees
             translation (Vector3d, optional): translation applied to the Blender object (default: (0,0,0))
             tag (str): name of the created object in Blender
         """
@@ -128,9 +181,9 @@ class RectangleAreaLight(AreaLight):
 
 class EllipseAreaLight(AreaLight):
     def __init__(
-        self,
-        size: Vector2d,
-        **kwargs
+            self,
+            size: Vector2d,
+            **kwargs
     ):
         """Creates EllipseAreaLight light source in Blender through constructor of the parent class AreaLight
 
@@ -139,7 +192,20 @@ class EllipseAreaLight(AreaLight):
             strength (float): strength of the light source emitted over the entire area of the light in all directions
             color (Vector3d): color of the light source
             cast_shadows (bool, optional): whether the light source casts shadows or not (default: True)
-            quaternion (Vector4d, optional): rotation applied to the Blender object (default: (1,0,0,0))
+            rotation_mode (str): type of rotation representation.
+                Can be one of the following:
+                - "quaternionWXYZ" - WXYZ quaternion
+                - "quaternionXYZW" - XYZW quaternion
+                - "rotvec" - axis-angle representation of rotation
+                - "rotmat" - 3x3 rotation matrix
+                - "euler<mode>" - Euler angles with the specified order of rotation, e.g. XYZ, xyz, ZXZ, etc. Refer to scipy.spatial.transform.Rotation.from_euler for details.
+                - "look_at" - look at rotation, the rotation is defined by the point to look at and, optional, the rotation around the forward direction vector (a single float value in tuple or list)
+            rotation (RotationParams): rotation parameters according to the rotation_mode
+                - for "quaternionWXYZ" and "quaternionXYZW" - Vec4d
+                - for "rotvec" - Vec3d
+                - for "rotmat" - Mat3x3
+                - for "euler<mode>" - Vec3d
+                - for "look_at" - Vec3d, Positionable or Tuple[Vec3d/Positionable, float], where float is the rotation around the forward direction vector in degrees
             translation (Vector3d, optional): translation applied to the Blender object (default: (0,0,0))
             tag (str): name of the created object in Blender
         """

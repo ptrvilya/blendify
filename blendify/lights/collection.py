@@ -7,7 +7,7 @@ from .base import Light
 from .common import PointLight, DirectionalLight, SpotLight
 from .area import AreaLight, SquareAreaLight, CircleAreaLight, RectangleAreaLight, EllipseAreaLight
 from ..internal import Singleton
-from ..internal.types import Vector2d, Vector3d, Vector4d
+from ..internal.types import Vector2d, Vector3d, RotationParams
 
 
 class LightsCollection(metaclass=Singleton):
@@ -74,14 +74,15 @@ class LightsCollection(metaclass=Singleton):
         self._background_light_nodes = [bg_node.name, output_node.name]
 
     def add_point(
-        self,
-        strength: float = 100,
-        shadow_soft_size: float = 0.25,
-        color: Vector3d = (1.0, 1.0, 1.0),
-        cast_shadows=True,
-        quaternion: Vector4d = (1, 0, 0, 0),
-        translation: Vector3d = (0, 0, 0),
-        tag=None
+            self,
+            strength: float = 100,
+            shadow_soft_size: float = 0.25,
+            color: Vector3d = (1.0, 1.0, 1.0),
+            cast_shadows=True,
+            rotation_mode: str = "quaternionWXYZ",
+            rotation: RotationParams = (1, 0, 0, 0),
+            translation: Vector3d = (0, 0, 0),
+            tag=None
     ) -> PointLight:
         """Add PointLight light source to the scene
 
@@ -92,7 +93,20 @@ class LightsCollection(metaclass=Singleton):
                 in [0, inf] (default: 0.25)
             color (Vector3d, optional): color of the light source (default: (1.0, 1.0, 1.0))
             cast_shadows (bool, optional): whether the light source casts shadows or not (default: True)
-            quaternion (Vector4d, optional): rotation applied to the Blender object (default: (1,0,0,0))
+            rotation_mode (str): type of rotation representation.
+                Can be one of the following:
+                - "quaternionWXYZ" - WXYZ quaternion
+                - "quaternionXYZW" - XYZW quaternion
+                - "rotvec" - axis-angle representation of rotation
+                - "rotmat" - 3x3 rotation matrix
+                - "euler<mode>" - Euler angles with the specified order of rotation, e.g. XYZ, xyz, ZXZ, etc. Refer to scipy.spatial.transform.Rotation.from_euler for details.
+                - "look_at" - look at rotation, the rotation is defined by the point to look at and, optional, the rotation around the forward direction vector (a single float value in tuple or list)
+            rotation (RotationParams): rotation parameters according to the rotation_mode
+                - for "quaternionWXYZ" and "quaternionXYZW" - Vec4d
+                - for "rotvec" - Vec3d
+                - for "rotmat" - Mat3x3
+                - for "euler<mode>" - Vec3d
+                - for "look_at" - Vec3d, Positionable or Tuple[Vec3d/Positionable, float], where float is the rotation around the forward direction vector in degrees
             translation (Vector3d, optional): translation applied to the Blender object (default: (0,0,0))
             tag (str, optional): name of the created collection in Blender to represent the point cloud.
                 If None is passed the tag is automatically generated (default: None)
@@ -103,20 +117,21 @@ class LightsCollection(metaclass=Singleton):
         tag = self._process_tag(tag, "Point")
         light = PointLight(
             color=color, strength=strength, shadow_soft_size=shadow_soft_size, cast_shadows=cast_shadows,
-            quaternion=quaternion, translation=translation, tag=tag
+            rotation_mode=rotation_mode, rotation=rotation, translation=translation, tag=tag
         )
         self._lights[tag] = light
         return light
 
     def add_sun(
-        self,
-        strength: float = 10,
-        angular_diameter: float = 0.00918043,
-        color: Vector3d = (1.0, 1.0, 1.0),
-        cast_shadows=True,
-        quaternion: Vector4d = (1, 0, 0, 0),
-        translation: Vector3d = (0, 0, 0),
-        tag=None
+            self,
+            strength: float = 10,
+            angular_diameter: float = 0.00918043,
+            color: Vector3d = (1.0, 1.0, 1.0),
+            cast_shadows=True,
+            rotation_mode: str = "quaternionWXYZ",
+            rotation: RotationParams = (1, 0, 0, 0),
+            translation: Vector3d = (0, 0, 0),
+            tag=None
     ) -> DirectionalLight:
         """Add DirectionalLight light source to the scene
 
@@ -126,7 +141,20 @@ class LightsCollection(metaclass=Singleton):
                 in [0, 3.14159] (default: 0.00918043)
             color (Vector3d, optional): color of the light source (default: (1.0, 1.0, 1.0))
             cast_shadows (bool, optional): whether the light source casts shadows or not (default: True)
-            quaternion (Vector4d, optional): rotation applied to the Blender object (default: (1,0,0,0))
+            rotation_mode (str): type of rotation representation.
+                Can be one of the following:
+                - "quaternionWXYZ" - WXYZ quaternion
+                - "quaternionXYZW" - XYZW quaternion
+                - "rotvec" - axis-angle representation of rotation
+                - "rotmat" - 3x3 rotation matrix
+                - "euler<mode>" - Euler angles with the specified order of rotation, e.g. XYZ, xyz, ZXZ, etc. Refer to scipy.spatial.transform.Rotation.from_euler for details.
+                - "look_at" - look at rotation, the rotation is defined by the point to look at and, optional, the rotation around the forward direction vector (a single float value in tuple or list)
+            rotation (RotationParams): rotation parameters according to the rotation_mode
+                - for "quaternionWXYZ" and "quaternionXYZW" - Vec4d
+                - for "rotvec" - Vec3d
+                - for "rotmat" - Mat3x3
+                - for "euler<mode>" - Vec3d
+                - for "look_at" - Vec3d, Positionable or Tuple[Vec3d/Positionable, float], where float is the rotation around the forward direction vector in degrees
             translation (Vector3d, optional): translation applied to the Blender object (default: (0,0,0))
             tag (str, optional): name of the created collection in Blender to represent the point cloud.
                 If None is passed the tag is automatically generated (default: None)
@@ -138,22 +166,23 @@ class LightsCollection(metaclass=Singleton):
         tag = self._process_tag(tag, "Sun")
         light = DirectionalLight(
             color=color, strength=strength, angular_diameter=angular_diameter, cast_shadows=cast_shadows,
-            quaternion=quaternion, translation=translation, tag=tag
+            rotation_mode=rotation_mode, rotation=rotation, translation=translation, tag=tag
         )
         self._lights[tag] = light
         return light
 
     def add_spot(
-        self,
-        strength: float = 100,
-        spot_size: float = 0.785398,
-        spot_blend: float = 0.15,
-        shadow_soft_size: float = 0.25,
-        color: Vector3d = (1.0, 1.0, 1.0),
-        cast_shadows=True,
-        quaternion: Vector4d = (1, 0, 0, 0),
-        translation: Vector3d = (0, 0, 0),
-        tag=None
+            self,
+            strength: float = 100,
+            spot_size: float = 0.785398,
+            spot_blend: float = 0.15,
+            shadow_soft_size: float = 0.25,
+            color: Vector3d = (1.0, 1.0, 1.0),
+            cast_shadows=True,
+            rotation_mode: str = "quaternionWXYZ",
+            rotation: RotationParams = (1, 0, 0, 0),
+            translation: Vector3d = (0, 0, 0),
+            tag=None
     ) -> SpotLight:
         """Add SpotLight light source to the scene
 
@@ -166,7 +195,20 @@ class LightsCollection(metaclass=Singleton):
                 in [0, inf] (default: 0.25)
             color (Vector3d, optional): color of the light source (default: (1.0, 1.0, 1.0))
             cast_shadows (bool, optional): whether the light source casts shadows or not (default: True)
-            quaternion (Vector4d, optional): rotation applied to the Blender object (default: (1,0,0,0))
+            rotation_mode (str): type of rotation representation.
+                Can be one of the following:
+                - "quaternionWXYZ" - WXYZ quaternion
+                - "quaternionXYZW" - XYZW quaternion
+                - "rotvec" - axis-angle representation of rotation
+                - "rotmat" - 3x3 rotation matrix
+                - "euler<mode>" - Euler angles with the specified order of rotation, e.g. XYZ, xyz, ZXZ, etc. Refer to scipy.spatial.transform.Rotation.from_euler for details.
+                - "look_at" - look at rotation, the rotation is defined by the point to look at and, optional, the rotation around the forward direction vector (a single float value in tuple or list)
+            rotation (RotationParams): rotation parameters according to the rotation_mode
+                - for "quaternionWXYZ" and "quaternionXYZW" - Vec4d
+                - for "rotvec" - Vec3d
+                - for "rotmat" - Mat3x3
+                - for "euler<mode>" - Vec3d
+                - for "look_at" - Vec3d, Positionable or Tuple[Vec3d/Positionable, float], where float is the rotation around the forward direction vector in degrees
             translation (Vector3d, optional): translation applied to the Blender object (default: (0,0,0))
             tag (str, optional): name of the created collection in Blender to represent the point cloud.
                 If None is passed the tag is automatically generated (default: None)
@@ -177,21 +219,22 @@ class LightsCollection(metaclass=Singleton):
         tag = self._process_tag(tag, "Spot")
         light = SpotLight(
             color=color, strength=strength, spot_size=spot_size, spot_blend=spot_blend, cast_shadows=cast_shadows,
-            shadow_soft_size=shadow_soft_size, quaternion=quaternion, translation=translation, tag=tag
+            shadow_soft_size=shadow_soft_size, rotation_mode=rotation_mode, rotation=rotation, translation=translation, tag=tag
         )
         self._lights[tag] = light
         return light
 
     def add_area(
-        self,
-        shape: str,
-        size: Union[float, Vector2d],
-        strength: float = 100,
-        color: Vector3d = (1.0, 1.0, 1.0),
-        cast_shadows=True,
-        quaternion: Vector4d = (1, 0, 0, 0),
-        translation: Vector3d = (0, 0, 0),
-        tag: str = None
+            self,
+            shape: str,
+            size: Union[float, Vector2d],
+            strength: float = 100,
+            color: Vector3d = (1.0, 1.0, 1.0),
+            cast_shadows=True,
+            rotation_mode: str = "quaternionWXYZ",
+            rotation: RotationParams = (1, 0, 0, 0),
+            translation: Vector3d = (0, 0, 0),
+            tag: str = None
     ) -> AreaLight:
         """Add AreaLight light source to the scene. Shape of the area is controlled by shape parameter
 
@@ -203,7 +246,20 @@ class LightsCollection(metaclass=Singleton):
                 in all directions (default: 100)
             color (Vector3d, optional): color of the light source (default: (1.0, 1.0, 1.0))
             cast_shadows (bool, optional): whether the light source casts shadows or not (default: True)
-            quaternion (Vector4d, optional): rotation applied to the Blender object (default: (1,0,0,0))
+            rotation_mode (str): type of rotation representation.
+                Can be one of the following:
+                - "quaternionWXYZ" - WXYZ quaternion
+                - "quaternionXYZW" - XYZW quaternion
+                - "rotvec" - axis-angle representation of rotation
+                - "rotmat" - 3x3 rotation matrix
+                - "euler<mode>" - Euler angles with the specified order of rotation, e.g. XYZ, xyz, ZXZ, etc. Refer to scipy.spatial.transform.Rotation.from_euler for details.
+                - "look_at" - look at rotation, the rotation is defined by the point to look at and, optional, the rotation around the forward direction vector (a single float value in tuple or list)
+            rotation (RotationParams): rotation parameters according to the rotation_mode
+                - for "quaternionWXYZ" and "quaternionXYZW" - Vec4d
+                - for "rotvec" - Vec3d
+                - for "rotmat" - Mat3x3
+                - for "euler<mode>" - Vec3d
+                - for "look_at" - Vec3d, Positionable or Tuple[Vec3d/Positionable, float], where float is the rotation around the forward direction vector in degrees
             translation (Vector3d, optional): translation applied to the Blender object (default: (0,0,0))
             tag (str, optional): name of the created collection in Blender to represent the point cloud.
                 If None is passed the tag is automatically generated (default: None)
@@ -215,22 +271,22 @@ class LightsCollection(metaclass=Singleton):
         if shape == "square":
             light = SquareAreaLight(
                 size=size, color=color, strength=strength, cast_shadows=cast_shadows,
-                quaternion=quaternion, translation=translation, tag=tag
+                rotation_mode=rotation_mode, rotation=rotation, translation=translation, tag=tag
             )
         elif shape == "circle":
             light = CircleAreaLight(
                 size=size, color=color, strength=strength, cast_shadows=cast_shadows,
-                quaternion=quaternion, translation=translation, tag=tag
+                rotation_mode=rotation_mode, rotation=rotation, translation=translation, tag=tag
             )
         elif shape == "rectangle":
             light = RectangleAreaLight(
                 size=size, color=color, strength=strength, cast_shadows=cast_shadows,
-                quaternion=quaternion, translation=translation, tag=tag
+                rotation_mode=rotation_mode, rotation=rotation, translation=translation, tag=tag
             )
         elif shape == "ellipse":
             light = EllipseAreaLight(
                 size=size, color=color, strength=strength, cast_shadows=cast_shadows,
-                quaternion=quaternion, translation=translation, tag=tag
+                rotation_mode=rotation_mode, rotation=rotation, translation=translation, tag=tag
             )
         else:
             raise NotImplementedError(f"Unknown AreaLight shape: {shape}")

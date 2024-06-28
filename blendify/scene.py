@@ -17,7 +17,7 @@ from .cameras import PerspectiveCamera, OrthographicCamera
 from .cameras.base import Camera
 from .internal import Singleton
 from .internal.io import catch_stdout
-from .internal.types import Vector2d, Vector2di, Vector3d, Vector4d
+from .internal.types import Vector2d, Vector2di, Vector3d, Vector4d, RotationParams
 from .internal import parser
 from .lights import LightsCollection
 from .renderables import RenderablesCollection
@@ -85,8 +85,8 @@ class Scene(metaclass=Singleton):
 
     def set_perspective_camera(
             self, resolution: Vector2di, focal_dist: float = None, fov_x: float = None, fov_y: float = None,
-            center: Vector2d = None, near: float = 0.1, far: float = 100., tag: str = 'camera',
-            quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0),
+            center: Vector2d = None, near: float = 0.1, far: float = 100., tag: str = 'camera', rotation_mode: str = "quaternionWXYZ",
+            rotation: RotationParams = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0),
             resolution_percentage: int = 100
     ) -> PerspectiveCamera:
         """Set perspective camera in the scene. Replaces the previous scene camera, if it exists.
@@ -101,7 +101,20 @@ class Scene(metaclass=Singleton):
             near (float, optional): Camera near clipping distance (default: 0.1)
             far (float, optional): Camera far clipping distance (default: 100)
             tag (str): name of the created object in Blender
-            quaternion (Vector4d, optional): rotation applied to the Blender object (default: (1,0,0,0))
+            rotation_mode (str): type of rotation representation.
+                Can be one of the following:
+                - "quaternionWXYZ" - WXYZ quaternion
+                - "quaternionXYZW" - XYZW quaternion
+                - "rotvec" - axis-angle representation of rotation
+                - "rotmat" - 3x3 rotation matrix
+                - "euler<mode>" - Euler angles with the specified order of rotation, e.g. XYZ, xyz, ZXZ, etc. Refer to scipy.spatial.transform.Rotation.from_euler for details.
+                - "look_at" - look at rotation, the rotation is defined by the point to look at and, optional, the rotation around the forward direction vector (a single float value in tuple or list)
+            rotation (RotationParams): rotation parameters according to the rotation_mode
+                - for "quaternionWXYZ" and "quaternionXYZW" - Vec4d
+                - for "rotvec" - Vec3d
+                - for "rotmat" - Mat3x3
+                - for "euler<mode>" - Vec3d
+                - for "look_at" - Vec3d, Positionable or Tuple[Vec3d/Positionable, float], where float is the rotation around the forward direction vector in degrees
             translation (Vector3d, optional): translation applied to the Blender object (default: (0,0,0))
             resolution_percentage (int, optional):
         Returns:
@@ -109,13 +122,14 @@ class Scene(metaclass=Singleton):
         """
         camera = PerspectiveCamera(resolution=resolution, focal_dist=focal_dist, fov_x=fov_x, fov_y=fov_y,
                                    center=center, near=near, far=far, tag=tag,
-                                   quaternion=quaternion, translation=translation)
+                                   rotation_mode=rotation_mode, rotation=rotation, translation=translation)
         self._setup_camera(camera, resolution_percentage)
         return camera
 
     def set_orthographic_camera(
             self, resolution: Vector2di, ortho_scale: float = 1., near: float = 0.1, far: float = 100.,
-            tag: str = 'camera', quaternion: Vector4d = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0),
+            tag: str = 'camera', rotation_mode: str = "quaternionWXYZ",
+            rotation: RotationParams = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0),
             resolution_percentage: int = 100
     ) -> OrthographicCamera:
         """Set orthographic camera in the scene. Replaces the previous scene camera, if it exists
@@ -126,14 +140,27 @@ class Scene(metaclass=Singleton):
             near (float, optional): Camera near clipping distance (default: 0.1)
             far (float, optional): Camera far clipping distance (default: 100)
             tag (str): name of the created object in Blender
-            quaternion (Vector4d, optional): rotation applied to the Blender object (default: (1,0,0,0))
+            rotation_mode (str): type of rotation representation.
+                Can be one of the following:
+                - "quaternionWXYZ" - WXYZ quaternion
+                - "quaternionXYZW" - XYZW quaternion
+                - "rotvec" - axis-angle representation of rotation
+                - "rotmat" - 3x3 rotation matrix
+                - "euler<mode>" - Euler angles with the specified order of rotation, e.g. XYZ, xyz, ZXZ, etc. Refer to scipy.spatial.transform.Rotation.from_euler for details.
+                - "look_at" - look at rotation, the rotation is defined by the point to look at and, optional, the rotation around the forward direction vector (a single float value in tuple or list)
+            rotation (RotationParams): rotation parameters according to the rotation_mode
+                - for "quaternionWXYZ" and "quaternionXYZW" - Vec4d
+                - for "rotvec" - Vec3d
+                - for "rotmat" - Mat3x3
+                - for "euler<mode>" - Vec3d
+                - for "look_at" - Vec3d, Positionable or Tuple[Vec3d/Positionable, float], where float is the rotation around the forward direction vector in degrees
             translation (Vector3d, optional): translation applied to the Blender object (default: (0,0,0))
             resolution_percentage (int, optional):
         Returns:
             OrthographicCamera: created camera
         """
         camera = OrthographicCamera(resolution=resolution, ortho_scale=ortho_scale, far=far, near=near, tag=tag,
-                                    quaternion=quaternion, translation=translation)
+                                    rotation_mode=rotation_mode, rotation=rotation, translation=translation)
         self._setup_camera(camera, resolution_percentage)
         return camera
 
