@@ -146,6 +146,7 @@ if __name__ == "__main__":
     # Downloading assets if needed
     if not arguments.skip_download:
         os.makedirs("assets/05_smpl_movement", exist_ok=True)
+        # The scene mesh was generated from HPS dataset (Etage6 pointcloud) using blendify.utils.pointcloud.meshify_pc_from_file
         download("https://nextcloud.mpi-klsb.mpg.de/index.php/s/AESiBaXXyagNmrE/download",
                  "assets/05_smpl_movement/scene_texture.jpg")
         download("https://nextcloud.mpi-klsb.mpg.de/index.php/s/QCjTsJqSSrNb5nJ/download",

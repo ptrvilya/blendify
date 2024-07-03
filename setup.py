@@ -42,8 +42,11 @@ docs_requirements = [
 ]
 
 utils_requirements = [
-    "open3d",           # Utils: normals estimation
+    "loguru",           # Utils: logging
+    "scikit-learn",     # Utils: KNN search
+    "open3d",           # Utils: normals estimation, mesh reconstruction
     "smplx",            # Utils: smpl wrapper
+    "torch",            # Utils: point cloud normals, texture generation
 ]
 
 examples_requirements = utils_requirements + [
