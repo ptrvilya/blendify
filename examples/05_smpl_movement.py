@@ -1,8 +1,8 @@
 import argparse
 import json
-import logging
 import os
 from urllib import request
+from loguru import logger
 
 import numpy as np
 import trimesh
@@ -17,9 +17,6 @@ from blendify.utils.smpl_wrapper import SMPLWrapper
 
 
 def main(args):
-    # Configure logging
-    logging.basicConfig(level=logging.INFO)
-    logger = logging.getLogger("Blendify 05 example")
     # Load the scene
     logger.info("Loading scene resources...")
     trimesh_mesh = trimesh.load("./assets/05_smpl_movement/scene_mesh.ply")

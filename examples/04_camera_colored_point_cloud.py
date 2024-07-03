@@ -1,10 +1,9 @@
 import argparse
-import logging
-
 import bpy
 import numpy as np
 import trimesh
 from videoio import VideoWriter
+from loguru import logger
 
 from blendify import scene
 from blendify.colors import UniformColors, VertexColors
@@ -14,9 +13,6 @@ from blendify.utils.pointcloud import estimate_normals_from_pointcloud, approxim
 
 
 def main(args):
-    # Configure logging
-    logging.basicConfig(level=logging.INFO)
-    logger = logging.getLogger("Blendify 04 example")
     # Attach blender file with scene (walls and floor)
     logger.info("Attaching blend to the scene")
     scene.attach_blend("./assets/light_box.blend")

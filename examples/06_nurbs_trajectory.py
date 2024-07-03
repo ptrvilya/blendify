@@ -1,8 +1,8 @@
 import argparse
-import logging
 
 import numpy as np
 from videoio import VideoWriter
+from loguru import logger
 
 from blendify import scene
 from blendify.colors import UniformColors
@@ -30,9 +30,6 @@ def line_points(line_start, line_end, count=10, include_endpoints=False):
 
 
 def main(args):
-    # Configure logging
-    logging.basicConfig(level=logging.INFO)
-    logger = logging.getLogger("Blendify 06 example")
     # Add camera to the scene
     scene.set_perspective_camera(resolution=args.resolution, focal_dist=640, rotation=(0.983, 0.182, 0, 0),
                                  translation=(0, -1.15, -1.54))
