@@ -99,7 +99,7 @@ class PerspectiveCamera(Camera):
         camera = self.blender_camera
         real_center = np.array(real_center)
         ideal_center = self.resolution / 2.
-        center_offset_relative = (real_center - ideal_center) / self.resolution
+        center_offset_relative = real_center - ideal_center / self.resolution
         camera.data.shift_x = center_offset_relative[0]
         camera.data.shift_y = center_offset_relative[1]
 

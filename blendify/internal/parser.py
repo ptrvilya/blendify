@@ -100,7 +100,7 @@ def parse_camera_from_blendfile(obj: bpy.types.Object, resolution: np.ndarray):
         # center
         ideal_center = resolution / 2.
         center_offset = np.array([obj.data.shift_x, obj.data.shift_y])
-        camera_dict["center"] = ideal_center + center_offset
+        camera_dict["center"] = ideal_center / resolution - center_offset
 
         # near / far
         camera_dict["near"] = obj.data.clip_start
