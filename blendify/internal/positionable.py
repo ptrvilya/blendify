@@ -160,14 +160,14 @@ class Positionable(ABC):
 
     def _blender_remove_object(self):
         """Removes the object from Blender scene"""
-        bpy.context.view_layer.objects.active = self._blender_object
-        bpy.ops.object.mode_set(mode='OBJECT')
         bpy.ops.object.select_all(action='DESELECT')
         is_collection = isinstance(self._blender_object, bpy.types.Collection)
         if is_collection:
             for obj in self._blender_object.all_objects.values():
                 obj.select_set(True)
         else:
+            bpy.context.view_layer.objects.active = self._blender_object
+            bpy.ops.object.mode_set(mode='OBJECT')
             self._blender_object.select_set(True)
         bpy.ops.object.delete()
         if is_collection:

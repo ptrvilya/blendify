@@ -222,7 +222,6 @@ class PointCloud(Renderable):
         # The default size of elements added with
         #   primitive_cube_add, primitive_uv_sphere_add, etc. is (2,2,2)
         point_scale = point_size * 0.5
-        bpy.ops.object.mode_set(mode='OBJECT')
         bpy.ops.object.select_all(action="DESELECT")
         if mesh_type == "PLANE":
             bpy.ops.mesh.primitive_plane_add(size=point_scale)
@@ -233,6 +232,8 @@ class PointCloud(Renderable):
         else:
             bpy.ops.mesh.primitive_uv_sphere_add(radius=point_scale)
         particle_obj = bpy.context.object
+        bpy.context.view_layer.objects.active = particle_obj
+        bpy.ops.object.mode_set(mode='OBJECT')
         # Purposely repeating object name setting 2 times - for some primitives (cubes) setting it just ones sometimes doesn't work
         particle_obj.name = particle_obj_name
         particle_obj.name = particle_obj_name
