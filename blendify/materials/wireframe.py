@@ -7,7 +7,7 @@ from .base import Material
 
 class WireframeMaterial(Material):
     def __init__(
-        self, wireframe_thickness=0.01, wireframe_color=(0, 0, 0, 0), **kwargs
+        self, wireframe_thickness=0.01, wireframe_color=(0., 0., 0., 1.), **kwargs
     ):
         super().__init__(**kwargs)
 

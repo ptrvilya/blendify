@@ -101,7 +101,7 @@ class GlossyBSDFMaterial(Material):
 
 class PrincipledBSDFWireframeMaterial(WireframeMaterial, PrincipledBSDFMaterial):
     def __init__(
-            self, wireframe_thickness=0.01, wireframe_color=(0, 0, 0, 0), **kwargs
+            self, wireframe_thickness=0.01, wireframe_color=(0., 0., 0., 1.), **kwargs
     ):
         super().__init__(
             wireframe_thickness=wireframe_thickness, wireframe_color=wireframe_color, **kwargs

@@ -1,7 +1,8 @@
 import numpy as np
+from typing import Union
 
 from .base import ColorsMetadata, Colors
-from ..internal.types import Vector3d
+from ..internal.types import Vector3d, Vector4d
 
 
 class VertexColors(Colors):
@@ -46,7 +47,7 @@ class UniformColors(Colors):
     """A container which stores a single uniform color for the whole object
     """
 
-    def __init__(self, uniform_color: Vector3d):
+    def __init__(self, uniform_color: Union[Vector3d, Vector4d]):
         """Create the uniform color container
 
         Args:

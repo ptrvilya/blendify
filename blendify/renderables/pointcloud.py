@@ -89,7 +89,7 @@ class PointCloud(Renderable):
         self._max_particles: int = 10000
         self._particle_collections = dict()
         self._point_size: float = point_size
-        self._base_primitive: str = base_primitive
+        self._base_primitive: str = base_primitive.upper()
         self.particle_emission_strength: int = particle_emission_strength
         self._point_cloud_object_names: List[str] = list()
         self._particle_material_names: List[str] = list()
