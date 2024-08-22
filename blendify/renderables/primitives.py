@@ -25,7 +25,7 @@ class MeshPrimitive(RenderableObject):
     @abstractmethod
     def __init__(
         self,
-            material_faces: Sequence[Sequence[int]] = None,
+            faces_material: Sequence[Sequence[int]] = None,
         **kwargs
     ):
         """Passes all arguments to the constructor of the base class
@@ -38,7 +38,7 @@ class MeshPrimitive(RenderableObject):
             translation (Vector3d, optional): translation applied to the Blender object (default: (0,0,0))
             tag (str): name of the created object in Blender
         """
-        self._material_faces = material_faces
+        self._faces_material = faces_material
         super().__init__(**kwargs)
 
 
@@ -64,17 +64,18 @@ class MeshPrimitive(RenderableObject):
 
     def _blender_assign_materials(self):
         super()._blender_assign_materials()
-        assert self._material_faces is None or (len(self._material_faces) == self._materials_count), \
-            "Number of material faces should be equal to the number of materials"
-        if not (len(self._material_instances) == 1 or self._material_faces is None):
+        if not (len(self._material_instances) == 1 or self._faces_material is None):
             bpy.context.view_layer.objects.active = self._blender_object
             bpy.ops.object.mode_set(mode='EDIT')
             bpy.ops.mesh.select_mode(type="FACE")
             bpy.ops.mesh.select_all(action='DESELECT')
             bm = bmesh.from_edit_mesh(self._blender_mesh)
-            for mat_ind, faces in enumerate(self._material_faces):
+            assert self._faces_material is None or (len(self._faces_material) == len(bm.faces)), \
+                f"Number of material faces should be equal to the number of faces ({len(bm.faces)})"
+            for mat_ind in range(self._materials_count):
                 for face in bm.faces:
-                    if face.index in faces:
+                    perface_mat_ind = self._faces_material[face.index]
+                    if perface_mat_ind == mat_ind:
                         face.select = True
                 self._blender_object.active_material_index = mat_ind
                 bpy.ops.object.material_slot_assign()

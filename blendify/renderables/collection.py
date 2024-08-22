@@ -81,7 +81,7 @@ class RenderablesCollection(metaclass=Singleton):
             faces: np.ndarray,
             material: MaterialList,
             colors: ColorsList,
-            material_faces: Sequence[Sequence[int]] = None,
+            faces_material: Sequence[Sequence[int]] = None,
             rotation_mode: str = "quaternionWXYZ",
             rotation: RotationParams = (1, 0, 0, 0),
             translation: Vector3d = (0, 0, 0),
@@ -96,7 +96,7 @@ class RenderablesCollection(metaclass=Singleton):
             faces (np.ndarray): mesh faces
             material (MaterialList): Material instance or list of Material instances
             colors (ColorsList): Colors instance or list of Colors instances
-            material_faces (Sequence[Sequence[int]], optional): for each material, the face indexes it is assigned to
+            faces_material (Sequence[Sequence[int]], optional): for each face, the material index assigned to it
             rotation_mode (str): type of rotation representation.
                 Can be one of the following:
                 - "quaternionWXYZ" - WXYZ quaternion
@@ -121,7 +121,7 @@ class RenderablesCollection(metaclass=Singleton):
         tag = self._process_tag(tag, "Mesh")
         obj = Mesh(
             vertices=vertices, faces=faces, material=material, colors=colors, rotation_mode=rotation_mode,
-            rotation=rotation, translation=translation, tag=tag, material_faces=material_faces
+            rotation=rotation, translation=translation, tag=tag, faces_material=faces_material
         )
         self._renderables[tag] = obj
         return obj
@@ -131,7 +131,7 @@ class RenderablesCollection(metaclass=Singleton):
             size: float,
             material: MaterialList,
             colors: ColorsList,
-            material_faces: Sequence[Sequence[int]] = None,
+            faces_material: Sequence[Sequence[int]] = None,
             rotation_mode: str = "quaternionWXYZ",
             rotation: RotationParams = (1, 0, 0, 0),
             translation: Vector3d = (0, 0, 0),
@@ -144,7 +144,7 @@ class RenderablesCollection(metaclass=Singleton):
             size (float): size of a primitive in [0, inf]
             material (MaterialList): Material instance or list of Material instances
             colors (ColorsList): Colors instance or list of Colors instances
-            material_faces (Sequence[Sequence[int]], optional): for each material, the face indexes it is assigned to
+            faces_material (Sequence[Sequence[int]], optional): for each face, the material index assigned to it
             rotation_mode (str): type of rotation representation.
                 Can be one of the following:
                 - "quaternionWXYZ" - WXYZ quaternion
@@ -169,7 +169,7 @@ class RenderablesCollection(metaclass=Singleton):
         tag = self._process_tag(tag, "Cube")
         obj = primitives.CubeMesh(
             size=size, material=material, colors=colors, rotation_mode=rotation_mode, rotation=rotation,
-            translation=translation, tag=tag, material_faces=material_faces
+            translation=translation, tag=tag, faces_material=faces_material
         )
         self._renderables[tag] = obj
         return obj
@@ -179,7 +179,7 @@ class RenderablesCollection(metaclass=Singleton):
             radius: float,
             material: Material,
             colors: Colors,
-            material_faces: Sequence[Sequence[int]] = None,
+            faces_material: Sequence[Sequence[int]] = None,
             num_vertices: int = 32,
             fill_type: str = "NGON",
             rotation_mode: str = "quaternionWXYZ",
@@ -194,7 +194,7 @@ class RenderablesCollection(metaclass=Singleton):
             radius (float): radius of a primitive in [0, inf]
             material (MaterialList): Material instance or list of Material instances
             colors (ColorsList): Colors instance or list of Colors instances
-            material_faces (Sequence[Sequence[int]], optional): for each material, the face indexes it is assigned to
+            faces_material (Sequence[Sequence[int]], optional): for each face, the material index assigned to it
             num_vertices (int, optional): number of vertices in primitive in [3, 10000000] (default: 32)
             fill_type (str, optional): fill type, one of [NOTHING, NGON, TRIFAN] (default: NGON)
             rotation_mode (str): type of rotation representation.
@@ -221,7 +221,7 @@ class RenderablesCollection(metaclass=Singleton):
         tag = self._process_tag(tag, "Circle")
         obj = primitives.CircleMesh(
             radius=radius, material=material, colors=colors, num_vertices=num_vertices, fill_type=fill_type,
-            rotation_mode=rotation_mode, rotation=rotation, translation=translation, tag=tag, material_faces=material_faces
+            rotation_mode=rotation_mode, rotation=rotation, translation=translation, tag=tag, faces_material=faces_material
         )
         self._renderables[tag] = obj
         return obj
@@ -232,7 +232,7 @@ class RenderablesCollection(metaclass=Singleton):
             height: float,
             material: Material,
             colors: Colors,
-            material_faces: Sequence[Sequence[int]] = None,
+            faces_material: Sequence[Sequence[int]] = None,
             num_vertices: int = 32,
             fill_type: str = "NGON",
             rotation_mode: str = "quaternionWXYZ",
@@ -248,7 +248,7 @@ class RenderablesCollection(metaclass=Singleton):
             height (float): height of a primitive in [0, inf]
             material (MaterialList): Material instance or list of Material instances
             colors (ColorsList): Colors instance or list of Colors instances
-            material_faces (Sequence[Sequence[int]], optional): for each material, the face indexes it is assigned to
+            faces_material (Sequence[Sequence[int]], optional): for each face, the material index assigned to it
             num_vertices (int, optional): number of vertices in primitive in [3, 10000000] (default: 32)
             fill_type (str, optional): fill type, one of [NOTHING, NGON, TRIFAN] (default: NGON)
             rotation_mode (str): type of rotation representation.
@@ -275,7 +275,7 @@ class RenderablesCollection(metaclass=Singleton):
         tag = self._process_tag(tag, "Cylinder")
         obj = primitives.CylinderMesh(
             radius=radius, height=height, material=material, colors=colors, num_vertices=num_vertices,
-            fill_type=fill_type, rotation_mode=rotation_mode, rotation=rotation, translation=translation, tag=tag, material_faces=material_faces
+            fill_type=fill_type, rotation_mode=rotation_mode, rotation=rotation, translation=translation, tag=tag, faces_material=faces_material
         )
         self._renderables[tag] = obj
         return obj
@@ -285,7 +285,7 @@ class RenderablesCollection(metaclass=Singleton):
             size: float,
             material: Material,
             colors: Colors,
-            material_faces: Sequence[Sequence[int]] = None,
+            faces_material: Sequence[Sequence[int]] = None,
             shadow_catcher: bool = False,
             rotation_mode: str = "quaternionWXYZ",
             rotation: RotationParams = (1, 0, 0, 0),
@@ -299,7 +299,7 @@ class RenderablesCollection(metaclass=Singleton):
             size (float): size of a plane in [0, inf]
             material (MaterialList): Material instance or list of Material instances
             colors (ColorsList): Colors instance or list of Colors instances
-            material_faces (Sequence[Sequence[int]], optional): for each material, the face indexes it is assigned to
+            faces_material (Sequence[Sequence[int]], optional): for each face, the material index assigned to it
             shadow_catcher (bool, optional): if True, the plane will act as a shadow catcher (default: False)
             rotation_mode (str): type of rotation representation.
                 Can be one of the following:
@@ -325,7 +325,7 @@ class RenderablesCollection(metaclass=Singleton):
         tag = self._process_tag(tag, "Plane")
         obj = primitives.PlaneMesh(
             size=size, material=material, colors=colors, shadow_catcher=shadow_catcher,
-            rotation_mode=rotation_mode, rotation=rotation, translation=translation, tag=tag, material_faces=material_faces
+            rotation_mode=rotation_mode, rotation=rotation, translation=translation, tag=tag, faces_material=faces_material
         )
         self._renderables[tag] = obj
         return obj

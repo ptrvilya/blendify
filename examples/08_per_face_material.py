@@ -16,15 +16,15 @@ def main(args):
     mesh = trimesh.load(donut_file, "obj", process=False)
     # Create accumulated mesh
     offset_v, offset_f = 0, 0
-    vertices, faces, uv_map, material_faces = [], [], [], []
-    for obj_key in ["donut_base", "donut_icing", "donut_sprinkles"]:
+    vertices, faces, uv_map, faces_material = [], [], [], []
+    for obj_ind, obj_key in enumerate(["donut_base", "donut_icing", "donut_sprinkles"]):
         # Select object from the TriMesh scene
         obj_vertices, obj_faces = mesh.geometry[obj_key].vertices, mesh.geometry[obj_key].faces
         # Accumulate vertices and faces
         vertices.append(np.asarray(obj_vertices))
         faces.append(np.asarray(obj_faces) + offset_v)
         # Accumulate face indexes for per-face materials
-        material_faces.append(np.arange(len(obj_faces)) + offset_f)
+        faces_material.append(np.full(len(obj_faces), fill_value=obj_ind, dtype=int))
         # Accumulate UV map
         visual_kind = mesh.geometry[obj_key].visual.kind
         if visual_kind is not None and visual_kind == "texture":
@@ -36,6 +36,7 @@ def main(args):
         offset_f += len(obj_faces)
     vertices = np.concatenate(vertices)
     faces = np.concatenate(faces)
+    faces_material = np.concatenate(faces_material)
     uv_map = np.concatenate(uv_map)
     # Create per-part materials and colors
     # Base and Icing have uniform colors
@@ -50,7 +51,7 @@ def main(args):
     # Add mesh to the scene
     mesh_plastic = scene.renderables.add_mesh(
         vertices, faces,
-        material_faces=material_faces,
+        faces_material=faces_material,
         material=[material_base, material_icing, material_sprinkles],
         colors=[colors_base, colors_icing, colors_sprinkles]
     )

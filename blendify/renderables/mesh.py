@@ -24,7 +24,7 @@ class Mesh(RenderableObject):
             vertices: np.ndarray,
             faces: np.ndarray,
             tag: str,
-            material_faces: Sequence[Sequence[int]] = None,
+            faces_material: Sequence[Sequence[int]] = None,
             **kwargs
     ):
         """Creates Blender Object that represent given mesh
@@ -37,10 +37,11 @@ class Mesh(RenderableObject):
             quaternion (Vector4d, optional): rotation applied to Blender object (default: (1,0,0,0))
             translation (Vector3d, optional): translation applied to the Blender object (default: (0,0,0))
             tag (str): name of the created object in Blender
-            material_faces (np.ndarray, optional): for each material, the face indexes it is assigned to (default: None)
+            faces_material (np.ndarray, optional): for each face, the material index assigned to it
         """
         obj = self._blender_create_object(vertices, faces, tag)
-        self._material_faces = material_faces
+        self._faces_material = faces_material
+        self._faces_count = len(faces)
         super().__init__(**kwargs, blender_object=obj, tag=tag)
 
     def _blender_create_object(
@@ -147,17 +148,18 @@ class Mesh(RenderableObject):
 
     def _blender_assign_materials(self):
         super()._blender_assign_materials()
-        assert self._material_faces is None or (len(self._material_faces) == self._materials_count), \
-            "Number of material faces should be equal to the number of materials"
-        if not (len(self._material_instances) == 1 or self._material_faces is None):
+        assert self._faces_material is None or (len(self._faces_material) == self._faces_count), \
+            f"Number of material faces should be equal to the number of faces ({self._faces_count})"
+        if not (len(self._material_instances) == 1 or self._faces_material is None):
             bpy.context.view_layer.objects.active = self._blender_object
             bpy.ops.object.mode_set(mode='EDIT')
-            bpy.ops.mesh.select_mode(type="FACE")
+            bpy.ops.mesh.select_mode(type='FACE')
             bpy.ops.mesh.select_all(action='DESELECT')
             bm = bmesh.from_edit_mesh(self._blender_mesh)
-            for mat_ind, faces in enumerate(self._material_faces):
+            for mat_ind in range(self._materials_count):
                 for face in bm.faces:
-                    if face.index in faces:
+                    perface_mat_ind = self._faces_material[face.index]
+                    if perface_mat_ind == mat_ind:
                         face.select = True
                 self._blender_object.active_material_index = mat_ind
                 bpy.ops.object.material_slot_assign()
