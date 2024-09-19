@@ -47,6 +47,7 @@ class Scene(metaclass=Singleton):
         # Important if you want to get a pure color background (eg. white background)
         bpy.context.scene.view_settings.view_transform = 'Standard'
         bpy.context.scene.cycles.samples = 128  # Default value, can be changed in .render
+        bpy.context.scene.frame_current = 0
 
     @staticmethod
     def _remove_all_objects():
@@ -70,6 +71,7 @@ class Scene(metaclass=Singleton):
             self._load_empty_scene()
         scene = bpy.data.scenes[0]
         scene.world = bpy.data.worlds.new("BlendifyWorld")
+        self._frame_number = 0
         self._set_default_blender_parameters()
         self.renderables._reset()
         self.lights._reset()
@@ -338,14 +340,14 @@ class Scene(metaclass=Singleton):
                 #     print(f"ID:{dev.id} Name:{dev.name} Type:{dev.type} Use:{dev.use}")
 
             # Render
-            bpy.context.scene.frame_current = 0
+            bpy.context.scene.frame_current = self._frame_number
             temp_filesuffix = next(tempfile._get_candidate_names())
             temp_filepath = str(filepath) + "." + temp_filesuffix
-            render_suffixes = [".color.0000.png"]
+            render_suffixes = [f".color.######.png"]
             if save_depth:
-                render_suffixes.append(".depth.0000.exr")
+                render_suffixes.append(f".depth.######.exr")
             if save_albedo:
-                render_suffixes.append(".albedo.0000.png")
+                render_suffixes.append(f".albedo.######.png")
             while self.check_any_exists(temp_filepath, render_suffixes):
                 temp_filesuffix = next(tempfile._get_candidate_names())
                 temp_filepath = str(filepath) + "." + temp_filesuffix
@@ -361,30 +363,30 @@ class Scene(metaclass=Singleton):
                 bpy.ops.render.render(write_still=False)
 
             if render_to_ram:
-                image_data = self.read_image(temp_filepath + ".color.0000.png")
+                image_data = self.read_image(temp_filepath + f".color.{self._frame_number:04d}.png")
                 outputs = [image_data]
                 if save_depth:
-                    distmap = self.read_exr_distmap(temp_filepath + ".depth.0000.exr", dist_thresh=self.camera.far * 1.1)
+                    distmap = self.read_exr_distmap(temp_filepath + f".depth.{self._frame_number:04d}.exr", dist_thresh=self.camera.far * 1.1)
                     depthmap = self.camera.distance2depth(distmap)
                     outputs.append(depthmap)
                 if save_albedo:
-                    albedomap = self.read_image(temp_filepath + ".albedo.0000.png")
+                    albedomap = self.read_image(temp_filepath + f".albedo.{self._frame_number:04d}.png")
                     outputs.append(albedomap)
                 if len(outputs) == 1:
                     return outputs[0]
                 else:
                     return outputs
             else:
-                shutil.move(temp_filepath + ".color.0000.png", filepath)
+                shutil.move(temp_filepath + f".color.{self._frame_number:04d}.png", filepath)
                 output_image.file_slots[0].path = filename
                 if save_depth:
-                    distmap = self.read_exr_distmap(temp_filepath + ".depth.0000.exr", dist_thresh=self.camera.far * 1.1)
+                    distmap = self.read_exr_distmap(temp_filepath + f".depth.{self._frame_number:04d}.exr", dist_thresh=self.camera.far * 1.1)
                     depthmap = self.camera.distance2depth(distmap)
                     np.save(os.path.splitext(filepath)[0] + ".depth.npy", depthmap)
-                    os.remove(temp_filepath + ".depth.0000.exr")
+                    os.remove(temp_filepath + f".depth.{self._frame_number:04d}.exr")
                     output_depth.file_slots[0].path = filename + ".depth."
                 if save_albedo:
-                    shutil.move(temp_filepath + ".albedo.0000.png", os.path.splitext(filepath)[0] + ".albedo.png")
+                    shutil.move(temp_filepath + f".albedo.{self._frame_number:04d}.png", os.path.splitext(filepath)[0] + ".albedo.png")
                     output_albedo.file_slots[0].path =  filename + ".albedo."
 
     def preview(self, filepath: Union[str, Path] = None, save_depth: bool = False, save_albedo: bool = False, verbose: bool = False, fast: bool = False):
@@ -456,14 +458,14 @@ class Scene(metaclass=Singleton):
                 scene_node_tree.links.new(render_layer.outputs['DiffCol'], output_albedo.inputs['Image'])
 
             # Render
-            bpy.context.scene.frame_current = 0
+            bpy.context.scene.frame_current = self._frame_number
             temp_filesuffix = next(tempfile._get_candidate_names())
             temp_filepath = str(filepath) + "." + temp_filesuffix
-            render_suffixes = [".color.0000.png"]
+            render_suffixes = [f".color.{self._frame_number:04d}.png"]
             if save_depth:
-                render_suffixes.append(".depth.0000.exr")
+                render_suffixes.append(f".depth.{self._frame_number:04d}.exr")
             if save_albedo:
-                render_suffixes.append(".albedo.0000.png")
+                render_suffixes.append(f".albedo.{self._frame_number:04d}.png")
             while self.check_any_exists(temp_filepath, render_suffixes):
                 temp_filesuffix = next(tempfile._get_candidate_names())
                 temp_filepath = str(filepath) + "." + temp_filesuffix
@@ -479,30 +481,30 @@ class Scene(metaclass=Singleton):
                 bpy.ops.render.render(write_still=False)
 
             if render_to_ram:
-                image_data = self.read_image(temp_filepath + ".color.0000.png")
+                image_data = self.read_image(temp_filepath + f".color.{self._frame_number:04d}.png")
                 outputs = [image_data]
                 if save_depth:
-                    distmap = self.read_exr_distmap(temp_filepath + ".depth.0000.exr", dist_thresh=self.camera.far * 1.1)
+                    distmap = self.read_exr_distmap(temp_filepath + f".depth.{self._frame_number:04d}.exr", dist_thresh=self.camera.far * 1.1)
                     depthmap = self.camera.distance2depth(distmap)
                     outputs.append(depthmap)
                 if save_albedo:
-                    albedomap = self.read_image(temp_filepath + ".albedo.0000.png")
+                    albedomap = self.read_image(temp_filepath + f".albedo.{self._frame_number:04d}.png")
                     outputs.append(albedomap)
                 if len(outputs) == 1:
                     return outputs[0]
                 else:
                     return outputs
             else:
-                shutil.move(temp_filepath + ".color.0000.png", filepath)
+                shutil.move(temp_filepath + f".color.{self._frame_number:04d}.png", filepath)
                 output_image.file_slots[0].path = filename
                 if save_depth:
-                    distmap = self.read_exr_distmap(temp_filepath + ".depth.0000.exr", dist_thresh=self.camera.far * 1.1)
+                    distmap = self.read_exr_distmap(temp_filepath + f".depth.{self._frame_number:04d}.exr", dist_thresh=self.camera.far * 1.1)
                     depthmap = self.camera.distance2depth(distmap)
                     np.save(os.path.splitext(filepath)[0] + ".depth.npy", depthmap)
-                    os.remove(temp_filepath + ".depth.0000.exr")
+                    os.remove(temp_filepath + f".depth.{self._frame_number:04d}.exr")
                     output_depth.file_slots[0].path = filename + ".depth."
                 if save_albedo:
-                    shutil.move(temp_filepath + ".albedo.0000.png", os.path.splitext(filepath)[0] + ".albedo.png")
+                    shutil.move(temp_filepath + f".albedo.{self._frame_number:04d}.png", os.path.splitext(filepath)[0] + ".albedo.png")
                     output_albedo.file_slots[0].path = filename + ".albedo."
 
         # Return to Cycles renderer
