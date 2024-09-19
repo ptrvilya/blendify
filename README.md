@@ -1,6 +1,6 @@
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset=".github/blendify_logo_dark_bg.png">
-  <img alt="blendify logo" src=".github/blendify_logo_light_bg.png">
+  <source media="(prefers-color-scheme: dark)" srcset="./docs/_static/logo/blendify_logo_dark_bg.png">
+  <img alt="blendify logo" src="./docs/_static/logo/blendify_logo_light_bg.png">
 </picture>
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ptrvilya/blendify/blob/main/examples/ipynb/blendify_colab_demo.ipynb)
@@ -70,32 +70,32 @@ scene.render(filepath="cube.png")
     <td><a href="examples/02_color_albedo_depth.py"><b>Color, albedo and depth</b></a></td>
   </tr>
   <tr align="center">
-    <td><img src=".github/01_cornell_box.jpg" width="310px"/></td>
-    <td><img src=".github/02_color_albedo_depth.jpg" width="310px"/></td>
+    <td><img src="./docs/_static/examples/01_cornell_box.jpg" width="310px"/></td>
+    <td><img src="./docs/_static/examples/02_color_albedo_depth.jpg" width="310px"/></td>
   </tr>
   <tr align="center">
     <td><a href="examples/03_mesh_with_texture.py"><b>Mesh with texture</b></a></td>
     <td><a href="examples/04_camera_colored_point_cloud.py"><b>Camera colored point cloud</b></a></td>
   </tr>
   <tr align="center">
-    <td><img src=".github/03_mesh_with_texture.jpg" width="310px"/></td>
-    <td><img src=".github/04_camera_colored_point_cloud.gif" width="310px"/></td>
+    <td><img src="./docs/_static/examples/03_mesh_with_texture.jpg" width="310px"/></td>
+    <td><img src="./docs/_static/examples/04_camera_colored_point_cloud.gif" width="310px"/></td>
   </tr>
   <tr align="center">
     <td><a href="examples/05_smpl_movement.py"><b>SMPL movement</b></a></td>
     <td><a href="examples/06_nurbs_trajectory.py"><b>NURBS trajectory</b></a></td>
   </tr>
   <tr align="center">
-    <td><img src=".github/05_smpl_movement.gif" width="310px"/></td>
-    <td><img src=".github/06_nurbs_trajectory.gif" width="310px"/></td>
+    <td><img src="./docs/_static/examples/05_smpl_movement.gif" width="310px"/></td>
+    <td><img src="./docs/_static/examples/06_nurbs_trajectory.gif" width="310px"/></td>
   </tr>
   <tr align="center">
     <td><a href="examples/07_materials_and_shadow_catcher.py"><b>Various materials and shadow catcher</b></a></td>
     <td><a href="examples/08_per_face_material.py"><b>Per-face material</b></a></td>
   </tr>
   <tr align="center">
-    <td><img src=".github/07_materials_and_shadow_catcher.jpg" width="310px"/></td>
-    <td><img src=".github/08_per_face_material.jpg" width="310px"/></td>
+    <td><img src="./docs/_static/examples/07_materials_and_shadow_catcher.jpg" width="310px"/></td>
+    <td><img src="./docs/_static/examples/08_per_face_material.jpg" width="310px"/></td>
   </tr>
 </table>
 
