@@ -32,9 +32,9 @@ from mathutils import Vector
 
 from .base import Renderable
 from ..colors import VertexColors, UniformColors
-from ..colors.base import ColorsMetadata, ColorsList, Colors
+from ..colors.base import ColorsMetadata, Colors
 from ..internal.texture import compute_particle_color_texture
-from ..materials.base import MaterialList, Material, MaterialInstance
+from ..materials.base import Material, MaterialInstance
 
 
 @ dataclass
@@ -294,7 +294,7 @@ class PointCloud(Renderable):
     # ==================================================== MATERIAL ====================================================
     def update_material(
             self,
-            material: MaterialList
+            material: Material
     ):
         """Updates object material properties, sets Blender structures accordingly
 
@@ -351,7 +351,7 @@ class PointCloud(Renderable):
     # ===================================================== COLORS =====================================================
     def update_colors(
             self,
-            colors: ColorsList
+            colors: Colors
     ):
         """Updates object color properties, sets Blender structures accordingly
 

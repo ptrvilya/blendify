@@ -1,5 +1,5 @@
 from abc import abstractmethod
-from typing import Optional, List
+from typing import Optional, List, Union
 
 import bpy
 import warnings
@@ -19,16 +19,16 @@ class Renderable(Positionable):
     @abstractmethod
     def __init__(
             self,
-            material: MaterialList,
-            colors: ColorsList,
+            material: Union[Material, MaterialList],
+            colors: Union[Colors, ColorsList],
             **kwargs
     ):
         """Creates internal structures, calls functions that connect Material and Colors to the object.
         Can only be called from child classes as the class is abstract.
 
         Args:
-            material (MaterialList): Material instance or a list of Material instances
-            colors (ColorsList): Colors instance or a list of Colors instances
+            material (Union[Material, MaterialList]): Material instance or a list of Material instances
+            colors (Union[Colors, ColorsList]): Colors instance or a list of Colors instances
             blender_object (bpy.types.Object): instance of Blender Object that is wrapped by the class
             quaternion (Vector4d, optional): rotation applied to the Blender object (default: (1,0,0,0))
             translation (Vector3d, optional): translation applied to the Blender object (default: (0,0,0))
@@ -39,18 +39,18 @@ class Renderable(Positionable):
         self.update_material(material)
         self.update_colors(colors)
 
-    def update_material(self, material: MaterialList):
+    def update_material(self, material: Union[Material, MaterialList]):
         """Updates object material properties, sets Blender structures accordingly
         Args:
-            material (MaterialList): target material or a list of target materials
+            material (Union[Material, MaterialList]): target material or a list of target materials
         """
         pass
 
-    def update_colors(self, colors: ColorsList):
+    def update_colors(self, colors: Union[Colors, ColorsList]):
         """Updates object color properties, sets Blender structures accordingly
 
         Args:
-            colors (ColorsList): target colors information or a list of target colors information
+            colors (Union[Colors, ColorsList]): target colors information or a list of target colors information
         """
         pass
 
@@ -102,15 +102,22 @@ class RenderableObject(Renderable):
     # ================================================== END OF OBJECT =================================================
 
     # ==================================================== MATERIAL ====================================================
-    def update_material(self, material: MaterialList):
+    def update_material(self, material: Union[Material, MaterialList]):
         """Updates object material properties, sets Blender structures accordingly
 
         Args:
-            material (MaterialList): target material or a list of target materials
+            material (Union[Material, MaterialList]): target material or a list of target materials
         """
         if self._material_instances is not None:
             self._blender_clear_materials()
-        self._blender_set_materials(material)
+
+        # Turn single material into a list
+        if isinstance(material, Material):
+            material_list = [material]
+        else:
+            material_list = material
+
+        self._blender_set_materials(material_list)
 
     def _blender_assign_materials(self):
         """Assigns created materials to the object"""
@@ -121,13 +128,8 @@ class RenderableObject(Renderable):
         """Constructs material node, recreates color node if needed
 
         Args:
-            material_list (Material): target material
+            material_list (MaterialList): list of target materials
         """
-
-        # Turn single material into a list
-        if isinstance(material_list, Material):
-            material_list = [material_list]
-
         assert len(material_list) > 0, "Material list must contain at least one material"
         assert len(material_list) == self._materials_count, "Material list must contain the same number of elements as during object creation"
 
@@ -158,7 +160,7 @@ class RenderableObject(Renderable):
     # ================================================ END OF MATERIAL =================================================
 
     # ===================================================== COLORS =====================================================
-    def update_colors(self, colors: ColorsList):
+    def update_colors(self, colors: Union[Colors, ColorsList]):
         """Updates object color properties, sets Blender structures accordingly
 
         Args:
@@ -166,15 +168,17 @@ class RenderableObject(Renderable):
         """
         if self._material_instances is not None:
             self._blender_clear_colors()
-        self._blender_set_colors(colors)
+
+        # Turn single colors into a list
+        if isinstance(colors, Colors):
+            colors_list = [colors]
+        else:
+            colors_list = colors
+        self._blender_set_colors(colors_list)
 
     def _blender_set_colors(self, colors_list: ColorsList):
         """Remembers current color properties, builds a color node for material (from colors_metadata)
         """
-        # Turn single colors into a list
-        if isinstance(colors_list, Colors):
-            colors_list = [colors_list]
-
         assert len(colors_list) > 0, "Colors list must contain at least one color"
         assert len(colors_list) == self._materials_count, "Colors list must contain the same number of elements as materials"
 

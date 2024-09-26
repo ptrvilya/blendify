@@ -1,14 +1,15 @@
 from abc import abstractmethod
+from typing import Sequence, Union
 
-import bpy
 import bmesh
+import bpy
 import numpy as np
-from typing import Sequence
+
 from .base import RenderableObject
 from ..colors import UniformColors
 from ..colors.base import ColorsList, Colors
 from ..internal.types import Vector3d
-from ..materials.base import Material
+from ..materials.base import Material, MaterialList
 
 
 # =================================================== Mesh Primitives ==================================================
@@ -31,8 +32,8 @@ class MeshPrimitive(RenderableObject):
         """Passes all arguments to the constructor of the base class
 
         Args:
-            material (Material): Material instance
-            colors (Colors): Colors instance
+            material (Union[Material, MaterialList]): Material instance or a list of Material instances
+            colors (Union[Colors, ColorsList]): Colors instance or a list of Colors instances
             blender_object (bpy.types.Object): instance of Blender Object that is wrapped by the class
             quaternion (Vector4d, optional): rotation applied to the Blender object (default: (1,0,0,0))
             translation (Vector3d, optional): translation applied to the Blender object (default: (0,0,0))
@@ -42,12 +43,12 @@ class MeshPrimitive(RenderableObject):
         super().__init__(**kwargs)
 
 
-    def _blender_set_colors(self, colors: ColorsList):
-        colors = [colors] if isinstance(colors, Colors) else colors
-        if not all(isinstance(x, UniformColors) for x in colors):
+    def _blender_set_colors(self, colors: Union[Colors, ColorsList]):
+        colors_list = [colors] if isinstance(colors, Colors) else colors
+        if not all(isinstance(x, UniformColors) for x in colors_list):
             raise NotImplementedError("Non-uniform colors or textures are not supported in primitives, "
                                       "consider creating a primitive through Mesh for that")
-        super()._blender_set_colors(colors)
+        super()._blender_set_colors(colors_list)
 
     def set_smooth(self, smooth: bool = True):
         """Enables or disables the smooth surface imitation for the object
@@ -103,8 +104,8 @@ class CubeMesh(MeshPrimitive):
 
         Args:
             size (float): size of a primitive in [0, inf]
-            material (Material): Material instance
-            colors (Colors): Colors instance
+            material (Union[Material, MaterialList]): Material instance or a list of Material instances
+            colors (Union[Colors, ColorsList]): Colors instance or a list of Colors instances
             quaternion (Vector4d, optional): rotation applied to the Blender object (default: (1,0,0,0))
             translation (Vector3d, optional): translation applied to the Blender object (default: (0,0,0))
             tag (str): name of the created object in Blender
@@ -125,18 +126,18 @@ class CubeMesh(MeshPrimitive):
 
     def _blender_set_colors(
         self,
-        colors: Colors
+        colors_list: ColorsList
     ):
         """Remembers current color properties, builds a color node for material, sets color information to mesh
 
         Args:
-            colors (Colors): target colors information
+            colors_list (ColorsList): list of target colors
         """
         bpy.context.view_layer.objects.active = self._blender_object
         bpy.ops.object.shade_smooth()
         # bpy.context.space_data.context = 'MODIFIER'
         bpy.ops.object.modifier_add(type='EDGE_SPLIT')
-        super()._blender_set_colors(colors)
+        super()._blender_set_colors(colors_list)
 
 
 class CircleMesh(MeshPrimitive):
@@ -160,8 +161,8 @@ class CircleMesh(MeshPrimitive):
 
         Args:
             radius (float): radius of a primitive in [0, inf]
-            material (Material): Material instance
-            colors (Colors): Colors instance
+            material (Union[Material, MaterialList]): Material instance or a list of Material instances
+            colors (Union[Colors, ColorsList]): Colors instance or a list of Colors instances
             num_vertices (int, optional): number of vertices in primitive in [3, 10000000] (default: 32)
             fill_type (str, optional): fill type, one of [NOTHING, NGON, TRIFAN] (default: NGON)
             quaternion (Vector4d, optional): rotation applied to the Blender object (default: (1,0,0,0))
@@ -186,18 +187,18 @@ class CircleMesh(MeshPrimitive):
 
     def _blender_set_colors(
         self,
-        colors: Colors
+        colors_list: Colors
     ):
         """Remembers current color properties, builds a color node for material, sets color information to mesh
 
         Args:
-            colors (Colors): target colors information
+            colors_list (ColorsList): list of target colors
         """
         bpy.context.view_layer.objects.active = self._blender_object
         bpy.ops.object.shade_smooth()
         # bpy.context.space_data.context = 'MODIFIER'
         bpy.ops.object.modifier_add(type='EDGE_SPLIT')
-        super()._blender_set_colors(colors)
+        super()._blender_set_colors(colors_list)
 
 
 class CylinderMesh(MeshPrimitive):
@@ -223,8 +224,8 @@ class CylinderMesh(MeshPrimitive):
         Args:
             radius (float): radius of a primitive in [0, inf]
             height (float): height of a primitive in [0, inf]
-            material (Material): Material instance
-            colors (Colors): Colors instance
+            material (Union[Material, MaterialList]): Material instance or a list of Material instances
+            colors (Union[Colors, ColorsList]): Colors instance or a list of Colors instances
             num_vertices (int, optional): number of vertices in primitive in [3, 10000000] (default: 32)
             fill_type (str, optional): fill type, one of [NOTHING, NGON, TRIFAN] (default: NGON)
             quaternion (Vector4d, optional): rotation applied to the Blender object (default: (1,0,0,0))
@@ -251,18 +252,18 @@ class CylinderMesh(MeshPrimitive):
 
     def _blender_set_colors(
             self,
-            colors: Colors
+            colors_list: ColorsList
     ):
         """Remembers current color properties, builds a color node for material, sets color information to mesh
 
         Args:
-            colors (Colors): target colors information
+            colors_list (ColorsList): list of target colors
         """
         bpy.context.view_layer.objects.active = self._blender_object
         bpy.ops.object.shade_smooth()
         # bpy.context.space_data.context = 'MODIFIER'
         bpy.ops.object.modifier_add(type='EDGE_SPLIT')
-        super()._blender_set_colors(colors)
+        super()._blender_set_colors(colors_list)
 
 
 class PlaneMesh(MeshPrimitive):
@@ -287,8 +288,8 @@ class PlaneMesh(MeshPrimitive):
 
         Args:
             size (float): size of a primitive in [0, inf]
-            material (Material): Material instance
-            colors (Colors): Colors instance
+            material (Union[Material, MaterialList]): Material instance or a list of Material instances
+            colors (Union[Colors, ColorsList]): Colors instance or a list of Colors instances
             shadow_catcher (bool, optional): control whether the object will act as a shadow catcher
             quaternion (Vector4d, optional): rotation applied to the Blender object (default: (1,0,0,0))
             translation (Vector3d, optional): translation applied to the Blender object (default: (0,0,0))
@@ -319,25 +320,25 @@ class PlaneMesh(MeshPrimitive):
 
     def _blender_set_colors(
             self,
-            colors: Colors
+            colors_list: ColorsList
     ):
         """Remembers current color properties, builds a color node for material, sets color information to mesh
 
         Args:
-            colors (Colors): target colors information
+            colors_list (ColorsList): list of target colors
         """
         bpy.context.view_layer.objects.active = self._blender_object
         bpy.ops.object.shade_smooth()
         # bpy.context.space_data.context = 'MODIFIER'
         bpy.ops.object.modifier_add(type='EDGE_SPLIT')
-        super()._blender_set_colors(colors)
+        super()._blender_set_colors(colors_list)
 # =============================================== End of Mesh Primitives ===============================================
 
 
 # ================================================ Parametric Primitives ===============================================
 class ParametricPrimitive(RenderableObject):
     """Base class for parametric primitives. Used to throw Exceptions for non-implemented Colors
-    subclasses (only UniformColors is supported)
+    subclasses (only UniformColors is supported) and non-implemented Materials (only one Material is supported).
 
     Properties:
         emit_shadow (bool, optional): control whether the object will emit shadow from any light source in the scene.
@@ -352,7 +353,7 @@ class ParametricPrimitive(RenderableObject):
 
         Args:
             material (Material): Material instance
-            colors (Colors): Colors instance
+            colors (UniformColors): UniformColors instance
             blender_object (bpy.types.Object): instance of Blender Object that is wrapped by the class
             quaternion (Vector4d, optional): rotation applied to the Blender object (default: (1,0,0,0))
             translation (Vector3d, optional): translation applied to the Blender object (default: (0,0,0))
@@ -360,11 +361,17 @@ class ParametricPrimitive(RenderableObject):
         """
         super().__init__(**kwargs)
 
-    def _blender_set_colors(self, colors: ColorsList):
-        if not isinstance(colors, UniformColors):
-            raise NotImplementedError("Multiple materials, non-uniform colors or textures are not supported in primitives, "
+    def _blender_set_materials(self, material_list: MaterialList):
+        if not len(material_list) == 1:
+            raise NotImplementedError("Multiple materials are not supported in parametric primitives, "
                                       "consider creating a primitive through Mesh for that")
-        super()._blender_set_colors(colors)
+        super()._blender_set_materials(material_list)
+
+    def _blender_set_colors(self, colors_list: ColorsList):
+        if  not len(colors_list) == 1 or not isinstance(colors_list[0], UniformColors):
+            raise NotImplementedError("Multiple materials, non-uniform colors or textures are not supported "
+                                      "in parametric primitives, consider creating a primitive through Mesh for that")
+        super()._blender_set_colors(colors_list)
 
 
 class EllipsoidNURBS(ParametricPrimitive):
@@ -386,7 +393,7 @@ class EllipsoidNURBS(ParametricPrimitive):
         Args:
             radius (float): radius of a primitive in [0, inf]
             material (Material): Material instance
-            colors (Colors): Colors instance
+            colors (UniformColors): UniformColors instance
             quaternion (Vector4d, optional): rotation applied to the Blender object (default: (1,0,0,0))
             translation (Vector3d, optional): translation applied to the Blender object (default: (0,0,0))
             tag (str): name of the created object in Blender
@@ -423,7 +430,7 @@ class SphereNURBS(EllipsoidNURBS):
         Args:
             radius (float): radius of a primitive in [0, inf]
             material (Material): Material instance
-            colors (Colors): Colors instance
+            colors (UniformColors): UniformColors instance
             quaternion (Vector4d, optional): rotation applied to the Blender object (default: (1,0,0,0))
             translation (Vector3d, optional): translation applied to the Blender object (default: (0,0,0))
             tag (str): name of the created object in Blender
@@ -450,7 +457,7 @@ class CurveBezier(ParametricPrimitive):
             keypoints (np.ndarray): keypoints for the curve
             radius (float): radius of a tube in [0, inf]
             material (Material): Material instance
-            colors (Colors): Colors instance
+            colors (UniformColors): UniformColors instance
             quaternion (Vector4d, optional): rotation applied to the Blender object (default: (1,0,0,0))
             translation (Vector3d, optional): translation applied to the Blender object (default: (0,0,0))
             tag (str): name of the created object in Blender

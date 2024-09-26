@@ -6,6 +6,7 @@ from . import primitives
 from .base import Renderable
 from .mesh import Mesh
 from .pointcloud import PointCloud
+from ..colors import UniformColors
 from ..colors.base import Colors, ColorsList
 from ..internal import Singleton
 from ..internal.types import Vector3d, RotationParams
@@ -79,8 +80,8 @@ class RenderablesCollection(metaclass=Singleton):
             self,
             vertices: np.ndarray,
             faces: np.ndarray,
-            material: MaterialList,
-            colors: ColorsList,
+            material: Union[Material, MaterialList],
+            colors: Union[Colors, ColorsList],
             faces_material: Sequence[Sequence[int]] = None,
             rotation_mode: str = "quaternionWXYZ",
             rotation: RotationParams = (1, 0, 0, 0),
@@ -94,8 +95,8 @@ class RenderablesCollection(metaclass=Singleton):
         Args:
             vertices (np.ndarray): mesh vertices
             faces (np.ndarray): mesh faces
-            material (MaterialList): Material instance or list of Material instances
-            colors (ColorsList): Colors instance or list of Colors instances
+            material (Union[Material, MaterialList]): Material instance or list of Material instances
+            colors (Union[Colors, ColorsList]): Colors instance or list of Colors instances
             faces_material (Sequence[Sequence[int]], optional): for each face, the material index assigned to it
             rotation_mode (str): type of rotation representation.
                 Can be one of the following:
@@ -129,8 +130,8 @@ class RenderablesCollection(metaclass=Singleton):
     def add_cube_mesh(
             self,
             size: float,
-            material: MaterialList,
-            colors: ColorsList,
+            material: Union[Material, MaterialList],
+            colors: Union[Colors, ColorsList],
             faces_material: Sequence[Sequence[int]] = None,
             rotation_mode: str = "quaternionWXYZ",
             rotation: RotationParams = (1, 0, 0, 0),
@@ -142,8 +143,8 @@ class RenderablesCollection(metaclass=Singleton):
 
         Args:
             size (float): size of a primitive in [0, inf]
-            material (MaterialList): Material instance or list of Material instances
-            colors (ColorsList): Colors instance or list of Colors instances
+            material (Union[Material, MaterialList]): Material instance or list of Material instances
+            colors (Union[Colors, ColorsList]): Colors instance or list of Colors instances
             faces_material (Sequence[Sequence[int]], optional): for each face, the material index assigned to it
             rotation_mode (str): type of rotation representation.
                 Can be one of the following:
@@ -177,8 +178,8 @@ class RenderablesCollection(metaclass=Singleton):
     def add_circle_mesh(
             self,
             radius: float,
-            material: Material,
-            colors: Colors,
+            material: Union[Material, MaterialList],
+            colors: Union[Colors, ColorsList],
             faces_material: Sequence[Sequence[int]] = None,
             num_vertices: int = 32,
             fill_type: str = "NGON",
@@ -192,8 +193,8 @@ class RenderablesCollection(metaclass=Singleton):
 
         Args:
             radius (float): radius of a primitive in [0, inf]
-            material (MaterialList): Material instance or list of Material instances
-            colors (ColorsList): Colors instance or list of Colors instances
+            material (Union[Material, MaterialList]): Material instance or list of Material instances
+            colors (Union[Colors, ColorsList]): Colors instance or list of Colors instances
             faces_material (Sequence[Sequence[int]], optional): for each face, the material index assigned to it
             num_vertices (int, optional): number of vertices in primitive in [3, 10000000] (default: 32)
             fill_type (str, optional): fill type, one of [NOTHING, NGON, TRIFAN] (default: NGON)
@@ -230,8 +231,8 @@ class RenderablesCollection(metaclass=Singleton):
             self,
             radius: float,
             height: float,
-            material: Material,
-            colors: Colors,
+            material: Union[Material, MaterialList],
+            colors: Union[Colors, ColorsList],
             faces_material: Sequence[Sequence[int]] = None,
             num_vertices: int = 32,
             fill_type: str = "NGON",
@@ -246,8 +247,8 @@ class RenderablesCollection(metaclass=Singleton):
         Args:
             radius (float): radius of a primitive in [0, inf]
             height (float): height of a primitive in [0, inf]
-            material (MaterialList): Material instance or list of Material instances
-            colors (ColorsList): Colors instance or list of Colors instances
+            material (Union[Material, MaterialList]): Material instance or list of Material instances
+            colors (Union[Colors, ColorsList]): Colors instance or list of Colors instances
             faces_material (Sequence[Sequence[int]], optional): for each face, the material index assigned to it
             num_vertices (int, optional): number of vertices in primitive in [3, 10000000] (default: 32)
             fill_type (str, optional): fill type, one of [NOTHING, NGON, TRIFAN] (default: NGON)
@@ -283,8 +284,8 @@ class RenderablesCollection(metaclass=Singleton):
     def add_plane_mesh(
             self,
             size: float,
-            material: Material,
-            colors: Colors,
+            material: Union[Material, MaterialList],
+            colors: Union[Colors, ColorsList],
             faces_material: Sequence[Sequence[int]] = None,
             shadow_catcher: bool = False,
             rotation_mode: str = "quaternionWXYZ",
@@ -297,8 +298,8 @@ class RenderablesCollection(metaclass=Singleton):
 
         Args:
             size (float): size of a plane in [0, inf]
-            material (MaterialList): Material instance or list of Material instances
-            colors (ColorsList): Colors instance or list of Colors instances
+            material (Union[Material, MaterialList]): Material instance or list of Material instances
+            colors (Union[Colors, ColorsList]): Colors instance or list of Colors instances
             faces_material (Sequence[Sequence[int]], optional): for each face, the material index assigned to it
             shadow_catcher (bool, optional): if True, the plane will act as a shadow catcher (default: False)
             rotation_mode (str): type of rotation representation.
@@ -337,7 +338,7 @@ class RenderablesCollection(metaclass=Singleton):
             self,
             radius: Vector3d,
             material: Material,
-            colors: Colors,
+            colors: UniformColors,
             rotation_mode: str = "quaternionWXYZ",
             rotation: RotationParams = (1, 0, 0, 0),
             translation: Vector3d = (0, 0, 0),
@@ -349,7 +350,7 @@ class RenderablesCollection(metaclass=Singleton):
         Args:
             radius (float): radius of a primitive in [0, inf]
             material (Material): Material instance
-            colors (Colors): Colors instance
+            colors (UniformColors): UniformColors instance
             rotation_mode (str): type of rotation representation.
                 Can be one of the following:
                 - "quaternionWXYZ" - WXYZ quaternion
@@ -382,7 +383,7 @@ class RenderablesCollection(metaclass=Singleton):
             self,
             radius: float,
             material: Material,
-            colors: Colors,
+            colors: UniformColors,
             rotation_mode: str = "quaternionWXYZ",
             rotation: RotationParams = (1, 0, 0, 0),
             translation: Vector3d = (0, 0, 0),
@@ -394,7 +395,7 @@ class RenderablesCollection(metaclass=Singleton):
         Args:
             radius (float): radius of a primitive in [0, inf]
             material (Material): Material instance
-            colors (Colors): Colors instance
+            colors (UniformColors): UniformColors instance
             rotation_mode (str): type of rotation representation.
                 Can be one of the following:
                 - "quaternionWXYZ" - WXYZ quaternion
@@ -428,7 +429,7 @@ class RenderablesCollection(metaclass=Singleton):
             keypoints: np.ndarray,
             radius: float,
             material: Material,
-            colors: Colors,
+            colors: UniformColors,
             rotation_mode: str = "quaternionWXYZ",
             rotation: RotationParams = (1, 0, 0, 0),
             translation: Vector3d = (0, 0, 0),
@@ -442,7 +443,7 @@ class RenderablesCollection(metaclass=Singleton):
             keypoints (np.ndarray): keypoints for the curve
             radius (float): radius of a primitive in [0, inf]
             material (Material): Material instance
-            colors (Colors): Colors instance
+            colors (UniformColors): UniformColors instance
             rotation_mode (str): type of rotation representation.
                 Can be one of the following:
                 - "quaternionWXYZ" - WXYZ quaternion

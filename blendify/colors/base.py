@@ -31,4 +31,4 @@ class Colors(ABC):
         return self._metadata
 
 
-ColorsList = Union[Sequence[Colors], Colors]
+ColorsList = Sequence[Colors]

@@ -1,13 +1,13 @@
+from typing import Sequence
+
 import bmesh
 import bpy
 import numpy as np
-from typing import Sequence
 
 from .base import RenderableObject
 from ..colors import VertexColors, UniformColors
-from ..colors.base import Colors, ColorsList
+from ..colors.base import ColorsList
 from ..colors.texture import VertexUV, FacesUV, UVColors
-from ..materials.base import Material
 
 
 class Mesh(RenderableObject):
@@ -32,8 +32,8 @@ class Mesh(RenderableObject):
         Args:
             vertices (np.ndarray): mesh vertices
             faces (np.ndarray): mesh faces
-            material (MaterialList): Material instance or list of Material instances
-            colors (ColorsList): Colors instance or list of Colors instances
+            material (Union[Material, MaterialList]): Material instance or a list of Material instances
+            colors (Union[Colors, ColorsList]): Colors instance or a list of Colors instances
             quaternion (Vector4d, optional): rotation applied to Blender object (default: (1,0,0,0))
             translation (Vector3d, optional): translation applied to the Blender object (default: (0,0,0))
             tag (str): name of the created object in Blender
@@ -90,12 +90,8 @@ class Mesh(RenderableObject):
         """Remembers current color properties, builds a color node for material, sets color information to mesh
 
         Args:
-            colors (Colors): target colors information
+            colors_list (ColorsList): list of target colors
         """
-
-        if isinstance(colors_list, Colors):
-            colors_list = [colors_list]
-
         for colors in colors_list:
             if isinstance(colors, VertexColors):
                 bpy.context.view_layer.objects.active = self._blender_object

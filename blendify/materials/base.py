@@ -21,7 +21,7 @@ class Material(ABC):
         pass
 
 
-MaterialList = Union[Sequence[Material], Material]
+MaterialList = Sequence[Material]
 
 
 def material_property(name: str):
