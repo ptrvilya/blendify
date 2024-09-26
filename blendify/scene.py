@@ -642,16 +642,3 @@ class Scene(metaclass=Singleton):
                     self.lights.add_area(**light_dict)
                 else:
                     raise NotImplementedError(f"Unsupported light type {light_type}")
-
-    def attach_blend_with_camera(self, path: Union[str, Path]):
-        """Append objects and materials from the existing .blend file to the scene.
-        The only two modalities that can be added to blendify Scene are lights and camera,
-        others (renderable objects, materials, etc.) are only appended.
-        The appended modalities will only be present in the internal Blender structures,
-        but will not be added to the blendify Scene class structure.
-        However, they will appear on rendering and in the exported .blend files
-
-        Args:
-            path: path to the .blend file to append the contents from
-        """
-        self.attach_blend(path, with_camera=True)
