@@ -152,7 +152,7 @@ class PCMeshifier:
             pcd.orient_normals_consistent_tangent_plane(min(len(pc_vertices), 100))
         else:
             pcd.normals = o3d.utility.Vector3dVector(pc_normals)
-        logger.info("Generating mesh from PC with BPA")
+        logger.info("Generating mesh from PC with BPA (if it takes too long, consider adjusting bpa_radius)")
         stime = time.time()
         if self.bpa_radius is None:
             logger.info("bpa_radius is None, running radius estimation")
@@ -233,7 +233,7 @@ class PCMeshifier:
         return pix_xyz
 
     def _generate_texture_block(self, target_texture_coords, mesh_vertices, mesh_faces, uv_map, pc_tree, pc_colors):
-        resolution = (len(target_texture_coords[0]), len(target_texture_coords[1]))
+        resolution = (len(target_texture_coords[1]), len(target_texture_coords[0]))
         pix_xyz = self._get_texture_pixels_position_in_3dworld(target_texture_coords, mesh_vertices, mesh_faces, uv_map)
         # Querying KDTree
         dists, inds = pc_tree.query(pix_xyz, k=self.knn)
@@ -246,7 +246,6 @@ class PCMeshifier:
         w_sum = w.sum(dim=1)
         target_colors = pc_colors[inds.flatten()].reshape(-1, self.knn, 3)
         pix_colors = (target_colors * w[:, :, None]).sum(dim=1) / w_sum[:, None]
-        print(pix_colors.max(), pix_colors.min())
         texture = pix_colors.reshape(resolution + (3,)).clamp(0, 1)
         texture = (texture * 255).cpu().numpy().astype(np.uint8)
         return texture
@@ -286,8 +285,8 @@ class PCMeshifier:
         texture_coords_splits = [torch.split(tc, query_block_size) for tc in texture_coords]
 
         logger.info("Starting texture generation")
-        for tex_ind_x, tex_coords_x in enumerate(texture_coords_splits[0]):
-            for tex_ind_y, tex_coords_y in enumerate(texture_coords_splits[1]):
+        for tex_ind_y, tex_coords_y in enumerate(texture_coords_splits[1]):
+            for tex_ind_x, tex_coords_x in enumerate(texture_coords_splits[0]):
                 logger.info(f"Generating texture block ({tex_ind_x + 1}, {tex_ind_y + 1}) of "
                             f"({len(texture_coords_splits[0])}, {len(texture_coords_splits[1])})")
                 texture_block = self._generate_texture_block([tex_coords_x, tex_coords_y], mesh_vertices_torch,
@@ -307,7 +306,7 @@ class PCMeshifier:
         for texture_block in self.generate_texture_from_pc_block_by_block(o3d_mesh, uv_map, pc_vertices, pc_colors, query_block_size):
             curr_texture_row.append(texture_block)
             curr_row_ind += 1
-            if curr_row_ind == texture_blocks_count[1]:
+            if curr_row_ind == texture_blocks_count[0]:
                 all_texture_rows.append(np.concatenate(curr_texture_row, axis=1))
                 curr_row_ind = 0
                 curr_texture_row = []
