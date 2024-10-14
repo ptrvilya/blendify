@@ -75,6 +75,8 @@ class TextureColors(UVColors):
         blender_image = bpy.data.images.new(name="tex_image", width=texture.shape[1],
                                             height=texture.shape[0])
         last_dim = texture.shape[2]
+        # Flip the data vertically before copying
+        texture = texture[::-1]
         _copy_values_to_image(texture.reshape(-1, last_dim), blender_image.name)
         blender_image.pack()
         self._texture = blender_image
