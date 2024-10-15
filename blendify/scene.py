@@ -88,7 +88,7 @@ class Scene(metaclass=Singleton):
     def set_perspective_camera(
             self, resolution: Vector2di, focal_dist: float = None, fov_x: float = None, fov_y: float = None,
             center: Vector2d = None, near: float = 0.1, far: float = 100., tag: str = 'camera', rotation_mode: str = "quaternionWXYZ",
-            rotation: RotationParams = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0),
+            rotation: RotationParams = None, translation: Vector3d = (0, 0, 0),
             resolution_percentage: int = 100
     ) -> PerspectiveCamera:
         """Set perspective camera in the scene. Replaces the previous scene camera, if it exists.
@@ -131,7 +131,7 @@ class Scene(metaclass=Singleton):
     def set_orthographic_camera(
             self, resolution: Vector2di, ortho_scale: float = 1., near: float = 0.1, far: float = 100.,
             tag: str = 'camera', rotation_mode: str = "quaternionWXYZ",
-            rotation: RotationParams = (1, 0, 0, 0), translation: Vector3d = (0, 0, 0),
+            rotation: RotationParams = None, translation: Vector3d = (0, 0, 0),
             resolution_percentage: int = 100
     ) -> OrthographicCamera:
         """Set orthographic camera in the scene. Replaces the previous scene camera, if it exists

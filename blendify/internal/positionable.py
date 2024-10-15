@@ -17,7 +17,7 @@ class Positionable(ABC):
             tag: str,
             blender_object: BlenderGroup,
             rotation_mode: str = "quaternionWXYZ",
-            rotation: RotationParams = (1, 0, 0, 0),
+            rotation: RotationParams = None,
             translation: Vector3d = (0, 0, 0)
     ):
         """Sets initial position of the Blender object and stores it. Called from child classes
@@ -25,11 +25,13 @@ class Positionable(ABC):
         Args:
             tag (str): name of the object in Blender that was created in child class
             blender_object (bpy.types.Object): instance of Blender Object that is wrapped by the child class
-            quaternion (RotationParams, optional): rotation applied to the Blender object (default: (1,0,0,0))
+            quaternion (RotationParams, optional): rotation applied to the Blender object (default: None (identity))
             translation (Vector3d, optional): translation applied to the Blender object (default: (0,0,0))
         """
         self._blender_object = blender_object
         self._tag = tag
+        self._quaternion = np.array((1, 0, 0, 0), dtype=np.float64)
+        self._translation = np.array((0, 0, 0), dtype=np.float64)
         self.set_position(rotation_mode, rotation, translation)
 
     @property

@@ -79,7 +79,7 @@ class PointCloud(Renderable):
                 (possible values are PLANE, CUBE, SPHERE, default: CUBE)
             particle_emission_strength (int, optional): strength of the emission from each primitive. This is used to
                 increase realism. Values <= 0 turn emission off, values > 0 set the power of emission (default: 1)
-            quaternion (Vector4d, optional): rotation applied to the Blender object (default: (1,0,0,0))
+            quaternion (Vector4d, optional): rotation applied to the Blender object (default: None (identity))
             translation (Vector3d, optional): translation applied to the Blender object (default: (0,0,0))
             tag (str): name of the created collection in Blender
         """

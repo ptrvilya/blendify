@@ -27,7 +27,7 @@ class RenderablesCollection(metaclass=Singleton):
             base_primitive: str = "CUBE",
             particle_emission_strength: int = 1,
             rotation_mode: str = "quaternionWXYZ",
-            rotation: RotationParams = (1, 0, 0, 0),
+            rotation: RotationParams = None,
             translation: Vector3d = (0, 0, 0),
             tag: str = None
     ) -> PointCloud:
@@ -84,7 +84,7 @@ class RenderablesCollection(metaclass=Singleton):
             colors: Union[Colors, ColorsList],
             faces_material: Sequence[Sequence[int]] = None,
             rotation_mode: str = "quaternionWXYZ",
-            rotation: RotationParams = (1, 0, 0, 0),
+            rotation: RotationParams = None,
             translation: Vector3d = (0, 0, 0),
             tag: str = None
     ) -> Mesh:
@@ -134,7 +134,7 @@ class RenderablesCollection(metaclass=Singleton):
             colors: Union[Colors, ColorsList],
             faces_material: Sequence[Sequence[int]] = None,
             rotation_mode: str = "quaternionWXYZ",
-            rotation: RotationParams = (1, 0, 0, 0),
+            rotation: RotationParams = None,
             translation: Vector3d = (0, 0, 0),
             tag: str = None
     ) -> primitives.CubeMesh:
@@ -184,7 +184,7 @@ class RenderablesCollection(metaclass=Singleton):
             num_vertices: int = 32,
             fill_type: str = "NGON",
             rotation_mode: str = "quaternionWXYZ",
-            rotation: RotationParams = (1, 0, 0, 0),
+            rotation: RotationParams = None,
             translation: Vector3d = (0, 0, 0),
             tag: str = None
     ) -> primitives.CircleMesh:
@@ -237,7 +237,7 @@ class RenderablesCollection(metaclass=Singleton):
             num_vertices: int = 32,
             fill_type: str = "NGON",
             rotation_mode: str = "quaternionWXYZ",
-            rotation: RotationParams = (1, 0, 0, 0),
+            rotation: RotationParams = None,
             translation: Vector3d = (0, 0, 0),
             tag: str = None
     ) -> primitives.CylinderMesh:
@@ -289,7 +289,7 @@ class RenderablesCollection(metaclass=Singleton):
             faces_material: Sequence[Sequence[int]] = None,
             shadow_catcher: bool = False,
             rotation_mode: str = "quaternionWXYZ",
-            rotation: RotationParams = (1, 0, 0, 0),
+            rotation: RotationParams = None,
             translation: Vector3d = (0, 0, 0),
             tag: str = None
     ) -> primitives.PlaneMesh:
@@ -340,7 +340,7 @@ class RenderablesCollection(metaclass=Singleton):
             material: Material,
             colors: UniformColors,
             rotation_mode: str = "quaternionWXYZ",
-            rotation: RotationParams = (1, 0, 0, 0),
+            rotation: RotationParams = None,
             translation: Vector3d = (0, 0, 0),
             tag: str = None
     ) -> primitives.EllipsoidNURBS:
@@ -385,7 +385,7 @@ class RenderablesCollection(metaclass=Singleton):
             material: Material,
             colors: UniformColors,
             rotation_mode: str = "quaternionWXYZ",
-            rotation: RotationParams = (1, 0, 0, 0),
+            rotation: RotationParams = None,
             translation: Vector3d = (0, 0, 0),
             tag: str = None
     ) -> primitives.SphereNURBS:
@@ -431,7 +431,7 @@ class RenderablesCollection(metaclass=Singleton):
             material: Material,
             colors: UniformColors,
             rotation_mode: str = "quaternionWXYZ",
-            rotation: RotationParams = (1, 0, 0, 0),
+            rotation: RotationParams = None,
             translation: Vector3d = (0, 0, 0),
             tag: str = None
     ) -> primitives.CurveBezier:

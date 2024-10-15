@@ -80,7 +80,7 @@ class LightsCollection(metaclass=Singleton):
             color: Vector3d = (1.0, 1.0, 1.0),
             cast_shadows=True,
             rotation_mode: str = "quaternionWXYZ",
-            rotation: RotationParams = (1, 0, 0, 0),
+            rotation: RotationParams = None,
             translation: Vector3d = (0, 0, 0),
             tag=None
     ) -> PointLight:
@@ -129,7 +129,7 @@ class LightsCollection(metaclass=Singleton):
             color: Vector3d = (1.0, 1.0, 1.0),
             cast_shadows=True,
             rotation_mode: str = "quaternionWXYZ",
-            rotation: RotationParams = (1, 0, 0, 0),
+            rotation: RotationParams = None,
             translation: Vector3d = (0, 0, 0),
             tag=None
     ) -> DirectionalLight:
@@ -180,7 +180,7 @@ class LightsCollection(metaclass=Singleton):
             color: Vector3d = (1.0, 1.0, 1.0),
             cast_shadows=True,
             rotation_mode: str = "quaternionWXYZ",
-            rotation: RotationParams = (1, 0, 0, 0),
+            rotation: RotationParams = None,
             translation: Vector3d = (0, 0, 0),
             tag=None
     ) -> SpotLight:
@@ -232,7 +232,7 @@ class LightsCollection(metaclass=Singleton):
             color: Vector3d = (1.0, 1.0, 1.0),
             cast_shadows=True,
             rotation_mode: str = "quaternionWXYZ",
-            rotation: RotationParams = (1, 0, 0, 0),
+            rotation: RotationParams = None,
             translation: Vector3d = (0, 0, 0),
             tag: str = None
     ) -> AreaLight:

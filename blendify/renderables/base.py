@@ -30,7 +30,7 @@ class Renderable(Positionable):
             material (Union[Material, MaterialList]): Material instance or a list of Material instances
             colors (Union[Colors, ColorsList]): Colors instance or a list of Colors instances
             blender_object (bpy.types.Object): instance of Blender Object that is wrapped by the class
-            quaternion (Vector4d, optional): rotation applied to the Blender object (default: (1,0,0,0))
+            quaternion (Vector4d, optional): rotation applied to the Blender object (default: None (identity))
             translation (Vector3d, optional): translation applied to the Blender object (default: (0,0,0))
             tag (str): name of the created object in Blender
         """
@@ -71,7 +71,7 @@ class RenderableObject(Renderable):
             material (MaterialList): Material instance or a list of Material instances
             colors (ColorsList): Colors instance or a list of Colors instances
             blender_object (bpy.types.Object): instance of Blender Object that is wrapped by the class
-            quaternion (Vector4d, optional): rotation applied to the Blender object (default: (1,0,0,0))
+            quaternion (Vector4d, optional): rotation applied to the Blender object (default: None (identity))
             translation (Vector3d, optional): translation applied to the Blender object (default: (0,0,0))
             tag (str): name of the created object in Blender
         """

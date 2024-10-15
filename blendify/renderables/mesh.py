@@ -34,7 +34,7 @@ class Mesh(RenderableObject):
             faces (np.ndarray): mesh faces
             material (Union[Material, MaterialList]): Material instance or a list of Material instances
             colors (Union[Colors, ColorsList]): Colors instance or a list of Colors instances
-            quaternion (Vector4d, optional): rotation applied to Blender object (default: (1,0,0,0))
+            quaternion (Vector4d, optional): rotation applied to Blender object (default: None (identity))
             translation (Vector3d, optional): translation applied to the Blender object (default: (0,0,0))
             tag (str): name of the created object in Blender
             faces_material (np.ndarray, optional): for each face, the material index assigned to it
