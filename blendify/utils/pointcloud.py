@@ -135,8 +135,6 @@ class PCMeshifier:
         self.gpu_index = gpu_index
         self.bpa_radius = bpa_radius
         self.device = torch.device(f"cuda:{gpu_index}" if gpu_index is not None else "cpu")
-        logging.basicConfig(level=logging.INFO)
-        logger = logging.getLogger("pointcloud:meshify_pc")
 
     def o3d_mesh_from_pc(self, pc_vertices: np.ndarray, pc_colors: np.ndarray = None, pc_normals: np.ndarray = None):
         pcd = o3d.geometry.PointCloud()
