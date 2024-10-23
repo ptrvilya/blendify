@@ -10,9 +10,8 @@ from blendify.colors import UniformColors, VertexUV, FileTextureColors
 from blendify.materials import  PrincipledBSDFMaterial
 
 
-def main(args):
-    # Load mesh
-    donut_file = BytesIO(ZipFile("./assets/donut.obj.zip").read("donut.obj"))
+def load_donut_mesh(path_to_zip: str):
+    donut_file = BytesIO(ZipFile(path_to_zip).read("donut.obj"))
     mesh = trimesh.load(donut_file, "obj", process=False)
     # Create accumulated mesh
     offset_v, offset_f = 0, 0
@@ -38,6 +37,13 @@ def main(args):
     faces = np.concatenate(faces)
     faces_material = np.concatenate(faces_material)
     uv_map = np.concatenate(uv_map)
+
+    return vertices, faces, uv_map, faces_material
+
+
+def main(args):
+    # Load mesh
+    vertices, faces, uv_map, faces_material = load_donut_mesh("./assets/donut.obj.zip")
     # Create per-part materials and colors
     # Base and Icing have uniform colors
     material_base = PrincipledBSDFMaterial(roughness=0.4, clearcoat_roughness=0.03)
