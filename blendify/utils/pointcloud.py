@@ -234,7 +234,7 @@ class PCMeshifier:
         resolution = (len(target_texture_coords[1]), len(target_texture_coords[0]))
         pix_xyz = self._get_texture_pixels_position_in_3dworld(target_texture_coords, mesh_vertices, mesh_faces, uv_map)
         # Querying KDTree
-        dists, inds = pc_tree.query(pix_xyz, k=self.knn)
+        dists, inds = pc_tree.query(pix_xyz.cpu().numpy(), k=self.knn)
         dists = torch.tensor(dists, dtype=self.torch_dtype, device=self.device)
         inds = torch.tensor(inds, dtype=torch.long, device=self.device)
         # Computing weighed sum
