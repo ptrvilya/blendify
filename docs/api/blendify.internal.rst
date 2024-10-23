@@ -1,3 +1,5 @@
+.. _blendify.internal:
+
 blendify.internal package
 =========================
 

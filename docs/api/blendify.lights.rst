@@ -1,3 +1,5 @@
+.. _blendify.lights:
+
 blendify.lights package
 =======================
 

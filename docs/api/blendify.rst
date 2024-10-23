@@ -1,3 +1,5 @@
+.. _blendify:
+
 blendify package
 ================
 
@@ -17,14 +19,6 @@ Subpackages
 
 Submodules
 ----------
-
-blendify.cameras module
------------------------
-
-.. automodule:: blendify.cameras
-   :members:
-   :undoc-members:
-   :show-inheritance:
 
 blendify.scene module
 ---------------------

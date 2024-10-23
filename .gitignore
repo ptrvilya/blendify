@@ -3,6 +3,6 @@
 *.pyc
 .data/
 build/
+_build/
 dist/
 blendify.egg-info/
-

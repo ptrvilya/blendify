@@ -19,9 +19,6 @@ class MeshPrimitive(RenderableObject):
 
     Properties:
         emit_shadow (bool, optional): control whether the object will emit shadow from any light source in the scene.
-
-    Methods:
-        set_smooth(bool): turns smooth shading on and off based on the bool argument.
     """
     @abstractmethod
     def __init__(
@@ -269,13 +266,14 @@ class CylinderMesh(MeshPrimitive):
 class PlaneMesh(MeshPrimitive):
     """Plane mesh primitive, supports only uniform coloring (UniformColors)
 
-        Properties:
-            emit_shadow (bool, optional): control whether the object will emit shadow from any light source in the scene.
-            shadow_catcher (bool, optional): control whether the object will act as a shadow catcher (i.e. object
-                geometry is hidden from the render, only casted shadows are rendered).
-        Methods:
-            set_smooth(bool): turns smooth shading on and off based on the bool argument.
-        """
+    Properties:
+        emit_shadow (bool, optional): control whether the object will emit shadow from any light source in the scene.
+        shadow_catcher (bool, optional): control whether the object will act as a shadow catcher (i.e. object
+        geometry is hidden from the render, only casted shadows are rendered).
+
+    Methods:
+        set_smooth(bool): turns smooth shading on and off based on the bool argument.
+    """
 
     def __init__(
             self,

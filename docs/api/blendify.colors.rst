@@ -1,3 +1,5 @@
+.. _blendify.colors:
+
 blendify.colors package
 =======================
 

@@ -1,3 +1,5 @@
+.. _blendify.utils:
+
 blendify.utils package
 ======================
 

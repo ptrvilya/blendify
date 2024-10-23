@@ -11,7 +11,7 @@ sys.path.append("..")
 import blendify
 
 project = 'Blendify'
-copyright = '2023, Vladimir Guzov and Ilya Petrov'
+copyright = '2024, Vladimir Guzov and Ilya Petrov'
 author = 'Vladimir Guzov and Ilya Petrov'
 
 version = blendify.__version__
@@ -41,6 +41,11 @@ html_theme = 'furo'
 html_title = "Blendify"
 
 autosectionlabel_prefix_document = True
+
+html_context = {
+   "default_mode": "dark"
+}
+
 
 html_theme_options = {
     "light_css_variables": {

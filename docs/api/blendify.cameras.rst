@@ -1,3 +1,5 @@
+.. _blendify.cameras:
+
 blendify.cameras package
 ========================
 

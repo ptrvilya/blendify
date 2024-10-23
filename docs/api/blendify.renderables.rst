@@ -1,3 +1,5 @@
+.. _blendify.renderables:
+
 blendify.renderables package
 ============================
 
@@ -20,34 +22,10 @@ blendify.renderables.collection module
    :undoc-members:
    :show-inheritance:
 
-blendify.renderables.colors module
-----------------------------------
-
-.. automodule:: blendify.renderables.colors
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-blendify.renderables.materials module
--------------------------------------
-
-.. automodule:: blendify.renderables.materials
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 blendify.renderables.mesh module
 --------------------------------
 
 .. automodule:: blendify.renderables.mesh
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-blendify.renderables.pc module
-------------------------------
-
-.. automodule:: blendify.renderables.pc
    :members:
    :undoc-members:
    :show-inheritance:

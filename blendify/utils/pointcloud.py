@@ -350,6 +350,7 @@ def meshify_pc_from_file(pc_filepath, output_dir, subsampled_mesh_faces_count=1_
     """
     Turns pointcloud into a subsampled mesh with texture. Reads pointcloud from a file, writes results to a folder.
         Produces mesh.ply, uv_map.npy and texture.jpg in the target folder
+
     Args:
         pc_filepath: Path to a pointcloud
         output_dir: Path to a directory which will contain the result
