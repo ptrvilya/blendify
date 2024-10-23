@@ -1,6 +1,6 @@
 from pkg_resources import DistributionNotFound, get_distribution
 from setuptools import setup, find_packages
-version = '1.2.3'
+version = '2.0.0'
 
 with open("docs/pip_readme.md", "r") as fi:
     long_description = fi.read()
@@ -31,7 +31,7 @@ for package in possible_opencv_packages:
 requirements = [
     "numpy",
     "scipy",
-    "bpy==3.5.0",
+    "bpy==3.6.0",
     selected_opencv_package
 ]
 

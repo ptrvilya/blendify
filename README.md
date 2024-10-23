@@ -3,7 +3,27 @@
   <img alt="blendify logo" src="./docs/_static/logo/blendify_logo_light_bg.png">
 </picture>
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ptrvilya/blendify/blob/main/examples/ipynb/blendify_colab_demo.ipynb)
+<p align="center">
+    <a href="https://arxiv.org/">
+        <img src="https://img.shields.io/badge/arXiv-0000.00000-b31b1b" alt="Paper PDF">
+    </a>
+    &emsp;
+    <a href="https://colab.research.google.com/github/ptrvilya/blendify/blob/main/examples/ipynb/blendify_colab_demo.ipynb">
+        <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Google Colab">
+    </a>
+    &emsp;  
+    <a href="https://virtualhumans.mpi-inf.mpg.de/blendify/index.html">
+        <img src="https://img.shields.io/badge/Project%20page-0e80c0" alt="Project page"/>
+    </a>
+    &emsp;  
+    <a href="https://pypi.org/project/blendify/">
+        <img src="https://img.shields.io/badge/pypi%20package-2.0-0e80c0" alt="pypi package"/>
+    </a>   
+    &emsp;
+    <a href="https://www.gnu.org/licenses/gpl-3.0.html">
+        <img src="https://img.shields.io/badge/License-GPL%20v3-yellow.svg" alt="The GPL v3 License"/>
+    </a>
+</p>
 
 ## Introduction
 Blendify is a lightweight Python framework that provides a high-level API for creating and rendering scenes with Blender. Developed with a focus on 3D computer vision visualization, Blendify simplifies access to selected Blender functions and objects.
@@ -19,8 +39,9 @@ commonly used routines and functions:
     * advanced shadows with shadow catcher objects;
     * video rendering with smooth camera trajectories;
     * support for common camera models;
-    * import and export of .blend files for deeper integration with Blender.
-
+    * import and export of .blend files for deeper integration with Blender;
+    * per-face definition of materials for meshes;
+    * support for common rotation representations and look-at utility to automatically setup orientation.
 3. **Quick start:** Blendify is easy to get started with and does not require a standalone Blender installation. All you need to do is run `pip install blendify`.
 
 4. **Blendify works in Colab:** check out [our Google Colab demo](https://colab.research.google.com/github/ptrvilya/blendify/blob/main/examples/ipynb/blendify_colab_demo.ipynb)!
@@ -100,6 +121,22 @@ scene.render(filepath="cube.png")
 </table>
 
 
+## Changelog
+The most recent version of blendify is **2.0.0**. The update introduced some breaking changes that are
+summarized alongside the overview of the new features in the [CHANGELOG](CHANGELOG.md) file.
+
+## Citation
+If you use Blendify in your research, please cite:
+```bibtex
+@article{blendify2024,
+  title={blendify - Python rendering framework for Blender},
+  author={Guzov, Vladimir and Petrov, Ilya A and Pons-Moll, Gerard},
+  journal={arXiv preprint arXiv:0000.00000},
+  year={2024}
+}
+```
+
+
 ## Works that use blendify
 * V. Lazova, E. Insafutdinov, G. Pons-Moll: [360-Degree Textures of People in Clothing from a Single Image](https://virtualhumans.mpi-inf.mpg.de/360tex/)
 in 3DV'19
@@ -116,7 +153,9 @@ Blendify is written and maintained by [Vladimir Guzov](https://github.com/vguzov
 
 
 ## Acknowledgments
-We thank Verica Lazova for providing her Blender rendering scripts. 
+We thank Verica Lazova for providing her Blender rendering scripts, 
+[István Sarandi](https://github.com/isarandi) for his suggestions and help in implementing new features, 
+and [Riccardo Marin](https://github.com/riccardomarin) for his helpful suggestions and feedback.
 Our code for processing point clouds is mostly based on the amazing [Blender-Photogrammetry-Importer][BPI] addon.
 
 
