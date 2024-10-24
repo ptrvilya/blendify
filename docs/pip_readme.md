@@ -1,4 +1,4 @@
-![blendify Logo](https://github.com/ptrvilya/blendify/blob/main/.github/blendify_logo_light_bg.png?raw=true)
+![blendify Logo](https://github.com/ptrvilya/blendify/blob/main/docs/_static/logo/blendify_logo_light_bg.png?raw=true)
 
 ## Introduction
 Blendify is a lightweight Python framework that provides a high-level API for creating and rendering scenes with Blender. Developed with a focus on 3D computer vision visualization, Blendify simplifies access to selected Blender functions and objects.
