@@ -74,9 +74,9 @@ summarized alongside the overview of the new features in the [CHANGELOG](https:/
 If you use Blendify in your research, please cite:
 ```bibtex
 @article{blendify2024,
-  title={blendify - Python rendering framework for Blender},
+  title={Blendify -- Python rendering framework for Blender},
   author={Guzov, Vladimir and Petrov, Ilya A and Pons-Moll, Gerard},
-  journal={arXiv preprint arXiv:0000.00000},
+  journal={arXiv preprint arXiv:2410.17858},
   year={2024}
 }
 ```

@@ -4,8 +4,8 @@
 </picture>
 
 <p align="center">
-    <a href="https://arxiv.org/">
-        <img src="https://img.shields.io/badge/arXiv-0000.00000-b31b1b" alt="Paper PDF">
+    <a href="https://arxiv.org/abs/2410.17858">
+        <img src="https://img.shields.io/badge/arXiv-2410.17858-b31b1b" alt="Paper PDF">
     </a>
     &emsp;
     <a href="https://colab.research.google.com/github/ptrvilya/blendify/blob/main/examples/ipynb/blendify_colab_demo.ipynb">
@@ -129,9 +129,9 @@ summarized alongside the overview of the new features in the [CHANGELOG](CHANGEL
 If you use Blendify in your research, please cite:
 ```bibtex
 @article{blendify2024,
-  title={blendify - Python rendering framework for Blender},
+  title={Blendify -- Python rendering framework for Blender},
   author={Guzov, Vladimir and Petrov, Ilya A and Pons-Moll, Gerard},
-  journal={arXiv preprint arXiv:0000.00000},
+  journal={arXiv preprint arXiv:2410.17858},
   year={2024}
 }
 ```
