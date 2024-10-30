@@ -48,19 +48,15 @@ commonly used routines and functions:
 
 ## Installation instructions
 Please note: **Blendify requires Python 3.10**
-### Install from pip
+### Install from pip (minimal package, no extra dependencies)
 ```bash
 pip install blendify
 ```
-### Optional requirements
+### Install the full package with optional requirements
 ```bash
-pip install blendify[utils / examples / docs / all]
+pip install blendify[all]
 ```
-
-Running examples 4 and 5 requires [PyTorch](https://pytorch.org/) with [PyTorch3D](https://github.com/facebookresearch/pytorch3d/blob/main/INSTALL.md).
-
-Running example 5 requires SMPL model files, please refer to the installation instructions in 
-[README](https://github.com/vchoutas/smplx#downloading-the-model).
+The full package includes extra dependencies for utilities, examples and documentation.
 
 
 ## Quick Start
@@ -85,6 +81,11 @@ scene.render(filepath="cube.png")
 
 
 ## Examples
+**Note:** Examples require extra dependencies, make sure to install them with `pip install blendify[examples]`
+
+Running examples 4 and 5 requires [PyTorch](https://pytorch.org/), running example 5 also requires SMPL model files, please refer to the installation instructions in 
+SMPL-X [README](https://github.com/vchoutas/smplx#downloading-the-model).
+
 <table>
   <tr align="center">
     <td><a href="examples/01_cornell_box.py"><b>Cornell Box</b></a></td>
