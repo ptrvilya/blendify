@@ -34,7 +34,20 @@ class Mesh(RenderableObject):
             faces (np.ndarray): mesh faces
             material (Union[Material, MaterialList]): Material instance or a list of Material instances
             colors (Union[Colors, ColorsList]): Colors instance or a list of Colors instances
-            quaternion (Vector4d, optional): rotation applied to Blender object (default: None (identity))
+            rotation_mode (str): type of rotation representation (default: "quaternionWXYZ").
+                Can be one of the following:
+                - "quaternionWXYZ" - WXYZ quaternion
+                - "quaternionXYZW" - XYZW quaternion
+                - "rotvec" - axis-angle representation of rotation
+                - "rotmat" - 3x3 rotation matrix
+                - "euler<mode>" - Euler angles with the specified order of rotation, e.g. XYZ, xyz, ZXZ, etc. Refer to scipy.spatial.transform.Rotation.from_euler for details.
+                - "look_at" - look at rotation, the rotation is defined by the point to look at and, optional, the rotation around the forward direction vector (a single float value in tuple or list)
+            rotation (RotationParams): rotation parameters according to the rotation_mode (default: None (identity))
+                - for "quaternionWXYZ" and "quaternionXYZW" - Vec4d
+                - for "rotvec" - Vec3d
+                - for "rotmat" - Mat3x3
+                - for "euler<mode>" - Vec3d
+                - for "look_at" - Vec3d, Positionable or Tuple[Vec3d/Positionable, float], where float is the rotation around the forward direction vector in degrees
             translation (Vector3d, optional): translation applied to the Blender object (default: (0,0,0))
             tag (str): name of the created object in Blender
             faces_material (np.ndarray, optional): for each face, the material index assigned to it
