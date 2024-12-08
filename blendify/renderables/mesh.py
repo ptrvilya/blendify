@@ -140,6 +140,13 @@ class Mesh(RenderableObject):
                 raise NotImplementedError(f"Unknown Colors type {colors.__class__.__name__}")
         super()._blender_set_colors(colors_list)
 
+    def _blender_clear_colors(self):
+        """Clears Blender color node and erases node constructor
+        """
+        for uv_layer in self._blender_mesh.uv_layers.values():
+            self._blender_mesh.uv_layers.remove(uv_layer)
+        super()._blender_clear_colors()
+    
     def update_vertices(
             self,
             vertices: np.ndarray
