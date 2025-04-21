@@ -1,3 +1,6 @@
+# blendify 2.0.1
+This update is a minor release that incorporates a UV map leakage fix ([pull request #11](https://github.com/ptrvilya/blendify/pull/11)) and moves the example 05 assets location.
+
 # blendify 2.0.0
 We are excited to announce the second major release of blendify.
 

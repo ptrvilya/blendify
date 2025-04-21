@@ -1,6 +1,6 @@
 from pkg_resources import DistributionNotFound, get_distribution
 from setuptools import setup, find_packages
-version = '2.0.0'
+version = '2.0.1'
 
 with open("docs/pip_readme.md", "r") as fi:
     long_description = fi.read()

@@ -143,7 +143,7 @@ SMPL-X [README](https://github.com/vchoutas/smplx#downloading-the-model).
 
 
 ## Changelog
-The most recent version of Blendify is **2.0.0**. The update introduced some breaking changes that are
+The most recent version of Blendify is **2.0.1**. The 2.0.0 update introduced some breaking changes that are
 summarized alongside the overview of the new features in the [CHANGELOG](https://github.com/ptrvilya/blendify/blob/main/CHANGELOG.md) file.
 
 ## Citation

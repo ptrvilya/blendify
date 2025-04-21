@@ -1,12 +1,12 @@
 import argparse
 import json
 import os
-from urllib import request
-from loguru import logger
-
 import numpy as np
 import trimesh
-from scipy.spatial.transform import Rotation
+import tempfile
+import zipfile
+from urllib import request
+from loguru import logger
 from videoio import VideoWriter
 
 from blendify import scene
@@ -132,25 +132,27 @@ if __name__ == "__main__":
     arguments = parser.parse_args()
 
 
-    def download(fileurl, filename):
+    def download_zipped(file_url, target_dir):
         progress_report = lambda block_num, block_size, total_size: print(
-            f"Downloading {filename}: {block_num * block_size / 2 ** 20:.2f}/{total_size / 2 ** 20:.2f}MB", end="\r")
-        if not os.path.isfile(filename) or request.urlopen(fileurl).length != os.stat(filename).st_size:
-            request.urlretrieve(fileurl, filename, progress_report)
-            print()
+            f"Downloading data: {block_num * block_size / 2 ** 20:.2f}/{total_size / 2 ** 20:.2f}MB", end="\r")
+        if not os.path.isdir(target_dir):
+            with tempfile.TemporaryDirectory() as tmpdirname:
+                # Download the zipped file to a temporary directory
+                request.urlretrieve(file_url, os.path.join(tmpdirname, "data.zip"), progress_report)
+                print()
+                os.makedirs(target_dir)
+                # Unzip the file to the target directory
+                logger.info("Extracting the data")
+                with zipfile.ZipFile(os.path.join(tmpdirname, "data.zip"), 'r') as zip_ref:
+                    zip_ref.extractall(target_dir)
+        else:
+            logger.info(f"Assets folder {target_dir} exist, skipping download.")
 
 
     # Downloading assets if needed
     if not arguments.skip_download:
-        os.makedirs("assets/05_smpl_movement", exist_ok=True)
-        # The scene mesh was generated from HPS dataset (Etage6 pointcloud) using blendify.utils.pointcloud.meshify_pc_from_file
-        download("https://nextcloud.mpi-klsb.mpg.de/index.php/s/AESiBaXXyagNmrE/download",
-                 "assets/05_smpl_movement/scene_texture.jpg")
-        download("https://nextcloud.mpi-klsb.mpg.de/index.php/s/QCjTsJqSSrNb5nJ/download",
-                 "assets/05_smpl_movement/scene_mesh.ply")
-        download("https://nextcloud.mpi-klsb.mpg.de/index.php/s/dNtecaSTPkYoKey/download",
-                 "assets/05_smpl_movement/scene_face_uvmap.npy")
-        download("https://nextcloud.mpi-klsb.mpg.de/index.php/s/a2SYDcoPc5FoCwe/download",
-                 "assets/05_smpl_movement/animation_data.json")
+        # The scene mesh was generated from HPS dataset (MPI_Etage6 pointcloud) using blendify.utils.pointcloud.meshify_pc_from_file
+        download_zipped("https://github.com/ptrvilya/blendify/releases/download/v2.0.1/05_smpl_movement_assets.zip",
+                 "assets/05_smpl_movement")
 
     main(arguments)
