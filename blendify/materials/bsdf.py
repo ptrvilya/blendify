@@ -12,18 +12,40 @@ class PrincipledBSDFMaterial(Material):
     """
 
     def __init__(
-            self, metallic=0.0, specular=0.3, specular_tint=0.0, roughness=0.4, anisotropic=0.0,
-            anisotropic_rotation=0.0, sheen=0.0, sheen_tint=0.5, clearcoat=0.0, clearcoat_roughness=0.0,
-            ior=1.45, transmission=0.0, transmission_roughness=0.0, emission=(0, 0, 0, 0),
-            emission_strength=0.0, alpha=1.0
+            self, alpha=1.0, anisotropic=0.0, anisotropic_rotation=0.0, coat_ior=0.0, coat_roughness=0.0,
+            coat_tint=(1.0, 1.0, 1.0, 1.0), coat_weight=0.0, diffuse_roughness=0.0, emission_color=(0, 0, 0, 0),
+            emission_strength=0.0, ior=1.45, metallic=0.0, roughness=0.4, sheen_weight=0.0, sheen_roughness=0.5,
+            sheen_tint=(0.5, 0.5, 0.5, 1.0), specular_ior=0.3, specular_tint=(0.0, 0.0, 0.0, 1.0),
+            subsurface_anisotropy=0.0, subsurface_radius=(1.0, 0.2, 1.0), subsurface_scale=0.05, subsurface_weight=0.0,
+            thin_film_ior=1.33, thin_film_thickness=0.0, transmission_weight=0.0,
     ):
         super().__init__()
         self._property2blender_mapping = {
-            "metallic": "Metallic", "specular": "Specular", "specular_tint": "Specular Tint", "roughness": "Roughness",
-            "anisotropic": "Anisotropic", "anisotropic_rotation": "Anisotropic Rotation", "sheen": "Sheen",
-            "sheen_tint": "Sheen Tint", "clearcoat": "Clearcoat", "clearcoat_roughness": "Clearcoat Roughness",
-            "ior": "IOR", "transmission": "Transmission", "transmission_roughness": "Transmission Roughness",
-            "emission": "Emission", "emission_strength": "Emission Strength", "alpha": "Alpha"
+            # alpha
+            "alpha": "Alpha",
+            # anisotropic
+            "anisotropic": "Anisotropic", "anisotropic_rotation": "Anisotropic Rotation",
+            # clearcoat
+            "coat_ior": "Coat IOR", "coat_roughness": "Coat Roughness",
+            "coat_weight": "Coat Weight", "coat_tint": "Coat Tint",
+            # diffuse
+            "diffuse_roughness": "Diffuse Roughness",
+            # emission
+            "emission_color": "Emission Color", "emission_strength": "Emission Strength",
+            # general material
+            "ior": "IOR", "metallic": "Metallic", "roughness": "Roughness",
+            # sheen
+            "sheen_weight": "Sheen Weight", "sheen_roughness": "Sheen Roughness", "sheen_tint": "Sheen Tint",
+            # specular
+            "specular_ior": "Specular IOR Level", "specular_tint": "Specular Tint",
+            # subsurface (random walk)
+            "subsurface_anisotropy": "Subsurface Anisotropy", "subsurface_radius": "Subsurface Radius",
+            "subsurface_scale": "Subsurface Scale", "subsurface_weight": "Subsurface Weight",
+            # thin film
+            "thin_film_ior": "Thin Film IOR", "thin_film_thickness": "Thin Film Thickness",
+            # transmission
+            "transmission_weight": "Transmission Weight",
+
         }
         for argname, argvalue in locals().items():
             if argname in self._property2blender_mapping.keys():
@@ -46,7 +68,7 @@ class PrincipledBSDFMaterial(Material):
         bsdf_node = object_material.node_tree.nodes["Principled BSDF"]
         material_instance = MaterialInstance(blender_material=object_material,
                                              inputs={"Color": bsdf_node.inputs["Base Color"], "Alpha": bsdf_node.inputs["Alpha"],
-                                                     "Emission": bsdf_node.inputs["Emission"],
+                                                     "Emission Color": bsdf_node.inputs["Emission Color"],
                                                      "Emission Strength": bsdf_node.inputs["Emission Strength"]})
 
         # Set material properties
@@ -128,7 +150,7 @@ class PrincipledBSDFWireframeMaterial(WireframeMaterial, PrincipledBSDFMaterial)
             inputs={
                 "Color": bsdf_node.inputs["Base Color"],
                 "Alpha": bsdf_node.inputs["Alpha"],
-                "Emission": bsdf_node.inputs["Emission"],
+                "Emission Color": bsdf_node.inputs["Emission Color"],
                 "Emission Strength": bsdf_node.inputs["Emission Strength"]
             }
         )

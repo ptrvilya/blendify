@@ -46,12 +46,12 @@ def main(args):
     vertices, faces, uv_map, faces_material = load_donut_mesh("./assets/donut.obj.zip")
     # Create per-part materials and colors
     # Base and Icing have uniform colors
-    material_base = PrincipledBSDFMaterial(roughness=0.4, clearcoat_roughness=0.03)
-    material_icing = PrincipledBSDFMaterial(roughness=0.545, clearcoat=0.1, clearcoat_roughness=0.03)
+    material_base = PrincipledBSDFMaterial(roughness=0.4, coat_roughness=0.03)
+    material_icing = PrincipledBSDFMaterial(roughness=0.545, coat_ior=0.1, coat_roughness=0.03)
     colors_base = UniformColors((0.7, 0.4, 0.1))
     colors_icing = UniformColors((0.9, 0.58, 0.72))
     # Sprinkles have texture colors to allow per-sprinkle coloring
-    material_sprinkles = PrincipledBSDFMaterial(roughness=0.894, clearcoat_roughness=0.03)
+    material_sprinkles = PrincipledBSDFMaterial(roughness=0.894, coat_roughness=0.03)
     vertex_uv_map = VertexUV(uv_map)
     colors_sprinkles = FileTextureColors("./assets/donut_sprinkles.png", vertex_uv_map)
     # Add mesh to the scene
