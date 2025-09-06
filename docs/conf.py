@@ -11,7 +11,7 @@ sys.path.append("..")
 import blendify
 
 project = 'Blendify'
-copyright = '2024, Vladimir Guzov and Ilya Petrov'
+copyright = '2025, Vladimir Guzov and Ilya Petrov'
 author = 'Vladimir Guzov and Ilya Petrov'
 
 version = blendify.__version__
