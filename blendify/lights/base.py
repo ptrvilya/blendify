@@ -59,12 +59,12 @@ class Light(Positionable):
         self.blender_light.data.color = val.tolist()
 
     @property
-    def cast_shadows(self) -> bool:
-        return self.blender_light.data.cycles.cast_shadow
+    def use_shadow(self) -> bool:
+        return self.blender_light.data.use_shadow
 
-    @cast_shadows.setter
-    def cast_shadows(self, val: bool):
-        self.blender_light.data.cycles.cast_shadow = val
+    @use_shadow.setter
+    def use_shadow(self, val: bool):
+        self.blender_light.data.use_shadow = val
 
     @property
     def strength(self) -> float:

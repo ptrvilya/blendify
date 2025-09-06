@@ -78,7 +78,7 @@ class LightsCollection(metaclass=Singleton):
             strength: float = 100,
             shadow_soft_size: float = 0.25,
             color: Vector3d = (1.0, 1.0, 1.0),
-            cast_shadows=True,
+            use_shadow=True,
             rotation_mode: str = "quaternionWXYZ",
             rotation: RotationParams = None,
             translation: Vector3d = (0, 0, 0),
@@ -92,7 +92,7 @@ class LightsCollection(metaclass=Singleton):
             shadow_soft_size (float, optional): light size for ray shadow sampling (Raytraced shadows)
                 in [0, inf] (default: 0.25)
             color (Vector3d, optional): color of the light source (default: (1.0, 1.0, 1.0))
-            cast_shadows (bool, optional): whether the light source casts shadows or not (default: True)
+            use_shadow (bool, optional): whether the light source casts shadows or not (default: True)
             rotation_mode (str): type of rotation representation.
                 Can be one of the following:
                 - "quaternionWXYZ" - WXYZ quaternion
@@ -116,7 +116,7 @@ class LightsCollection(metaclass=Singleton):
         """
         tag = self._process_tag(tag, "Point")
         light = PointLight(
-            color=color, strength=strength, shadow_soft_size=shadow_soft_size, cast_shadows=cast_shadows,
+            color=color, strength=strength, shadow_soft_size=shadow_soft_size, use_shadow=use_shadow,
             rotation_mode=rotation_mode, rotation=rotation, translation=translation, tag=tag
         )
         self._lights[tag] = light
@@ -127,7 +127,7 @@ class LightsCollection(metaclass=Singleton):
             strength: float = 10,
             angular_diameter: float = 0.00918043,
             color: Vector3d = (1.0, 1.0, 1.0),
-            cast_shadows=True,
+            use_shadow=True,
             rotation_mode: str = "quaternionWXYZ",
             rotation: RotationParams = None,
             translation: Vector3d = (0, 0, 0),
@@ -140,7 +140,7 @@ class LightsCollection(metaclass=Singleton):
             angular_diameter (float, optional): angular diameter of the Sun as seen from the Earth
                 in [0, 3.14159] (default: 0.00918043)
             color (Vector3d, optional): color of the light source (default: (1.0, 1.0, 1.0))
-            cast_shadows (bool, optional): whether the light source casts shadows or not (default: True)
+            use_shadow (bool, optional): whether the light source casts shadows or not (default: True)
             rotation_mode (str): type of rotation representation.
                 Can be one of the following:
                 - "quaternionWXYZ" - WXYZ quaternion
@@ -165,7 +165,7 @@ class LightsCollection(metaclass=Singleton):
         # angular_diameter: Angular diameter of the Sun as seen from the Earth,  [0, 3.14159]
         tag = self._process_tag(tag, "Sun")
         light = DirectionalLight(
-            color=color, strength=strength, angular_diameter=angular_diameter, cast_shadows=cast_shadows,
+            color=color, strength=strength, angular_diameter=angular_diameter, use_shadow=use_shadow,
             rotation_mode=rotation_mode, rotation=rotation, translation=translation, tag=tag
         )
         self._lights[tag] = light
@@ -178,7 +178,7 @@ class LightsCollection(metaclass=Singleton):
             spot_blend: float = 0.15,
             shadow_soft_size: float = 0.25,
             color: Vector3d = (1.0, 1.0, 1.0),
-            cast_shadows=True,
+            use_shadow=True,
             rotation_mode: str = "quaternionWXYZ",
             rotation: RotationParams = None,
             translation: Vector3d = (0, 0, 0),
@@ -194,7 +194,7 @@ class LightsCollection(metaclass=Singleton):
             shadow_soft_size (float, optional): light size for ray shadow sampling (Raytraced shadows)
                 in [0, inf] (default: 0.25)
             color (Vector3d, optional): color of the light source (default: (1.0, 1.0, 1.0))
-            cast_shadows (bool, optional): whether the light source casts shadows or not (default: True)
+            use_shadow (bool, optional): whether the light source casts shadows or not (default: True)
             rotation_mode (str): type of rotation representation.
                 Can be one of the following:
                 - "quaternionWXYZ" - WXYZ quaternion
@@ -218,7 +218,7 @@ class LightsCollection(metaclass=Singleton):
         """
         tag = self._process_tag(tag, "Spot")
         light = SpotLight(
-            color=color, strength=strength, spot_size=spot_size, spot_blend=spot_blend, cast_shadows=cast_shadows,
+            color=color, strength=strength, spot_size=spot_size, spot_blend=spot_blend, use_shadow=use_shadow,
             shadow_soft_size=shadow_soft_size, rotation_mode=rotation_mode, rotation=rotation, translation=translation, tag=tag
         )
         self._lights[tag] = light
@@ -230,7 +230,7 @@ class LightsCollection(metaclass=Singleton):
             size: Union[float, Vector2d],
             strength: float = 100,
             color: Vector3d = (1.0, 1.0, 1.0),
-            cast_shadows=True,
+            use_shadow=True,
             rotation_mode: str = "quaternionWXYZ",
             rotation: RotationParams = None,
             translation: Vector3d = (0, 0, 0),
@@ -245,7 +245,7 @@ class LightsCollection(metaclass=Singleton):
             strength (float, optional): strength of the light source emitted over the entire area of the light
                 in all directions (default: 100)
             color (Vector3d, optional): color of the light source (default: (1.0, 1.0, 1.0))
-            cast_shadows (bool, optional): whether the light source casts shadows or not (default: True)
+            use_shadow (bool, optional): whether the light source casts shadows or not (default: True)
             rotation_mode (str): type of rotation representation.
                 Can be one of the following:
                 - "quaternionWXYZ" - WXYZ quaternion
@@ -270,22 +270,22 @@ class LightsCollection(metaclass=Singleton):
         tag = self._process_tag(tag, "Area")
         if shape == "square":
             light = SquareAreaLight(
-                size=size, color=color, strength=strength, cast_shadows=cast_shadows,
+                size=size, color=color, strength=strength, use_shadow=use_shadow,
                 rotation_mode=rotation_mode, rotation=rotation, translation=translation, tag=tag
             )
         elif shape == "circle":
             light = CircleAreaLight(
-                size=size, color=color, strength=strength, cast_shadows=cast_shadows,
+                size=size, color=color, strength=strength, use_shadow=use_shadow,
                 rotation_mode=rotation_mode, rotation=rotation, translation=translation, tag=tag
             )
         elif shape == "rectangle":
             light = RectangleAreaLight(
-                size=size, color=color, strength=strength, cast_shadows=cast_shadows,
+                size=size, color=color, strength=strength, use_shadow=use_shadow,
                 rotation_mode=rotation_mode, rotation=rotation, translation=translation, tag=tag
             )
         elif shape == "ellipse":
             light = EllipseAreaLight(
-                size=size, color=color, strength=strength, cast_shadows=cast_shadows,
+                size=size, color=color, strength=strength, use_shadow=use_shadow,
                 rotation_mode=rotation_mode, rotation=rotation, translation=translation, tag=tag
             )
         else:

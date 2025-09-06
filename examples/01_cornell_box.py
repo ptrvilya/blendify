@@ -17,7 +17,7 @@ def main(args):
     )
     # Add light to the scene
     scene.lights.add_area(
-        shape="square", size=5, strength=40, cast_shadows=False,
+        shape="square", size=5, strength=40, use_shadow=False,
         rotation=(-0.707, -0.707, 0.0, 0.0), translation=[-0.278, -1, 0.273]
     )
     # Fill up the scene with objects

@@ -9,7 +9,7 @@ class PointLight(Light):
         shadow_soft_size: float,
         color: Vector3d,
         tag: str,
-        cast_shadows: bool = True,
+        use_shadow: bool = True,
         **kwargs
     ):
         """Creates PointLight light source in Blender
@@ -18,7 +18,7 @@ class PointLight(Light):
             strength (float): strength of the light source emitted over the entire area of the light in all directions
             shadow_soft_size (float): light size for ray shadow sampling (Raytraced shadows) in [0, inf]
             color (Vector3d): color of the light source
-            cast_shadows (bool, optional): whether the light source casts shadows or not (default: True)
+            use_shadow (bool, optional): whether the light source casts shadows or not (default: True)
             rotation_mode (str): type of rotation representation.
                 Can be one of the following:
                 - "quaternionWXYZ" - WXYZ quaternion
@@ -40,7 +40,7 @@ class PointLight(Light):
         super().__init__(**kwargs, tag=tag, blender_object=blender_light)
         self.color = color
         self.strength = strength
-        self.cast_shadows = cast_shadows
+        self.use_shadow = use_shadow
         self.shadow_soft_size = shadow_soft_size
 
     @property
@@ -59,7 +59,7 @@ class DirectionalLight(Light):
         angular_diameter: float,
         color: Vector3d,
         tag: str,
-        cast_shadows: bool = True,
+        use_shadow: bool = True,
         **kwargs
     ):
         """Creates DirectionalLight light source in Blender
@@ -68,7 +68,7 @@ class DirectionalLight(Light):
             strength (float): strength of the light source in watts per meter squared (W/m^2)
             angular_diameter (float): angular diameter of the Sun as seen from the Earth in [0, 3.14159]
             color (Vector3d): color of the light source
-            cast_shadows (bool, optional): whether the light source casts shadows or not (default: True)
+            use_shadow (bool, optional): whether the light source casts shadows or not (default: True)
             rotation_mode (str): type of rotation representation.
                 Can be one of the following:
                 - "quaternionWXYZ" - WXYZ quaternion
@@ -90,7 +90,7 @@ class DirectionalLight(Light):
         super().__init__(**kwargs, tag=tag, blender_object=blender_light)
         self.color = color
         self.strength = strength
-        self.cast_shadows = cast_shadows
+        self.use_shadow = use_shadow
         self.angular_diameter = angular_diameter
 
     @property
@@ -111,7 +111,7 @@ class SpotLight(Light):
         color: Vector3d,
         shadow_soft_size: float,
         tag: str,
-        cast_shadows: bool = True,
+        use_shadow: bool = True,
         **kwargs
     ):
         """Creates SpotLight light source in Blender
@@ -123,7 +123,7 @@ class SpotLight(Light):
             spot_blend (float): the softness of the spotlight edge in [0, 1]
             color (Vector3d): color of the light source
             shadow_soft_size (float): light size for ray shadow sampling (Raytraced shadows) in [0, inf]
-            cast_shadows (bool, optional): whether the light source casts shadows or not (default: True)
+            use_shadow (bool, optional): whether the light source casts shadows or not (default: True)
             rotation_mode (str): type of rotation representation.
                 Can be one of the following:
                 - "quaternionWXYZ" - WXYZ quaternion
@@ -149,7 +149,7 @@ class SpotLight(Light):
         self.strength = strength
         self.spot_size = spot_size
         self.spot_blend = spot_blend
-        self.cast_shadows = cast_shadows
+        self.use_shadow = use_shadow
         self.shadow_soft_size = shadow_soft_size
 
     @property

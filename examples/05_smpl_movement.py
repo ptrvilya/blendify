@@ -75,7 +75,7 @@ def main(args):
     sunlight2 = scene.lights.add_sun(
         strength=3, rotation_mode="euleryz", rotation=(-45, 165)
     )
-    sunlight2.cast_shadows = False
+    sunlight2.use_shadow = False
 
     # Optionally save blend file with the scene at frame 0
     if args.output_blend is not None:

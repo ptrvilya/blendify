@@ -16,7 +16,7 @@ class AreaLight(Light):
             color: Vector3d,
             strength: float,
             tag: str,
-            cast_shadows: bool = True,
+            use_shadow: bool = True,
             **kwargs
     ):
         """Creates AreaLight light source in Blender. The method is called from child classes
@@ -24,7 +24,7 @@ class AreaLight(Light):
         Args:
             color (Vector3d): color of the light source
             strength (float): strength of the light source emitted over the entire area of the light in all directions
-            cast_shadows (bool, optional): whether the light source casts shadows or not (default: True)
+            use_shadow (bool, optional): whether the light source casts shadows or not (default: True)
             rotation_mode (str): type of rotation representation.
                 Can be one of the following:
                 - "quaternionWXYZ" - WXYZ quaternion
@@ -46,7 +46,7 @@ class AreaLight(Light):
         super().__init__(**kwargs, tag=tag, blender_object=blender_light)
         self.color = color
         self.strength = strength
-        self.cast_shadows = cast_shadows
+        self.use_shadow = use_shadow
 
 
 class SquareAreaLight(AreaLight):
@@ -61,7 +61,7 @@ class SquareAreaLight(AreaLight):
             size (float): size of the area of the area light
             strength (float): strength of the light source
             color (Vector3d): color of the light source
-            cast_shadows (bool, optional): whether the light source casts shadows or not (default: True)
+            use_shadow (bool, optional): whether the light source casts shadows or not (default: True)
             rotation_mode (str): type of rotation representation.
                 Can be one of the following:
                 - "quaternionWXYZ" - WXYZ quaternion
@@ -104,7 +104,7 @@ class CircleAreaLight(AreaLight):
             size (float): size of the area of the area light
             strength (float): strength of the light source emitted over the entire area of the light in all directions
             color (Vector3d): color of the light source
-            cast_shadows (bool, optional): whether the light source casts shadows or not (default: True)
+            use_shadow (bool, optional): whether the light source casts shadows or not (default: True)
             rotation_mode (str): type of rotation representation.
                 Can be one of the following:
                 - "quaternionWXYZ" - WXYZ quaternion
@@ -147,7 +147,7 @@ class RectangleAreaLight(AreaLight):
             size (Vector2d): [x, y] sizes of the area light
             strength (float): strength of the light source emitted over the entire area of the light in all directions
             color (Vector3d): color of the light source
-            cast_shadows (bool, optional): whether the light source casts shadows or not (default: True)
+            use_shadow (bool, optional): whether the light source casts shadows or not (default: True)
             rotation_mode (str): type of rotation representation.
                 Can be one of the following:
                 - "quaternionWXYZ" - WXYZ quaternion
@@ -191,7 +191,7 @@ class EllipseAreaLight(AreaLight):
             size (Vector2d): [x, y] sizes of the area light
             strength (float): strength of the light source emitted over the entire area of the light in all directions
             color (Vector3d): color of the light source
-            cast_shadows (bool, optional): whether the light source casts shadows or not (default: True)
+            use_shadow (bool, optional): whether the light source casts shadows or not (default: True)
             rotation_mode (str): type of rotation representation.
                 Can be one of the following:
                 - "quaternionWXYZ" - WXYZ quaternion
