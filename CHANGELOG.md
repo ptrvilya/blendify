@@ -1,3 +1,16 @@
+# blendify 2.1.0
+We are excited to bring the support to the latest Blender LTS version to blendify.
+
+- Updated the code to rely on `Blender 4.5.2 LTS` and `Python 3.11`;
+- Switched build logic to use `pyproject.toml` instead of `setup.py`;
+- Internal: added force exit logic using `atexit` to circumvent Blender's bug with hanging process during memory cleanup on exit;
+
+### Breaking changes
+several changes were required to match the updated Blender API:
+- Lights: renamed `cast_shadows` to `use_shadow`;
+- Materials: renamed material properties to match the updated Blender API (Clear Coat -> Coat IOR, Specular -> Specualr IOR Level, etc.).
+
+
 # blendify 2.0.1
 This update is a minor release that incorporates a UV map leakage fix ([pull request #11](https://github.com/ptrvilya/blendify/pull/11)) and moves the example 05 assets location.
 
