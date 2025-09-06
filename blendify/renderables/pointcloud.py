@@ -501,10 +501,10 @@ class PointCloud(Renderable):
                             warnings.warn("This material does not support transparency; alpha color channel is ignored")
 
                     if self.particle_emission_strength > 0:
-                        if 'Emission' in material_instance.inputs:
+                        if 'Emission Color' in material_instance.inputs:
                             blender_material.node_tree.links.new(
                                 colors_node.outputs["Color"],
-                                material_instance.inputs["Emission"],
+                                material_instance.inputs["Emission Color"],
                             )
                             material_instance.inputs["Emission Strength"].default_value = self.particle_emission_strength
                         else:

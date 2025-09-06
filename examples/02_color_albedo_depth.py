@@ -15,7 +15,7 @@ def main(args):
     mesh = trimesh.load("./assets/knot.ply", process=False)
     vertices, faces, uv = np.array(mesh.vertices), np.array(mesh.faces), np.array(mesh.visual.uv)
     # Add mesh with uniform color to the scene
-    material = PrincipledBSDFMaterial()
+    material = PrincipledBSDFMaterial(roughness=1.0)
     colors = UniformColors((0.3, 0, 0.9))
     mesh = scene.renderables.add_mesh(vertices, faces, material=material, colors=colors)
     # Translate the mesh to better fit the camera frame

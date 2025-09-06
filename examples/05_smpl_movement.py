@@ -52,7 +52,7 @@ def main(args):
     smpl_colors = UniformColors((0.3, 0.3, 0.3))
     # Material and Colors for background scene mesh
     scene_mesh_material = PrincipledBSDFMaterial()
-    scene_mesh_material.specular = 1.0
+    scene_mesh_material.specular_ior = 1.0
     scene_mesh_material.roughness = 1.0
     scene_mesh_colors = FileTextureColors(texture_path, FacesUV(uv_map))
 

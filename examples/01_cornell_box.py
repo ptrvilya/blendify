@@ -23,15 +23,14 @@ def main(args):
     # Fill up the scene with objects
     # Add Sphere 1
     sphere_1_material = PrincipledBSDFMaterial(
-        specular=0.5,
-        sheen=0.0,
-        sheen_tint=0.4,
+        specular_ior=0.5,
+        sheen_weight=0.0,
+        sheen_roughness=0.4,
         ior=1.46,
-        transmission=1.0,
-        transmission_roughness=0.0,
+        transmission_weight=1.0,
         alpha=0.7,
-        clearcoat=1.0,
-        clearcoat_roughness=0.0,
+        coat_ior=1.0,
+        coat_roughness=0.0,
     )
     sphere_1_color = UniformColors((1.0, 153/255, 102/255))
     sphere_1 = scene.renderables.add_sphere_nurbs(
@@ -40,11 +39,11 @@ def main(args):
     # Add Sphere 2
     sphere_2_material = PrincipledBSDFMaterial(
         metallic=1.0,
-        specular=0.5,
+        specular_ior=0.5,
         roughness=0.07,
-        sheen_tint=0.4,
-        clearcoat=0.2,
-        clearcoat_roughness=0.4
+        sheen_roughness=0.4,
+        coat_ior=0.2,
+        coat_roughness=0.4
     )
     sphere_2_color = UniformColors((1.0, 1.0, 1.0))
     sphere_2 = scene.renderables.add_sphere_nurbs(
@@ -61,11 +60,11 @@ def main(args):
     # Add Circle
     circle_material = PrincipledBSDFMaterial(
         metallic=1.0,
-        specular=0.5,
+        specular_ior=0.5,
         roughness=0.05,
-        sheen_tint=0.8,
-        clearcoat=0.8,
-        clearcoat_roughness=0.1
+        sheen_roughness=0.8,
+        coat_ior=0.8,
+        coat_roughness=0.1
     )
     circle_color = UniformColors((1.0, 1.0, 1.0))
     circle = scene.renderables.add_circle_mesh(
@@ -73,7 +72,7 @@ def main(args):
         rotation=[0.720, 0.262, 0.604, -0.220], translation=[-0.43, 0.32, 0.18]
     )
     # Render the scene
-    scene.render(filepath=args.path, use_gpu=not args.cpu, samples=args.n_samples)
+    scene.render(filepath=args.path, use_gpu=not args.cpu, samples=args.n_samples, use_denoiser=True)
     # Optionally save blend file with the scene
     if args.output_blend is not None:
         scene.export(args.output_blend)
