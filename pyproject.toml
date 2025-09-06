@@ -1,0 +1,77 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "blendify"
+version = "2.1.0"
+description = "Python rendering framework for Blender"
+authors = [
+    { name = "Vladimir Guzov", email = "vguzov@mpi-inf.mpg.de" },
+    { name = "Ilya Petrov", email = "ptrvilya@gmail.com" }
+]
+readme = "docs/pip_readme.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.11,<3.12"
+dependencies = [
+    "numpy",
+    "scipy",
+    "bpy==4.5.2",
+    "opencv-python-headless"
+]
+keywords = ["rendering", "pointcloud", "blender", "mesh"]
+classifiers = [
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
+    "Natural Language :: English",
+    "Operating System :: Unix",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3"
+]
+
+[project.urls]
+Homepage = "https://github.com/ptrvilya/blendify"
+
+[tool.setuptools.packages.find]
+where = ["."]
+
+[project.optional-dependencies]
+docs = [
+    "sphinx",
+    "myst_parser",
+    "furo"
+]
+utils = [
+    "loguru",       # Utils: logging
+    "scikit-learn", # Utils: KNN search
+    "open3d",       # Utils: normals estimation, mesh reconstruction
+    "smplx",        # Utils: smpl wrapper
+    "torch"         # Utils: point cloud normals, texture generation
+]
+examples = [
+    "loguru",       # Utils: logging
+    "scikit-learn", # Utils: KNN search
+    "open3d",       # Utils: normals estimation, mesh reconstruction
+    "smplx",        # Utils: smpl wrapper
+    "torch",        # Utils: point cloud normals, texture generation
+    "videoio",      # Examples 4,5,6
+    "scikit-image", # Example 3
+    "trimesh"       # Examples 2,3,4,5,7,8
+]
+all = [
+    "numpy",
+    "scipy",
+    "bpy==4.5.2",
+    "opencv-python-headless",
+    "loguru",       # Utils: logging
+    "scikit-learn", # Utils: KNN search
+    "open3d",       # Utils: normals estimation, mesh reconstruction
+    "smplx",        # Utils: smpl wrapper
+    "torch",        # Utils: point cloud normals, texture generation
+    "videoio",      # Examples 4,5,6
+    "scikit-image", # Example 3
+    "trimesh",      # Examples 2,3,4,5,7,8
+    "sphinx",       # Documentation
+    "myst_parser",  # Documentation
+    "furo"          # Documentation
+]
