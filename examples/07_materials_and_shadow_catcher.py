@@ -54,7 +54,7 @@ def main(args):
     # Set lights
     scene.lights.set_background_light(0.03)
     scene.lights.add_point(
-        strength=600, shadow_soft_size=1.0, translation=(4, 6, 5), cast_shadows=False
+        strength=600, shadow_soft_size=1.0, translation=(4, 6, 5), use_shadow=False
     )
     scene.lights.add_spot(
         strength=250, spot_size=np.deg2rad(47.6), spot_blend=0.458,

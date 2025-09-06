@@ -115,7 +115,7 @@ def parse_light_from_blendfile(obj: bpy.types.Object):
     light_dict = {
         "strength": obj.data.energy,
         "color": np.array(obj.data.color),
-        "cast_shadows": obj.data.cycles.cast_shadow,
+        "use_shadow": obj.data.use_shadow,
         "rotation": quaternion,
         "translation": translation,
         "tag": obj.name
