@@ -12,11 +12,11 @@ from blendify.materials import  PrincipledBSDFMaterial
 
 def load_donut_mesh(path_to_zip: str):
     donut_file = BytesIO(ZipFile(path_to_zip).read("donut.obj"))
-    mesh = trimesh.load(donut_file, "obj", process=False)
+    mesh = trimesh.load(donut_file, "obj", process=False, group_material=True, mantain_order=True)
     # Create accumulated mesh
     offset_v, offset_f = 0, 0
     vertices, faces, uv_map, faces_material = [], [], [], []
-    for obj_ind, obj_key in enumerate(["donut_base", "donut_icing", "donut_sprinkles"]):
+    for obj_ind, obj_key in enumerate(mesh.geometry.keys()):
         # Select object from the TriMesh scene
         obj_vertices, obj_faces = mesh.geometry[obj_key].vertices, mesh.geometry[obj_key].faces
         # Accumulate vertices and faces
@@ -58,8 +58,8 @@ def main(args):
     mesh_plastic = scene.renderables.add_mesh(
         vertices, faces,
         faces_material=faces_material,
-        material=[material_base, material_icing, material_sprinkles],
-        colors=[colors_base, colors_icing, colors_sprinkles]
+        material=[material_sprinkles, material_icing, material_base],
+        colors=[colors_sprinkles, colors_icing, colors_base]
     )
     mesh_plastic.set_smooth(True)
     # Set camera
