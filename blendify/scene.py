@@ -18,6 +18,7 @@ from .cameras.base import Camera
 from .internal import Singleton
 from .internal.io import catch_stdout
 from .internal.types import Vector2d, Vector2di, Vector3d, Vector4d, RotationParams
+from .internal.execution_decorator import safe_exit
 from .internal import parser
 from .lights import LightsCollection
 from .renderables import RenderablesCollection
@@ -205,6 +206,7 @@ class Scene(metaclass=Singleton):
         """
         return cv2.cvtColor(cv2.imread(path, cv2.IMREAD_UNCHANGED), cv2.COLOR_BGRA2RGBA)
 
+    @safe_exit
     def render(
             self, filepath: Union[str, Path] = None, use_gpu: bool = True, samples: int = 128,
             save_depth: bool = False, save_albedo: bool = False, verbose: bool = False,
@@ -389,6 +391,7 @@ class Scene(metaclass=Singleton):
                     shutil.move(temp_filepath + f".albedo.{self._frame_number:04d}.png", os.path.splitext(filepath)[0] + ".albedo.png")
                     output_albedo.file_slots[0].path =  filename + ".albedo."
 
+    @safe_exit
     def preview(self, filepath: Union[str, Path] = None, save_depth: bool = False, save_albedo: bool = False, verbose: bool = False, fast: bool = False):
         """Renders a scene using Blender's OpenGL renderer. Linux and MacOS Only.
 
@@ -529,6 +532,7 @@ class Scene(metaclass=Singleton):
         return False
 
     @staticmethod
+    @safe_exit
     def export(path: Union[str, Path], include_file_textures: bool = True, verbose: bool = False):
         """Export the current scene to the .blend file
 
@@ -548,6 +552,7 @@ class Scene(metaclass=Singleton):
                 bpy.ops.file.pack_all()
             bpy.ops.wm.save_as_mainfile(filepath=path)
 
+    @safe_exit
     def attach_blend(self, path: Union[str, Path], with_camera: bool = False):
         """Append objects and materials from the existing .blend file to the scene.
         The only two modalities that can be added to blendify Scene are lights and optionally camera,
