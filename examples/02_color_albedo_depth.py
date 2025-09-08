@@ -15,17 +15,27 @@ def main(args):
     mesh = trimesh.load("./assets/knot.ply", process=False)
     vertices, faces, uv = np.array(mesh.vertices), np.array(mesh.faces), np.array(mesh.visual.uv)
     # Add mesh with uniform color to the scene
-    material = PrincipledBSDFMaterial(roughness=1.0)
+    material = PrincipledBSDFMaterial()
     colors = UniformColors((0.3, 0, 0.9))
     mesh = scene.renderables.add_mesh(vertices, faces, material=material, colors=colors)
     # Translate the mesh to better fit the camera frame
     mesh.translation = mesh.translation + np.array([1.2, 0, -4.5])
     # Add light to the scene
     light = scene.lights.add_sun(strength=3.5)
-    # Render the scene
+    # Render the albedo separately
+    # Due to changes in Blender 4.* we need to explicitly set roughness to 1.0
+    # in order to get pure albedo without specular reflections
+    material_albedo = PrincipledBSDFMaterial(roughness=1.0)
+    mesh.update_material(material_albedo)
     scene.render(
         filepath=args.path, use_gpu=not args.cpu, samples=args.n_samples, aa_filter_width=0,
-        save_depth=True, save_albedo=True
+        save_depth=False, save_albedo=True
+    )
+    # Render the scene restoring the original material
+    mesh.update_material(material)
+    scene.render(
+        filepath=args.path, use_gpu=not args.cpu, samples=args.n_samples, aa_filter_width=0,
+        save_depth=True, save_albedo=False
     )
     # Optionally save blend file with the scene
     if args.output_blend is not None:
