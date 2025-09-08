@@ -215,8 +215,8 @@ class Scene(metaclass=Singleton):
         """Start the Blender rendering process
 
         Automatically detects if shadow catcher objects are present in the scene by checking is_shadow_catcher property
-        of Blender objects. For rendering with shadow catchers background is made white, because since Blender 3.0
-        shadow catcher rendering pass is made to be multiplied with the background.
+        of Blender objects. For rendering with shadow catchers background is kept transparent, because Blender 4
+        brought back the ability to render with transparent background and shadow catchers.
 
         Args:
             filepath (Union[str, Path]): path to the image (PNG) to render to, returns the image as numpy array if None
@@ -259,8 +259,6 @@ class Scene(metaclass=Singleton):
             scene.render.filepath = str(basepath)
 
             bpy.context.scene.camera = self.camera.blender_camera
-            # bpy.context.object.data.dof.focus_object = object
-            # input("Scene has been built. Press any key to start rendering")
 
             # Setup denoising
             if use_denoiser:
@@ -284,26 +282,9 @@ class Scene(metaclass=Singleton):
                 scene_node_tree.nodes.remove(n)
             render_layer = scene_node_tree.nodes.new(type="CompositorNodeRLayers")
 
-            # check if we have shadow catchers
-            use_shadow_catcher = False
-            for obj in bpy.data.objects:
-                if obj.type != "LIGHT" and obj.is_shadow_catcher:
-                    use_shadow_catcher = True
-                    break
-
             # create output node
-            if use_shadow_catcher:
-                bpy.context.view_layer.cycles.use_pass_shadow_catcher = True
-                alpha_over = scene_node_tree.nodes.new(type="CompositorNodeAlphaOver")
-                scene_node_tree.links.new(render_layer.outputs['Shadow Catcher'], alpha_over.inputs[1])
-                scene_node_tree.links.new(render_layer.outputs['Image'], alpha_over.inputs[2])
-
-                output_image = scene_node_tree.nodes.new(type="CompositorNodeOutputFile")
-                scene_node_tree.links.new(alpha_over.outputs['Image'], output_image.inputs['Image'])
-            else:
-                bpy.context.view_layer.cycles.use_pass_shadow_catcher = False
-                output_image = scene_node_tree.nodes.new(type="CompositorNodeOutputFile")
-                scene_node_tree.links.new(render_layer.outputs['Image'], output_image.inputs['Image'])
+            output_image = scene_node_tree.nodes.new(type="CompositorNodeOutputFile")
+            scene_node_tree.links.new(render_layer.outputs['Image'], output_image.inputs['Image'])
 
             if save_depth:
                 output_depth = scene_node_tree.nodes.new(type="CompositorNodeOutputFile")
