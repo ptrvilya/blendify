@@ -3,6 +3,7 @@ We are excited to bring the support to the latest Blender LTS version to blendif
 
 - Updated the code to rely on `Blender 4.5.2 LTS` and `Python 3.11`;
 - Switched build logic to use `pyproject.toml` instead of `setup.py`;
+- Internal: updated material cleaning to unlink materials from objects to ensure proper cleanup;
 - Internal: added force exit logic using `atexit` to circumvent Blender's bug with hanging process during memory cleanup on exit;
 
 ### Breaking changes

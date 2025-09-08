@@ -173,14 +173,16 @@ class RenderableObject(Renderable):
         """Clears Blender material node and nodes connected to it
         """
         if self._material_instances is not None:
+            # Unlink materials from object
             self._blender_object.active_material = None
+            if hasattr(self._blender_object.data, "materials"):
+                self._blender_object.data.materials.clear()
             for material_instance in self._material_instances:
                 material_nodes = material_instance.blender_material.node_tree.nodes
                 blender_material = material_instance.blender_material
                 for material_node in material_nodes:
                     blender_material.node_tree.nodes.remove(material_node)
-                blender_material.user_clear()
-                bpy.data.materials.remove(blender_material)
+                bpy.data.batch_remove([blender_material])
             self._material_instances = None
 
     # ================================================ END OF MATERIAL =================================================
