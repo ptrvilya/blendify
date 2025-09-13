@@ -74,7 +74,7 @@ pip install blendify
 pip install blendify[all]
 ```
 The full package includes extra dependencies for utilities, examples and documentation.
-
+To install older versions of blendify (with Blender < 4.0) add `--find-links https://download.blender.org/pypi/bpy/`.
 
 ## Quick Start
 ```python
@@ -144,7 +144,7 @@ SMPL-X [README](https://github.com/vchoutas/smplx#downloading-the-model).
 
 ## Changelog
 The most recent version of blendify is **2.1.0**. 
-The 2.1.0 update introduces support for Blender 4.5.2 LTS, which in turn required some breaking changes that are
+The 2.1.0 update introduces support for Blender 4.5 LTS, which in turn required some breaking changes that are
 summarized in the [CHANGELOG](https://github.com/ptrvilya/blendify/blob/main/CHANGELOG.md) file.
 
 ## Citation
