@@ -16,7 +16,7 @@ requires-python = ">=3.11,<3.12"
 dependencies = [
     "numpy",
     "scipy",
-    "bpy==4.5.2",
+    "bpy>4.5,<4.6",
     "opencv-python-headless"
 ]
 keywords = ["rendering", "pointcloud", "blender", "mesh"]
