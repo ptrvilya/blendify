@@ -47,7 +47,8 @@ commonly used routines and functions:
 4. **Blendify works in Colab:** check out [our Google Colab demo](https://colab.research.google.com/github/ptrvilya/blendify/blob/main/examples/ipynb/blendify_colab_demo.ipynb)!
 
 ## Installation instructions
-Please note: **Blendify requires Python 3.11**
+Please note: **Blendify requires Python 3.11** and **Blender 4.5 LTS**.
+To install older versions of blendify (with Blender < 4.0) add `--find-links https://download.blender.org/pypi/bpy/`.
 ### Install from pip (minimal package, no extra dependencies)
 ```bash
 pip install blendify
