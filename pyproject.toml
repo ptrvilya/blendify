@@ -33,6 +33,7 @@ Homepage = "https://github.com/ptrvilya/blendify"
 
 [tool.setuptools.packages.find]
 where = ["."]
+include = ["blendify*"]
 
 [project.optional-dependencies]
 docs = [
