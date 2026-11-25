@@ -6,6 +6,14 @@ blendify.internal package
 Submodules
 ----------
 
+blendify.internal.execution\_decorator module
+---------------------------------------------
+
+.. automodule:: blendify.internal.execution_decorator
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
 blendify.internal.io module
 ---------------------------
 

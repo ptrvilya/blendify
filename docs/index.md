@@ -65,6 +65,8 @@ The following example shows the simplicity of visualizing with Blendify in compa
 ```
 
 ## Installation instructions
+Please note: **Blendify requires Python 3.13** and **Blender 5.2 LTS**.
+To install older versions of blendify (with Blender < 4.0) add `--find-links https://download.blender.org/pypi/bpy/`.
 ### Install from pip (minimal package, no extra dependencies)
 ```bash
 pip install blendify
@@ -74,7 +76,6 @@ pip install blendify
 pip install blendify[all]
 ```
 The full package includes extra dependencies for utilities, examples and documentation.
-To install older versions of blendify (with Blender < 4.0) add `--find-links https://download.blender.org/pypi/bpy/`.
 
 ## Quick Start
 ```python
@@ -97,7 +98,7 @@ scene.render(filepath="cube.png")
 ```
 
 ## Feature walkthrough
-Walkthrough of Blendify features with code and commentaries can be found [here](https://virtualhumans.mpi-inf.mpg.de/blendify/walkthrough.html).
+Walkthrough of Blendify features with code and commentaries can be found [here](https://ptrvilya.github.io/blendify/walkthrough.html).
 
 
 ## Examples
@@ -143,8 +144,8 @@ SMPL-X [README](https://github.com/vchoutas/smplx#downloading-the-model).
 
 
 ## Changelog
-The most recent version of blendify is **2.1.0**. 
-The 2.1.0 update introduces support for Blender 4.5 LTS, which in turn required some breaking changes that are
+The most recent version of blendify is **2.2.0**. 
+The 2.2.0 update introduces support for Blender 5.2 LTS and Python 3.13, the changes are
 summarized in the [CHANGELOG](https://github.com/ptrvilya/blendify/blob/main/CHANGELOG.md) file.
 
 ## Citation
@@ -169,7 +170,7 @@ in 3DV'19
 Modeling Human Pose Manifolds with Neural Distance Fields](https://virtualhumans.mpi-inf.mpg.de/posendf/), in ECCV'22
 * **I. Petrov**, R. Marin, J. Chibane, G. Pons-Moll: [Object pop-up: Can we infer 3D objects and their poses from human interactions alone?](https://virtualhumans.mpi-inf.mpg.de/object_popup/), in CVPR'23
 * **I. Petrov**, R. Marin, J. Chibane, G. Pons-Moll: [TriDi: Trilateral Diffusion of 3D Humans, Objects, and Interactions](https://virtualhumans.mpi-inf.mpg.de/tridi/), in ICCV'25
-* **I. Petrov**, **V. Guzov**, R. Marin, E. Aksan, X. Chen, D. Cremers, T. Beeler, G. Pons-Moll: [ECHO: Ego-Centric modeling of Human-Object interactions](https://arxiv.org/abs/2508.21556), in arXiv'25
+* **I. Petrov**, **V. Guzov**, R. Marin, E. Aksan, X. Chen, D. Cremers, T. Beeler, G. Pons-Moll: [ECHO: Ego-Centric modeling of Human-Object interactions](https://arxiv.org/abs/2508.21556), in ECCV'26
 
 ## Contributors
 Blendify is written and maintained by [Vladimir Guzov](https://github.com/vguzov) and [Ilya Petrov](https://github.com/ptrvilya).

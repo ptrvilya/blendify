@@ -1,3 +1,18 @@
+# blendify 2.2.0
+This update brings the support for the latest Blender LTS version.
+
+- Updated the code to rely on `Blender 5.2 LTS` and `Python 3.13`;
+- Removed the `opencv-python-headless` dependency, rendered images and depth maps are now read with `bpy`;
+- Fix: `Scene.preview()` with the `eevee` engine, which was broken on `Blender 4.5`;
+- Fix: `Scene.render(use_gpu=False)` now switches back to CPU after a GPU render;
+- Fix: `blendify.utils.pointcloud` can be imported without `torch`, `open3d`, `loguru` and `scikit-image`, they are now imported only by the functions that use them;
+- Package: added `trimesh` and `scikit-image` to the `utils` extra;
+- Internal: updated the compositor setup to match the new Blender API, removed deprecated `use_nodes` calls.
+
+### Breaking changes
+- `Python 3.13` is now required, as `bpy 5.2` is only available for this version.
+
+
 # blendify 2.1.0
 We are excited to bring the support to the latest Blender LTS version to blendify.
 

@@ -12,12 +12,12 @@
         <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Google Colab">
     </a>
     &emsp;  
-    <a href="https://virtualhumans.mpi-inf.mpg.de/blendify/index.html">
+    <a href="https://ptrvilya.github.io/blendify/index.html">
         <img src="https://img.shields.io/badge/Project%20page-0e80c0" alt="Project page"/>
     </a>
     &emsp;  
     <a href="https://pypi.org/project/blendify/">
-        <img src="https://img.shields.io/badge/pypi%20package-2.1-0e80c0" alt="pypi package"/>
+        <img src="https://img.shields.io/badge/pypi%20package-2.2-0e80c0" alt="pypi package"/>
     </a>   
     &emsp;
     <a href="https://www.gnu.org/licenses/gpl-3.0.html">
@@ -47,7 +47,7 @@ commonly used routines and functions:
 4. **Blendify works in Colab:** check out [our Google Colab demo](https://colab.research.google.com/github/ptrvilya/blendify/blob/main/examples/ipynb/blendify_colab_demo.ipynb)!
 
 ## Installation instructions
-Please note: **Blendify requires Python 3.11** and **Blender 4.5 LTS**.
+Please note: **Blendify requires Python 3.13** and **Blender 5.2 LTS**.
 To install older versions of blendify (with Blender < 4.0) add `--find-links https://download.blender.org/pypi/bpy/`.
 ### Install from pip (minimal package, no extra dependencies)
 ```bash
@@ -124,8 +124,8 @@ SMPL-X [README](https://github.com/vchoutas/smplx#downloading-the-model).
 
 
 ## Changelog
-The most recent version of blendify is **2.1.0**. 
-The 2.1.0 update introduces support for Blender 4.5.2 LTS, which in turn required some breaking changes that are
+The most recent version of blendify is **2.2.0**. 
+The 2.2.0 update introduces support for Blender 5.2 LTS and Python 3.13, the changes are
 summarized in the [CHANGELOG](CHANGELOG.md) file.
 
 ## Citation
@@ -151,7 +151,7 @@ in 3DV'19
 Modeling Human Pose Manifolds with Neural Distance Fields](https://virtualhumans.mpi-inf.mpg.de/posendf/), in ECCV'22
 * **I. Petrov**, R. Marin, J. Chibane, G. Pons-Moll: [Object pop-up: Can we infer 3D objects and their poses from human interactions alone?](https://virtualhumans.mpi-inf.mpg.de/object_popup/), in CVPR'23
 * **I. Petrov**, R. Marin, J. Chibane, G. Pons-Moll: [TriDi: Trilateral Diffusion of 3D Humans, Objects, and Interactions](https://virtualhumans.mpi-inf.mpg.de/tridi/), in ICCV'25
-* **I. Petrov**, **V. Guzov**, R. Marin, E. Aksan, X. Chen, D. Cremers, T. Beeler, G. Pons-Moll: [ECHO: Ego-Centric modeling of Human-Object interactions](https://arxiv.org/abs/2508.21556), in arXiv'25
+* **I. Petrov**, **V. Guzov**, R. Marin, E. Aksan, X. Chen, D. Cremers, T. Beeler, G. Pons-Moll: [ECHO: Ego-Centric modeling of Human-Object interactions](https://arxiv.org/abs/2508.21556), in ECCV'26
 
 
 ## Contributors

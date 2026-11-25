@@ -27,7 +27,7 @@ import trimesh
 
 from blendify import scene
 from blendify.colors import UniformColors, VertexUV, FileTextureColors, VertexColors
-from blendify.materials import PrincipledBSDFMaterial, MetalMaterial, \ 
+from blendify.materials import PrincipledBSDFMaterial, MetalMaterial, \
     PlasticMaterial, PrincipledBSDFWireframeMaterial
 
 %matplotlib inline
@@ -40,9 +40,10 @@ def load_donut_mesh(path_to_zip: str):
     offset_v, offset_f = 0, 0
     vertices, faces, uv_map, faces_material = [], [], [], []
     vertices_count = {}
-    for obj_ind, obj_key in enumerate(["donut_base", "donut_icing", "donut_sprinkles"]):
-        # Select object from the TriMesh scene
-        obj_vertices, obj_faces = mesh.geometry[obj_key].vertices, mesh.geometry[obj_key].faces
+    # trimesh does not keep the names of the objects, so we order them by the number of faces
+    objects = sorted(mesh.geometry.values(), key=lambda obj: len(obj.faces))
+    for obj_ind, (obj_key, obj) in enumerate(zip(["donut_base", "donut_icing", "donut_sprinkles"], objects)):
+        obj_vertices, obj_faces = obj.vertices, obj.faces
         vertices_count[obj_key] = len(obj_vertices)
         # Accumulate vertices and faces
         vertices.append(np.asarray(obj_vertices))
@@ -50,9 +51,9 @@ def load_donut_mesh(path_to_zip: str):
         # Accumulate face indexes for per-face materials
         faces_material.append(np.full(len(obj_faces), fill_value=obj_ind, dtype=int))
         # Accumulate UV map
-        visual_kind = mesh.geometry[obj_key].visual.kind
+        visual_kind = obj.visual.kind
         if visual_kind is not None and visual_kind == "texture":
-            uv_map.append(mesh.geometry[obj_key].visual.uv)
+            uv_map.append(obj.visual.uv)
         else:
             uv_map.append(np.zeros((len(obj_vertices), 2), dtype=np.float32))
         # Accumulate offsets for vertices and faces
@@ -78,14 +79,14 @@ To define the assignment of materials we use `faces_material` array that stores 
 ```python
 # Create per-part materials and colors
 # Base and Icing have uniform colors
-material_base = PrincipledBSDFMaterial(roughness=0.4, clearcoat_roughness=0.03)
-material_icing = PrincipledBSDFMaterial(roughness=0.545, clearcoat=0.1, clearcoat_roughness=0.03)
+material_base = PrincipledBSDFMaterial(roughness=0.4, coat_roughness=0.03)
+material_icing = PrincipledBSDFMaterial(roughness=0.545, coat_weight=0.1, coat_roughness=0.03)
 colors_base = UniformColors((0.7, 0.4, 0.1))
 colors_icing = UniformColors((0.9, 0.58, 0.72))
 # Sprinkles have texture colors to allow per-sprinkle coloring
-material_sprinkles = PrincipledBSDFMaterial(roughness=0.894, clearcoat_roughness=0.03)
+material_sprinkles = PrincipledBSDFMaterial(roughness=0.894, coat_roughness=0.03)
 vertex_uv_map = VertexUV(uv_map)
-colors_sprinkles = FileTextureColors("../assets/donut_sprinkles.png", vertex_uv_map)
+colors_sprinkles = FileTextureColors("examples/assets/donut_sprinkles.png", vertex_uv_map)
 # Add mesh to the scene
 donut_mesh = scene.renderables.add_mesh(
     vertices, faces,
