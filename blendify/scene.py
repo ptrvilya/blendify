@@ -58,7 +58,7 @@ class Scene(metaclass=Singleton):
     def _load_empty_scene():
         """Resets the scene to the empty state"""
         bpy.ops.wm.read_homefile(use_empty=True)
-        bpy.ops.outliner.orphans_purge()
+        bpy.data.orphans_purge()
 
     def _reset_scene(self):
         """Resets the scene to the empty state"""
@@ -347,6 +347,9 @@ class Scene(metaclass=Singleton):
                 # Optionally, list the devices before rendering
                 # for dev in devices:
                 #     print(f"ID:{dev.id} Name:{dev.name} Type:{dev.type} Use:{dev.use}")
+            else:
+                for scene in bpy.data.scenes:
+                    scene.cycles.device = 'CPU'
 
             # Render
             bpy.context.scene.frame_current = self._frame_number

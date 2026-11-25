@@ -1,15 +1,15 @@
-from typing import Union
+from __future__ import annotations
 
-import numpy as np
-import trimesh
-import torch
-import open3d as o3d
-from loguru import logger
-from scipy.spatial import KDTree
-import logging
 import time
 from pathlib import Path
-from skimage.io import imsave
+from typing import Union, TYPE_CHECKING
+
+import numpy as np
+from scipy.spatial import KDTree
+
+if TYPE_CHECKING:
+    import open3d as o3d
+    import trimesh
 
 from ..internal.types import Vector3d, Vector4d
 
@@ -122,11 +122,12 @@ def approximate_colors_from_camera(
 
 
 class PCMeshifier:
-    torch_dtype = torch.float32
     np_dtype = np.float64
 
     def __init__(self, subsampled_mesh_faces_count=1_000_000, texture_resolution=(30_000, 30_000), pc_subsample=None,
             max_query_size=2_000, knn=3, gpu_index=None, bpa_radius=None):
+        import torch
+
         self.subsampled_mesh_faces_count = subsampled_mesh_faces_count
         self.texture_resolution = np.asarray(texture_resolution)
         self.pc_subsample = pc_subsample
@@ -134,9 +135,13 @@ class PCMeshifier:
         self.knn = knn
         self.gpu_index = gpu_index
         self.bpa_radius = bpa_radius
+        self.torch_dtype = torch.float32
         self.device = torch.device(f"cuda:{gpu_index}" if gpu_index is not None else "cpu")
 
     def o3d_mesh_from_pc(self, pc_vertices: np.ndarray, pc_colors: np.ndarray = None, pc_normals: np.ndarray = None):
+        import open3d as o3d
+        from loguru import logger
+
         pcd = o3d.geometry.PointCloud()
         pcd.points = o3d.utility.Vector3dVector(pc_vertices)
         if pc_colors is not None:
@@ -167,6 +172,8 @@ class PCMeshifier:
         return bpa_mesh
 
     def o3d_decimate_mesh(self, o3d_mesh: o3d.geometry.TriangleMesh):
+        from loguru import logger
+
         logger.info(f"Performing mesh decimation (to {self.subsampled_mesh_faces_count} faces)")
         stime = time.time()
         dec_mesh = o3d_mesh.simplify_quadric_decimation(self.subsampled_mesh_faces_count)
@@ -185,6 +192,8 @@ class PCMeshifier:
             o3d_mesh (o3d.geometry.TriangleMesh): mesh to generate UV map for
 
         """
+        from loguru import logger
+
         logger.info("Generating UV map")
         mesh_faces = np.asarray(o3d_mesh.triangles)
 
@@ -207,6 +216,8 @@ class PCMeshifier:
         return faces_uv
 
     def _get_texture_pixels_position_in_3dworld(self, target_texture_coords, mesh_vertices, mesh_faces, uv_map):
+        import torch
+
         texture_coords_grid = torch.stack([x.reshape(-1) for x in torch.meshgrid(*target_texture_coords, indexing='xy')],
                                           dim=1)  # N,2
         faces_count = len(mesh_faces)
@@ -231,6 +242,8 @@ class PCMeshifier:
         return pix_xyz
 
     def _generate_texture_block(self, target_texture_coords, mesh_vertices, mesh_faces, uv_map, pc_tree, pc_colors):
+        import torch
+
         resolution = (len(target_texture_coords[1]), len(target_texture_coords[0]))
         pix_xyz = self._get_texture_pixels_position_in_3dworld(target_texture_coords, mesh_vertices, mesh_faces, uv_map)
         # Querying KDTree
@@ -251,6 +264,9 @@ class PCMeshifier:
     def generate_texture_from_pc_block_by_block(self, o3d_mesh: o3d.geometry.TriangleMesh, uv_map: np.ndarray, pc_vertices: np.ndarray,
             pc_colors: np.ndarray,
             query_block_size: int = 2000):
+
+        import torch
+        from loguru import logger
 
         if self.pc_subsample is not None and self.pc_subsample < len(pc_vertices):
             logger.info(f"Subsampling the cloud to {self.pc_subsample} pts ({self.pc_subsample / len(pc_vertices) * 100:.2f}%)")
@@ -363,6 +379,8 @@ def meshify_pc_from_file(pc_filepath, output_dir, subsampled_mesh_faces_count=1_
         bpa_radius (float, optional): radius in ball pivoting algorithm for mesh reconstruction.
             If None, radius will be estimated automatically based on PC density
     """
+    import open3d as o3d
+    from skimage.io import imsave
 
     pcd = o3d.io.read_point_cloud(pc_filepath)
     pc_vertices = np.asarray(pcd.points)

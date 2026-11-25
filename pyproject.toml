@@ -46,7 +46,9 @@ utils = [
     "scikit-learn",     # Utils: KNN search
     "open3d",           # Utils: normals estimation, mesh reconstruction
     "smplx",            # Utils: smpl wrapper
-    "torch"             # Utils: point cloud normals, texture generation
+    "torch",            # Utils: point cloud normals, texture generation
+    "trimesh",          # Utils: mesh type for normals estimation
+    "scikit-image"      # Utils: texture saving
 ]
 examples = [
     "loguru",           # Utils: logging
