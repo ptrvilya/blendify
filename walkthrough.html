@@ -1,16 +1,16 @@
 <!doctype html>
 <html class="no-js" lang="en" data-content_root="./">
-  <head><meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <head><meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="blendify" href="api/modules.html" /><link rel="prev" title="Introduction" href="index.html" />
-        <link rel="prefetch" href="_static/logo/blendify_logo_small.png" as="image" />
-        <link rel="prefetch" href="_static/logo/blendify_logo_small.png" as="image" />
+<link rel="index" title="Index" href="genindex.html"><link rel="search" title="Search" href="search.html"><link rel="next" title="blendify" href="api/modules.html"><link rel="prev" title="Introduction" href="index.html">
+        <link rel="prefetch" href="_static/logo/blendify_logo_small.png" as="image">
+        <link rel="prefetch" href="_static/logo/blendify_logo_small.png" as="image">
 
-    <!-- Generated with Sphinx 8.2.3 and Furo 2025.07.19 -->
+    <!-- Generated with Sphinx 9.2.0 and Furo 2025.12.19 -->
         <title>Feature walkthrough - Blendify</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=d111a655" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=25af2a20" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=8dab3a3b" />
     
     
@@ -26,16 +26,16 @@
   }
   @media not print {
     body[data-theme="dark"] {
-      --color-code-background: #2b2b2b;
-  --color-code-foreground: #f8f8f2;
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
   --color-brand-primary: #CAFD6C;
   --color-brand-content: #95FE6A;
   
     }
     @media (prefers-color-scheme: dark) {
       body:not([data-theme="light"]) {
-        --color-code-background: #2b2b2b;
-  --color-code-foreground: #f8f8f2;
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
   --color-brand-primary: #CAFD6C;
   --color-brand-content: #95FE6A;
   
@@ -152,14 +152,10 @@
   </symbol>
 </svg>
 
-<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
-<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
-<label class="overlay sidebar-overlay" for="__navigation">
-  <div class="visually-hidden">Hide navigation sidebar</div>
-</label>
-<label class="overlay toc-overlay" for="__toc">
-  <div class="visually-hidden">Hide table of contents sidebar</div>
-</label>
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle site navigation sidebar">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc" aria-label="Toggle table of contents sidebar">
+<label class="overlay sidebar-overlay" for="__navigation"></label>
+<label class="overlay toc-overlay" for="__toc"></label>
 
 <a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
 
@@ -169,8 +165,7 @@
   <header class="mobile-header">
     <div class="header-left">
       <label class="nav-overlay-icon" for="__navigation">
-        <div class="visually-hidden">Toggle site navigation sidebar</div>
-        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+        <span class="icon"><svg><use href="#svg-menu"></use></svg></span>
       </label>
     </div>
     <div class="header-center">
@@ -178,8 +173,7 @@
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
-        <button class="theme-toggle">
-          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+        <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
           <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
           <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
           <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
@@ -187,8 +181,7 @@
         </button>
       </div>
       <label class="toc-overlay-icon toc-header-icon" for="__toc">
-        <div class="visually-hidden">Toggle table of contents sidebar</div>
-        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+        <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
       </label>
     </div>
   </header>
@@ -229,8 +222,8 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
 <ul>
-<li class="toctree-l1 has-children"><a class="reference internal" href="api/modules.html">blendify</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of blendify</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2 has-children"><a class="reference internal" href="api/blendify.html">blendify package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of blendify package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="api/modules.html">blendify</a><input aria-label="Toggle navigation of blendify" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="api/blendify.html">blendify package</a><input aria-label="Toggle navigation of blendify package" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="api/blendify.cameras.html">blendify.cameras package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/blendify.colors.html">blendify.colors package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="api/blendify.internal.html">blendify.internal package</a></li>
@@ -268,8 +261,7 @@
   </a>
 </div>
 <div class="theme-toggle-container theme-toggle-content">
-            <button class="theme-toggle">
-              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+            <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
               <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
               <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
               <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
@@ -277,8 +269,7 @@
             </button>
           </div>
           <label class="toc-overlay-icon toc-content-icon" for="__toc">
-            <div class="visually-hidden">Toggle table of contents sidebar</div>
-            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+            <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
           </label>
         </div>
         <article role="main" id="furo-main-content">
@@ -307,22 +298,23 @@ allow recovering of the original parts.</p>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">blendify</span><span class="w"> </span><span class="kn">import</span> <span class="n">scene</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">blendify.colors</span><span class="w"> </span><span class="kn">import</span> <span class="n">UniformColors</span><span class="p">,</span> <span class="n">VertexUV</span><span class="p">,</span> <span class="n">FileTextureColors</span><span class="p">,</span> <span class="n">VertexColors</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">blendify.materials</span><span class="w"> </span><span class="kn">import</span> <span class="n">PrincipledBSDFMaterial</span><span class="p">,</span> <span class="n">MetalMaterial</span><span class="p">,</span> \ 
+<span class="kn">from</span><span class="w"> </span><span class="nn">blendify.materials</span><span class="w"> </span><span class="kn">import</span> <span class="n">PrincipledBSDFMaterial</span><span class="p">,</span> <span class="n">MetalMaterial</span><span class="p">,</span> \
     <span class="n">PlasticMaterial</span><span class="p">,</span> <span class="n">PrincipledBSDFWireframeMaterial</span>
 
 <span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">load_donut_mesh</span><span class="p">(</span><span class="n">path_to_zip</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-    <span class="n">donut_file</span> <span class="o">=</span> <span class="n">BytesIO</span><span class="p">(</span><span class="n">ZipFile</span><span class="p">(</span><span class="n">path_to_zip</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s2">&quot;donut.obj&quot;</span><span class="p">))</span>
-    <span class="n">mesh</span> <span class="o">=</span> <span class="n">trimesh</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">donut_file</span><span class="p">,</span> <span class="s2">&quot;obj&quot;</span><span class="p">,</span> <span class="n">process</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">donut_file</span> <span class="o">=</span> <span class="n">BytesIO</span><span class="p">(</span><span class="n">ZipFile</span><span class="p">(</span><span class="n">path_to_zip</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s2">"donut.obj"</span><span class="p">))</span>
+    <span class="n">mesh</span> <span class="o">=</span> <span class="n">trimesh</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">donut_file</span><span class="p">,</span> <span class="s2">"obj"</span><span class="p">,</span> <span class="n">process</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="c1"># Create accumulated mesh</span>
     <span class="n">offset_v</span><span class="p">,</span> <span class="n">offset_f</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
     <span class="n">vertices</span><span class="p">,</span> <span class="n">faces</span><span class="p">,</span> <span class="n">uv_map</span><span class="p">,</span> <span class="n">faces_material</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[],</span> <span class="p">[],</span> <span class="p">[]</span>
     <span class="n">vertices_count</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="k">for</span> <span class="n">obj_ind</span><span class="p">,</span> <span class="n">obj_key</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">([</span><span class="s2">&quot;donut_base&quot;</span><span class="p">,</span> <span class="s2">&quot;donut_icing&quot;</span><span class="p">,</span> <span class="s2">&quot;donut_sprinkles&quot;</span><span class="p">]):</span>
-        <span class="c1"># Select object from the TriMesh scene</span>
-        <span class="n">obj_vertices</span><span class="p">,</span> <span class="n">obj_faces</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">geometry</span><span class="p">[</span><span class="n">obj_key</span><span class="p">]</span><span class="o">.</span><span class="n">vertices</span><span class="p">,</span> <span class="n">mesh</span><span class="o">.</span><span class="n">geometry</span><span class="p">[</span><span class="n">obj_key</span><span class="p">]</span><span class="o">.</span><span class="n">faces</span>
+    <span class="c1"># trimesh does not keep the names of the objects, so we order them by the number of faces</span>
+    <span class="n">objects</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">mesh</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">obj</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">faces</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">obj_ind</span><span class="p">,</span> <span class="p">(</span><span class="n">obj_key</span><span class="p">,</span> <span class="n">obj</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">([</span><span class="s2">"donut_base"</span><span class="p">,</span> <span class="s2">"donut_icing"</span><span class="p">,</span> <span class="s2">"donut_sprinkles"</span><span class="p">],</span> <span class="n">objects</span><span class="p">)):</span>
+        <span class="n">obj_vertices</span><span class="p">,</span> <span class="n">obj_faces</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">vertices</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">faces</span>
         <span class="n">vertices_count</span><span class="p">[</span><span class="n">obj_key</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">obj_vertices</span><span class="p">)</span>
         <span class="c1"># Accumulate vertices and faces</span>
         <span class="n">vertices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">obj_vertices</span><span class="p">))</span>
@@ -330,9 +322,9 @@ allow recovering of the original parts.</p>
         <span class="c1"># Accumulate face indexes for per-face materials</span>
         <span class="n">faces_material</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">obj_faces</span><span class="p">),</span> <span class="n">fill_value</span><span class="o">=</span><span class="n">obj_ind</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">))</span>
         <span class="c1"># Accumulate UV map</span>
-        <span class="n">visual_kind</span> <span class="o">=</span> <span class="n">mesh</span><span class="o">.</span><span class="n">geometry</span><span class="p">[</span><span class="n">obj_key</span><span class="p">]</span><span class="o">.</span><span class="n">visual</span><span class="o">.</span><span class="n">kind</span>
-        <span class="k">if</span> <span class="n">visual_kind</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">visual_kind</span> <span class="o">==</span> <span class="s2">&quot;texture&quot;</span><span class="p">:</span>
-            <span class="n">uv_map</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mesh</span><span class="o">.</span><span class="n">geometry</span><span class="p">[</span><span class="n">obj_key</span><span class="p">]</span><span class="o">.</span><span class="n">visual</span><span class="o">.</span><span class="n">uv</span><span class="p">)</span>
+        <span class="n">visual_kind</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">visual</span><span class="o">.</span><span class="n">kind</span>
+        <span class="k">if</span> <span class="n">visual_kind</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">visual_kind</span> <span class="o">==</span> <span class="s2">"texture"</span><span class="p">:</span>
+            <span class="n">uv_map</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">visual</span><span class="o">.</span><span class="n">uv</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">uv_map</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">obj_vertices</span><span class="p">),</span> <span class="mi">2</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">))</span>
         <span class="c1"># Accumulate offsets for vertices and faces</span>
@@ -347,7 +339,7 @@ allow recovering of the original parts.</p>
 </pre></div>
 </div>
 </details>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">vertices</span><span class="p">,</span> <span class="n">faces</span><span class="p">,</span> <span class="n">uv_map</span><span class="p">,</span> <span class="n">faces_material</span><span class="p">,</span> <span class="n">vertices_count</span> <span class="o">=</span> <span class="n">load_donut_mesh</span><span class="p">(</span><span class="s2">&quot;examples/assets/donut.obj.zip&quot;</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">vertices</span><span class="p">,</span> <span class="n">faces</span><span class="p">,</span> <span class="n">uv_map</span><span class="p">,</span> <span class="n">faces_material</span><span class="p">,</span> <span class="n">vertices_count</span> <span class="o">=</span> <span class="n">load_donut_mesh</span><span class="p">(</span><span class="s2">"examples/assets/donut.obj.zip"</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
@@ -357,14 +349,14 @@ allow recovering of the original parts.</p>
 To define the assignment of materials we use <code class="docutils literal notranslate"><span class="pre">faces_material</span></code> array that stores indices of the material for each face.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create per-part materials and colors</span>
 <span class="c1"># Base and Icing have uniform colors</span>
-<span class="n">material_base</span> <span class="o">=</span> <span class="n">PrincipledBSDFMaterial</span><span class="p">(</span><span class="n">roughness</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">clearcoat_roughness</span><span class="o">=</span><span class="mf">0.03</span><span class="p">)</span>
-<span class="n">material_icing</span> <span class="o">=</span> <span class="n">PrincipledBSDFMaterial</span><span class="p">(</span><span class="n">roughness</span><span class="o">=</span><span class="mf">0.545</span><span class="p">,</span> <span class="n">clearcoat</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">clearcoat_roughness</span><span class="o">=</span><span class="mf">0.03</span><span class="p">)</span>
+<span class="n">material_base</span> <span class="o">=</span> <span class="n">PrincipledBSDFMaterial</span><span class="p">(</span><span class="n">roughness</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">coat_roughness</span><span class="o">=</span><span class="mf">0.03</span><span class="p">)</span>
+<span class="n">material_icing</span> <span class="o">=</span> <span class="n">PrincipledBSDFMaterial</span><span class="p">(</span><span class="n">roughness</span><span class="o">=</span><span class="mf">0.545</span><span class="p">,</span> <span class="n">coat_weight</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">coat_roughness</span><span class="o">=</span><span class="mf">0.03</span><span class="p">)</span>
 <span class="n">colors_base</span> <span class="o">=</span> <span class="n">UniformColors</span><span class="p">((</span><span class="mf">0.7</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">))</span>
 <span class="n">colors_icing</span> <span class="o">=</span> <span class="n">UniformColors</span><span class="p">((</span><span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.58</span><span class="p">,</span> <span class="mf">0.72</span><span class="p">))</span>
 <span class="c1"># Sprinkles have texture colors to allow per-sprinkle coloring</span>
-<span class="n">material_sprinkles</span> <span class="o">=</span> <span class="n">PrincipledBSDFMaterial</span><span class="p">(</span><span class="n">roughness</span><span class="o">=</span><span class="mf">0.894</span><span class="p">,</span> <span class="n">clearcoat_roughness</span><span class="o">=</span><span class="mf">0.03</span><span class="p">)</span>
+<span class="n">material_sprinkles</span> <span class="o">=</span> <span class="n">PrincipledBSDFMaterial</span><span class="p">(</span><span class="n">roughness</span><span class="o">=</span><span class="mf">0.894</span><span class="p">,</span> <span class="n">coat_roughness</span><span class="o">=</span><span class="mf">0.03</span><span class="p">)</span>
 <span class="n">vertex_uv_map</span> <span class="o">=</span> <span class="n">VertexUV</span><span class="p">(</span><span class="n">uv_map</span><span class="p">)</span>
-<span class="n">colors_sprinkles</span> <span class="o">=</span> <span class="n">FileTextureColors</span><span class="p">(</span><span class="s2">&quot;../assets/donut_sprinkles.png&quot;</span><span class="p">,</span> <span class="n">vertex_uv_map</span><span class="p">)</span>
+<span class="n">colors_sprinkles</span> <span class="o">=</span> <span class="n">FileTextureColors</span><span class="p">(</span><span class="s2">"examples/assets/donut_sprinkles.png"</span><span class="p">,</span> <span class="n">vertex_uv_map</span><span class="p">)</span>
 <span class="c1"># Add mesh to the scene</span>
 <span class="n">donut_mesh</span> <span class="o">=</span> <span class="n">scene</span><span class="o">.</span><span class="n">renderables</span><span class="o">.</span><span class="n">add_mesh</span><span class="p">(</span>
     <span class="n">vertices</span><span class="p">,</span> <span class="n">faces</span><span class="p">,</span>
@@ -399,11 +391,11 @@ Then, three point lights are added to the scene with different positions.</p>
 <h2>3. Rendering<a class="headerlink" href="#rendering" title="Link to this heading">¶</a></h2>
 <p>The following code renders the scene and displays the result.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">image</span> <span class="o">=</span> <span class="n">scene</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">use_gpu</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">samples</span><span class="o">=</span><span class="mi">128</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">'off'</span><span class="p">)</span>
 <span class="n">_</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
 </pre></div>
 </div>
-<a class="reference internal image-reference" href="_images/1.jpg"><img alt="rendered donut" class="align-center" src="_images/1.jpg" style="width: 400px;" />
+<a class="reference internal image-reference" href="_images/1.jpg"><img alt="rendered donut" class="align-center" src="_images/1.jpg" width="400" />
 </a>
 </section>
 <section id="depth-map-rendering">
@@ -415,23 +407,23 @@ Then, three point lights are added to the scene with different positions.</p>
 <span class="c1"># Normalize depth values</span>
 <span class="n">depth</span> <span class="o">=</span> <span class="p">(</span><span class="n">depth</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">finite_depth</span><span class="p">))</span><span class="o">/</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">finite_depth</span><span class="p">)</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">finite_depth</span><span class="p">))</span>
 <span class="c1"># Convert to desired coolormap</span>
-<span class="n">depth</span> <span class="o">=</span> <span class="p">(</span><span class="n">mpl</span><span class="o">.</span><span class="n">colormaps</span><span class="p">[</span><span class="s1">&#39;viridis&#39;</span><span class="p">](</span><span class="n">depth</span><span class="p">)</span><span class="o">*</span><span class="mi">255</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+<span class="n">depth</span> <span class="o">=</span> <span class="p">(</span><span class="n">mpl</span><span class="o">.</span><span class="n">colormaps</span><span class="p">[</span><span class="s1">'viridis'</span><span class="p">](</span><span class="n">depth</span><span class="p">)</span><span class="o">*</span><span class="mi">255</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">'off'</span><span class="p">)</span>
 <span class="n">_</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">depth</span><span class="p">)</span>
 </pre></div>
 </div>
-<a class="reference internal image-reference" href="_images/2.jpg"><img alt="rendered depth map" class="align-center" src="_images/2.jpg" style="width: 400px;" />
+<a class="reference internal image-reference" href="_images/2.jpg"><img alt="rendered depth map" class="align-center" src="_images/2.jpg" width="400" />
 </a>
 </section>
 <section id="albedo-rendering">
 <h2>5. Albedo rendering<a class="headerlink" href="#albedo-rendering" title="Link to this heading">¶</a></h2>
 <p>Setting the <code class="docutils literal notranslate"><span class="pre">save_albedo</span></code> flag to <code class="docutils literal notranslate"><span class="pre">True</span></code> will additionally render the albedo map of the scene.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">image</span><span class="p">,</span> <span class="n">albedo</span> <span class="o">=</span> <span class="n">scene</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">use_gpu</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">samples</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="n">save_albedo</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">'off'</span><span class="p">)</span>
 <span class="n">_</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">albedo</span><span class="p">)</span>
 </pre></div>
 </div>
-<a class="reference internal image-reference" href="_images/3.jpg"><img alt="rendered albedo" class="align-center" src="_images/3.jpg" style="width: 400px;" />
+<a class="reference internal image-reference" href="_images/3.jpg"><img alt="rendered albedo" class="align-center" src="_images/3.jpg" width="400" />
 </a>
 </section>
 <section id="rendering-with-various-materials">
@@ -471,12 +463,12 @@ Then, three point lights are added to the scene with different positions.</p>
         <span class="n">donut_mesh</span><span class="o">.</span><span class="n">update_colors</span><span class="p">(</span><span class="n">color</span><span class="p">)</span>
         <span class="n">donut_mesh</span><span class="o">.</span><span class="n">update_material</span><span class="p">(</span><span class="n">material</span><span class="p">)</span>
     <span class="n">image</span> <span class="o">=</span> <span class="n">scene</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">use_gpu</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">samples</span><span class="o">=</span><span class="mi">128</span><span class="p">)</span>
-    <span class="n">ax</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">'off'</span><span class="p">)</span>
     <span class="n">ax</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<a class="reference internal image-reference" href="_images/4.jpg"><img alt="3 rendered exampels with various materials" class="align-center" src="_images/4.jpg" style="width: 1200px;" />
+<a class="reference internal image-reference" href="_images/4.jpg"><img alt="3 rendered exampels with various materials" class="align-center" src="_images/4.jpg" width="1200" />
 </a>
 </section>
 <section id="point-cloud-rendering">
@@ -487,21 +479,21 @@ We also use <code class="docutils literal notranslate"><span class="pre">vertice
 <span class="n">scene</span><span class="o">.</span><span class="n">renderables</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">donut_mesh</span><span class="p">)</span>
 <span class="c1"># Create colors for the point cloud</span>
 <span class="n">point_colors</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">vertices</span><span class="p">),</span> <span class="mi">4</span><span class="p">))</span>
-<span class="n">point_colors</span><span class="p">[:</span><span class="n">vertices_count</span><span class="p">[</span><span class="s2">&quot;donut_base&quot;</span><span class="p">]]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">])</span>
-<span class="n">point_colors</span><span class="p">[</span><span class="n">vertices_count</span><span class="p">[</span><span class="s2">&quot;donut_base&quot;</span><span class="p">]:]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">])</span>
+<span class="n">point_colors</span><span class="p">[:</span><span class="n">vertices_count</span><span class="p">[</span><span class="s2">"donut_base"</span><span class="p">]]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">])</span>
+<span class="n">point_colors</span><span class="p">[</span><span class="n">vertices_count</span><span class="p">[</span><span class="s2">"donut_base"</span><span class="p">]:]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">])</span>
 <span class="n">color</span> <span class="o">=</span> <span class="n">VertexColors</span><span class="p">(</span><span class="n">point_colors</span><span class="p">)</span>
 <span class="c1"># Use only points from the mesh to create the point cloud </span>
 <span class="n">donut_pc</span> <span class="o">=</span> <span class="n">scene</span><span class="o">.</span><span class="n">renderables</span><span class="o">.</span><span class="n">add_pointcloud</span><span class="p">(</span>
     <span class="n">vertices</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">material</span><span class="o">=</span><span class="n">material_base</span><span class="p">,</span> 
-    <span class="n">point_size</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span> <span class="n">base_primitive</span><span class="o">=</span><span class="s2">&quot;cube&quot;</span><span class="p">,</span> <span class="n">particle_emission_strength</span><span class="o">=</span><span class="mf">0.1</span>
+    <span class="n">point_size</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span> <span class="n">base_primitive</span><span class="o">=</span><span class="s2">"cube"</span><span class="p">,</span> <span class="n">particle_emission_strength</span><span class="o">=</span><span class="mf">0.1</span>
 <span class="p">)</span>
 <span class="c1"># Render</span>
 <span class="n">image</span> <span class="o">=</span> <span class="n">scene</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">use_gpu</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">samples</span><span class="o">=</span><span class="mi">128</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">'off'</span><span class="p">)</span>
 <span class="n">_</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
 </pre></div>
 </div>
-<a class="reference internal image-reference" href="_images/5.jpg"><img alt="rendered point cloud" class="align-center" src="_images/5.jpg" style="width: 400px;" />
+<a class="reference internal image-reference" href="_images/5.jpg"><img alt="rendered point cloud" class="align-center" src="_images/5.jpg" width="400" />
 </a>
 </section>
 <section id="rendering-with-altered-lighting">
@@ -521,22 +513,22 @@ We will replace the point lights with area lights.</p>
 <span class="p">)</span>
 <span class="c1"># Set the new lights</span>
 <span class="n">scene</span><span class="o">.</span><span class="n">lights</span><span class="o">.</span><span class="n">add_area</span><span class="p">(</span>
-    <span class="s2">&quot;circle&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">strength</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">),</span>
+    <span class="s2">"circle"</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">strength</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">),</span>
     <span class="n">translation</span><span class="o">=</span><span class="n">donut_mesh</span><span class="o">.</span><span class="n">translation</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">]),</span> 
-    <span class="n">rotation</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">180</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">rotation_mode</span><span class="o">=</span><span class="s2">&quot;eulerXYZ&quot;</span>
+    <span class="n">rotation</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">180</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">rotation_mode</span><span class="o">=</span><span class="s2">"eulerXYZ"</span>
 <span class="p">)</span>
 <span class="n">scene</span><span class="o">.</span><span class="n">lights</span><span class="o">.</span><span class="n">add_area</span><span class="p">(</span>
-    <span class="s2">&quot;circle&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">strength</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="p">(</span><span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">),</span>
+    <span class="s2">"circle"</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">strength</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="p">(</span><span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">),</span>
     <span class="n">translation</span><span class="o">=</span><span class="n">donut_mesh</span><span class="o">.</span><span class="n">translation</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]),</span> 
-    <span class="n">rotation</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">rotation_mode</span><span class="o">=</span><span class="s2">&quot;eulerXYZ&quot;</span>
+    <span class="n">rotation</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">rotation_mode</span><span class="o">=</span><span class="s2">"eulerXYZ"</span>
 <span class="p">)</span>
 <span class="c1"># Render</span>
 <span class="n">image</span> <span class="o">=</span> <span class="n">scene</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">use_gpu</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">samples</span><span class="o">=</span><span class="mi">128</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">'off'</span><span class="p">)</span>
 <span class="n">_</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
 </pre></div>
 </div>
-<a class="reference internal image-reference" href="_images/6.jpg"><img alt="rendered donut with altered lighting" class="align-center" src="_images/6.jpg" style="width: 400px;" />
+<a class="reference internal image-reference" href="_images/6.jpg"><img alt="rendered donut with altered lighting" class="align-center" src="_images/6.jpg" width="400" />
 </a>
 </section>
 </section>
@@ -620,9 +612,9 @@ We will replace the point lights with area lights.</p>
       
     </aside>
   </div>
-</div><script src="_static/documentation_options.js?v=20623aea"></script>
-    <script src="_static/doctools.js?v=9bcbadda"></script>
-    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+</div><script src="_static/documentation_options.js?v=b21de401"></script>
+    <script src="_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/scripts/furo.js?v=46bd48cc"></script>
     </body>
 </html>

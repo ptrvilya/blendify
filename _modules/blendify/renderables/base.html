@@ -1,15 +1,15 @@
 <!doctype html>
 <html class="no-js" lang="en" data-content_root="../../../">
-  <head><meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" />
-        <link rel="prefetch" href="../../../_static/logo/blendify_logo_small.png" as="image" />
-        <link rel="prefetch" href="../../../_static/logo/blendify_logo_small.png" as="image" />
+  <head><meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html"><link rel="search" title="Search" href="../../../search.html">
+        <link rel="prefetch" href="../../../_static/logo/blendify_logo_small.png" as="image">
+        <link rel="prefetch" href="../../../_static/logo/blendify_logo_small.png" as="image">
 
-    <!-- Generated with Sphinx 8.2.3 and Furo 2025.07.19 -->
+    <!-- Generated with Sphinx 9.2.0 and Furo 2025.12.19 -->
         <title>blendify.renderables.base - Blendify</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=d111a655" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=25af2a20" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?v=8dab3a3b" />
     
     
@@ -25,16 +25,16 @@
   }
   @media not print {
     body[data-theme="dark"] {
-      --color-code-background: #2b2b2b;
-  --color-code-foreground: #f8f8f2;
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
   --color-brand-primary: #CAFD6C;
   --color-brand-content: #95FE6A;
   
     }
     @media (prefers-color-scheme: dark) {
       body:not([data-theme="light"]) {
-        --color-code-background: #2b2b2b;
-  --color-code-foreground: #f8f8f2;
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
   --color-brand-primary: #CAFD6C;
   --color-brand-content: #95FE6A;
   
@@ -151,14 +151,10 @@
   </symbol>
 </svg>
 
-<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
-<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
-<label class="overlay sidebar-overlay" for="__navigation">
-  <div class="visually-hidden">Hide navigation sidebar</div>
-</label>
-<label class="overlay toc-overlay" for="__toc">
-  <div class="visually-hidden">Hide table of contents sidebar</div>
-</label>
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle site navigation sidebar">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc" aria-label="Toggle table of contents sidebar">
+<label class="overlay sidebar-overlay" for="__navigation"></label>
+<label class="overlay toc-overlay" for="__toc"></label>
 
 <a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
 
@@ -168,8 +164,7 @@
   <header class="mobile-header">
     <div class="header-left">
       <label class="nav-overlay-icon" for="__navigation">
-        <div class="visually-hidden">Toggle site navigation sidebar</div>
-        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+        <span class="icon"><svg><use href="#svg-menu"></use></svg></span>
       </label>
     </div>
     <div class="header-center">
@@ -177,8 +172,7 @@
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
-        <button class="theme-toggle">
-          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+        <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
           <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
           <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
           <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
@@ -186,8 +180,7 @@
         </button>
       </div>
       <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
-        <div class="visually-hidden">Toggle table of contents sidebar</div>
-        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+        <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
       </label>
     </div>
   </header>
@@ -228,8 +221,8 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
 <ul>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../../api/modules.html">blendify</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of blendify</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../../../api/blendify.html">blendify package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of blendify package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../api/modules.html">blendify</a><input aria-label="Toggle navigation of blendify" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../api/blendify.html">blendify package</a><input aria-label="Toggle navigation of blendify package" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/blendify.cameras.html">blendify.cameras package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/blendify.colors.html">blendify.colors package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/blendify.internal.html">blendify.internal package</a></li>
@@ -261,8 +254,7 @@
         </a>
         <div class="content-icon-container">
           <div class="theme-toggle-container theme-toggle-content">
-            <button class="theme-toggle">
-              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+            <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
               <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
               <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
               <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
@@ -270,8 +262,7 @@
             </button>
           </div>
           <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
-            <div class="visually-hidden">Toggle table of contents sidebar</div>
-            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+            <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
           </label>
         </div>
         <article role="main" id="furo-main-content">
@@ -292,9 +283,9 @@
 <div class="viewcode-block" id="Renderable">
 <a class="viewcode-back" href="../../../api/blendify.renderables.html#blendify.renderables.base.Renderable">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Renderable</span><span class="p">(</span><span class="n">Positionable</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Base class for all renderable objects (Meshes, PointClouds, Primitives).</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
@@ -303,30 +294,30 @@
             <span class="n">colors</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Colors</span><span class="p">,</span> <span class="n">ColorsList</span><span class="p">],</span>
             <span class="o">**</span><span class="n">kwargs</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Creates internal structures, calls functions that connect Material and Colors to the object.</span>
+<span class="w">        </span><span class="sd">"""Creates internal structures, calls functions that connect Material and Colors to the object.</span>
 <span class="sd">        Can only be called from child classes as the class is abstract.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            material (Union[Material, MaterialList]): Material instance or a list of Material instances</span>
 <span class="sd">            colors (Union[Colors, ColorsList]): Colors instance or a list of Colors instances</span>
 <span class="sd">            blender_object (bpy.types.Object): instance of Blender Object that is wrapped by the class</span>
-<span class="sd">            rotation_mode (str): type of rotation representation (default: &quot;quaternionWXYZ&quot;).</span>
+<span class="sd">            rotation_mode (str): type of rotation representation (default: "quaternionWXYZ").</span>
 <span class="sd">                Can be one of the following:</span>
-<span class="sd">                - &quot;quaternionWXYZ&quot; - WXYZ quaternion</span>
-<span class="sd">                - &quot;quaternionXYZW&quot; - XYZW quaternion</span>
-<span class="sd">                - &quot;rotvec&quot; - axis-angle representation of rotation</span>
-<span class="sd">                - &quot;rotmat&quot; - 3x3 rotation matrix</span>
-<span class="sd">                - &quot;euler&lt;mode&gt;&quot; - Euler angles with the specified order of rotation, e.g. XYZ, xyz, ZXZ, etc. Refer to scipy.spatial.transform.Rotation.from_euler for details.</span>
-<span class="sd">                - &quot;look_at&quot; - look at rotation, the rotation is defined by the point to look at and, optional, the rotation around the forward direction vector (a single float value in tuple or list)</span>
+<span class="sd">                - "quaternionWXYZ" - WXYZ quaternion</span>
+<span class="sd">                - "quaternionXYZW" - XYZW quaternion</span>
+<span class="sd">                - "rotvec" - axis-angle representation of rotation</span>
+<span class="sd">                - "rotmat" - 3x3 rotation matrix</span>
+<span class="sd">                - "euler&lt;mode&gt;" - Euler angles with the specified order of rotation, e.g. XYZ, xyz, ZXZ, etc. Refer to scipy.spatial.transform.Rotation.from_euler for details.</span>
+<span class="sd">                - "look_at" - look at rotation, the rotation is defined by the point to look at and, optional, the rotation around the forward direction vector (a single float value in tuple or list)</span>
 <span class="sd">            rotation (RotationParams): rotation parameters according to the rotation_mode (default: None (identity))</span>
-<span class="sd">                - for &quot;quaternionWXYZ&quot; and &quot;quaternionXYZW&quot; - Vec4d</span>
-<span class="sd">                - for &quot;rotvec&quot; - Vec3d</span>
-<span class="sd">                - for &quot;rotmat&quot; - Mat3x3</span>
-<span class="sd">                - for &quot;euler&lt;mode&gt;&quot; - Vec3d</span>
-<span class="sd">                - for &quot;look_at&quot; - Vec3d, Positionable or Tuple[Vec3d/Positionable, float], where float is the rotation around the forward direction vector in degrees</span>
+<span class="sd">                - for "quaternionWXYZ" and "quaternionXYZW" - Vec4d</span>
+<span class="sd">                - for "rotvec" - Vec3d</span>
+<span class="sd">                - for "rotmat" - Mat3x3</span>
+<span class="sd">                - for "euler&lt;mode&gt;" - Vec3d</span>
+<span class="sd">                - for "look_at" - Vec3d, Positionable or Tuple[Vec3d/Positionable, float], where float is the rotation around the forward direction vector in degrees</span>
 <span class="sd">            translation (Vector3d, optional): translation applied to the Blender object (default: (0,0,0))</span>
 <span class="sd">            tag (str): name of the created object in Blender</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_materials_count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">material</span><span class="p">)</span> <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">material</span><span class="p">,</span> <span class="n">Material</span><span class="p">)</span> <span class="k">else</span> <span class="mi">1</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">update_material</span><span class="p">(</span><span class="n">material</span><span class="p">)</span>
@@ -335,21 +326,21 @@
 <div class="viewcode-block" id="Renderable.update_material">
 <a class="viewcode-back" href="../../../api/blendify.renderables.html#blendify.renderables.base.Renderable.update_material">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">update_material</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">material</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Material</span><span class="p">,</span> <span class="n">MaterialList</span><span class="p">]):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Updates object material properties, sets Blender structures accordingly</span>
+<span class="w">        </span><span class="sd">"""Updates object material properties, sets Blender structures accordingly</span>
 <span class="sd">        Args:</span>
 <span class="sd">            material (Union[Material, MaterialList]): target material or a list of target materials</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">pass</span></div>
 
 
 <div class="viewcode-block" id="Renderable.update_colors">
 <a class="viewcode-back" href="../../../api/blendify.renderables.html#blendify.renderables.base.Renderable.update_colors">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">update_colors</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">colors</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Colors</span><span class="p">,</span> <span class="n">ColorsList</span><span class="p">]):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Updates object color properties, sets Blender structures accordingly</span>
+<span class="w">        </span><span class="sd">"""Updates object color properties, sets Blender structures accordingly</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            colors (Union[Colors, ColorsList]): target colors information or a list of target colors information</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">pass</span></div>
 </div>
 
@@ -358,38 +349,38 @@
 <div class="viewcode-block" id="RenderableObject">
 <a class="viewcode-back" href="../../../api/blendify.renderables.html#blendify.renderables.base.RenderableObject">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">RenderableObject</span><span class="p">(</span><span class="n">Renderable</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Base class for renderable objects, that can be represented by a single bpy.types.Object (Meshes and Primitives).</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
             <span class="bp">self</span><span class="p">,</span>
             <span class="o">**</span><span class="n">kwargs</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets initial values for internal parameters, can only be called from child classes as the class is abstract.</span>
+<span class="w">        </span><span class="sd">"""Sets initial values for internal parameters, can only be called from child classes as the class is abstract.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            material (MaterialList): Material instance or a list of Material instances</span>
 <span class="sd">            colors (ColorsList): Colors instance or a list of Colors instances</span>
 <span class="sd">            blender_object (bpy.types.Object): instance of Blender Object that is wrapped by the class</span>
-<span class="sd">            rotation_mode (str): type of rotation representation (default: &quot;quaternionWXYZ&quot;).</span>
+<span class="sd">            rotation_mode (str): type of rotation representation (default: "quaternionWXYZ").</span>
 <span class="sd">                Can be one of the following:</span>
-<span class="sd">                - &quot;quaternionWXYZ&quot; - WXYZ quaternion</span>
-<span class="sd">                - &quot;quaternionXYZW&quot; - XYZW quaternion</span>
-<span class="sd">                - &quot;rotvec&quot; - axis-angle representation of rotation</span>
-<span class="sd">                - &quot;rotmat&quot; - 3x3 rotation matrix</span>
-<span class="sd">                - &quot;euler&lt;mode&gt;&quot; - Euler angles with the specified order of rotation, e.g. XYZ, xyz, ZXZ, etc. Refer to scipy.spatial.transform.Rotation.from_euler for details.</span>
-<span class="sd">                - &quot;look_at&quot; - look at rotation, the rotation is defined by the point to look at and, optional, the rotation around the forward direction vector (a single float value in tuple or list)</span>
+<span class="sd">                - "quaternionWXYZ" - WXYZ quaternion</span>
+<span class="sd">                - "quaternionXYZW" - XYZW quaternion</span>
+<span class="sd">                - "rotvec" - axis-angle representation of rotation</span>
+<span class="sd">                - "rotmat" - 3x3 rotation matrix</span>
+<span class="sd">                - "euler&lt;mode&gt;" - Euler angles with the specified order of rotation, e.g. XYZ, xyz, ZXZ, etc. Refer to scipy.spatial.transform.Rotation.from_euler for details.</span>
+<span class="sd">                - "look_at" - look at rotation, the rotation is defined by the point to look at and, optional, the rotation around the forward direction vector (a single float value in tuple or list)</span>
 <span class="sd">            rotation (RotationParams): rotation parameters according to the rotation_mode (default: None (identity))</span>
-<span class="sd">                - for &quot;quaternionWXYZ&quot; and &quot;quaternionXYZW&quot; - Vec4d</span>
-<span class="sd">                - for &quot;rotvec&quot; - Vec3d</span>
-<span class="sd">                - for &quot;rotmat&quot; - Mat3x3</span>
-<span class="sd">                - for &quot;euler&lt;mode&gt;&quot; - Vec3d</span>
-<span class="sd">                - for &quot;look_at&quot; - Vec3d, Positionable or Tuple[Vec3d/Positionable, float], where float is the rotation around the forward direction vector in degrees</span>
+<span class="sd">                - for "quaternionWXYZ" and "quaternionXYZW" - Vec4d</span>
+<span class="sd">                - for "rotvec" - Vec3d</span>
+<span class="sd">                - for "rotmat" - Mat3x3</span>
+<span class="sd">                - for "euler&lt;mode&gt;" - Vec3d</span>
+<span class="sd">                - for "look_at" - Vec3d, Positionable or Tuple[Vec3d/Positionable, float], where float is the rotation around the forward direction vector in degrees</span>
 <span class="sd">            translation (Vector3d, optional): translation applied to the Blender object (default: (0,0,0))</span>
 <span class="sd">            tag (str): name of the created object in Blender</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_material_instances</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">MaterialInstance</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_colors_metadatas</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">ColorsMetadata</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
@@ -408,8 +399,8 @@
         <span class="k">pass</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_blender_remove_object</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Removes the object from Blender scene</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Removes the object from Blender scene</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_blender_clear_colors</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_blender_clear_materials</span><span class="p">()</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">_blender_remove_object</span><span class="p">()</span>
@@ -420,11 +411,11 @@
 <div class="viewcode-block" id="RenderableObject.update_material">
 <a class="viewcode-back" href="../../../api/blendify.renderables.html#blendify.renderables.base.RenderableObject.update_material">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">update_material</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">material</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Material</span><span class="p">,</span> <span class="n">MaterialList</span><span class="p">]):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Updates object material properties, sets Blender structures accordingly</span>
+<span class="w">        </span><span class="sd">"""Updates object material properties, sets Blender structures accordingly</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            material (Union[Material, MaterialList]): target material or a list of target materials</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_material_instances</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_blender_clear_materials</span><span class="p">()</span>
 
@@ -438,18 +429,18 @@
 
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_blender_assign_materials</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Assigns created materials to the object&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Assigns created materials to the object"""</span>
         <span class="n">blender_material</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_material_instances</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">blender_material</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_blender_object</span><span class="o">.</span><span class="n">active_material</span> <span class="o">=</span> <span class="n">blender_material</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_blender_set_materials</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">material_list</span><span class="p">:</span> <span class="n">MaterialList</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Constructs material node, recreates color node if needed</span>
+<span class="w">        </span><span class="sd">"""Constructs material node, recreates color node if needed</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            material_list (MaterialList): list of target materials</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">material_list</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;Material list must contain at least one material&quot;</span>
-        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">material_list</span><span class="p">)</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">_materials_count</span><span class="p">,</span> <span class="s2">&quot;Material list must contain the same number of elements as during object creation&quot;</span>
+<span class="sd">        """</span>
+        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">material_list</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">"Material list must contain at least one material"</span>
+        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">material_list</span><span class="p">)</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">_materials_count</span><span class="p">,</span> <span class="s2">"Material list must contain the same number of elements as during object creation"</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_material_instances</span> <span class="o">=</span> <span class="p">[]</span>
 
@@ -462,12 +453,12 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_blender_assign_materials</span><span class="p">()</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_blender_clear_materials</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Clears Blender material node and nodes connected to it</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Clears Blender material node and nodes connected to it</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_material_instances</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="c1"># Unlink materials from object</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_blender_object</span><span class="o">.</span><span class="n">active_material</span> <span class="o">=</span> <span class="kc">None</span>
-            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_blender_object</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="s2">&quot;materials&quot;</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_blender_object</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="s2">"materials"</span><span class="p">):</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_blender_object</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">materials</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
             <span class="k">for</span> <span class="n">material_instance</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_material_instances</span><span class="p">:</span>
                 <span class="n">material_nodes</span> <span class="o">=</span> <span class="n">material_instance</span><span class="o">.</span><span class="n">blender_material</span><span class="o">.</span><span class="n">node_tree</span><span class="o">.</span><span class="n">nodes</span>
@@ -483,11 +474,11 @@
 <div class="viewcode-block" id="RenderableObject.update_colors">
 <a class="viewcode-back" href="../../../api/blendify.renderables.html#blendify.renderables.base.RenderableObject.update_colors">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">update_colors</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">colors</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Colors</span><span class="p">,</span> <span class="n">ColorsList</span><span class="p">]):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Updates object color properties, sets Blender structures accordingly</span>
+<span class="w">        </span><span class="sd">"""Updates object color properties, sets Blender structures accordingly</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            colors (Colors): target colors information</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_material_instances</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_blender_clear_colors</span><span class="p">()</span>
 
@@ -500,10 +491,10 @@
 
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_blender_set_colors</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">colors_list</span><span class="p">:</span> <span class="n">ColorsList</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Remembers current color properties, builds a color node for material (from colors_metadata)</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">colors_list</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;Colors list must contain at least one color&quot;</span>
-        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">colors_list</span><span class="p">)</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">_materials_count</span><span class="p">,</span> <span class="s2">&quot;Colors list must contain the same number of elements as materials&quot;</span>
+<span class="w">        </span><span class="sd">"""Remembers current color properties, builds a color node for material (from colors_metadata)</span>
+<span class="sd">        """</span>
+        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">colors_list</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">"Colors list must contain at least one color"</span>
+        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">colors_list</span><span class="p">)</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">_materials_count</span><span class="p">,</span> <span class="s2">"Colors list must contain the same number of elements as materials"</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_colors_metadatas</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">material_ind</span><span class="p">,</span> <span class="n">colors</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">colors_list</span><span class="p">):</span>
@@ -512,61 +503,61 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_blender_link_color2material</span><span class="p">()</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_blender_clear_colors</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Clears Blender color node and erases node constructor</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Clears Blender color node and erases node constructor</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_material_instances</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_colors_metadatas</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">material_instance</span><span class="p">,</span> <span class="n">colors_metadata</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_material_instances</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_colors_metadatas</span><span class="p">):</span>
                 <span class="k">if</span> <span class="n">colors_metadata</span><span class="o">.</span><span class="n">type</span> <span class="ow">is</span> <span class="n">UniformColors</span> <span class="ow">and</span> <span class="n">colors_metadata</span><span class="o">.</span><span class="n">has_alpha</span><span class="p">:</span>
                     <span class="c1"># return the alpha channel back to the default value</span>
-                    <span class="n">material_instance</span><span class="o">.</span><span class="n">inputs</span><span class="p">[</span><span class="s1">&#39;Alpha&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">default_value</span> <span class="o">=</span> <span class="mf">1.</span>
+                    <span class="n">material_instance</span><span class="o">.</span><span class="n">inputs</span><span class="p">[</span><span class="s1">'Alpha'</span><span class="p">]</span><span class="o">.</span><span class="n">default_value</span> <span class="o">=</span> <span class="mf">1.</span>
                 <span class="n">blender_material</span> <span class="o">=</span> <span class="n">material_instance</span><span class="o">.</span><span class="n">blender_material</span>
                 <span class="n">blender_material</span><span class="o">.</span><span class="n">node_tree</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">material_instance</span><span class="o">.</span><span class="n">colors_node</span><span class="p">)</span>
                 <span class="n">material_instance</span><span class="o">.</span><span class="n">colors_node</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_colors_metadatas</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_blender_create_colors_nodes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Creates color node using previously set builder</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Creates color node using previously set builder</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_colors_metadatas</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_material_instances</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">material_instance</span><span class="p">,</span> <span class="n">colors_metadata</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_material_instances</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_colors_metadatas</span><span class="p">):</span>
                 <span class="n">blender_material</span> <span class="o">=</span> <span class="n">material_instance</span><span class="o">.</span><span class="n">blender_material</span>
                 <span class="k">if</span> <span class="n">colors_metadata</span><span class="o">.</span><span class="n">type</span> <span class="ow">is</span> <span class="n">UniformColors</span><span class="p">:</span>
-                    <span class="n">colors_node</span> <span class="o">=</span> <span class="n">blender_material</span><span class="o">.</span><span class="n">node_tree</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">&#39;ShaderNodeRGB&#39;</span><span class="p">)</span>
+                    <span class="n">colors_node</span> <span class="o">=</span> <span class="n">blender_material</span><span class="o">.</span><span class="n">node_tree</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">'ShaderNodeRGB'</span><span class="p">)</span>
                     <span class="k">if</span> <span class="n">colors_metadata</span><span class="o">.</span><span class="n">has_alpha</span><span class="p">:</span>
-                        <span class="n">colors_node</span><span class="o">.</span><span class="n">outputs</span><span class="p">[</span><span class="s2">&quot;Color&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">default_value</span> <span class="o">=</span> <span class="n">colors_metadata</span><span class="o">.</span><span class="n">color</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+                        <span class="n">colors_node</span><span class="o">.</span><span class="n">outputs</span><span class="p">[</span><span class="s2">"Color"</span><span class="p">]</span><span class="o">.</span><span class="n">default_value</span> <span class="o">=</span> <span class="n">colors_metadata</span><span class="o">.</span><span class="n">color</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
                     <span class="k">else</span><span class="p">:</span>
-                        <span class="n">colors_node</span><span class="o">.</span><span class="n">outputs</span><span class="p">[</span><span class="s2">&quot;Color&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">default_value</span> <span class="o">=</span> <span class="n">colors_metadata</span><span class="o">.</span><span class="n">color</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span> <span class="o">+</span> <span class="p">[</span><span class="mf">1.</span><span class="p">]</span>  <span class="c1"># add alpha 1.0</span>
+                        <span class="n">colors_node</span><span class="o">.</span><span class="n">outputs</span><span class="p">[</span><span class="s2">"Color"</span><span class="p">]</span><span class="o">.</span><span class="n">default_value</span> <span class="o">=</span> <span class="n">colors_metadata</span><span class="o">.</span><span class="n">color</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span> <span class="o">+</span> <span class="p">[</span><span class="mf">1.</span><span class="p">]</span>  <span class="c1"># add alpha 1.0</span>
                 <span class="k">elif</span> <span class="n">colors_metadata</span><span class="o">.</span><span class="n">type</span> <span class="ow">is</span> <span class="n">VertexColors</span><span class="p">:</span>
-                    <span class="n">colors_node</span> <span class="o">=</span> <span class="n">blender_material</span><span class="o">.</span><span class="n">node_tree</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">&#39;ShaderNodeVertexColor&#39;</span><span class="p">)</span>
+                    <span class="n">colors_node</span> <span class="o">=</span> <span class="n">blender_material</span><span class="o">.</span><span class="n">node_tree</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">'ShaderNodeVertexColor'</span><span class="p">)</span>
                 <span class="k">elif</span> <span class="n">colors_metadata</span><span class="o">.</span><span class="n">type</span> <span class="ow">is</span> <span class="n">TextureColors</span><span class="p">:</span>
-                    <span class="n">colors_node</span> <span class="o">=</span> <span class="n">blender_material</span><span class="o">.</span><span class="n">node_tree</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">&#39;ShaderNodeTexImage&#39;</span><span class="p">)</span>
+                    <span class="n">colors_node</span> <span class="o">=</span> <span class="n">blender_material</span><span class="o">.</span><span class="n">node_tree</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">'ShaderNodeTexImage'</span><span class="p">)</span>
                     <span class="n">colors_node</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">colors_metadata</span><span class="o">.</span><span class="n">texture</span>
                 <span class="k">elif</span> <span class="n">colors_metadata</span><span class="o">.</span><span class="n">type</span> <span class="ow">is</span> <span class="n">FileTextureColors</span><span class="p">:</span>
-                    <span class="n">colors_node</span> <span class="o">=</span> <span class="n">blender_material</span><span class="o">.</span><span class="n">node_tree</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">&#39;ShaderNodeTexImage&#39;</span><span class="p">)</span>
+                    <span class="n">colors_node</span> <span class="o">=</span> <span class="n">blender_material</span><span class="o">.</span><span class="n">node_tree</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">'ShaderNodeTexImage'</span><span class="p">)</span>
                     <span class="n">colors_node</span><span class="o">.</span><span class="n">image</span> <span class="o">=</span> <span class="n">colors_metadata</span><span class="o">.</span><span class="n">texture</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unsupported colors class &#39;</span><span class="si">{</span><span class="n">colors_metadata</span><span class="o">.</span><span class="n">type</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
+                    <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Unsupported colors class '</span><span class="si">{</span><span class="n">colors_metadata</span><span class="o">.</span><span class="n">type</span><span class="si">}</span><span class="s2">'"</span><span class="p">)</span>
                 <span class="n">material_instance</span><span class="o">.</span><span class="n">colors_node</span> <span class="o">=</span> <span class="n">colors_node</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_blender_link_color2material</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Links color and material nodes</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Links color and material nodes</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_material_instances</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_colors_metadatas</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">material_instance</span><span class="p">,</span> <span class="n">colors_metadata</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_material_instances</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_colors_metadatas</span><span class="p">):</span>
                 <span class="k">if</span> <span class="n">material_instance</span><span class="o">.</span><span class="n">colors_node</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                     <span class="n">blender_material</span> <span class="o">=</span> <span class="n">material_instance</span><span class="o">.</span><span class="n">blender_material</span>
-                    <span class="n">blender_material</span><span class="o">.</span><span class="n">node_tree</span><span class="o">.</span><span class="n">links</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">material_instance</span><span class="o">.</span><span class="n">inputs</span><span class="p">[</span><span class="s1">&#39;Color&#39;</span><span class="p">],</span>
-                                                         <span class="n">material_instance</span><span class="o">.</span><span class="n">colors_node</span><span class="o">.</span><span class="n">outputs</span><span class="p">[</span><span class="s1">&#39;Color&#39;</span><span class="p">])</span>
-                    <span class="n">material_instance</span><span class="o">.</span><span class="n">inputs</span><span class="p">[</span><span class="s1">&#39;Color&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">default_value</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]</span>
+                    <span class="n">blender_material</span><span class="o">.</span><span class="n">node_tree</span><span class="o">.</span><span class="n">links</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">material_instance</span><span class="o">.</span><span class="n">inputs</span><span class="p">[</span><span class="s1">'Color'</span><span class="p">],</span>
+                                                         <span class="n">material_instance</span><span class="o">.</span><span class="n">colors_node</span><span class="o">.</span><span class="n">outputs</span><span class="p">[</span><span class="s1">'Color'</span><span class="p">])</span>
+                    <span class="n">material_instance</span><span class="o">.</span><span class="n">inputs</span><span class="p">[</span><span class="s1">'Color'</span><span class="p">]</span><span class="o">.</span><span class="n">default_value</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]</span>
                     <span class="k">if</span> <span class="n">colors_metadata</span><span class="o">.</span><span class="n">has_alpha</span><span class="p">:</span>
-                        <span class="k">if</span> <span class="s1">&#39;Alpha&#39;</span> <span class="ow">in</span> <span class="n">material_instance</span><span class="o">.</span><span class="n">inputs</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="s1">'Alpha'</span> <span class="ow">in</span> <span class="n">material_instance</span><span class="o">.</span><span class="n">inputs</span><span class="p">:</span>
                             <span class="k">if</span> <span class="n">colors_metadata</span><span class="o">.</span><span class="n">type</span> <span class="ow">is</span> <span class="n">UniformColors</span><span class="p">:</span>
-                                <span class="n">material_instance</span><span class="o">.</span><span class="n">inputs</span><span class="p">[</span><span class="s1">&#39;Alpha&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">default_value</span> <span class="o">=</span> <span class="n">colors_metadata</span><span class="o">.</span><span class="n">color</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+                                <span class="n">material_instance</span><span class="o">.</span><span class="n">inputs</span><span class="p">[</span><span class="s1">'Alpha'</span><span class="p">]</span><span class="o">.</span><span class="n">default_value</span> <span class="o">=</span> <span class="n">colors_metadata</span><span class="o">.</span><span class="n">color</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
                             <span class="k">else</span><span class="p">:</span>
-                                <span class="n">blender_material</span><span class="o">.</span><span class="n">node_tree</span><span class="o">.</span><span class="n">links</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">material_instance</span><span class="o">.</span><span class="n">inputs</span><span class="p">[</span><span class="s1">&#39;Alpha&#39;</span><span class="p">],</span>
-                                                                     <span class="n">material_instance</span><span class="o">.</span><span class="n">colors_node</span><span class="o">.</span><span class="n">outputs</span><span class="p">[</span><span class="s1">&#39;Alpha&#39;</span><span class="p">])</span>
+                                <span class="n">blender_material</span><span class="o">.</span><span class="n">node_tree</span><span class="o">.</span><span class="n">links</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">material_instance</span><span class="o">.</span><span class="n">inputs</span><span class="p">[</span><span class="s1">'Alpha'</span><span class="p">],</span>
+                                                                     <span class="n">material_instance</span><span class="o">.</span><span class="n">colors_node</span><span class="o">.</span><span class="n">outputs</span><span class="p">[</span><span class="s1">'Alpha'</span><span class="p">])</span>
                         <span class="k">else</span><span class="p">:</span>
-                            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;This material does not support transparency; alpha color channel is ignored&quot;</span><span class="p">)</span></div>
+                            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">"This material does not support transparency; alpha color channel is ignored"</span><span class="p">)</span></div>
 
     <span class="c1"># ================================================== END OF COLORS =================================================</span>
 </pre></div>
@@ -604,9 +595,9 @@
       
     </aside>
   </div>
-</div><script src="../../../_static/documentation_options.js?v=20623aea"></script>
-    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
-    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+</div><script src="../../../_static/documentation_options.js?v=b21de401"></script>
+    <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../_static/scripts/furo.js?v=46bd48cc"></script>
     </body>
 </html>

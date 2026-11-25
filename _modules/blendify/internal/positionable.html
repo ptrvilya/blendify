@@ -1,15 +1,15 @@
 <!doctype html>
 <html class="no-js" lang="en" data-content_root="../../../">
-  <head><meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" />
-        <link rel="prefetch" href="../../../_static/logo/blendify_logo_small.png" as="image" />
-        <link rel="prefetch" href="../../../_static/logo/blendify_logo_small.png" as="image" />
+  <head><meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html"><link rel="search" title="Search" href="../../../search.html">
+        <link rel="prefetch" href="../../../_static/logo/blendify_logo_small.png" as="image">
+        <link rel="prefetch" href="../../../_static/logo/blendify_logo_small.png" as="image">
 
-    <!-- Generated with Sphinx 8.2.3 and Furo 2025.07.19 -->
+    <!-- Generated with Sphinx 9.2.0 and Furo 2025.12.19 -->
         <title>blendify.internal.positionable - Blendify</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=d111a655" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=25af2a20" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo-extensions.css?v=8dab3a3b" />
     
     
@@ -25,16 +25,16 @@
   }
   @media not print {
     body[data-theme="dark"] {
-      --color-code-background: #2b2b2b;
-  --color-code-foreground: #f8f8f2;
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
   --color-brand-primary: #CAFD6C;
   --color-brand-content: #95FE6A;
   
     }
     @media (prefers-color-scheme: dark) {
       body:not([data-theme="light"]) {
-        --color-code-background: #2b2b2b;
-  --color-code-foreground: #f8f8f2;
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
   --color-brand-primary: #CAFD6C;
   --color-brand-content: #95FE6A;
   
@@ -151,14 +151,10 @@
   </symbol>
 </svg>
 
-<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
-<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
-<label class="overlay sidebar-overlay" for="__navigation">
-  <div class="visually-hidden">Hide navigation sidebar</div>
-</label>
-<label class="overlay toc-overlay" for="__toc">
-  <div class="visually-hidden">Hide table of contents sidebar</div>
-</label>
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle site navigation sidebar">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc" aria-label="Toggle table of contents sidebar">
+<label class="overlay sidebar-overlay" for="__navigation"></label>
+<label class="overlay toc-overlay" for="__toc"></label>
 
 <a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
 
@@ -168,8 +164,7 @@
   <header class="mobile-header">
     <div class="header-left">
       <label class="nav-overlay-icon" for="__navigation">
-        <div class="visually-hidden">Toggle site navigation sidebar</div>
-        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+        <span class="icon"><svg><use href="#svg-menu"></use></svg></span>
       </label>
     </div>
     <div class="header-center">
@@ -177,8 +172,7 @@
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
-        <button class="theme-toggle">
-          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+        <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
           <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
           <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
           <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
@@ -186,8 +180,7 @@
         </button>
       </div>
       <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
-        <div class="visually-hidden">Toggle table of contents sidebar</div>
-        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+        <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
       </label>
     </div>
   </header>
@@ -228,8 +221,8 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
 <ul>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../../api/modules.html">blendify</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of blendify</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../../../api/blendify.html">blendify package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of blendify package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../api/modules.html">blendify</a><input aria-label="Toggle navigation of blendify" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../api/blendify.html">blendify package</a><input aria-label="Toggle navigation of blendify package" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/blendify.cameras.html">blendify.cameras package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/blendify.colors.html">blendify.colors package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../api/blendify.internal.html">blendify.internal package</a></li>
@@ -261,8 +254,7 @@
         </a>
         <div class="content-icon-container">
           <div class="theme-toggle-container theme-toggle-content">
-            <button class="theme-toggle">
-              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+            <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
               <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
               <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
               <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
@@ -270,8 +262,7 @@
             </button>
           </div>
           <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
-            <div class="visually-hidden">Toggle table of contents sidebar</div>
-            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+            <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
           </label>
         </div>
         <article role="main" id="furo-main-content">
@@ -288,39 +279,39 @@
 <div class="viewcode-block" id="Positionable">
 <a class="viewcode-back" href="../../../api/blendify.internal.html#blendify.internal.positionable.Positionable">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Positionable</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for all classes that wrap Blender objects with location in space (Camera, Light, Renderable)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Base class for all classes that wrap Blender objects with location in space (Camera, Light, Renderable)</span>
+<span class="sd">    """</span>
 
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
             <span class="bp">self</span><span class="p">,</span>
             <span class="n">tag</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
             <span class="n">blender_object</span><span class="p">:</span> <span class="n">BlenderGroup</span><span class="p">,</span>
-            <span class="n">rotation_mode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;quaternionWXYZ&quot;</span><span class="p">,</span>
+            <span class="n">rotation_mode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"quaternionWXYZ"</span><span class="p">,</span>
             <span class="n">rotation</span><span class="p">:</span> <span class="n">RotationParams</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
             <span class="n">translation</span><span class="p">:</span> <span class="n">Vector3d</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets initial position of the Blender object and stores it. Called from child classes</span>
+<span class="w">        </span><span class="sd">"""Sets initial position of the Blender object and stores it. Called from child classes</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            tag (str): name of the object in Blender that was created in child class</span>
 <span class="sd">            blender_object (bpy.types.Object): instance of Blender Object that is wrapped by the child class</span>
-<span class="sd">            rotation_mode (str): type of rotation representation (default: &quot;quaternionWXYZ&quot;).</span>
+<span class="sd">            rotation_mode (str): type of rotation representation (default: "quaternionWXYZ").</span>
 <span class="sd">                Can be one of the following:</span>
-<span class="sd">                - &quot;quaternionWXYZ&quot; - WXYZ quaternion</span>
-<span class="sd">                - &quot;quaternionXYZW&quot; - XYZW quaternion</span>
-<span class="sd">                - &quot;rotvec&quot; - axis-angle representation of rotation</span>
-<span class="sd">                - &quot;rotmat&quot; - 3x3 rotation matrix</span>
-<span class="sd">                - &quot;euler&lt;mode&gt;&quot; - Euler angles with the specified order of rotation, e.g. XYZ, xyz, ZXZ, etc. Refer to scipy.spatial.transform.Rotation.from_euler for details.</span>
-<span class="sd">                - &quot;look_at&quot; - look at rotation, the rotation is defined by the point to look at and, optional, the rotation around the forward direction vector (a single float value in tuple or list)</span>
+<span class="sd">                - "quaternionWXYZ" - WXYZ quaternion</span>
+<span class="sd">                - "quaternionXYZW" - XYZW quaternion</span>
+<span class="sd">                - "rotvec" - axis-angle representation of rotation</span>
+<span class="sd">                - "rotmat" - 3x3 rotation matrix</span>
+<span class="sd">                - "euler&lt;mode&gt;" - Euler angles with the specified order of rotation, e.g. XYZ, xyz, ZXZ, etc. Refer to scipy.spatial.transform.Rotation.from_euler for details.</span>
+<span class="sd">                - "look_at" - look at rotation, the rotation is defined by the point to look at and, optional, the rotation around the forward direction vector (a single float value in tuple or list)</span>
 <span class="sd">            rotation (RotationParams): rotation parameters according to the rotation_mode (default: None (identity))</span>
-<span class="sd">                - for &quot;quaternionWXYZ&quot; and &quot;quaternionXYZW&quot; - Vec4d</span>
-<span class="sd">                - for &quot;rotvec&quot; - Vec3d</span>
-<span class="sd">                - for &quot;rotmat&quot; - Mat3x3</span>
-<span class="sd">                - for &quot;euler&lt;mode&gt;&quot; - Vec3d</span>
-<span class="sd">                - for &quot;look_at&quot; - Vec3d, Positionable or Tuple[Vec3d/Positionable, float], where float is the rotation around the forward direction vector in degrees</span>
+<span class="sd">                - for "quaternionWXYZ" and "quaternionXYZW" - Vec4d</span>
+<span class="sd">                - for "rotvec" - Vec3d</span>
+<span class="sd">                - for "rotmat" - Mat3x3</span>
+<span class="sd">                - for "euler&lt;mode&gt;" - Vec3d</span>
+<span class="sd">                - for "look_at" - Vec3d, Positionable or Tuple[Vec3d/Positionable, float], where float is the rotation around the forward direction vector in degrees</span>
 <span class="sd">            translation (Vector3d, optional): translation applied to the Blender object (default: (0,0,0))</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_blender_object</span> <span class="o">=</span> <span class="n">blender_object</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_tag</span> <span class="o">=</span> <span class="n">tag</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_quaternion</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
@@ -331,40 +322,40 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">tag</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tag</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">_rotation_params_to_quat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rotation_mode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;quaternionWXYZ&quot;</span><span class="p">,</span> <span class="n">rotation</span><span class="p">:</span> <span class="n">RotationParams</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_rotation_params_to_quat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rotation_mode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"quaternionWXYZ"</span><span class="p">,</span> <span class="n">rotation</span><span class="p">:</span> <span class="n">RotationParams</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Converts rotation parameters to quaternion representation</span>
 <span class="sd">        Args:</span>
 <span class="sd">            rotation_mode (str): type of rotation representation.</span>
 <span class="sd">                Can be one of the following:</span>
-<span class="sd">                - &quot;quaternionWXYZ&quot; - WXYZ quaternion</span>
-<span class="sd">                - &quot;quaternionXYZW&quot; - XYZW quaternion</span>
-<span class="sd">                - &quot;rotvec&quot; - axis-angle representation of rotation</span>
-<span class="sd">                - &quot;rotmat&quot; - 3x3 rotation matrix</span>
-<span class="sd">                - &quot;euler&lt;mode&gt;&quot; - Euler angles with the specified order of rotation, e.g. XYZ, xyz, ZXZ, etc. Refer to scipy.spatial.transform.Rotation.from_euler for details.</span>
-<span class="sd">                - &quot;look_at&quot; - look at rotation, the rotation is defined by the point to look at and, optional, the rotation around the forward direction vector (a single float value in tuple or list)</span>
+<span class="sd">                - "quaternionWXYZ" - WXYZ quaternion</span>
+<span class="sd">                - "quaternionXYZW" - XYZW quaternion</span>
+<span class="sd">                - "rotvec" - axis-angle representation of rotation</span>
+<span class="sd">                - "rotmat" - 3x3 rotation matrix</span>
+<span class="sd">                - "euler&lt;mode&gt;" - Euler angles with the specified order of rotation, e.g. XYZ, xyz, ZXZ, etc. Refer to scipy.spatial.transform.Rotation.from_euler for details.</span>
+<span class="sd">                - "look_at" - look at rotation, the rotation is defined by the point to look at and, optional, the rotation around the forward direction vector (a single float value in tuple or list)</span>
 <span class="sd">            rotation (RotationParams): rotation parameters according to the rotation_mode</span>
-<span class="sd">                - for &quot;quaternionWXYZ&quot; and &quot;quaternionXYZW&quot; - Vec4d</span>
-<span class="sd">                - for &quot;rotvec&quot; - Vec3d</span>
-<span class="sd">                - for &quot;rotmat&quot; - Mat3x3</span>
-<span class="sd">                - for &quot;euler&lt;mode&gt;&quot; - Vec3d</span>
-<span class="sd">                - for &quot;look_at&quot; - Vec3d, Positionable or Tuple[Vec3d/Positionable, float], where float is the rotation around the forward direction vector in degrees</span>
+<span class="sd">                - for "quaternionWXYZ" and "quaternionXYZW" - Vec4d</span>
+<span class="sd">                - for "rotvec" - Vec3d</span>
+<span class="sd">                - for "rotmat" - Mat3x3</span>
+<span class="sd">                - for "euler&lt;mode&gt;" - Vec3d</span>
+<span class="sd">                - for "look_at" - Vec3d, Positionable or Tuple[Vec3d/Positionable, float], where float is the rotation around the forward direction vector in degrees</span>
 <span class="sd">        Returns:</span>
 <span class="sd">            np.ndarray: quaternion representation of the rotation</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="n">rotation</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">None</span>
-        <span class="k">if</span> <span class="n">rotation_mode</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;quaternion&quot;</span><span class="p">):</span>
-            <span class="n">roll_quat</span> <span class="o">=</span> <span class="n">rotation_mode</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;quaternionxyzw&quot;</span>
+        <span class="k">if</span> <span class="n">rotation_mode</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"quaternion"</span><span class="p">):</span>
+            <span class="n">roll_quat</span> <span class="o">=</span> <span class="n">rotation_mode</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">"quaternionxyzw"</span>
             <span class="n">result</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="n">rotation</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="k">if</span> <span class="n">roll_quat</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">rotation</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="n">rotation_mode</span> <span class="o">==</span> <span class="s2">&quot;rotvec&quot;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">rotation_mode</span> <span class="o">==</span> <span class="s2">"rotvec"</span><span class="p">:</span>
             <span class="n">result</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="n">Rotation</span><span class="o">.</span><span class="n">from_rotvec</span><span class="p">(</span><span class="n">rotation</span><span class="p">)</span><span class="o">.</span><span class="n">as_quat</span><span class="p">(),</span> <span class="mi">1</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="n">rotation_mode</span> <span class="o">==</span> <span class="s2">&quot;rotmat&quot;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">rotation_mode</span> <span class="o">==</span> <span class="s2">"rotmat"</span><span class="p">:</span>
             <span class="n">result</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="n">Rotation</span><span class="o">.</span><span class="n">from_matrix</span><span class="p">(</span><span class="n">rotation</span><span class="p">)</span><span class="o">.</span><span class="n">as_quat</span><span class="p">(),</span> <span class="mi">1</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="n">rotation_mode</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;euler&quot;</span><span class="p">):</span>
-            <span class="n">euler_order</span> <span class="o">=</span> <span class="n">rotation_mode</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="s2">&quot;euler&quot;</span><span class="p">):]</span>
+        <span class="k">elif</span> <span class="n">rotation_mode</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"euler"</span><span class="p">):</span>
+            <span class="n">euler_order</span> <span class="o">=</span> <span class="n">rotation_mode</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="s2">"euler"</span><span class="p">):]</span>
             <span class="n">result</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="n">Rotation</span><span class="o">.</span><span class="n">from_euler</span><span class="p">(</span><span class="n">euler_order</span><span class="p">,</span> <span class="n">rotation</span><span class="p">,</span> <span class="n">degrees</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">as_quat</span><span class="p">(),</span> <span class="mi">1</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="n">rotation_mode</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;look_at&quot;</span><span class="p">,</span> <span class="s2">&quot;lookat&quot;</span><span class="p">]:</span>
+        <span class="k">elif</span> <span class="n">rotation_mode</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">"look_at"</span><span class="p">,</span> <span class="s2">"lookat"</span><span class="p">]:</span>
             <span class="n">look_at_rotation_deg</span> <span class="o">=</span> <span class="mf">0.</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">rotation</span><span class="p">,</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="nb">list</span><span class="p">))</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">rotation</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
                 <span class="n">rotation</span><span class="p">,</span> <span class="n">look_at_rotation_deg</span> <span class="o">=</span> <span class="n">rotation</span>
@@ -386,34 +377,34 @@
                 <span class="n">rotmat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">right_vec</span><span class="p">,</span> <span class="n">up_vec</span><span class="p">,</span> <span class="n">forward_vec</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
                 <span class="n">rot</span> <span class="o">=</span> <span class="n">Rotation</span><span class="o">.</span><span class="n">from_matrix</span><span class="p">(</span><span class="n">rotmat</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">look_at_rotation_deg</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">1e-10</span><span class="p">:</span>
-                    <span class="n">rot</span> <span class="o">=</span> <span class="n">rot</span> <span class="o">*</span> <span class="n">Rotation</span><span class="o">.</span><span class="n">from_euler</span><span class="p">(</span><span class="s1">&#39;Z&#39;</span><span class="p">,</span> <span class="n">look_at_rotation_deg</span><span class="p">,</span> <span class="n">degrees</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                    <span class="n">rot</span> <span class="o">=</span> <span class="n">rot</span> <span class="o">*</span> <span class="n">Rotation</span><span class="o">.</span><span class="n">from_euler</span><span class="p">(</span><span class="s1">'Z'</span><span class="p">,</span> <span class="n">look_at_rotation_deg</span><span class="p">,</span> <span class="n">degrees</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
                 <span class="n">result</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="n">rot</span><span class="o">.</span><span class="n">as_quat</span><span class="p">(),</span> <span class="mi">1</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown rotation mode: </span><span class="si">{</span><span class="n">rotation_mode</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Unknown rotation mode: </span><span class="si">{</span><span class="n">rotation_mode</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">result</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Positionable.set_position">
 <a class="viewcode-back" href="../../../api/blendify.internal.html#blendify.internal.positionable.Positionable.set_position">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">set_position</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rotation_mode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;quaternionWXYZ&quot;</span><span class="p">,</span> <span class="n">rotation</span><span class="p">:</span> <span class="n">RotationParams</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">translation</span><span class="p">:</span> <span class="n">Vector3d</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets the position of the object in the scene</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_position</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rotation_mode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"quaternionWXYZ"</span><span class="p">,</span> <span class="n">rotation</span><span class="p">:</span> <span class="n">RotationParams</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">translation</span><span class="p">:</span> <span class="n">Vector3d</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Sets the position of the object in the scene</span>
 <span class="sd">        </span>
 <span class="sd">        Args:</span>
 <span class="sd">            rotation_mode (str): type of rotation representation.</span>
 <span class="sd">                Can be one of the following:</span>
-<span class="sd">                - &quot;quaternionWXYZ&quot; - WXYZ quaternion</span>
-<span class="sd">                - &quot;quaternionXYZW&quot; - XYZW quaternion</span>
-<span class="sd">                - &quot;rotvec&quot; - axis-angle representation of rotation</span>
-<span class="sd">                - &quot;rotmat&quot; - 3x3 rotation matrix</span>
-<span class="sd">                - &quot;euler&lt;mode&gt;&quot; - Euler angles with the specified order of rotation, e.g. XYZ, xyz, ZXZ, etc. Refer to scipy.spatial.transform.Rotation.from_euler for details.</span>
-<span class="sd">                - &quot;look_at&quot; - look at rotation, the rotation is defined by the point to look at and, optional, the rotation around the forward direction vector (a single float value in tuple or list)</span>
+<span class="sd">                - "quaternionWXYZ" - WXYZ quaternion</span>
+<span class="sd">                - "quaternionXYZW" - XYZW quaternion</span>
+<span class="sd">                - "rotvec" - axis-angle representation of rotation</span>
+<span class="sd">                - "rotmat" - 3x3 rotation matrix</span>
+<span class="sd">                - "euler&lt;mode&gt;" - Euler angles with the specified order of rotation, e.g. XYZ, xyz, ZXZ, etc. Refer to scipy.spatial.transform.Rotation.from_euler for details.</span>
+<span class="sd">                - "look_at" - look at rotation, the rotation is defined by the point to look at and, optional, the rotation around the forward direction vector (a single float value in tuple or list)</span>
 <span class="sd">            rotation (RotationParams): rotation parameters according to the rotation_mode</span>
-<span class="sd">                - for &quot;quaternionWXYZ&quot; and &quot;quaternionXYZW&quot; - Vec4d</span>
-<span class="sd">                - for &quot;rotvec&quot; - Vec3d</span>
-<span class="sd">                - for &quot;rotmat&quot; - Mat3x3</span>
-<span class="sd">                - for &quot;euler&lt;mode&gt;&quot; - Vec3d</span>
-<span class="sd">                - for &quot;look_at&quot; - Vec3d, Positionable or Tuple[Vec3d/Positionable, float], where float is the rotation around the forward direction vector in degrees</span>
+<span class="sd">                - for "quaternionWXYZ" and "quaternionXYZW" - Vec4d</span>
+<span class="sd">                - for "rotvec" - Vec3d</span>
+<span class="sd">                - for "rotmat" - Mat3x3</span>
+<span class="sd">                - for "euler&lt;mode&gt;" - Vec3d</span>
+<span class="sd">                - for "look_at" - Vec3d, Positionable or Tuple[Vec3d/Positionable, float], where float is the rotation around the forward direction vector in degrees</span>
 <span class="sd">            translation (Vector3d): translation vector</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
 
         <span class="k">if</span> <span class="n">translation</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_translation</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">translation</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
@@ -445,7 +436,7 @@
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_set_blender_object_position</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">blender_object</span><span class="p">:</span> <span class="n">BlenderGroup</span><span class="p">):</span>
         <span class="k">def</span><span class="w"> </span><span class="nf">set_position</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
-            <span class="n">obj</span><span class="o">.</span><span class="n">rotation_mode</span> <span class="o">=</span> <span class="s1">&#39;QUATERNION&#39;</span>
+            <span class="n">obj</span><span class="o">.</span><span class="n">rotation_mode</span> <span class="o">=</span> <span class="s1">'QUATERNION'</span>
             <span class="n">obj</span><span class="o">.</span><span class="n">rotation_quaternion</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">quaternion</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
             <span class="n">obj</span><span class="o">.</span><span class="n">location</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">translation</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
 
@@ -456,15 +447,15 @@
             <span class="n">set_position</span><span class="p">(</span><span class="n">blender_object</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_blender_remove_object</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Removes the object from Blender scene&quot;&quot;&quot;</span>
-        <span class="n">bpy</span><span class="o">.</span><span class="n">ops</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">select_all</span><span class="p">(</span><span class="n">action</span><span class="o">=</span><span class="s1">&#39;DESELECT&#39;</span><span class="p">)</span>
+<span class="w">        </span><span class="sd">"""Removes the object from Blender scene"""</span>
+        <span class="n">bpy</span><span class="o">.</span><span class="n">ops</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">select_all</span><span class="p">(</span><span class="n">action</span><span class="o">=</span><span class="s1">'DESELECT'</span><span class="p">)</span>
         <span class="n">is_collection</span> <span class="o">=</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_blender_object</span><span class="p">,</span> <span class="n">bpy</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">Collection</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">is_collection</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_blender_object</span><span class="o">.</span><span class="n">all_objects</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
                 <span class="n">obj</span><span class="o">.</span><span class="n">select_set</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">bpy</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">view_layer</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">active</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_blender_object</span>
-            <span class="n">bpy</span><span class="o">.</span><span class="n">ops</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">mode_set</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s1">&#39;OBJECT&#39;</span><span class="p">)</span>
+            <span class="n">bpy</span><span class="o">.</span><span class="n">ops</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">mode_set</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s1">'OBJECT'</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_blender_object</span><span class="o">.</span><span class="n">select_set</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
         <span class="n">bpy</span><span class="o">.</span><span class="n">ops</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">is_collection</span><span class="p">:</span>
@@ -506,9 +497,9 @@
       
     </aside>
   </div>
-</div><script src="../../../_static/documentation_options.js?v=acc74ff5"></script>
-    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
-    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+</div><script src="../../../_static/documentation_options.js?v=b21de401"></script>
+    <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../_static/scripts/furo.js?v=46bd48cc"></script>
     </body>
 </html>
