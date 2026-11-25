@@ -1,0 +1,1030 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="../">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="blendify.cameras package" href="blendify.cameras.html" /><link rel="prev" title="blendify" href="modules.html" />
+        <link rel="prefetch" href="../_static/logo/blendify_logo_small.png" as="image" />
+        <link rel="prefetch" href="../_static/logo/blendify_logo_small.png" as="image" />
+
+    <!-- Generated with Sphinx 8.2.3 and Furo 2025.07.19 -->
+        <title>blendify package - Blendify</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d111a655" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=25af2a20" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=8dab3a3b" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f2f2f2;
+  --color-code-foreground: #1e1e1e;
+  --color-brand-primary: #3FDC55;
+  --color-brand-content: #4B9B28;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #2b2b2b;
+  --color-code-foreground: #f8f8f2;
+  --color-brand-primary: #CAFD6C;
+  --color-brand-content: #95FE6A;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #2b2b2b;
+  --color-code-foreground: #f8f8f2;
+  --color-brand-primary: #CAFD6C;
+  --color-brand-content: #95FE6A;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../index.html"><div class="brand">Blendify</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo only-light" src="../_static/logo/blendify_logo_small.png" alt="Light Logo"/>
+    <img class="sidebar-logo only-dark" src="../_static/logo/blendify_logo_small.png" alt="Dark Logo"/>
+  </div>
+  
+</a>
+
+<div style="text-align: center">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+  <!-- Place this tag where you want the button to render. -->
+  <a
+    class="github-button"
+    href="https://github.com/ptrvilya/blendify/"
+    data-color-scheme="no-preference: light; light: light; dark: light;"
+    data-size="large"
+    data-show-count="true"
+    aria-label="Download buttons/github-buttons on GitHub"
+  >
+    Github
+  </a>
+</div><form class="sidebar-search-container" method="get" action="../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Feature walkthrough</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../walkthrough.html">Feature walkthrough</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul class="current">
+<li class="toctree-l1 current has-children"><a class="reference internal" href="modules.html">blendify</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of blendify</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2 current has-children current-page"><a class="current reference internal" href="#">blendify package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of blendify package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="blendify.cameras.html">blendify.cameras package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="blendify.colors.html">blendify.colors package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="blendify.internal.html">blendify.internal package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="blendify.lights.html">blendify.lights package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="blendify.materials.html">blendify.materials package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="blendify.renderables.html">blendify.renderables package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="blendify.utils.html">blendify.utils package</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="view-this-page">
+  <a class="muted-link" href="../_sources/api/blendify.rst.txt" title="View this page">
+    <svg><use href="#svg-eye"></use></svg>
+    <span class="visually-hidden">View this page</span>
+  </a>
+</div>
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <section id="blendify-package">
+<span id="blendify"></span><h1>blendify package<a class="headerlink" href="#blendify-package" title="Link to this heading">¶</a></h1>
+<section id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Link to this heading">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="blendify.cameras.html">blendify.cameras package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="blendify.cameras.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="blendify.cameras.html#module-blendify.cameras.base">blendify.cameras.base module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="blendify.cameras.html#blendify.cameras.base.Camera"><code class="docutils literal notranslate"><span class="pre">Camera</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="blendify.cameras.html#blendify.cameras.base.Camera.blender_camera"><code class="docutils literal notranslate"><span class="pre">Camera.blender_camera</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="blendify.cameras.html#blendify.cameras.base.Camera.distance2depth"><code class="docutils literal notranslate"><span class="pre">Camera.distance2depth()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="blendify.cameras.html#blendify.cameras.base.Camera.far"><code class="docutils literal notranslate"><span class="pre">Camera.far</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="blendify.cameras.html#blendify.cameras.base.Camera.get_camera_viewdir"><code class="docutils literal notranslate"><span class="pre">Camera.get_camera_viewdir()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="blendify.cameras.html#blendify.cameras.base.Camera.near"><code class="docutils literal notranslate"><span class="pre">Camera.near</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="blendify.cameras.html#blendify.cameras.base.Camera.resolution"><code class="docutils literal notranslate"><span class="pre">Camera.resolution</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="blendify.cameras.html#module-blendify.cameras.common">blendify.cameras.common module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="blendify.cameras.html#blendify.cameras.common.OrthographicCamera"><code class="docutils literal notranslate"><span class="pre">OrthographicCamera</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="blendify.cameras.html#blendify.cameras.common.OrthographicCamera.distance2depth"><code class="docutils literal notranslate"><span class="pre">OrthographicCamera.distance2depth()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="blendify.cameras.html#blendify.cameras.common.OrthographicCamera.ortho_scale"><code class="docutils literal notranslate"><span class="pre">OrthographicCamera.ortho_scale</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="blendify.cameras.html#blendify.cameras.common.PerspectiveCamera"><code class="docutils literal notranslate"><span class="pre">PerspectiveCamera</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="blendify.cameras.html#blendify.cameras.common.PerspectiveCamera.center"><code class="docutils literal notranslate"><span class="pre">PerspectiveCamera.center</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="blendify.cameras.html#blendify.cameras.common.PerspectiveCamera.distance2depth"><code class="docutils literal notranslate"><span class="pre">PerspectiveCamera.distance2depth()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="blendify.cameras.html#blendify.cameras.common.PerspectiveCamera.focal_dist"><code class="docutils literal notranslate"><span class="pre">PerspectiveCamera.focal_dist</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="blendify.cameras.html#blendify.cameras.common.PerspectiveCamera.fov_x"><code class="docutils literal notranslate"><span class="pre">PerspectiveCamera.fov_x</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="blendify.cameras.html#blendify.cameras.common.PerspectiveCamera.fov_y"><code class="docutils literal notranslate"><span class="pre">PerspectiveCamera.fov_y</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="blendify.cameras.html#module-blendify.cameras">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="blendify.colors.html">blendify.colors package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="blendify.colors.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="blendify.colors.html#module-blendify.colors.base">blendify.colors.base module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="blendify.colors.html#blendify.colors.base.Colors"><code class="docutils literal notranslate"><span class="pre">Colors</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="blendify.colors.html#blendify.colors.base.Colors.metadata"><code class="docutils literal notranslate"><span class="pre">Colors.metadata</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="blendify.colors.html#blendify.colors.base.ColorsMetadata"><code class="docutils literal notranslate"><span class="pre">ColorsMetadata</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="blendify.colors.html#blendify.colors.base.ColorsMetadata.color"><code class="docutils literal notranslate"><span class="pre">ColorsMetadata.color</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="blendify.colors.html#blendify.colors.base.ColorsMetadata.has_alpha"><code class="docutils literal notranslate"><span class="pre">ColorsMetadata.has_alpha</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="blendify.colors.html#blendify.colors.base.ColorsMetadata.texture"><code class="docutils literal notranslate"><span class="pre">ColorsMetadata.texture</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="blendify.colors.html#blendify.colors.base.ColorsMetadata.type"><code class="docutils literal notranslate"><span class="pre">ColorsMetadata.type</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="blendify.colors.html#module-blendify.colors.common">blendify.colors.common module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="blendify.colors.html#blendify.colors.common.UniformColors"><code class="docutils literal notranslate"><span class="pre">UniformColors</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="blendify.colors.html#blendify.colors.common.UniformColors.color"><code class="docutils literal notranslate"><span class="pre">UniformColors.color</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="blendify.colors.html#blendify.colors.common.VertexColors"><code class="docutils literal notranslate"><span class="pre">VertexColors</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="blendify.colors.html#blendify.colors.common.VertexColors.vertex_colors"><code class="docutils literal notranslate"><span class="pre">VertexColors.vertex_colors</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="blendify.colors.html#module-blendify.colors.texture">blendify.colors.texture module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="blendify.colors.html#blendify.colors.texture.FacesUV"><code class="docutils literal notranslate"><span class="pre">FacesUV</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="blendify.colors.html#blendify.colors.texture.FileTextureColors"><code class="docutils literal notranslate"><span class="pre">FileTextureColors</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="blendify.colors.html#blendify.colors.texture.FileTextureColors.blender_texture"><code class="docutils literal notranslate"><span class="pre">FileTextureColors.blender_texture</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="blendify.colors.html#blendify.colors.texture.TextureColors"><code class="docutils literal notranslate"><span class="pre">TextureColors</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="blendify.colors.html#blendify.colors.texture.TextureColors.blender_texture"><code class="docutils literal notranslate"><span class="pre">TextureColors.blender_texture</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="blendify.colors.html#blendify.colors.texture.UVColors"><code class="docutils literal notranslate"><span class="pre">UVColors</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="blendify.colors.html#blendify.colors.texture.UVColors.uv_map"><code class="docutils literal notranslate"><span class="pre">UVColors.uv_map</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="blendify.colors.html#blendify.colors.texture.UVMap"><code class="docutils literal notranslate"><span class="pre">UVMap</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="blendify.colors.html#blendify.colors.texture.UVMap.data"><code class="docutils literal notranslate"><span class="pre">UVMap.data</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="blendify.colors.html#blendify.colors.texture.VertexUV"><code class="docutils literal notranslate"><span class="pre">VertexUV</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="blendify.colors.html#module-blendify.colors">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="blendify.internal.html">blendify.internal package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="blendify.internal.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="blendify.internal.html#module-blendify.internal.execution_decorator">blendify.internal.execution_decorator module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="blendify.internal.html#blendify.internal.execution_decorator.safe_exit"><code class="docutils literal notranslate"><span class="pre">safe_exit()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="blendify.internal.html#module-blendify.internal.io">blendify.internal.io module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="blendify.internal.html#blendify.internal.io.catch_stdout"><code class="docutils literal notranslate"><span class="pre">catch_stdout</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="blendify.internal.html#blendify.internal.io.catch_stdout.release_hook"><code class="docutils literal notranslate"><span class="pre">catch_stdout.release_hook()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="blendify.internal.html#blendify.internal.io.catch_stdout.set_hook"><code class="docutils literal notranslate"><span class="pre">catch_stdout.set_hook()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="blendify.internal.html#module-blendify.internal.parser">blendify.internal.parser module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="blendify.internal.html#blendify.internal.parser.move_collection"><code class="docutils literal notranslate"><span class="pre">move_collection()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="blendify.internal.html#blendify.internal.parser.parse_camera_from_blendfile"><code class="docutils literal notranslate"><span class="pre">parse_camera_from_blendfile()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="blendify.internal.html#blendify.internal.parser.parse_light_from_blendfile"><code class="docutils literal notranslate"><span class="pre">parse_light_from_blendfile()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="blendify.internal.html#module-blendify.internal.positionable">blendify.internal.positionable module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="blendify.internal.html#blendify.internal.positionable.Positionable"><code class="docutils literal notranslate"><span class="pre">Positionable</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="blendify.internal.html#blendify.internal.positionable.Positionable.quaternion"><code class="docutils literal notranslate"><span class="pre">Positionable.quaternion</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="blendify.internal.html#blendify.internal.positionable.Positionable.set_position"><code class="docutils literal notranslate"><span class="pre">Positionable.set_position()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="blendify.internal.html#blendify.internal.positionable.Positionable.tag"><code class="docutils literal notranslate"><span class="pre">Positionable.tag</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="blendify.internal.html#blendify.internal.positionable.Positionable.translation"><code class="docutils literal notranslate"><span class="pre">Positionable.translation</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="blendify.internal.html#module-blendify.internal.singleton">blendify.internal.singleton module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="blendify.internal.html#blendify.internal.singleton.Singleton"><code class="docutils literal notranslate"><span class="pre">Singleton</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="blendify.internal.html#module-blendify.internal.texture">blendify.internal.texture module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="blendify.internal.html#blendify.internal.texture.compute_particle_color_texture"><code class="docutils literal notranslate"><span class="pre">compute_particle_color_texture()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="blendify.internal.html#module-blendify.internal.types">blendify.internal.types module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="blendify.internal.html#module-blendify.internal">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="blendify.lights.html">blendify.lights package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="blendify.lights.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="blendify.lights.html#module-blendify.lights.area">blendify.lights.area module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="blendify.lights.html#blendify.lights.area.AreaLight"><code class="docutils literal notranslate"><span class="pre">AreaLight</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="blendify.lights.html#blendify.lights.area.CircleAreaLight"><code class="docutils literal notranslate"><span class="pre">CircleAreaLight</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="blendify.lights.html#blendify.lights.area.CircleAreaLight.size"><code class="docutils literal notranslate"><span class="pre">CircleAreaLight.size</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="blendify.lights.html#blendify.lights.area.EllipseAreaLight"><code class="docutils literal notranslate"><span class="pre">EllipseAreaLight</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="blendify.lights.html#blendify.lights.area.EllipseAreaLight.size"><code class="docutils literal notranslate"><span class="pre">EllipseAreaLight.size</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="blendify.lights.html#blendify.lights.area.RectangleAreaLight"><code class="docutils literal notranslate"><span class="pre">RectangleAreaLight</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="blendify.lights.html#blendify.lights.area.RectangleAreaLight.size"><code class="docutils literal notranslate"><span class="pre">RectangleAreaLight.size</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="blendify.lights.html#blendify.lights.area.SquareAreaLight"><code class="docutils literal notranslate"><span class="pre">SquareAreaLight</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="blendify.lights.html#blendify.lights.area.SquareAreaLight.size"><code class="docutils literal notranslate"><span class="pre">SquareAreaLight.size</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="blendify.lights.html#module-blendify.lights.base">blendify.lights.base module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="blendify.lights.html#blendify.lights.base.Light"><code class="docutils literal notranslate"><span class="pre">Light</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="blendify.lights.html#blendify.lights.base.Light.blender_light"><code class="docutils literal notranslate"><span class="pre">Light.blender_light</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="blendify.lights.html#blendify.lights.base.Light.color"><code class="docutils literal notranslate"><span class="pre">Light.color</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="blendify.lights.html#blendify.lights.base.Light.max_bounces"><code class="docutils literal notranslate"><span class="pre">Light.max_bounces</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="blendify.lights.html#blendify.lights.base.Light.strength"><code class="docutils literal notranslate"><span class="pre">Light.strength</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="blendify.lights.html#blendify.lights.base.Light.use_shadow"><code class="docutils literal notranslate"><span class="pre">Light.use_shadow</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="blendify.lights.html#module-blendify.lights.collection">blendify.lights.collection module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="blendify.lights.html#blendify.lights.collection.LightsCollection"><code class="docutils literal notranslate"><span class="pre">LightsCollection</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="blendify.lights.html#blendify.lights.collection.LightsCollection.add_area"><code class="docutils literal notranslate"><span class="pre">LightsCollection.add_area()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="blendify.lights.html#blendify.lights.collection.LightsCollection.add_point"><code class="docutils literal notranslate"><span class="pre">LightsCollection.add_point()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="blendify.lights.html#blendify.lights.collection.LightsCollection.add_spot"><code class="docutils literal notranslate"><span class="pre">LightsCollection.add_spot()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="blendify.lights.html#blendify.lights.collection.LightsCollection.add_sun"><code class="docutils literal notranslate"><span class="pre">LightsCollection.add_sun()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="blendify.lights.html#blendify.lights.collection.LightsCollection.items"><code class="docutils literal notranslate"><span class="pre">LightsCollection.items()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="blendify.lights.html#blendify.lights.collection.LightsCollection.keys"><code class="docutils literal notranslate"><span class="pre">LightsCollection.keys()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="blendify.lights.html#blendify.lights.collection.LightsCollection.remove"><code class="docutils literal notranslate"><span class="pre">LightsCollection.remove()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="blendify.lights.html#blendify.lights.collection.LightsCollection.remove_background_light"><code class="docutils literal notranslate"><span class="pre">LightsCollection.remove_background_light()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="blendify.lights.html#blendify.lights.collection.LightsCollection.set_background_light"><code class="docutils literal notranslate"><span class="pre">LightsCollection.set_background_light()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="blendify.lights.html#blendify.lights.collection.LightsCollection.values"><code class="docutils literal notranslate"><span class="pre">LightsCollection.values()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="blendify.lights.html#module-blendify.lights.common">blendify.lights.common module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="blendify.lights.html#blendify.lights.common.DirectionalLight"><code class="docutils literal notranslate"><span class="pre">DirectionalLight</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="blendify.lights.html#blendify.lights.common.DirectionalLight.angular_diameter"><code class="docutils literal notranslate"><span class="pre">DirectionalLight.angular_diameter</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="blendify.lights.html#blendify.lights.common.PointLight"><code class="docutils literal notranslate"><span class="pre">PointLight</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="blendify.lights.html#blendify.lights.common.PointLight.shadow_soft_size"><code class="docutils literal notranslate"><span class="pre">PointLight.shadow_soft_size</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="blendify.lights.html#blendify.lights.common.SpotLight"><code class="docutils literal notranslate"><span class="pre">SpotLight</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="blendify.lights.html#blendify.lights.common.SpotLight.shadow_soft_size"><code class="docutils literal notranslate"><span class="pre">SpotLight.shadow_soft_size</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="blendify.lights.html#blendify.lights.common.SpotLight.spot_blend"><code class="docutils literal notranslate"><span class="pre">SpotLight.spot_blend</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="blendify.lights.html#blendify.lights.common.SpotLight.spot_size"><code class="docutils literal notranslate"><span class="pre">SpotLight.spot_size</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="blendify.lights.html#module-blendify.lights">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="blendify.materials.html">blendify.materials package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="blendify.materials.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="blendify.materials.html#module-blendify.materials.base">blendify.materials.base module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="blendify.materials.html#blendify.materials.base.Material"><code class="docutils literal notranslate"><span class="pre">Material</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="blendify.materials.html#blendify.materials.base.Material.create_material"><code class="docutils literal notranslate"><span class="pre">Material.create_material()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="blendify.materials.html#blendify.materials.base.MaterialInstance"><code class="docutils literal notranslate"><span class="pre">MaterialInstance</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="blendify.materials.html#blendify.materials.base.MaterialInstance.blender_material"><code class="docutils literal notranslate"><span class="pre">MaterialInstance.blender_material</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="blendify.materials.html#blendify.materials.base.MaterialInstance.colors_node"><code class="docutils literal notranslate"><span class="pre">MaterialInstance.colors_node</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="blendify.materials.html#blendify.materials.base.MaterialInstance.inputs"><code class="docutils literal notranslate"><span class="pre">MaterialInstance.inputs</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="blendify.materials.html#blendify.materials.base.material_property"><code class="docutils literal notranslate"><span class="pre">material_property()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="blendify.materials.html#module-blendify.materials.bsdf">blendify.materials.bsdf module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="blendify.materials.html#blendify.materials.bsdf.GlossyBSDFMaterial"><code class="docutils literal notranslate"><span class="pre">GlossyBSDFMaterial</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="blendify.materials.html#blendify.materials.bsdf.GlossyBSDFMaterial.create_material"><code class="docutils literal notranslate"><span class="pre">GlossyBSDFMaterial.create_material()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="blendify.materials.html#blendify.materials.bsdf.GlossyBSDFMaterial.distribution"><code class="docutils literal notranslate"><span class="pre">GlossyBSDFMaterial.distribution</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="blendify.materials.html#blendify.materials.bsdf.PrincipledBSDFMaterial"><code class="docutils literal notranslate"><span class="pre">PrincipledBSDFMaterial</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="blendify.materials.html#blendify.materials.bsdf.PrincipledBSDFMaterial.create_material"><code class="docutils literal notranslate"><span class="pre">PrincipledBSDFMaterial.create_material()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="blendify.materials.html#blendify.materials.bsdf.PrincipledBSDFWireframeMaterial"><code class="docutils literal notranslate"><span class="pre">PrincipledBSDFWireframeMaterial</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="blendify.materials.html#blendify.materials.bsdf.PrincipledBSDFWireframeMaterial.create_material"><code class="docutils literal notranslate"><span class="pre">PrincipledBSDFWireframeMaterial.create_material()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="blendify.materials.html#module-blendify.materials.metal">blendify.materials.metal module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="blendify.materials.html#blendify.materials.metal.MetalMaterial"><code class="docutils literal notranslate"><span class="pre">MetalMaterial</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="blendify.materials.html#blendify.materials.metal.MetalWireframeMaterial"><code class="docutils literal notranslate"><span class="pre">MetalWireframeMaterial</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="blendify.materials.html#module-blendify.materials.plastic">blendify.materials.plastic module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="blendify.materials.html#blendify.materials.plastic.PlasticMaterial"><code class="docutils literal notranslate"><span class="pre">PlasticMaterial</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="blendify.materials.html#blendify.materials.plastic.PlasticWireframeMaterial"><code class="docutils literal notranslate"><span class="pre">PlasticWireframeMaterial</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="blendify.materials.html#module-blendify.materials.wireframe">blendify.materials.wireframe module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="blendify.materials.html#blendify.materials.wireframe.WireframeMaterial"><code class="docutils literal notranslate"><span class="pre">WireframeMaterial</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="blendify.materials.html#blendify.materials.wireframe.WireframeMaterial.overlay_wireframe"><code class="docutils literal notranslate"><span class="pre">WireframeMaterial.overlay_wireframe()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="blendify.materials.html#module-blendify.materials">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="blendify.renderables.html">blendify.renderables package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="blendify.renderables.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="blendify.renderables.html#module-blendify.renderables.base">blendify.renderables.base module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="blendify.renderables.html#blendify.renderables.base.Renderable"><code class="docutils literal notranslate"><span class="pre">Renderable</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="blendify.renderables.html#blendify.renderables.base.Renderable.update_colors"><code class="docutils literal notranslate"><span class="pre">Renderable.update_colors()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="blendify.renderables.html#blendify.renderables.base.Renderable.update_material"><code class="docutils literal notranslate"><span class="pre">Renderable.update_material()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="blendify.renderables.html#blendify.renderables.base.RenderableObject"><code class="docutils literal notranslate"><span class="pre">RenderableObject</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="blendify.renderables.html#blendify.renderables.base.RenderableObject.emit_shadows"><code class="docutils literal notranslate"><span class="pre">RenderableObject.emit_shadows</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="blendify.renderables.html#blendify.renderables.base.RenderableObject.update_colors"><code class="docutils literal notranslate"><span class="pre">RenderableObject.update_colors()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="blendify.renderables.html#blendify.renderables.base.RenderableObject.update_material"><code class="docutils literal notranslate"><span class="pre">RenderableObject.update_material()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="blendify.renderables.html#module-blendify.renderables.collection">blendify.renderables.collection module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="blendify.renderables.html#blendify.renderables.collection.RenderablesCollection"><code class="docutils literal notranslate"><span class="pre">RenderablesCollection</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="blendify.renderables.html#blendify.renderables.collection.RenderablesCollection.add_circle_mesh"><code class="docutils literal notranslate"><span class="pre">RenderablesCollection.add_circle_mesh()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="blendify.renderables.html#blendify.renderables.collection.RenderablesCollection.add_cube_mesh"><code class="docutils literal notranslate"><span class="pre">RenderablesCollection.add_cube_mesh()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="blendify.renderables.html#blendify.renderables.collection.RenderablesCollection.add_curve_nurbs"><code class="docutils literal notranslate"><span class="pre">RenderablesCollection.add_curve_nurbs()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="blendify.renderables.html#blendify.renderables.collection.RenderablesCollection.add_cylinder_mesh"><code class="docutils literal notranslate"><span class="pre">RenderablesCollection.add_cylinder_mesh()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="blendify.renderables.html#blendify.renderables.collection.RenderablesCollection.add_ellipsoid_nurbs"><code class="docutils literal notranslate"><span class="pre">RenderablesCollection.add_ellipsoid_nurbs()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="blendify.renderables.html#blendify.renderables.collection.RenderablesCollection.add_mesh"><code class="docutils literal notranslate"><span class="pre">RenderablesCollection.add_mesh()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="blendify.renderables.html#blendify.renderables.collection.RenderablesCollection.add_plane_mesh"><code class="docutils literal notranslate"><span class="pre">RenderablesCollection.add_plane_mesh()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="blendify.renderables.html#blendify.renderables.collection.RenderablesCollection.add_pointcloud"><code class="docutils literal notranslate"><span class="pre">RenderablesCollection.add_pointcloud()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="blendify.renderables.html#blendify.renderables.collection.RenderablesCollection.add_sphere_nurbs"><code class="docutils literal notranslate"><span class="pre">RenderablesCollection.add_sphere_nurbs()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="blendify.renderables.html#blendify.renderables.collection.RenderablesCollection.items"><code class="docutils literal notranslate"><span class="pre">RenderablesCollection.items()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="blendify.renderables.html#blendify.renderables.collection.RenderablesCollection.keys"><code class="docutils literal notranslate"><span class="pre">RenderablesCollection.keys()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="blendify.renderables.html#blendify.renderables.collection.RenderablesCollection.remove"><code class="docutils literal notranslate"><span class="pre">RenderablesCollection.remove()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="blendify.renderables.html#blendify.renderables.collection.RenderablesCollection.values"><code class="docutils literal notranslate"><span class="pre">RenderablesCollection.values()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="blendify.renderables.html#module-blendify.renderables.mesh">blendify.renderables.mesh module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="blendify.renderables.html#blendify.renderables.mesh.Mesh"><code class="docutils literal notranslate"><span class="pre">Mesh</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="blendify.renderables.html#blendify.renderables.mesh.Mesh.set_smooth"><code class="docutils literal notranslate"><span class="pre">Mesh.set_smooth()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="blendify.renderables.html#blendify.renderables.mesh.Mesh.update_vertices"><code class="docutils literal notranslate"><span class="pre">Mesh.update_vertices()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="blendify.renderables.html#module-blendify.renderables.pointcloud">blendify.renderables.pointcloud module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="blendify.renderables.html#blendify.renderables.pointcloud.ParticleMetadata"><code class="docutils literal notranslate"><span class="pre">ParticleMetadata</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="blendify.renderables.html#blendify.renderables.pointcloud.ParticleMetadata.extra_color_nodes"><code class="docutils literal notranslate"><span class="pre">ParticleMetadata.extra_color_nodes</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="blendify.renderables.html#blendify.renderables.pointcloud.ParticleMetadata.material_instance"><code class="docutils literal notranslate"><span class="pre">ParticleMetadata.material_instance</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="blendify.renderables.html#blendify.renderables.pointcloud.ParticleMetadata.num_particles"><code class="docutils literal notranslate"><span class="pre">ParticleMetadata.num_particles</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="blendify.renderables.html#blendify.renderables.pointcloud.ParticleMetadata.texture_image"><code class="docutils literal notranslate"><span class="pre">ParticleMetadata.texture_image</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="blendify.renderables.html#blendify.renderables.pointcloud.ParticleMetadata.vertex_offset"><code class="docutils literal notranslate"><span class="pre">ParticleMetadata.vertex_offset</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="blendify.renderables.html#blendify.renderables.pointcloud.PointCloud"><code class="docutils literal notranslate"><span class="pre">PointCloud</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="blendify.renderables.html#blendify.renderables.pointcloud.PointCloud.emit_shadow"><code class="docutils literal notranslate"><span class="pre">PointCloud.emit_shadow</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="blendify.renderables.html#blendify.renderables.pointcloud.PointCloud.update_colors"><code class="docutils literal notranslate"><span class="pre">PointCloud.update_colors()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="blendify.renderables.html#blendify.renderables.pointcloud.PointCloud.update_material"><code class="docutils literal notranslate"><span class="pre">PointCloud.update_material()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="blendify.renderables.html#blendify.renderables.pointcloud.PointCloud.update_vertices"><code class="docutils literal notranslate"><span class="pre">PointCloud.update_vertices()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="blendify.renderables.html#module-blendify.renderables.primitives">blendify.renderables.primitives module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="blendify.renderables.html#blendify.renderables.primitives.CircleMesh"><code class="docutils literal notranslate"><span class="pre">CircleMesh</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="blendify.renderables.html#blendify.renderables.primitives.CircleMesh.set_smooth"><code class="docutils literal notranslate"><span class="pre">CircleMesh.set_smooth()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="blendify.renderables.html#blendify.renderables.primitives.CubeMesh"><code class="docutils literal notranslate"><span class="pre">CubeMesh</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="blendify.renderables.html#blendify.renderables.primitives.CubeMesh.set_smooth"><code class="docutils literal notranslate"><span class="pre">CubeMesh.set_smooth()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="blendify.renderables.html#blendify.renderables.primitives.CurveBezier"><code class="docutils literal notranslate"><span class="pre">CurveBezier</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="blendify.renderables.html#blendify.renderables.primitives.CylinderMesh"><code class="docutils literal notranslate"><span class="pre">CylinderMesh</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="blendify.renderables.html#blendify.renderables.primitives.CylinderMesh.set_smooth"><code class="docutils literal notranslate"><span class="pre">CylinderMesh.set_smooth()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="blendify.renderables.html#blendify.renderables.primitives.EllipsoidNURBS"><code class="docutils literal notranslate"><span class="pre">EllipsoidNURBS</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="blendify.renderables.html#blendify.renderables.primitives.MeshPrimitive"><code class="docutils literal notranslate"><span class="pre">MeshPrimitive</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="blendify.renderables.html#blendify.renderables.primitives.MeshPrimitive.set_smooth"><code class="docutils literal notranslate"><span class="pre">MeshPrimitive.set_smooth()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="blendify.renderables.html#blendify.renderables.primitives.ParametricPrimitive"><code class="docutils literal notranslate"><span class="pre">ParametricPrimitive</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="blendify.renderables.html#blendify.renderables.primitives.PlaneMesh"><code class="docutils literal notranslate"><span class="pre">PlaneMesh</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="blendify.renderables.html#blendify.renderables.primitives.PlaneMesh.set_smooth"><code class="docutils literal notranslate"><span class="pre">PlaneMesh.set_smooth()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="blendify.renderables.html#blendify.renderables.primitives.SphereNURBS"><code class="docutils literal notranslate"><span class="pre">SphereNURBS</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="blendify.renderables.html#module-blendify.renderables">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="blendify.utils.html">blendify.utils package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="blendify.utils.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="blendify.utils.html#module-blendify.utils.camera_trajectory">blendify.utils.camera_trajectory module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="blendify.utils.html#blendify.utils.camera_trajectory.Trajectory"><code class="docutils literal notranslate"><span class="pre">Trajectory</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="blendify.utils.html#blendify.utils.camera_trajectory.Trajectory.add_keypoint"><code class="docutils literal notranslate"><span class="pre">Trajectory.add_keypoint()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="blendify.utils.html#blendify.utils.camera_trajectory.Trajectory.find_closest_kp_in_traj"><code class="docutils literal notranslate"><span class="pre">Trajectory.find_closest_kp_in_traj()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="blendify.utils.html#blendify.utils.camera_trajectory.Trajectory.refine_trajectory"><code class="docutils literal notranslate"><span class="pre">Trajectory.refine_trajectory()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="blendify.utils.html#blendify.utils.camera_trajectory.Trajectory.rot_gaussian_smoothing"><code class="docutils literal notranslate"><span class="pre">Trajectory.rot_gaussian_smoothing()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="blendify.utils.html#blendify.utils.camera_trajectory.Trajectory.serialize_trajectory"><code class="docutils literal notranslate"><span class="pre">Trajectory.serialize_trajectory()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="blendify.utils.html#blendify.utils.camera_trajectory.Trajectory.set_trajectory"><code class="docutils literal notranslate"><span class="pre">Trajectory.set_trajectory()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="blendify.utils.html#blendify.utils.camera_trajectory.Trajectory.sort_trajectory"><code class="docutils literal notranslate"><span class="pre">Trajectory.sort_trajectory()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="blendify.utils.html#module-blendify.utils.image">blendify.utils.image module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="blendify.utils.html#blendify.utils.image.blend_with_background"><code class="docutils literal notranslate"><span class="pre">blend_with_background()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="blendify.utils.html#module-blendify.utils.pointcloud">blendify.utils.pointcloud module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="blendify.utils.html#blendify.utils.pointcloud.PCMeshifier"><code class="docutils literal notranslate"><span class="pre">PCMeshifier</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="blendify.utils.html#blendify.utils.pointcloud.PCMeshifier.compute_texture_blocks_count"><code class="docutils literal notranslate"><span class="pre">PCMeshifier.compute_texture_blocks_count()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="blendify.utils.html#blendify.utils.pointcloud.PCMeshifier.generate_naive_uvmap"><code class="docutils literal notranslate"><span class="pre">PCMeshifier.generate_naive_uvmap()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="blendify.utils.html#blendify.utils.pointcloud.PCMeshifier.generate_texture_from_pc"><code class="docutils literal notranslate"><span class="pre">PCMeshifier.generate_texture_from_pc()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="blendify.utils.html#blendify.utils.pointcloud.PCMeshifier.generate_texture_from_pc_block_by_block"><code class="docutils literal notranslate"><span class="pre">PCMeshifier.generate_texture_from_pc_block_by_block()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="blendify.utils.html#blendify.utils.pointcloud.PCMeshifier.np_dtype"><code class="docutils literal notranslate"><span class="pre">PCMeshifier.np_dtype</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="blendify.utils.html#blendify.utils.pointcloud.PCMeshifier.o3d_decimate_mesh"><code class="docutils literal notranslate"><span class="pre">PCMeshifier.o3d_decimate_mesh()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="blendify.utils.html#blendify.utils.pointcloud.PCMeshifier.o3d_mesh_from_pc"><code class="docutils literal notranslate"><span class="pre">PCMeshifier.o3d_mesh_from_pc()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="blendify.utils.html#blendify.utils.pointcloud.PCMeshifier.torch_dtype"><code class="docutils literal notranslate"><span class="pre">PCMeshifier.torch_dtype</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="blendify.utils.html#blendify.utils.pointcloud.approximate_colors_from_camera"><code class="docutils literal notranslate"><span class="pre">approximate_colors_from_camera()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="blendify.utils.html#blendify.utils.pointcloud.estimate_normals_from_pointcloud"><code class="docutils literal notranslate"><span class="pre">estimate_normals_from_pointcloud()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="blendify.utils.html#blendify.utils.pointcloud.estimate_pc_normals_from_mesh"><code class="docutils literal notranslate"><span class="pre">estimate_pc_normals_from_mesh()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="blendify.utils.html#blendify.utils.pointcloud.meshify_pc"><code class="docutils literal notranslate"><span class="pre">meshify_pc()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="blendify.utils.html#blendify.utils.pointcloud.meshify_pc_from_file"><code class="docutils literal notranslate"><span class="pre">meshify_pc_from_file()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="blendify.utils.html#module-blendify.utils.shadow_catcher">blendify.utils.shadow_catcher module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="blendify.utils.html#blendify.utils.shadow_catcher.set_shadow_catcher"><code class="docutils literal notranslate"><span class="pre">set_shadow_catcher()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="blendify.utils.html#module-blendify.utils.smpl_wrapper">blendify.utils.smpl_wrapper module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="blendify.utils.html#blendify.utils.smpl_wrapper.SMPLWrapper"><code class="docutils literal notranslate"><span class="pre">SMPLWrapper</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="blendify.utils.html#blendify.utils.smpl_wrapper.SMPLWrapper.get_smpl"><code class="docutils literal notranslate"><span class="pre">SMPLWrapper.get_smpl()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="blendify.utils.html#module-blendify.utils">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading">¶</a></h2>
+</section>
+<section id="module-blendify.scene">
+<span id="blendify-scene-module"></span><h2>blendify.scene module<a class="headerlink" href="#module-blendify.scene" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="blendify.scene.Scene">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">blendify.scene.</span></span><span class="sig-name descname"><span class="pre">Scene</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/blendify/scene.html#Scene"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#blendify.scene.Scene" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="blendify.scene.Scene.attach_blend">
+<span class="sig-name descname"><span class="pre">attach_blend</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">with_camera</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/blendify/scene.html#Scene.attach_blend"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#blendify.scene.Scene.attach_blend" title="Link to this definition">¶</a></dt>
+<dd><p>Append objects and materials from the existing .blend file to the scene.
+The only two modalities that can be added to blendify Scene are lights and optionally camera,
+others (renderable objects, materials, etc.) are only appended.
+The appended modalities will only be present in the internal Blender structures,
+but will not be added to the blendify Scene class structure.
+However, they will appear on rendering and in the exported .blend files</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> – path to the .blend file to append the contents from</p></li>
+<li><p><strong>with_camera</strong> – parse camera parameters from the .blend file or keep existing camera</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="blendify.scene.Scene.camera">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">camera</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="blendify.cameras.html#blendify.cameras.base.Camera" title="blendify.cameras.base.Camera"><span class="pre">Camera</span></a></em><a class="headerlink" href="#blendify.scene.Scene.camera" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="blendify.scene.Scene.check_any_exists">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">check_any_exists</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fileprefix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filesuffixes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../_modules/blendify/scene.html#Scene.check_any_exists"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#blendify.scene.Scene.check_any_exists" title="Link to this definition">¶</a></dt>
+<dd><p>Check if any of the combinations of &lt;fileprefix&gt;+&lt;any filesuffix&gt; exist in the filesystem</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fileprefix</strong> (<em>str</em>) – single file prefix, can the full path or local name</p></li>
+<li><p><strong>filesuffixes</strong> (<em>Sequence</em><em>[</em><em>str</em><em>]</em>) – a sequence of file suffixes to choose from</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True is any of the combinations exists in the filesystem, False otherwise</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="blendify.scene.Scene.clear">
+<span class="sig-name descname"><span class="pre">clear</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/blendify/scene.html#Scene.clear"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#blendify.scene.Scene.clear" title="Link to this definition">¶</a></dt>
+<dd><p>Clears the scene</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="blendify.scene.Scene.export">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">export</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_file_textures</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/blendify/scene.html#Scene.export"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#blendify.scene.Scene.export" title="Link to this definition">¶</a></dt>
+<dd><p>Export the current scene to the .blend file</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>Path</em><em>]</em>) – path to the target .blend file</p></li>
+<li><p><strong>include_file_textures</strong> (<em>bool</em>) – whether to write textures loaded from external files inside .blend file</p></li>
+<li><p><strong>verbose</strong> (<em>bool</em>) – whether to allow blender to log its status to stdout during exporting</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="blendify.scene.Scene.preview">
+<span class="sig-name descname"><span class="pre">preview</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filepath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_depth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_albedo</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fast</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/blendify/scene.html#Scene.preview"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#blendify.scene.Scene.preview" title="Link to this definition">¶</a></dt>
+<dd><p>Renders a scene using Blender’s OpenGL renderer. Linux and MacOS Only.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filepath</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>Path</em><em>]</em>) – path to the image (PNG) to render to, returns the image as numpy array if None</p></li>
+<li><p><strong>use_gpu</strong> (<em>bool</em>) – whether to render on GPU or not</p></li>
+<li><p><strong>samples</strong> (<em>bool</em>) – number of raytracing samples per pixel</p></li>
+<li><p><strong>save_depth</strong> (<em>bool</em>) – whether to save the depth in the separate file.
+If yes, the numpy array &lt;filepath&gt;.depth.npy will be created if filepath is set, otherwise appends the array to the output.</p></li>
+<li><p><strong>save_albedo</strong> (<em>bool</em>) – whether to save albedo (raw color information) in the separate file.
+If yes, the PNG image &lt;filepath&gt;.albedo.png with color information will be created
+if filepath is set, otherwise appends the array to the output.</p></li>
+<li><p><strong>verbose</strong> (<em>bool</em>) – whether to allow blender to log its status to stdout during rendering</p></li>
+<li><p><strong>use_denoiser</strong> (<em>bool</em>) – use openimage denoiser to denoise the result</p></li>
+<li><p><strong>fast</strong> (<em>bool</em>) – whether to use fast and colorless preview mode (workbench engine)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="blendify.scene.Scene.read_exr_distmap">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">read_exr_distmap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dist_thresh</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">10000.0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="../_modules/blendify/scene.html#Scene.read_exr_distmap"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#blendify.scene.Scene.read_exr_distmap" title="Link to this definition">¶</a></dt>
+<dd><p>Reads the distance map stored in EXR format, filters out all the values after a certain distance threshold.
+Requires OpenEXR to be installed in the system</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<em>str</em>) – path to the .exr file</p></li>
+<li><p><strong>dist_thresh</strong> (<em>float</em>) – distance clip threshold</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>distance map in numpy array format</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="blendify.scene.Scene.read_image">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">read_image</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="../_modules/blendify/scene.html#Scene.read_image"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#blendify.scene.Scene.read_image" title="Link to this definition">¶</a></dt>
+<dd><p>Reads the image stored in PNG or JPG format</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>str</em>) – path to the image file</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>image in numpy array format</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="blendify.scene.Scene.render">
+<span class="sig-name descname"><span class="pre">render</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filepath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_gpu</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">samples</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">128</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_depth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_albedo</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_denoiser</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aa_filter_width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.5</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/blendify/scene.html#Scene.render"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#blendify.scene.Scene.render" title="Link to this definition">¶</a></dt>
+<dd><p>Start the Blender rendering process</p>
+<p>Automatically detects if shadow catcher objects are present in the scene by checking is_shadow_catcher property
+of Blender objects. For rendering with shadow catchers background is kept transparent, because Blender 4
+brought back the ability to render with transparent background and shadow catchers.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filepath</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><em>Path</em><em>]</em>) – path to the image (PNG) to render to, returns the image as numpy array if None</p></li>
+<li><p><strong>use_gpu</strong> (<em>bool</em>) – whether to render on GPU or not</p></li>
+<li><p><strong>samples</strong> (<em>bool</em>) – number of raytracing samples per pixel</p></li>
+<li><p><strong>save_depth</strong> (<em>bool</em>) – whether to save the depth in the separate file.
+If yes, the numpy array &lt;filepath&gt;.depth.npy will be created if filepath is set, otherwise appends the array to the output.</p></li>
+<li><p><strong>save_albedo</strong> (<em>bool</em>) – whether to save albedo (raw color information) in the separate file.
+If yes, the PNG image &lt;filepath&gt;.albedo.png with color information will be created
+if filepath is set, otherwise appends the array to the output.</p></li>
+<li><p><strong>verbose</strong> (<em>bool</em>) – whether to allow blender to log its status to stdout during rendering</p></li>
+<li><p><strong>use_denoiser</strong> (<em>bool</em>) – use openimage denoiser to denoise the result</p></li>
+<li><p><strong>aa_filter_width</strong> (<em>float</em>) – width of the anti-aliasing filter, set 0 to turn off</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="blendify.scene.Scene.set_orthographic_camera">
+<span class="sig-name descname"><span class="pre">set_orthographic_camera</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resolution</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ortho_scale</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">near</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">far</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">100.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tag</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'camera'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rotation_mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'quaternionWXYZ'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rotation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="blendify.internal.html#blendify.internal.positionable.Positionable" title="blendify.internal.positionable.Positionable"><span class="pre">Positionable</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="blendify.internal.html#blendify.internal.positionable.Positionable" title="blendify.internal.positionable.Positionable"><span class="pre">Positionable</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">translation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">(0,</span> <span class="pre">0,</span> <span class="pre">0)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resolution_percentage</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">100</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="blendify.cameras.html#blendify.cameras.common.OrthographicCamera" title="blendify.cameras.common.OrthographicCamera"><span class="pre">OrthographicCamera</span></a></span></span><a class="reference internal" href="../_modules/blendify/scene.html#Scene.set_orthographic_camera"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#blendify.scene.Scene.set_orthographic_camera" title="Link to this definition">¶</a></dt>
+<dd><p>Set orthographic camera in the scene. Replaces the previous scene camera, if it exists</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>resolution</strong> (<em>Vector2di</em>) – (w, h), the resolution of the resulting image</p></li>
+<li><p><strong>ortho_scale</strong> (<em>float</em><em>, </em><em>optional</em>) – Orthographic Camera scale (similar to zoom) (default: 1.0)</p></li>
+<li><p><strong>near</strong> (<em>float</em><em>, </em><em>optional</em>) – Camera near clipping distance (default: 0.1)</p></li>
+<li><p><strong>far</strong> (<em>float</em><em>, </em><em>optional</em>) – Camera far clipping distance (default: 100)</p></li>
+<li><p><strong>tag</strong> (<em>str</em>) – name of the created object in Blender</p></li>
+<li><p><strong>rotation_mode</strong> (<em>str</em>) – type of rotation representation.
+Can be one of the following:
+- “quaternionWXYZ” - WXYZ quaternion
+- “quaternionXYZW” - XYZW quaternion
+- “rotvec” - axis-angle representation of rotation
+- “rotmat” - 3x3 rotation matrix
+- “euler&lt;mode&gt;” - Euler angles with the specified order of rotation, e.g. XYZ, xyz, ZXZ, etc. Refer to scipy.spatial.transform.Rotation.from_euler for details.
+- “look_at” - look at rotation, the rotation is defined by the point to look at and, optional, the rotation around the forward direction vector (a single float value in tuple or list)</p></li>
+<li><p><strong>rotation</strong> (<em>RotationParams</em>) – rotation parameters according to the rotation_mode
+- for “quaternionWXYZ” and “quaternionXYZW” - Vec4d
+- for “rotvec” - Vec3d
+- for “rotmat” - Mat3x3
+- for “euler&lt;mode&gt;” - Vec3d
+- for “look_at” - Vec3d, Positionable or Tuple[Vec3d/Positionable, float], where float is the rotation around the forward direction vector in degrees</p></li>
+<li><p><strong>translation</strong> (<em>Vector3d</em><em>, </em><em>optional</em>) – translation applied to the Blender object (default: (0,0,0))</p></li>
+<li><p><strong>resolution_percentage</strong> (<em>int</em><em>, </em><em>optional</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>created camera</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="blendify.cameras.html#blendify.cameras.common.OrthographicCamera" title="blendify.cameras.common.OrthographicCamera">OrthographicCamera</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="blendify.scene.Scene.set_perspective_camera">
+<span class="sig-name descname"><span class="pre">set_perspective_camera</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resolution</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">focal_dist</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fov_x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fov_y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">center</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">near</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">far</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">100.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tag</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'camera'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rotation_mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'quaternionWXYZ'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rotation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="blendify.internal.html#blendify.internal.positionable.Positionable" title="blendify.internal.positionable.Positionable"><span class="pre">Positionable</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="blendify.internal.html#blendify.internal.positionable.Positionable" title="blendify.internal.positionable.Positionable"><span class="pre">Positionable</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">translation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">(0,</span> <span class="pre">0,</span> <span class="pre">0)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resolution_percentage</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">100</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="blendify.cameras.html#blendify.cameras.common.PerspectiveCamera" title="blendify.cameras.common.PerspectiveCamera"><span class="pre">PerspectiveCamera</span></a></span></span><a class="reference internal" href="../_modules/blendify/scene.html#Scene.set_perspective_camera"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#blendify.scene.Scene.set_perspective_camera" title="Link to this definition">¶</a></dt>
+<dd><p>Set perspective camera in the scene. Replaces the previous scene camera, if it exists.
+One of focal_dist, fov_x or fov_y is required to set the camera parameters</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>resolution</strong> (<em>Vector2di</em>) – (w, h), the resolution of the resulting image</p></li>
+<li><p><strong>focal_dist</strong> (<em>float</em><em>, </em><em>optional</em>) – Perspective Camera focal distance in millimeters (default: None)</p></li>
+<li><p><strong>fov_x</strong> (<em>float</em><em>, </em><em>optional</em>) – Camera lens horizontal field of view (default: None)</p></li>
+<li><p><strong>fov_y</strong> (<em>float</em><em>, </em><em>optional</em>) – Camera lens vertical field of view (default: None)</p></li>
+<li><p><strong>center</strong> (<em>Vector2d</em><em>, </em><em>optional</em>) – (x, y), horizontal and vertical shifts of the Camera (default: None)</p></li>
+<li><p><strong>near</strong> (<em>float</em><em>, </em><em>optional</em>) – Camera near clipping distance (default: 0.1)</p></li>
+<li><p><strong>far</strong> (<em>float</em><em>, </em><em>optional</em>) – Camera far clipping distance (default: 100)</p></li>
+<li><p><strong>tag</strong> (<em>str</em>) – name of the created object in Blender</p></li>
+<li><p><strong>rotation_mode</strong> (<em>str</em>) – type of rotation representation.
+Can be one of the following:
+- “quaternionWXYZ” - WXYZ quaternion
+- “quaternionXYZW” - XYZW quaternion
+- “rotvec” - axis-angle representation of rotation
+- “rotmat” - 3x3 rotation matrix
+- “euler&lt;mode&gt;” - Euler angles with the specified order of rotation, e.g. XYZ, xyz, ZXZ, etc. Refer to scipy.spatial.transform.Rotation.from_euler for details.
+- “look_at” - look at rotation, the rotation is defined by the point to look at and, optional, the rotation around the forward direction vector (a single float value in tuple or list)</p></li>
+<li><p><strong>rotation</strong> (<em>RotationParams</em>) – rotation parameters according to the rotation_mode
+- for “quaternionWXYZ” and “quaternionXYZW” - Vec4d
+- for “rotvec” - Vec3d
+- for “rotmat” - Mat3x3
+- for “euler&lt;mode&gt;” - Vec3d
+- for “look_at” - Vec3d, Positionable or Tuple[Vec3d/Positionable, float], where float is the rotation around the forward direction vector in degrees</p></li>
+<li><p><strong>translation</strong> (<em>Vector3d</em><em>, </em><em>optional</em>) – translation applied to the Blender object (default: (0,0,0))</p></li>
+<li><p><strong>resolution_percentage</strong> (<em>int</em><em>, </em><em>optional</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>created camera</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="blendify.cameras.html#blendify.cameras.common.PerspectiveCamera" title="blendify.cameras.common.PerspectiveCamera">PerspectiveCamera</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-blendify">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-blendify" title="Link to this heading">¶</a></h2>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+<div class="related-pages">
+          <a class="next-page" href="blendify.cameras.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">blendify.cameras package</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="modules.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">blendify</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2025, Vladimir Guzov and Ilya Petrov
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+            <a href="//virtualhumans.mpi-inf.mpg.de/contact.html" class="text-muted small">Contact</a> • <a href="//imprint.mpi-klsb.mpg.de/inf/virtualhumans.mpi-inf.mpg.de" class="text-muted small">Imprint/ Impressum</a> • <a href="//data-protection.mpi-klsb.mpg.de/inf/virtualhumans.mpi-inf.mpg.de" class="text-muted small">Data Protection / Datenschutzhinweis</a>
+        </div>
+
+
+
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">blendify package</a><ul>
+<li><a class="reference internal" href="#subpackages">Subpackages</a></li>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-blendify.scene">blendify.scene module</a><ul>
+<li><a class="reference internal" href="#blendify.scene.Scene"><code class="docutils literal notranslate"><span class="pre">Scene</span></code></a><ul>
+<li><a class="reference internal" href="#blendify.scene.Scene.attach_blend"><code class="docutils literal notranslate"><span class="pre">Scene.attach_blend()</span></code></a></li>
+<li><a class="reference internal" href="#blendify.scene.Scene.camera"><code class="docutils literal notranslate"><span class="pre">Scene.camera</span></code></a></li>
+<li><a class="reference internal" href="#blendify.scene.Scene.check_any_exists"><code class="docutils literal notranslate"><span class="pre">Scene.check_any_exists()</span></code></a></li>
+<li><a class="reference internal" href="#blendify.scene.Scene.clear"><code class="docutils literal notranslate"><span class="pre">Scene.clear()</span></code></a></li>
+<li><a class="reference internal" href="#blendify.scene.Scene.export"><code class="docutils literal notranslate"><span class="pre">Scene.export()</span></code></a></li>
+<li><a class="reference internal" href="#blendify.scene.Scene.preview"><code class="docutils literal notranslate"><span class="pre">Scene.preview()</span></code></a></li>
+<li><a class="reference internal" href="#blendify.scene.Scene.read_exr_distmap"><code class="docutils literal notranslate"><span class="pre">Scene.read_exr_distmap()</span></code></a></li>
+<li><a class="reference internal" href="#blendify.scene.Scene.read_image"><code class="docutils literal notranslate"><span class="pre">Scene.read_image()</span></code></a></li>
+<li><a class="reference internal" href="#blendify.scene.Scene.render"><code class="docutils literal notranslate"><span class="pre">Scene.render()</span></code></a></li>
+<li><a class="reference internal" href="#blendify.scene.Scene.set_orthographic_camera"><code class="docutils literal notranslate"><span class="pre">Scene.set_orthographic_camera()</span></code></a></li>
+<li><a class="reference internal" href="#blendify.scene.Scene.set_perspective_camera"><code class="docutils literal notranslate"><span class="pre">Scene.set_perspective_camera()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-blendify">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="../_static/documentation_options.js?v=20623aea"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/scripts/furo.js?v=46bd48cc"></script>
+    </body>
+</html>

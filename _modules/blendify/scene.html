@@ -1,0 +1,982 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="../../">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" />
+        <link rel="prefetch" href="../../_static/logo/blendify_logo_small.png" as="image" />
+        <link rel="prefetch" href="../../_static/logo/blendify_logo_small.png" as="image" />
+
+    <!-- Generated with Sphinx 8.2.3 and Furo 2025.07.19 -->
+        <title>blendify.scene - Blendify</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=d111a655" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=25af2a20" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=8dab3a3b" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f2f2f2;
+  --color-code-foreground: #1e1e1e;
+  --color-brand-primary: #3FDC55;
+  --color-brand-content: #4B9B28;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #2b2b2b;
+  --color-code-foreground: #f8f8f2;
+  --color-brand-primary: #CAFD6C;
+  --color-brand-content: #95FE6A;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #2b2b2b;
+  --color-code-foreground: #f8f8f2;
+  --color-brand-primary: #CAFD6C;
+  --color-brand-content: #95FE6A;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../../index.html"><div class="brand">Blendify</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../../index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo only-light" src="../../_static/logo/blendify_logo_small.png" alt="Light Logo"/>
+    <img class="sidebar-logo only-dark" src="../../_static/logo/blendify_logo_small.png" alt="Dark Logo"/>
+  </div>
+  
+</a>
+
+<div style="text-align: center">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+  <!-- Place this tag where you want the button to render. -->
+  <a
+    class="github-button"
+    href="https://github.com/ptrvilya/blendify/"
+    data-color-scheme="no-preference: light; light: light; dark: light;"
+    data-size="large"
+    data-show-count="true"
+    aria-label="Download buttons/github-buttons on GitHub"
+  >
+    Github
+  </a>
+</div><form class="sidebar-search-container" method="get" action="../../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Feature walkthrough</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../walkthrough.html">Feature walkthrough</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../api/modules.html">blendify</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of blendify</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../api/blendify.html">blendify package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of blendify package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api/blendify.cameras.html">blendify.cameras package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/blendify.colors.html">blendify.colors package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/blendify.internal.html">blendify.internal package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/blendify.lights.html">blendify.lights package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/blendify.materials.html">blendify.materials package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/blendify.renderables.html">blendify.renderables package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api/blendify.utils.html">blendify.utils package</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <h1>Source code for blendify.scene</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">shutil</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">tempfile</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">contextlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">nullcontext</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Sequence</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">bpy</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;OPENCV_IO_ENABLE_OPENEXR&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;1&quot;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">cv2</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.cameras</span><span class="w"> </span><span class="kn">import</span> <span class="n">PerspectiveCamera</span><span class="p">,</span> <span class="n">OrthographicCamera</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.cameras.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">Camera</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.internal</span><span class="w"> </span><span class="kn">import</span> <span class="n">Singleton</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.internal.io</span><span class="w"> </span><span class="kn">import</span> <span class="n">catch_stdout</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.internal.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">Vector2d</span><span class="p">,</span> <span class="n">Vector2di</span><span class="p">,</span> <span class="n">Vector3d</span><span class="p">,</span> <span class="n">Vector4d</span><span class="p">,</span> <span class="n">RotationParams</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.internal.execution_decorator</span><span class="w"> </span><span class="kn">import</span> <span class="n">safe_exit</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.internal</span><span class="w"> </span><span class="kn">import</span> <span class="n">parser</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.lights</span><span class="w"> </span><span class="kn">import</span> <span class="n">LightsCollection</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.renderables</span><span class="w"> </span><span class="kn">import</span> <span class="n">RenderablesCollection</span>
+
+
+<div class="viewcode-block" id="Scene">
+<a class="viewcode-back" href="../../api/blendify.html#blendify.scene.Scene">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Scene</span><span class="p">(</span><span class="n">metaclass</span><span class="o">=</span><span class="n">Singleton</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># Initialise Blender scene</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">renderables</span> <span class="o">=</span> <span class="n">RenderablesCollection</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lights</span> <span class="o">=</span> <span class="n">LightsCollection</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_camera</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_reset_scene</span><span class="p">()</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_set_default_blender_parameters</span><span class="p">():</span>
+        <span class="c1"># Setup scene parameters</span>
+        <span class="n">scene</span> <span class="o">=</span> <span class="n">bpy</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">scenes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">scene</span><span class="o">.</span><span class="n">use_nodes</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">bpy</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">scene</span><span class="o">.</span><span class="n">world</span><span class="o">.</span><span class="n">use_nodes</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">bpy</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">scene</span><span class="o">.</span><span class="n">render</span><span class="o">.</span><span class="n">engine</span> <span class="o">=</span> <span class="s1">&#39;CYCLES&#39;</span>
+        <span class="n">bpy</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">scene</span><span class="o">.</span><span class="n">render</span><span class="o">.</span><span class="n">image_settings</span><span class="o">.</span><span class="n">color_mode</span> <span class="o">=</span> <span class="s1">&#39;RGBA&#39;</span>
+        <span class="n">bpy</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">scene</span><span class="o">.</span><span class="n">render</span><span class="o">.</span><span class="n">image_settings</span><span class="o">.</span><span class="n">file_format</span> <span class="o">=</span> <span class="s1">&#39;PNG&#39;</span>
+        <span class="n">bpy</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">scene</span><span class="o">.</span><span class="n">render</span><span class="o">.</span><span class="n">image_settings</span><span class="o">.</span><span class="n">quality</span> <span class="o">=</span> <span class="mi">100</span>
+        <span class="n">bpy</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">scene</span><span class="o">.</span><span class="n">world</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">bpy</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">scene</span><span class="o">.</span><span class="n">render</span><span class="o">.</span><span class="n">film_transparent</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">bpy</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">scene</span><span class="o">.</span><span class="n">cycles</span><span class="o">.</span><span class="n">filter_width</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># turn off anti-aliasing</span>
+        <span class="c1"># Important if you want to get a pure color background (eg. white background)</span>
+        <span class="n">bpy</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">scene</span><span class="o">.</span><span class="n">view_settings</span><span class="o">.</span><span class="n">view_transform</span> <span class="o">=</span> <span class="s1">&#39;Standard&#39;</span>
+        <span class="n">bpy</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">scene</span><span class="o">.</span><span class="n">cycles</span><span class="o">.</span><span class="n">samples</span> <span class="o">=</span> <span class="mi">128</span>  <span class="c1"># Default value, can be changed in .render</span>
+        <span class="n">bpy</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">scene</span><span class="o">.</span><span class="n">frame_current</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_remove_all_objects</span><span class="p">():</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Removes all objects from the scene. Previously used to remove the default cube&quot;&quot;&quot;</span>
+        <span class="n">bpy</span><span class="o">.</span><span class="n">ops</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">mode_set</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s1">&#39;OBJECT&#39;</span><span class="p">)</span>
+        <span class="n">bpy</span><span class="o">.</span><span class="n">ops</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">select_all</span><span class="p">(</span><span class="n">action</span><span class="o">=</span><span class="s1">&#39;SELECT&#39;</span><span class="p">)</span>
+        <span class="n">bpy</span><span class="o">.</span><span class="n">ops</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">use_global</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">bpy</span><span class="o">.</span><span class="n">ops</span><span class="o">.</span><span class="n">outliner</span><span class="o">.</span><span class="n">orphans_purge</span><span class="p">()</span>
+        <span class="n">bpy</span><span class="o">.</span><span class="n">ops</span><span class="o">.</span><span class="n">outliner</span><span class="o">.</span><span class="n">orphans_purge</span><span class="p">()</span>
+        <span class="n">bpy</span><span class="o">.</span><span class="n">ops</span><span class="o">.</span><span class="n">outliner</span><span class="o">.</span><span class="n">orphans_purge</span><span class="p">()</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_load_empty_scene</span><span class="p">():</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Resets the scene to the empty state&quot;&quot;&quot;</span>
+        <span class="n">bpy</span><span class="o">.</span><span class="n">ops</span><span class="o">.</span><span class="n">wm</span><span class="o">.</span><span class="n">read_homefile</span><span class="p">(</span><span class="n">use_empty</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">bpy</span><span class="o">.</span><span class="n">ops</span><span class="o">.</span><span class="n">outliner</span><span class="o">.</span><span class="n">orphans_purge</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_reset_scene</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Resets the scene to the empty state&quot;&quot;&quot;</span>
+        <span class="k">with</span> <span class="n">catch_stdout</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_load_empty_scene</span><span class="p">()</span>
+        <span class="n">scene</span> <span class="o">=</span> <span class="n">bpy</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">scenes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">scene</span><span class="o">.</span><span class="n">world</span> <span class="o">=</span> <span class="n">bpy</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">worlds</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;BlendifyWorld&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_frame_number</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_set_default_blender_parameters</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">renderables</span><span class="o">.</span><span class="n">_reset</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lights</span><span class="o">.</span><span class="n">_reset</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_camera</span> <span class="o">=</span> <span class="kc">None</span>
+
+<div class="viewcode-block" id="Scene.clear">
+<a class="viewcode-back" href="../../api/blendify.html#blendify.scene.Scene.clear">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">clear</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Clears the scene&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_reset_scene</span><span class="p">()</span></div>
+
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">camera</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Camera</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_camera</span>
+
+<div class="viewcode-block" id="Scene.set_perspective_camera">
+<a class="viewcode-back" href="../../api/blendify.html#blendify.scene.Scene.set_perspective_camera">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_perspective_camera</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span> <span class="n">resolution</span><span class="p">:</span> <span class="n">Vector2di</span><span class="p">,</span> <span class="n">focal_dist</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">fov_x</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">fov_y</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">center</span><span class="p">:</span> <span class="n">Vector2d</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">near</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span> <span class="n">far</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">100.</span><span class="p">,</span> <span class="n">tag</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;camera&#39;</span><span class="p">,</span> <span class="n">rotation_mode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;quaternionWXYZ&quot;</span><span class="p">,</span>
+            <span class="n">rotation</span><span class="p">:</span> <span class="n">RotationParams</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">translation</span><span class="p">:</span> <span class="n">Vector3d</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+            <span class="n">resolution_percentage</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PerspectiveCamera</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set perspective camera in the scene. Replaces the previous scene camera, if it exists.</span>
+<span class="sd">        One of focal_dist, fov_x or fov_y is required to set the camera parameters</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            resolution (Vector2di): (w, h), the resolution of the resulting image</span>
+<span class="sd">            focal_dist (float, optional): Perspective Camera focal distance in millimeters (default: None)</span>
+<span class="sd">            fov_x (float, optional): Camera lens horizontal field of view (default: None)</span>
+<span class="sd">            fov_y (float, optional): Camera lens vertical field of view (default: None)</span>
+<span class="sd">            center (Vector2d, optional): (x, y), horizontal and vertical shifts of the Camera (default: None)</span>
+<span class="sd">            near (float, optional): Camera near clipping distance (default: 0.1)</span>
+<span class="sd">            far (float, optional): Camera far clipping distance (default: 100)</span>
+<span class="sd">            tag (str): name of the created object in Blender</span>
+<span class="sd">            rotation_mode (str): type of rotation representation.</span>
+<span class="sd">                Can be one of the following:</span>
+<span class="sd">                - &quot;quaternionWXYZ&quot; - WXYZ quaternion</span>
+<span class="sd">                - &quot;quaternionXYZW&quot; - XYZW quaternion</span>
+<span class="sd">                - &quot;rotvec&quot; - axis-angle representation of rotation</span>
+<span class="sd">                - &quot;rotmat&quot; - 3x3 rotation matrix</span>
+<span class="sd">                - &quot;euler&lt;mode&gt;&quot; - Euler angles with the specified order of rotation, e.g. XYZ, xyz, ZXZ, etc. Refer to scipy.spatial.transform.Rotation.from_euler for details.</span>
+<span class="sd">                - &quot;look_at&quot; - look at rotation, the rotation is defined by the point to look at and, optional, the rotation around the forward direction vector (a single float value in tuple or list)</span>
+<span class="sd">            rotation (RotationParams): rotation parameters according to the rotation_mode</span>
+<span class="sd">                - for &quot;quaternionWXYZ&quot; and &quot;quaternionXYZW&quot; - Vec4d</span>
+<span class="sd">                - for &quot;rotvec&quot; - Vec3d</span>
+<span class="sd">                - for &quot;rotmat&quot; - Mat3x3</span>
+<span class="sd">                - for &quot;euler&lt;mode&gt;&quot; - Vec3d</span>
+<span class="sd">                - for &quot;look_at&quot; - Vec3d, Positionable or Tuple[Vec3d/Positionable, float], where float is the rotation around the forward direction vector in degrees</span>
+<span class="sd">            translation (Vector3d, optional): translation applied to the Blender object (default: (0,0,0))</span>
+<span class="sd">            resolution_percentage (int, optional):</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            PerspectiveCamera: created camera</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">camera</span> <span class="o">=</span> <span class="n">PerspectiveCamera</span><span class="p">(</span><span class="n">resolution</span><span class="o">=</span><span class="n">resolution</span><span class="p">,</span> <span class="n">focal_dist</span><span class="o">=</span><span class="n">focal_dist</span><span class="p">,</span> <span class="n">fov_x</span><span class="o">=</span><span class="n">fov_x</span><span class="p">,</span> <span class="n">fov_y</span><span class="o">=</span><span class="n">fov_y</span><span class="p">,</span>
+                                   <span class="n">center</span><span class="o">=</span><span class="n">center</span><span class="p">,</span> <span class="n">near</span><span class="o">=</span><span class="n">near</span><span class="p">,</span> <span class="n">far</span><span class="o">=</span><span class="n">far</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="n">tag</span><span class="p">,</span>
+                                   <span class="n">rotation_mode</span><span class="o">=</span><span class="n">rotation_mode</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="n">rotation</span><span class="p">,</span> <span class="n">translation</span><span class="o">=</span><span class="n">translation</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_setup_camera</span><span class="p">(</span><span class="n">camera</span><span class="p">,</span> <span class="n">resolution_percentage</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">camera</span></div>
+
+
+<div class="viewcode-block" id="Scene.set_orthographic_camera">
+<a class="viewcode-back" href="../../api/blendify.html#blendify.scene.Scene.set_orthographic_camera">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_orthographic_camera</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span> <span class="n">resolution</span><span class="p">:</span> <span class="n">Vector2di</span><span class="p">,</span> <span class="n">ortho_scale</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.</span><span class="p">,</span> <span class="n">near</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span> <span class="n">far</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">100.</span><span class="p">,</span>
+            <span class="n">tag</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;camera&#39;</span><span class="p">,</span> <span class="n">rotation_mode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;quaternionWXYZ&quot;</span><span class="p">,</span>
+            <span class="n">rotation</span><span class="p">:</span> <span class="n">RotationParams</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">translation</span><span class="p">:</span> <span class="n">Vector3d</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+            <span class="n">resolution_percentage</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">OrthographicCamera</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set orthographic camera in the scene. Replaces the previous scene camera, if it exists</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            resolution (Vector2di): (w, h), the resolution of the resulting image</span>
+<span class="sd">            ortho_scale (float, optional): Orthographic Camera scale (similar to zoom) (default: 1.0)</span>
+<span class="sd">            near (float, optional): Camera near clipping distance (default: 0.1)</span>
+<span class="sd">            far (float, optional): Camera far clipping distance (default: 100)</span>
+<span class="sd">            tag (str): name of the created object in Blender</span>
+<span class="sd">            rotation_mode (str): type of rotation representation.</span>
+<span class="sd">                Can be one of the following:</span>
+<span class="sd">                - &quot;quaternionWXYZ&quot; - WXYZ quaternion</span>
+<span class="sd">                - &quot;quaternionXYZW&quot; - XYZW quaternion</span>
+<span class="sd">                - &quot;rotvec&quot; - axis-angle representation of rotation</span>
+<span class="sd">                - &quot;rotmat&quot; - 3x3 rotation matrix</span>
+<span class="sd">                - &quot;euler&lt;mode&gt;&quot; - Euler angles with the specified order of rotation, e.g. XYZ, xyz, ZXZ, etc. Refer to scipy.spatial.transform.Rotation.from_euler for details.</span>
+<span class="sd">                - &quot;look_at&quot; - look at rotation, the rotation is defined by the point to look at and, optional, the rotation around the forward direction vector (a single float value in tuple or list)</span>
+<span class="sd">            rotation (RotationParams): rotation parameters according to the rotation_mode</span>
+<span class="sd">                - for &quot;quaternionWXYZ&quot; and &quot;quaternionXYZW&quot; - Vec4d</span>
+<span class="sd">                - for &quot;rotvec&quot; - Vec3d</span>
+<span class="sd">                - for &quot;rotmat&quot; - Mat3x3</span>
+<span class="sd">                - for &quot;euler&lt;mode&gt;&quot; - Vec3d</span>
+<span class="sd">                - for &quot;look_at&quot; - Vec3d, Positionable or Tuple[Vec3d/Positionable, float], where float is the rotation around the forward direction vector in degrees</span>
+<span class="sd">            translation (Vector3d, optional): translation applied to the Blender object (default: (0,0,0))</span>
+<span class="sd">            resolution_percentage (int, optional):</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            OrthographicCamera: created camera</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">camera</span> <span class="o">=</span> <span class="n">OrthographicCamera</span><span class="p">(</span><span class="n">resolution</span><span class="o">=</span><span class="n">resolution</span><span class="p">,</span> <span class="n">ortho_scale</span><span class="o">=</span><span class="n">ortho_scale</span><span class="p">,</span> <span class="n">far</span><span class="o">=</span><span class="n">far</span><span class="p">,</span> <span class="n">near</span><span class="o">=</span><span class="n">near</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="n">tag</span><span class="p">,</span>
+                                    <span class="n">rotation_mode</span><span class="o">=</span><span class="n">rotation_mode</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="n">rotation</span><span class="p">,</span> <span class="n">translation</span><span class="o">=</span><span class="n">translation</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_setup_camera</span><span class="p">(</span><span class="n">camera</span><span class="p">,</span> <span class="n">resolution_percentage</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">camera</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_setup_camera</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">camera</span><span class="p">:</span> <span class="n">Camera</span><span class="p">,</span> <span class="n">resolution_percentage</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100</span><span class="p">):</span>
+        <span class="c1"># Delete old camera</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_camera</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_camera</span><span class="o">.</span><span class="n">_blender_remove_object</span><span class="p">()</span>
+        <span class="c1"># Set new camera</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_camera</span> <span class="o">=</span> <span class="n">camera</span>
+        <span class="n">scene</span> <span class="o">=</span> <span class="n">bpy</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">scenes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">scene</span><span class="o">.</span><span class="n">render</span><span class="o">.</span><span class="n">resolution_x</span> <span class="o">=</span> <span class="n">camera</span><span class="o">.</span><span class="n">resolution</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">scene</span><span class="o">.</span><span class="n">render</span><span class="o">.</span><span class="n">resolution_y</span> <span class="o">=</span> <span class="n">camera</span><span class="o">.</span><span class="n">resolution</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">scene</span><span class="o">.</span><span class="n">render</span><span class="o">.</span><span class="n">resolution_percentage</span> <span class="o">=</span> <span class="n">resolution_percentage</span>
+
+<div class="viewcode-block" id="Scene.read_exr_distmap">
+<a class="viewcode-back" href="../../api/blendify.html#blendify.scene.Scene.read_exr_distmap">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">read_exr_distmap</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">dist_thresh</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e4</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Reads the distance map stored in EXR format, filters out all the values after a certain distance threshold.</span>
+<span class="sd">        Requires OpenEXR to be installed in the system</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            path (str): path to the .exr file</span>
+<span class="sd">            dist_thresh (float): distance clip threshold</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            np.ndarray: distance map in numpy array format</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">IMREAD_UNCHANGED</span><span class="p">)[:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="n">data</span><span class="p">[</span><span class="n">data</span> <span class="o">&gt;</span> <span class="n">dist_thresh</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span>
+        <span class="k">return</span> <span class="n">data</span></div>
+
+
+<div class="viewcode-block" id="Scene.read_image">
+<a class="viewcode-back" href="../../api/blendify.html#blendify.scene.Scene.read_image">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">read_image</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Reads the image stored in PNG or JPG format</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            path (str): path to the image file</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            np.ndarray: image in numpy array format</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">IMREAD_UNCHANGED</span><span class="p">),</span> <span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_BGRA2RGBA</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Scene.render">
+<a class="viewcode-back" href="../../api/blendify.html#blendify.scene.Scene.render">[docs]</a>
+    <span class="nd">@safe_exit</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">render</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span> <span class="n">filepath</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">use_gpu</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">samples</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">128</span><span class="p">,</span>
+            <span class="n">save_depth</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">save_albedo</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="n">use_denoiser</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">aa_filter_width</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.5</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Start the Blender rendering process</span>
+
+<span class="sd">        Automatically detects if shadow catcher objects are present in the scene by checking is_shadow_catcher property</span>
+<span class="sd">        of Blender objects. For rendering with shadow catchers background is kept transparent, because Blender 4</span>
+<span class="sd">        brought back the ability to render with transparent background and shadow catchers.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            filepath (Union[str, Path]): path to the image (PNG) to render to, returns the image as numpy array if None</span>
+<span class="sd">            use_gpu (bool): whether to render on GPU or not</span>
+<span class="sd">            samples (bool): number of raytracing samples per pixel</span>
+<span class="sd">            save_depth (bool): whether to save the depth in the separate file.</span>
+<span class="sd">              If yes, the numpy array &lt;filepath&gt;.depth.npy will be created if filepath is set, otherwise appends the array to the output.</span>
+<span class="sd">            save_albedo (bool): whether to save albedo (raw color information) in the separate file.</span>
+<span class="sd">              If yes, the PNG image &lt;filepath&gt;.albedo.png with color information will be created</span>
+<span class="sd">              if filepath is set, otherwise appends the array to the output.</span>
+<span class="sd">            verbose (bool): whether to allow blender to log its status to stdout during rendering</span>
+<span class="sd">            use_denoiser (bool): use openimage denoiser to denoise the result</span>
+<span class="sd">            aa_filter_width (float): width of the anti-aliasing filter, set 0 to turn off</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">camera</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Can&#39;t render without a camera&quot;</span><span class="p">)</span>
+
+        <span class="c1"># setup anti-aliasing</span>
+        <span class="n">aa_filter_width</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">aa_filter_width</span><span class="p">)</span>
+        <span class="n">bpy</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">scene</span><span class="o">.</span><span class="n">cycles</span><span class="o">.</span><span class="n">filter_width</span> <span class="o">=</span> <span class="n">aa_filter_width</span>
+        <span class="n">bpy</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">scene</span><span class="o">.</span><span class="n">cycles</span><span class="o">.</span><span class="n">pixel_filter_type</span> <span class="o">=</span> <span class="s1">&#39;BLACKMAN_HARRIS&#39;</span>
+        <span class="k">if</span> <span class="n">save_depth</span> <span class="ow">and</span> <span class="n">aa_filter_width</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;Anti-aliasing filter is enabled. Saved depth will not be exact.&quot;</span><span class="p">)</span>
+
+        <span class="n">render_to_ram</span> <span class="o">=</span> <span class="n">filepath</span> <span class="ow">is</span> <span class="kc">None</span>
+        <span class="k">with</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">TemporaryDirectory</span><span class="p">()</span> <span class="k">if</span> <span class="n">render_to_ram</span> <span class="k">else</span> <span class="n">nullcontext</span><span class="p">()</span> <span class="k">as</span> <span class="n">tmpdir</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">render_to_ram</span><span class="p">:</span>
+                <span class="n">basepath</span> <span class="o">=</span> <span class="n">tmpdir</span>
+                <span class="n">filename</span> <span class="o">=</span> <span class="s1">&#39;result.png&#39;</span>
+                <span class="n">filepath</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">tmpdir</span><span class="p">)</span> <span class="o">/</span> <span class="n">filename</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">filepath</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
+                <span class="n">basepath</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">filepath</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">absolute</span><span class="p">())</span>
+                <span class="n">filename</span> <span class="o">=</span> <span class="n">filepath</span><span class="o">.</span><span class="n">stem</span>
+
+            <span class="n">scene</span> <span class="o">=</span> <span class="n">bpy</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">scenes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">scene</span><span class="o">.</span><span class="n">render</span><span class="o">.</span><span class="n">resolution_x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">camera</span><span class="o">.</span><span class="n">resolution</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">scene</span><span class="o">.</span><span class="n">render</span><span class="o">.</span><span class="n">resolution_y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">camera</span><span class="o">.</span><span class="n">resolution</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">scene</span><span class="o">.</span><span class="n">render</span><span class="o">.</span><span class="n">resolution_percentage</span> <span class="o">=</span> <span class="mi">100</span>
+            <span class="n">scene</span><span class="o">.</span><span class="n">render</span><span class="o">.</span><span class="n">filepath</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">basepath</span><span class="p">)</span>
+
+            <span class="n">bpy</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">scene</span><span class="o">.</span><span class="n">camera</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">camera</span><span class="o">.</span><span class="n">blender_camera</span>
+
+            <span class="c1"># Setup denoising</span>
+            <span class="k">if</span> <span class="n">use_denoiser</span><span class="p">:</span>
+                <span class="n">bpy</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">scene</span><span class="o">.</span><span class="n">cycles</span><span class="o">.</span><span class="n">use_denoising</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="n">bpy</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">scene</span><span class="o">.</span><span class="n">cycles</span><span class="o">.</span><span class="n">denoiser</span> <span class="o">=</span> <span class="s1">&#39;OPENIMAGEDENOISE&#39;</span>
+                <span class="n">bpy</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">scene</span><span class="o">.</span><span class="n">view_layers</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">cycles</span><span class="o">.</span><span class="n">use_denoising</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="n">bpy</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">view_layer</span><span class="o">.</span><span class="n">cycles</span><span class="o">.</span><span class="n">denoising_store_passes</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">bpy</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">scene</span><span class="o">.</span><span class="n">cycles</span><span class="o">.</span><span class="n">use_denoising</span> <span class="o">=</span> <span class="kc">False</span>
+                <span class="n">bpy</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">scene</span><span class="o">.</span><span class="n">view_layers</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">cycles</span><span class="o">.</span><span class="n">use_denoising</span> <span class="o">=</span> <span class="kc">False</span>
+                <span class="n">bpy</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">view_layer</span><span class="o">.</span><span class="n">cycles</span><span class="o">.</span><span class="n">denoising_store_passes</span> <span class="o">=</span> <span class="kc">False</span>
+
+            <span class="c1"># Configure output</span>
+            <span class="n">bpy</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">scene</span><span class="o">.</span><span class="n">cycles</span><span class="o">.</span><span class="n">samples</span> <span class="o">=</span> <span class="n">samples</span>
+            <span class="n">bpy</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">scene</span><span class="o">.</span><span class="n">view_layers</span><span class="p">[</span><span class="s1">&#39;ViewLayer&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">use_pass_combined</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="n">bpy</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">scene</span><span class="o">.</span><span class="n">view_layers</span><span class="p">[</span><span class="s1">&#39;ViewLayer&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">use_pass_diffuse_color</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="n">bpy</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">scene</span><span class="o">.</span><span class="n">view_layers</span><span class="p">[</span><span class="s1">&#39;ViewLayer&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">use_pass_z</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="n">scene_node_tree</span> <span class="o">=</span> <span class="n">bpy</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">scene</span><span class="o">.</span><span class="n">node_tree</span>
+
+            <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">scene_node_tree</span><span class="o">.</span><span class="n">nodes</span><span class="p">:</span>
+                <span class="n">scene_node_tree</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+            <span class="n">render_layer</span> <span class="o">=</span> <span class="n">scene_node_tree</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s2">&quot;CompositorNodeRLayers&quot;</span><span class="p">)</span>
+
+            <span class="c1"># create output node</span>
+            <span class="n">output_image</span> <span class="o">=</span> <span class="n">scene_node_tree</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s2">&quot;CompositorNodeOutputFile&quot;</span><span class="p">)</span>
+            <span class="n">scene_node_tree</span><span class="o">.</span><span class="n">links</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">render_layer</span><span class="o">.</span><span class="n">outputs</span><span class="p">[</span><span class="s1">&#39;Image&#39;</span><span class="p">],</span> <span class="n">output_image</span><span class="o">.</span><span class="n">inputs</span><span class="p">[</span><span class="s1">&#39;Image&#39;</span><span class="p">])</span>
+
+            <span class="k">if</span> <span class="n">save_depth</span><span class="p">:</span>
+                <span class="n">output_depth</span> <span class="o">=</span> <span class="n">scene_node_tree</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s2">&quot;CompositorNodeOutputFile&quot;</span><span class="p">)</span>
+                <span class="n">output_depth</span><span class="o">.</span><span class="n">format</span><span class="o">.</span><span class="n">file_format</span> <span class="o">=</span> <span class="s2">&quot;OPEN_EXR&quot;</span>
+                <span class="n">scene_node_tree</span><span class="o">.</span><span class="n">links</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">render_layer</span><span class="o">.</span><span class="n">outputs</span><span class="p">[</span><span class="s1">&#39;Depth&#39;</span><span class="p">],</span> <span class="n">output_depth</span><span class="o">.</span><span class="n">inputs</span><span class="p">[</span><span class="s1">&#39;Image&#39;</span><span class="p">])</span>
+
+            <span class="k">if</span> <span class="n">save_albedo</span><span class="p">:</span>
+                <span class="n">output_albedo</span> <span class="o">=</span> <span class="n">scene_node_tree</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s2">&quot;CompositorNodeOutputFile&quot;</span><span class="p">)</span>
+                <span class="n">scene_node_tree</span><span class="o">.</span><span class="n">links</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">render_layer</span><span class="o">.</span><span class="n">outputs</span><span class="p">[</span><span class="s1">&#39;DiffCol&#39;</span><span class="p">],</span> <span class="n">output_albedo</span><span class="o">.</span><span class="n">inputs</span><span class="p">[</span><span class="s1">&#39;Image&#39;</span><span class="p">])</span>
+
+            <span class="k">if</span> <span class="n">use_gpu</span><span class="p">:</span>
+                <span class="n">bpy</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">scene</span><span class="o">.</span><span class="n">cycles</span><span class="o">.</span><span class="n">device</span> <span class="o">=</span> <span class="s1">&#39;GPU&#39;</span>
+
+                <span class="k">for</span> <span class="n">scene</span> <span class="ow">in</span> <span class="n">bpy</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">scenes</span><span class="p">:</span>
+                    <span class="n">scene</span><span class="o">.</span><span class="n">cycles</span><span class="o">.</span><span class="n">device</span> <span class="o">=</span> <span class="s1">&#39;GPU&#39;</span>
+
+                <span class="c1"># Detect the appropriate GPU rendering mode</span>
+                <span class="n">rendering_mode_priority_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;OPTIX&#39;</span><span class="p">,</span> <span class="s1">&#39;HIP&#39;</span><span class="p">,</span> <span class="s1">&#39;ONEAPI&#39;</span><span class="p">,</span> <span class="s1">&#39;CUDA&#39;</span><span class="p">]</span>
+                <span class="n">rendering_preferences</span> <span class="o">=</span> <span class="n">bpy</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">preferences</span><span class="o">.</span><span class="n">addons</span><span class="p">[</span><span class="s1">&#39;cycles&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">preferences</span>
+                <span class="n">rendering_preferences</span><span class="o">.</span><span class="n">refresh_devices</span><span class="p">()</span>
+                <span class="n">devices</span> <span class="o">=</span> <span class="n">rendering_preferences</span><span class="o">.</span><span class="n">devices</span>
+                <span class="n">available_rendering_modes</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+                <span class="k">for</span> <span class="n">dev</span> <span class="ow">in</span> <span class="n">devices</span><span class="p">:</span>
+                    <span class="n">available_rendering_modes</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">dev</span><span class="o">.</span><span class="n">type</span><span class="p">)</span>
+                <span class="n">chosen_rendering_mode</span> <span class="o">=</span> <span class="s2">&quot;NONE&quot;</span>
+                <span class="k">for</span> <span class="n">mode</span> <span class="ow">in</span> <span class="n">rendering_mode_priority_list</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">mode</span> <span class="ow">in</span> <span class="n">available_rendering_modes</span><span class="p">:</span>
+                        <span class="n">chosen_rendering_mode</span> <span class="o">=</span> <span class="n">mode</span>
+                        <span class="k">break</span>
+
+                <span class="c1"># Set GPU rendering mode to detected one</span>
+                <span class="n">rendering_preferences</span><span class="o">.</span><span class="n">compute_device_type</span> <span class="o">=</span> <span class="n">chosen_rendering_mode</span>
+
+                <span class="c1"># Optionally, list the devices before rendering</span>
+                <span class="c1"># for dev in devices:</span>
+                <span class="c1">#     print(f&quot;ID:{dev.id} Name:{dev.name} Type:{dev.type} Use:{dev.use}&quot;)</span>
+
+            <span class="c1"># Render</span>
+            <span class="n">bpy</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">scene</span><span class="o">.</span><span class="n">frame_current</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_frame_number</span>
+            <span class="n">temp_filesuffix</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">tempfile</span><span class="o">.</span><span class="n">_get_candidate_names</span><span class="p">())</span>
+            <span class="n">temp_filepath</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;.&quot;</span> <span class="o">+</span> <span class="n">temp_filesuffix</span>
+            <span class="n">render_suffixes</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;.color.######.png&quot;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">save_depth</span><span class="p">:</span>
+                <span class="n">render_suffixes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;.depth.######.exr&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">save_albedo</span><span class="p">:</span>
+                <span class="n">render_suffixes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;.albedo.######.png&quot;</span><span class="p">)</span>
+            <span class="k">while</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_any_exists</span><span class="p">(</span><span class="n">temp_filepath</span><span class="p">,</span> <span class="n">render_suffixes</span><span class="p">):</span>
+                <span class="n">temp_filesuffix</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">tempfile</span><span class="o">.</span><span class="n">_get_candidate_names</span><span class="p">())</span>
+                <span class="n">temp_filepath</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;.&quot;</span> <span class="o">+</span> <span class="n">temp_filesuffix</span>
+            <span class="n">temp_filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">temp_filepath</span><span class="p">)</span>
+            <span class="n">output_image</span><span class="o">.</span><span class="n">base_path</span> <span class="o">=</span> <span class="n">basepath</span>
+            <span class="n">output_image</span><span class="o">.</span><span class="n">file_slots</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">temp_filename</span> <span class="o">+</span> <span class="s2">&quot;.color.&quot;</span>
+            <span class="k">if</span> <span class="n">save_depth</span><span class="p">:</span>
+                <span class="n">output_depth</span><span class="o">.</span><span class="n">file_slots</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">temp_filename</span> <span class="o">+</span> <span class="s2">&quot;.depth.&quot;</span>
+            <span class="k">if</span> <span class="n">save_albedo</span><span class="p">:</span>
+                <span class="n">output_albedo</span><span class="o">.</span><span class="n">file_slots</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">temp_filename</span> <span class="o">+</span> <span class="s2">&quot;.albedo.&quot;</span>
+
+            <span class="k">with</span> <span class="n">catch_stdout</span><span class="p">(</span><span class="n">skip</span><span class="o">=</span><span class="n">verbose</span><span class="p">):</span>
+                <span class="n">bpy</span><span class="o">.</span><span class="n">ops</span><span class="o">.</span><span class="n">render</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">write_still</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">render_to_ram</span><span class="p">:</span>
+                <span class="n">image_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_image</span><span class="p">(</span><span class="n">temp_filepath</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;.color.</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_frame_number</span><span class="si">:</span><span class="s2">04d</span><span class="si">}</span><span class="s2">.png&quot;</span><span class="p">)</span>
+                <span class="n">outputs</span> <span class="o">=</span> <span class="p">[</span><span class="n">image_data</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">save_depth</span><span class="p">:</span>
+                    <span class="n">distmap</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_exr_distmap</span><span class="p">(</span><span class="n">temp_filepath</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;.depth.</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_frame_number</span><span class="si">:</span><span class="s2">04d</span><span class="si">}</span><span class="s2">.exr&quot;</span><span class="p">,</span> <span class="n">dist_thresh</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">camera</span><span class="o">.</span><span class="n">far</span> <span class="o">*</span> <span class="mf">1.1</span><span class="p">)</span>
+                    <span class="n">depthmap</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">camera</span><span class="o">.</span><span class="n">distance2depth</span><span class="p">(</span><span class="n">distmap</span><span class="p">)</span>
+                    <span class="n">outputs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">depthmap</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">save_albedo</span><span class="p">:</span>
+                    <span class="n">albedomap</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_image</span><span class="p">(</span><span class="n">temp_filepath</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;.albedo.</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_frame_number</span><span class="si">:</span><span class="s2">04d</span><span class="si">}</span><span class="s2">.png&quot;</span><span class="p">)</span>
+                    <span class="n">outputs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">albedomap</span><span class="p">)</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">outputs</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">outputs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">outputs</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">shutil</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="n">temp_filepath</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;.color.</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_frame_number</span><span class="si">:</span><span class="s2">04d</span><span class="si">}</span><span class="s2">.png&quot;</span><span class="p">,</span> <span class="n">filepath</span><span class="p">)</span>
+                <span class="n">output_image</span><span class="o">.</span><span class="n">file_slots</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">filename</span>
+                <span class="k">if</span> <span class="n">save_depth</span><span class="p">:</span>
+                    <span class="n">distmap</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_exr_distmap</span><span class="p">(</span><span class="n">temp_filepath</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;.depth.</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_frame_number</span><span class="si">:</span><span class="s2">04d</span><span class="si">}</span><span class="s2">.exr&quot;</span><span class="p">,</span> <span class="n">dist_thresh</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">camera</span><span class="o">.</span><span class="n">far</span> <span class="o">*</span> <span class="mf">1.1</span><span class="p">)</span>
+                    <span class="n">depthmap</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">camera</span><span class="o">.</span><span class="n">distance2depth</span><span class="p">(</span><span class="n">distmap</span><span class="p">)</span>
+                    <span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">filepath</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;.depth.npy&quot;</span><span class="p">,</span> <span class="n">depthmap</span><span class="p">)</span>
+                    <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">temp_filepath</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;.depth.</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_frame_number</span><span class="si">:</span><span class="s2">04d</span><span class="si">}</span><span class="s2">.exr&quot;</span><span class="p">)</span>
+                    <span class="n">output_depth</span><span class="o">.</span><span class="n">file_slots</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">filename</span> <span class="o">+</span> <span class="s2">&quot;.depth.&quot;</span>
+                <span class="k">if</span> <span class="n">save_albedo</span><span class="p">:</span>
+                    <span class="n">shutil</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="n">temp_filepath</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;.albedo.</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_frame_number</span><span class="si">:</span><span class="s2">04d</span><span class="si">}</span><span class="s2">.png&quot;</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">filepath</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;.albedo.png&quot;</span><span class="p">)</span>
+                    <span class="n">output_albedo</span><span class="o">.</span><span class="n">file_slots</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span>  <span class="n">filename</span> <span class="o">+</span> <span class="s2">&quot;.albedo.&quot;</span></div>
+
+
+<div class="viewcode-block" id="Scene.preview">
+<a class="viewcode-back" href="../../api/blendify.html#blendify.scene.Scene.preview">[docs]</a>
+    <span class="nd">@safe_exit</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">preview</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filepath</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">save_depth</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">save_albedo</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">fast</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Renders a scene using Blender&#39;s OpenGL renderer. Linux and MacOS Only.</span>
+
+<span class="sd">                Args:</span>
+<span class="sd">                    filepath (Union[str, Path]): path to the image (PNG) to render to, returns the image as numpy array if None</span>
+<span class="sd">                    use_gpu (bool): whether to render on GPU or not</span>
+<span class="sd">                    samples (bool): number of raytracing samples per pixel</span>
+<span class="sd">                    save_depth (bool): whether to save the depth in the separate file.</span>
+<span class="sd">                      If yes, the numpy array &lt;filepath&gt;.depth.npy will be created if filepath is set, otherwise appends the array to the output.</span>
+<span class="sd">                    save_albedo (bool): whether to save albedo (raw color information) in the separate file.</span>
+<span class="sd">                      If yes, the PNG image &lt;filepath&gt;.albedo.png with color information will be created</span>
+<span class="sd">                      if filepath is set, otherwise appends the array to the output.</span>
+<span class="sd">                    verbose (bool): whether to allow blender to log its status to stdout during rendering</span>
+<span class="sd">                    use_denoiser (bool): use openimage denoiser to denoise the result</span>
+<span class="sd">                    fast (bool): whether to use fast and colorless preview mode (workbench engine)</span>
+<span class="sd">                &quot;&quot;&quot;</span>
+        <span class="k">assert</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;linux&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;darwin&#39;</span><span class="p">),</span> <span class="s2">&quot;Preview is only supported on Linux and MacOS&quot;</span>
+
+        <span class="c1"># Switch to OpenGL renderer</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">fast</span><span class="p">:</span>
+            <span class="n">bpy</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">scene</span><span class="o">.</span><span class="n">render</span><span class="o">.</span><span class="n">engine</span> <span class="o">=</span> <span class="s1">&#39;BLENDER_EEVEE&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">bpy</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">scene</span><span class="o">.</span><span class="n">render</span><span class="o">.</span><span class="n">engine</span> <span class="o">=</span> <span class="s1">&#39;BLENDER_WORKBENCH&#39;</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">camera</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Can&#39;t render without a camera&quot;</span><span class="p">)</span>
+
+        <span class="n">render_to_ram</span> <span class="o">=</span> <span class="n">filepath</span> <span class="ow">is</span> <span class="kc">None</span>
+        <span class="k">with</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">TemporaryDirectory</span><span class="p">()</span> <span class="k">if</span> <span class="n">render_to_ram</span> <span class="k">else</span> <span class="n">nullcontext</span><span class="p">()</span> <span class="k">as</span> <span class="n">tmpdir</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">render_to_ram</span><span class="p">:</span>
+                <span class="n">basepath</span> <span class="o">=</span> <span class="n">tmpdir</span>
+                <span class="n">filename</span> <span class="o">=</span> <span class="s1">&#39;result.png&#39;</span>
+                <span class="n">filepath</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">tmpdir</span><span class="p">)</span> <span class="o">/</span> <span class="n">filename</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">filepath</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
+                <span class="n">basepath</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">filepath</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">absolute</span><span class="p">())</span>
+                <span class="n">filename</span> <span class="o">=</span> <span class="n">filepath</span><span class="o">.</span><span class="n">stem</span>
+
+            <span class="n">scene</span> <span class="o">=</span> <span class="n">bpy</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">scenes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">scene</span><span class="o">.</span><span class="n">render</span><span class="o">.</span><span class="n">resolution_x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">camera</span><span class="o">.</span><span class="n">resolution</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">scene</span><span class="o">.</span><span class="n">render</span><span class="o">.</span><span class="n">resolution_y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">camera</span><span class="o">.</span><span class="n">resolution</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">scene</span><span class="o">.</span><span class="n">render</span><span class="o">.</span><span class="n">resolution_percentage</span> <span class="o">=</span> <span class="mi">100</span>
+            <span class="n">scene</span><span class="o">.</span><span class="n">render</span><span class="o">.</span><span class="n">filepath</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">filepath</span><span class="o">.</span><span class="n">parent</span><span class="p">)</span>
+
+            <span class="n">bpy</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">scene</span><span class="o">.</span><span class="n">camera</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">camera</span><span class="o">.</span><span class="n">blender_camera</span>
+            <span class="c1"># bpy.context.object.data.dof.focus_object = object</span>
+            <span class="c1"># input(&quot;Scene has been built. Press any key to start rendering&quot;)</span>
+
+            <span class="n">bpy</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">scene</span><span class="o">.</span><span class="n">view_layers</span><span class="p">[</span><span class="s1">&#39;ViewLayer&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">use_pass_combined</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="n">bpy</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">scene</span><span class="o">.</span><span class="n">view_layers</span><span class="p">[</span><span class="s1">&#39;ViewLayer&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">use_pass_diffuse_color</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="n">bpy</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">scene</span><span class="o">.</span><span class="n">view_layers</span><span class="p">[</span><span class="s1">&#39;ViewLayer&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">use_pass_z</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="n">scene_node_tree</span> <span class="o">=</span> <span class="n">bpy</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">scene</span><span class="o">.</span><span class="n">node_tree</span>
+
+            <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">scene_node_tree</span><span class="o">.</span><span class="n">nodes</span><span class="p">:</span>
+                <span class="n">scene_node_tree</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+            <span class="n">render_layer</span> <span class="o">=</span> <span class="n">scene_node_tree</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s2">&quot;CompositorNodeRLayers&quot;</span><span class="p">)</span>
+            <span class="n">output_image</span> <span class="o">=</span> <span class="n">scene_node_tree</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s2">&quot;CompositorNodeOutputFile&quot;</span><span class="p">)</span>
+            <span class="n">scene_node_tree</span><span class="o">.</span><span class="n">links</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">render_layer</span><span class="o">.</span><span class="n">outputs</span><span class="p">[</span><span class="s1">&#39;Image&#39;</span><span class="p">],</span> <span class="n">output_image</span><span class="o">.</span><span class="n">inputs</span><span class="p">[</span><span class="s1">&#39;Image&#39;</span><span class="p">])</span>
+
+            <span class="k">if</span> <span class="n">save_depth</span><span class="p">:</span>
+                <span class="n">output_depth</span> <span class="o">=</span> <span class="n">scene_node_tree</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s2">&quot;CompositorNodeOutputFile&quot;</span><span class="p">)</span>
+                <span class="n">output_depth</span><span class="o">.</span><span class="n">format</span><span class="o">.</span><span class="n">file_format</span> <span class="o">=</span> <span class="s2">&quot;OPEN_EXR&quot;</span>
+                <span class="n">scene_node_tree</span><span class="o">.</span><span class="n">links</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">render_layer</span><span class="o">.</span><span class="n">outputs</span><span class="p">[</span><span class="s1">&#39;Depth&#39;</span><span class="p">],</span> <span class="n">output_depth</span><span class="o">.</span><span class="n">inputs</span><span class="p">[</span><span class="s1">&#39;Image&#39;</span><span class="p">])</span>
+
+            <span class="k">if</span> <span class="n">save_albedo</span><span class="p">:</span>
+                <span class="n">output_albedo</span> <span class="o">=</span> <span class="n">scene_node_tree</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s2">&quot;CompositorNodeOutputFile&quot;</span><span class="p">)</span>
+                <span class="n">scene_node_tree</span><span class="o">.</span><span class="n">links</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">render_layer</span><span class="o">.</span><span class="n">outputs</span><span class="p">[</span><span class="s1">&#39;DiffCol&#39;</span><span class="p">],</span> <span class="n">output_albedo</span><span class="o">.</span><span class="n">inputs</span><span class="p">[</span><span class="s1">&#39;Image&#39;</span><span class="p">])</span>
+
+            <span class="c1"># Render</span>
+            <span class="n">bpy</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">scene</span><span class="o">.</span><span class="n">frame_current</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_frame_number</span>
+            <span class="n">temp_filesuffix</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">tempfile</span><span class="o">.</span><span class="n">_get_candidate_names</span><span class="p">())</span>
+            <span class="n">temp_filepath</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;.&quot;</span> <span class="o">+</span> <span class="n">temp_filesuffix</span>
+            <span class="n">render_suffixes</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;.color.</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_frame_number</span><span class="si">:</span><span class="s2">04d</span><span class="si">}</span><span class="s2">.png&quot;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">save_depth</span><span class="p">:</span>
+                <span class="n">render_suffixes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;.depth.</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_frame_number</span><span class="si">:</span><span class="s2">04d</span><span class="si">}</span><span class="s2">.exr&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">save_albedo</span><span class="p">:</span>
+                <span class="n">render_suffixes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;.albedo.</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_frame_number</span><span class="si">:</span><span class="s2">04d</span><span class="si">}</span><span class="s2">.png&quot;</span><span class="p">)</span>
+            <span class="k">while</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_any_exists</span><span class="p">(</span><span class="n">temp_filepath</span><span class="p">,</span> <span class="n">render_suffixes</span><span class="p">):</span>
+                <span class="n">temp_filesuffix</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">tempfile</span><span class="o">.</span><span class="n">_get_candidate_names</span><span class="p">())</span>
+                <span class="n">temp_filepath</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;.&quot;</span> <span class="o">+</span> <span class="n">temp_filesuffix</span>
+            <span class="n">temp_filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">temp_filepath</span><span class="p">)</span>
+            <span class="n">output_image</span><span class="o">.</span><span class="n">base_path</span> <span class="o">=</span> <span class="n">basepath</span>
+            <span class="n">output_image</span><span class="o">.</span><span class="n">file_slots</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">temp_filename</span> <span class="o">+</span> <span class="s2">&quot;.color.&quot;</span>
+            <span class="k">if</span> <span class="n">save_depth</span><span class="p">:</span>
+                <span class="n">output_depth</span><span class="o">.</span><span class="n">file_slots</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">temp_filename</span> <span class="o">+</span> <span class="s2">&quot;.depth.&quot;</span>
+            <span class="k">if</span> <span class="n">save_albedo</span><span class="p">:</span>
+                <span class="n">output_albedo</span><span class="o">.</span><span class="n">file_slots</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">temp_filename</span> <span class="o">+</span> <span class="s2">&quot;.albedo.&quot;</span>
+
+            <span class="k">with</span> <span class="n">catch_stdout</span><span class="p">(</span><span class="n">skip</span><span class="o">=</span><span class="n">verbose</span><span class="p">):</span>
+                <span class="n">bpy</span><span class="o">.</span><span class="n">ops</span><span class="o">.</span><span class="n">render</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">write_still</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">render_to_ram</span><span class="p">:</span>
+                <span class="n">image_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_image</span><span class="p">(</span><span class="n">temp_filepath</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;.color.</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_frame_number</span><span class="si">:</span><span class="s2">04d</span><span class="si">}</span><span class="s2">.png&quot;</span><span class="p">)</span>
+                <span class="n">outputs</span> <span class="o">=</span> <span class="p">[</span><span class="n">image_data</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">save_depth</span><span class="p">:</span>
+                    <span class="n">distmap</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_exr_distmap</span><span class="p">(</span><span class="n">temp_filepath</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;.depth.</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_frame_number</span><span class="si">:</span><span class="s2">04d</span><span class="si">}</span><span class="s2">.exr&quot;</span><span class="p">,</span> <span class="n">dist_thresh</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">camera</span><span class="o">.</span><span class="n">far</span> <span class="o">*</span> <span class="mf">1.1</span><span class="p">)</span>
+                    <span class="n">depthmap</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">camera</span><span class="o">.</span><span class="n">distance2depth</span><span class="p">(</span><span class="n">distmap</span><span class="p">)</span>
+                    <span class="n">outputs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">depthmap</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">save_albedo</span><span class="p">:</span>
+                    <span class="n">albedomap</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_image</span><span class="p">(</span><span class="n">temp_filepath</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;.albedo.</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_frame_number</span><span class="si">:</span><span class="s2">04d</span><span class="si">}</span><span class="s2">.png&quot;</span><span class="p">)</span>
+                    <span class="n">outputs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">albedomap</span><span class="p">)</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">outputs</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">outputs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">outputs</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">shutil</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="n">temp_filepath</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;.color.</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_frame_number</span><span class="si">:</span><span class="s2">04d</span><span class="si">}</span><span class="s2">.png&quot;</span><span class="p">,</span> <span class="n">filepath</span><span class="p">)</span>
+                <span class="n">output_image</span><span class="o">.</span><span class="n">file_slots</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">filename</span>
+                <span class="k">if</span> <span class="n">save_depth</span><span class="p">:</span>
+                    <span class="n">distmap</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_exr_distmap</span><span class="p">(</span><span class="n">temp_filepath</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;.depth.</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_frame_number</span><span class="si">:</span><span class="s2">04d</span><span class="si">}</span><span class="s2">.exr&quot;</span><span class="p">,</span> <span class="n">dist_thresh</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">camera</span><span class="o">.</span><span class="n">far</span> <span class="o">*</span> <span class="mf">1.1</span><span class="p">)</span>
+                    <span class="n">depthmap</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">camera</span><span class="o">.</span><span class="n">distance2depth</span><span class="p">(</span><span class="n">distmap</span><span class="p">)</span>
+                    <span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">filepath</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;.depth.npy&quot;</span><span class="p">,</span> <span class="n">depthmap</span><span class="p">)</span>
+                    <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">temp_filepath</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;.depth.</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_frame_number</span><span class="si">:</span><span class="s2">04d</span><span class="si">}</span><span class="s2">.exr&quot;</span><span class="p">)</span>
+                    <span class="n">output_depth</span><span class="o">.</span><span class="n">file_slots</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">filename</span> <span class="o">+</span> <span class="s2">&quot;.depth.&quot;</span>
+                <span class="k">if</span> <span class="n">save_albedo</span><span class="p">:</span>
+                    <span class="n">shutil</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="n">temp_filepath</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;.albedo.</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_frame_number</span><span class="si">:</span><span class="s2">04d</span><span class="si">}</span><span class="s2">.png&quot;</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">filepath</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;.albedo.png&quot;</span><span class="p">)</span>
+                    <span class="n">output_albedo</span><span class="o">.</span><span class="n">file_slots</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">filename</span> <span class="o">+</span> <span class="s2">&quot;.albedo.&quot;</span>
+
+        <span class="c1"># Return to Cycles renderer</span>
+        <span class="n">bpy</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">scene</span><span class="o">.</span><span class="n">render</span><span class="o">.</span><span class="n">engine</span> <span class="o">=</span> <span class="s1">&#39;CYCLES&#39;</span></div>
+
+
+
+<div class="viewcode-block" id="Scene.check_any_exists">
+<a class="viewcode-back" href="../../api/blendify.html#blendify.scene.Scene.check_any_exists">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">check_any_exists</span><span class="p">(</span><span class="n">fileprefix</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">filesuffixes</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if any of the combinations of &lt;fileprefix&gt;+&lt;any filesuffix&gt; exist in the filesystem</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            fileprefix (str): single file prefix, can the full path or local name</span>
+<span class="sd">            filesuffixes (Sequence[str]): a sequence of file suffixes to choose from</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: True is any of the combinations exists in the filesystem, False otherwise</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">filesuffix</span> <span class="ow">in</span> <span class="n">filesuffixes</span><span class="p">:</span>
+            <span class="n">fullpath</span> <span class="o">=</span> <span class="n">fileprefix</span> <span class="o">+</span> <span class="n">filesuffix</span>
+            <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">fullpath</span><span class="p">):</span>
+                <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
+
+
+<div class="viewcode-block" id="Scene.export">
+<a class="viewcode-back" href="../../api/blendify.html#blendify.scene.Scene.export">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="nd">@safe_exit</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">export</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">],</span> <span class="n">include_file_textures</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Export the current scene to the .blend file</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            path (Union[str, Path]): path to the target .blend file</span>
+<span class="sd">            include_file_textures (bool): whether to write textures loaded from external files inside .blend file</span>
+<span class="sd">            verbose (bool): whether to allow blender to log its status to stdout during exporting</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># hack to overcome Blender error message &quot;BKE_bpath_relative_convert: basedir=&#39;&#39;, this is a bug&quot;</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">path</span><span class="p">))</span>
+
+        <span class="c1"># Create folder</span>
+        <span class="n">Path</span><span class="p">(</span><span class="n">path</span><span class="p">)</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="k">with</span> <span class="n">catch_stdout</span><span class="p">(</span><span class="n">skip</span><span class="o">=</span><span class="n">verbose</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">include_file_textures</span><span class="p">:</span>
+                <span class="n">bpy</span><span class="o">.</span><span class="n">ops</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">pack_all</span><span class="p">()</span>
+            <span class="n">bpy</span><span class="o">.</span><span class="n">ops</span><span class="o">.</span><span class="n">wm</span><span class="o">.</span><span class="n">save_as_mainfile</span><span class="p">(</span><span class="n">filepath</span><span class="o">=</span><span class="n">path</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Scene.attach_blend">
+<a class="viewcode-back" href="../../api/blendify.html#blendify.scene.Scene.attach_blend">[docs]</a>
+    <span class="nd">@safe_exit</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">attach_blend</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">],</span> <span class="n">with_camera</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Append objects and materials from the existing .blend file to the scene.</span>
+<span class="sd">        The only two modalities that can be added to blendify Scene are lights and optionally camera,</span>
+<span class="sd">        others (renderable objects, materials, etc.) are only appended.</span>
+<span class="sd">        The appended modalities will only be present in the internal Blender structures,</span>
+<span class="sd">        but will not be added to the blendify Scene class structure.</span>
+<span class="sd">        However, they will appear on rendering and in the exported .blend files</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            path: path to the .blend file to append the contents from</span>
+<span class="sd">            with_camera: parse camera parameters from the .blend file or keep existing camera</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">main_scene_name</span> <span class="o">=</span> <span class="n">bpy</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">scenes</span><span class="o">.</span><span class="n">keys</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">materials</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">with</span> <span class="p">(</span><span class="n">bpy</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">libraries</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">path</span><span class="p">),</span> <span class="n">link</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="k">as</span> <span class="p">(</span><span class="n">data_from</span><span class="p">,</span> <span class="n">data_to</span><span class="p">)):</span>
+            <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">data_from</span><span class="o">.</span><span class="n">materials</span><span class="p">:</span>
+                <span class="n">materials</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">name</span><span class="p">})</span>
+
+            <span class="k">if</span> <span class="n">with_camera</span><span class="p">:</span>
+                <span class="c1"># Check number of cameras by looking at cameras settings</span>
+                <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">data_from</span><span class="o">.</span><span class="n">cameras</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> \
+                    <span class="sa">f</span><span class="s2">&quot;Expect to have only single camera in .blend, got </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">data_from</span><span class="o">.</span><span class="n">cameras</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+
+                <span class="c1"># Parse resolution parameters from scene</span>
+                <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">data_from</span><span class="o">.</span><span class="n">scenes</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> \
+                        <span class="sa">f</span><span class="s2">&quot;Expect to have only single scene in .blend, got </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">data_from</span><span class="o">.</span><span class="n">scenes</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+
+            <span class="n">data_to</span><span class="o">.</span><span class="n">scenes</span> <span class="o">=</span> <span class="n">data_from</span><span class="o">.</span><span class="n">scenes</span>
+
+        <span class="k">if</span> <span class="n">with_camera</span><span class="p">:</span>
+            <span class="c1"># Parse resolution</span>
+            <span class="n">res_x</span> <span class="o">=</span> <span class="n">data_to</span><span class="o">.</span><span class="n">scenes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">render</span><span class="o">.</span><span class="n">resolution_x</span>
+            <span class="n">res_y</span> <span class="o">=</span> <span class="n">data_to</span><span class="o">.</span><span class="n">scenes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">render</span><span class="o">.</span><span class="n">resolution_y</span>
+            <span class="n">resolution_percentage</span> <span class="o">=</span> <span class="n">data_to</span><span class="o">.</span><span class="n">scenes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">render</span><span class="o">.</span><span class="n">resolution_percentage</span>
+            <span class="n">resolution</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">res_x</span><span class="p">,</span> <span class="n">res_y</span><span class="p">])</span>
+
+            <span class="c1"># Delete old camera</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_camera</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_camera</span><span class="o">.</span><span class="n">_blender_remove_object</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Remove camera from the imported scene</span>
+            <span class="n">camera_obj</span> <span class="o">=</span> <span class="n">data_to</span><span class="o">.</span><span class="n">scenes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">camera</span>
+
+            <span class="k">with</span> <span class="n">bpy</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">temp_override</span><span class="p">(</span><span class="n">selected_objects</span><span class="o">=</span><span class="p">[</span><span class="n">camera_obj</span><span class="p">]):</span>
+                <span class="n">bpy</span><span class="o">.</span><span class="n">ops</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
+
+        <span class="c1"># Add materials to the current scene</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">materials</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">bpy</span><span class="o">.</span><span class="n">ops</span><span class="o">.</span><span class="n">wm</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">directory</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;/Material/&quot;</span><span class="p">,</span> <span class="n">files</span><span class="o">=</span><span class="n">materials</span><span class="p">,</span> <span class="n">link</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="c1"># Recursively copy collection</span>
+        <span class="n">main_scene</span> <span class="o">=</span> <span class="n">bpy</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">scenes</span><span class="p">[</span><span class="n">main_scene_name</span><span class="p">]</span>
+        <span class="n">import_scene</span> <span class="o">=</span> <span class="n">data_to</span><span class="o">.</span><span class="n">scenes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">parser</span><span class="o">.</span><span class="n">move_collection</span><span class="p">(</span><span class="n">main_scene</span><span class="o">.</span><span class="n">collection</span><span class="p">,</span> <span class="n">import_scene</span><span class="o">.</span><span class="n">collection</span><span class="p">)</span>
+
+        <span class="c1"># Remove scene</span>
+        <span class="n">bpy</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">scenes</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">import_scene</span><span class="p">,</span> <span class="n">do_unlink</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="c1"># Parse selected objects (lights and camera)</span>
+        <span class="n">bpy</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">view_layer</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="n">bpy</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">objects</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">with_camera</span> <span class="ow">and</span> <span class="n">obj</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">&quot;CAMERA&quot;</span><span class="p">:</span>
+                <span class="n">camera_type</span><span class="p">,</span> <span class="n">camera_dict</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_camera_from_blendfile</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">resolution</span><span class="p">)</span>
+
+                <span class="c1"># Remove current camera, because we need to recreate it</span>
+                <span class="n">bpy</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">cameras</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">bpy</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">cameras</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+                <span class="k">if</span> <span class="n">camera_type</span> <span class="o">==</span> <span class="s2">&quot;ORTHO&quot;</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">set_orthographic_camera</span><span class="p">(</span>
+                        <span class="n">resolution_percentage</span><span class="o">=</span><span class="n">resolution_percentage</span><span class="p">,</span> <span class="o">**</span><span class="n">camera_dict</span>
+                    <span class="p">)</span>
+                <span class="k">elif</span> <span class="n">camera_type</span> <span class="o">==</span> <span class="s2">&quot;PERSP&quot;</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">set_perspective_camera</span><span class="p">(</span>
+                        <span class="n">resolution_percentage</span><span class="o">=</span><span class="n">resolution_percentage</span><span class="p">,</span> <span class="o">**</span><span class="n">camera_dict</span>
+                    <span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unsupported camera type </span><span class="si">{</span><span class="n">camera_type</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">obj</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">&quot;LIGHT&quot;</span><span class="p">:</span>
+                <span class="n">light_type</span><span class="p">,</span> <span class="n">light_dict</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_light_from_blendfile</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+
+                <span class="c1"># Remove light before re-creaing it</span>
+                <span class="k">with</span> <span class="n">bpy</span><span class="o">.</span><span class="n">context</span><span class="o">.</span><span class="n">temp_override</span><span class="p">(</span><span class="n">selected_objects</span><span class="o">=</span><span class="p">[</span><span class="n">obj</span><span class="p">]):</span>
+                    <span class="n">bpy</span><span class="o">.</span><span class="n">ops</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
+
+                <span class="k">if</span> <span class="n">light_type</span> <span class="o">==</span> <span class="s2">&quot;POINT&quot;</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">lights</span><span class="o">.</span><span class="n">add_point</span><span class="p">(</span><span class="o">**</span><span class="n">light_dict</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">light_type</span> <span class="o">==</span> <span class="s2">&quot;SUN&quot;</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">lights</span><span class="o">.</span><span class="n">add_sun</span><span class="p">(</span><span class="o">**</span><span class="n">light_dict</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">light_type</span> <span class="o">==</span> <span class="s2">&quot;SPOT&quot;</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">lights</span><span class="o">.</span><span class="n">add_spot</span><span class="p">(</span><span class="o">**</span><span class="n">light_dict</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">light_type</span> <span class="o">==</span> <span class="s2">&quot;AREA&quot;</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">lights</span><span class="o">.</span><span class="n">add_area</span><span class="p">(</span><span class="o">**</span><span class="n">light_dict</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unsupported light type </span><span class="si">{</span><span class="n">light_type</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+</div>
+
+</pre></div>
+        </article>
+      </div>
+      <footer>
+        
+<div class="related-pages">
+          
+          
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2025, Vladimir Guzov and Ilya Petrov
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+            <a href="//virtualhumans.mpi-inf.mpg.de/contact.html" class="text-muted small">Contact</a> • <a href="//imprint.mpi-klsb.mpg.de/inf/virtualhumans.mpi-inf.mpg.de" class="text-muted small">Imprint/ Impressum</a> • <a href="//data-protection.mpi-klsb.mpg.de/inf/virtualhumans.mpi-inf.mpg.de" class="text-muted small">Data Protection / Datenschutzhinweis</a>
+        </div>
+
+
+
+      </footer>
+    </div>
+    <aside class="toc-drawer no-toc">
+      
+      
+      
+    </aside>
+  </div>
+</div><script src="../../_static/documentation_options.js?v=20623aea"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/scripts/furo.js?v=46bd48cc"></script>
+    </body>
+</html>

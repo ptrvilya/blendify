@@ -1,0 +1,734 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="../">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="prev" title="blendify.renderables package" href="blendify.renderables.html" />
+        <link rel="prefetch" href="../_static/logo/blendify_logo_small.png" as="image" />
+        <link rel="prefetch" href="../_static/logo/blendify_logo_small.png" as="image" />
+
+    <!-- Generated with Sphinx 8.2.3 and Furo 2025.07.19 -->
+        <title>blendify.utils package - Blendify</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d111a655" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=25af2a20" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=8dab3a3b" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f2f2f2;
+  --color-code-foreground: #1e1e1e;
+  --color-brand-primary: #3FDC55;
+  --color-brand-content: #4B9B28;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #2b2b2b;
+  --color-code-foreground: #f8f8f2;
+  --color-brand-primary: #CAFD6C;
+  --color-brand-content: #95FE6A;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #2b2b2b;
+  --color-code-foreground: #f8f8f2;
+  --color-brand-primary: #CAFD6C;
+  --color-brand-content: #95FE6A;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../index.html"><div class="brand">Blendify</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo only-light" src="../_static/logo/blendify_logo_small.png" alt="Light Logo"/>
+    <img class="sidebar-logo only-dark" src="../_static/logo/blendify_logo_small.png" alt="Dark Logo"/>
+  </div>
+  
+</a>
+
+<div style="text-align: center">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+  <!-- Place this tag where you want the button to render. -->
+  <a
+    class="github-button"
+    href="https://github.com/ptrvilya/blendify/"
+    data-color-scheme="no-preference: light; light: light; dark: light;"
+    data-size="large"
+    data-show-count="true"
+    aria-label="Download buttons/github-buttons on GitHub"
+  >
+    Github
+  </a>
+</div><form class="sidebar-search-container" method="get" action="../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Feature walkthrough</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../walkthrough.html">Feature walkthrough</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul class="current">
+<li class="toctree-l1 current has-children"><a class="reference internal" href="modules.html">blendify</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of blendify</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2 current has-children"><a class="reference internal" href="blendify.html">blendify package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of blendify package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="blendify.cameras.html">blendify.cameras package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="blendify.colors.html">blendify.colors package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="blendify.internal.html">blendify.internal package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="blendify.lights.html">blendify.lights package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="blendify.materials.html">blendify.materials package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="blendify.renderables.html">blendify.renderables package</a></li>
+<li class="toctree-l3 current current-page"><a class="current reference internal" href="#">blendify.utils package</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="view-this-page">
+  <a class="muted-link" href="../_sources/api/blendify.utils.rst.txt" title="View this page">
+    <svg><use href="#svg-eye"></use></svg>
+    <span class="visually-hidden">View this page</span>
+  </a>
+</div>
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <section id="blendify-utils-package">
+<span id="blendify-utils"></span><h1>blendify.utils package<a class="headerlink" href="#blendify-utils-package" title="Link to this heading">¶</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading">¶</a></h2>
+</section>
+<section id="module-blendify.utils.camera_trajectory">
+<span id="blendify-utils-camera-trajectory-module"></span><h2>blendify.utils.camera_trajectory module<a class="headerlink" href="#module-blendify.utils.camera_trajectory" title="Link to this heading">¶</a></h2>
+<p>Code taken from <a class="reference external" href="https://github.com/vguzov/cloudrender/blob/main/cloudrender/camera/trajectory.py">https://github.com/vguzov/cloudrender/blob/main/cloudrender/camera/trajectory.py</a></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="blendify.utils.camera_trajectory.Trajectory">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">blendify.utils.camera_trajectory.</span></span><span class="sig-name descname"><span class="pre">Trajectory</span></span><a class="reference internal" href="../_modules/blendify/utils/camera_trajectory.html#Trajectory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#blendify.utils.camera_trajectory.Trajectory" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="blendify.utils.camera_trajectory.Trajectory.add_keypoint">
+<span class="sig-name descname"><span class="pre">add_keypoint</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">quaternion</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">position</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check_time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/blendify/utils/camera_trajectory.html#Trajectory.add_keypoint"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#blendify.utils.camera_trajectory.Trajectory.add_keypoint" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="blendify.utils.camera_trajectory.Trajectory.find_closest_kp_in_traj">
+<span class="sig-name descname"><span class="pre">find_closest_kp_in_traj</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/blendify/utils/camera_trajectory.html#Trajectory.find_closest_kp_in_traj"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#blendify.utils.camera_trajectory.Trajectory.find_closest_kp_in_traj" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="blendify.utils.camera_trajectory.Trajectory.refine_trajectory">
+<span class="sig-name descname"><span class="pre">refine_trajectory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time_step</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.016666666666666666</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interp_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'quadratic'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">smoothness</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">5.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/blendify/utils/camera_trajectory.html#Trajectory.refine_trajectory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#blendify.utils.camera_trajectory.Trajectory.refine_trajectory" title="Link to this definition">¶</a></dt>
+<dd><p>Refines the trajectory by creating keypoints inbetween existion ones via interpolation</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>time_step</strong> (<em>float</em>) – how often to create new points</p></li>
+<li><p><strong>interp_type</strong> (<em>str</em>) – interpolation type, “linear”, “quadratic”, “cubic”</p></li>
+<li><p><strong>smoothness</strong> (<em>float</em>) – how hard to smooth the pose trajectory</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>trajectory keypoints - each keypoint has “time”, “position” and “quaternion”</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[dict]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="blendify.utils.camera_trajectory.Trajectory.rot_gaussian_smoothing">
+<span class="sig-name descname"><span class="pre">rot_gaussian_smoothing</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rots</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/blendify/utils/camera_trajectory.html#Trajectory.rot_gaussian_smoothing"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#blendify.utils.camera_trajectory.Trajectory.rot_gaussian_smoothing" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="blendify.utils.camera_trajectory.Trajectory.serialize_trajectory">
+<span class="sig-name descname"><span class="pre">serialize_trajectory</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/blendify/utils/camera_trajectory.html#Trajectory.serialize_trajectory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#blendify.utils.camera_trajectory.Trajectory.serialize_trajectory" title="Link to this definition">¶</a></dt>
+<dd><p>Make trajectory json-serializable</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>trajectory keypoints - each keypoint has “time”, “position” and “quaternion”</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>List[dict]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="blendify.utils.camera_trajectory.Trajectory.set_trajectory">
+<span class="sig-name descname"><span class="pre">set_trajectory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">keypoints</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/blendify/utils/camera_trajectory.html#Trajectory.set_trajectory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#blendify.utils.camera_trajectory.Trajectory.set_trajectory" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="blendify.utils.camera_trajectory.Trajectory.sort_trajectory">
+<span class="sig-name descname"><span class="pre">sort_trajectory</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/blendify/utils/camera_trajectory.html#Trajectory.sort_trajectory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#blendify.utils.camera_trajectory.Trajectory.sort_trajectory" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-blendify.utils.image">
+<span id="blendify-utils-image-module"></span><h2>blendify.utils.image module<a class="headerlink" href="#module-blendify.utils.image" title="Link to this heading">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="blendify.utils.image.blend_with_background">
+<span class="sig-prename descclassname"><span class="pre">blendify.utils.image.</span></span><span class="sig-name descname"><span class="pre">blend_with_background</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">img</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bkg_color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">(1.0,</span> <span class="pre">1.0,</span> <span class="pre">1.0)</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="../_modules/blendify/utils/image.html#blend_with_background"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#blendify.utils.image.blend_with_background" title="Link to this definition">¶</a></dt>
+<dd><p>Blend the RGBA image with uniform colored background, return RGB image</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>img</strong> – RGBA foreground image</p></li>
+<li><p><strong>bkg_color</strong> – RGB uniform background color (default is white)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>RGB image blended with background</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-blendify.utils.pointcloud">
+<span id="blendify-utils-pointcloud-module"></span><h2>blendify.utils.pointcloud module<a class="headerlink" href="#module-blendify.utils.pointcloud" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="blendify.utils.pointcloud.PCMeshifier">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">blendify.utils.pointcloud.</span></span><span class="sig-name descname"><span class="pre">PCMeshifier</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subsampled_mesh_faces_count</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">texture_resolution</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(30000,</span> <span class="pre">30000)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pc_subsample</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_query_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">knn</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gpu_index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bpa_radius</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/blendify/utils/pointcloud.html#PCMeshifier"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#blendify.utils.pointcloud.PCMeshifier" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="blendify.utils.pointcloud.PCMeshifier.compute_texture_blocks_count">
+<span class="sig-name descname"><span class="pre">compute_texture_blocks_count</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query_block_size</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/blendify/utils/pointcloud.html#PCMeshifier.compute_texture_blocks_count"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#blendify.utils.pointcloud.PCMeshifier.compute_texture_blocks_count" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="blendify.utils.pointcloud.PCMeshifier.generate_naive_uvmap">
+<span class="sig-name descname"><span class="pre">generate_naive_uvmap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">o3d_mesh</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">TriangleMesh</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/blendify/utils/pointcloud.html#PCMeshifier.generate_naive_uvmap"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#blendify.utils.pointcloud.PCMeshifier.generate_naive_uvmap" title="Link to this definition">¶</a></dt>
+<dd><p>Will pack faces one after another in the texture, two triangles per square</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>o3d_mesh</strong> (<em>o3d.geometry.TriangleMesh</em>) – mesh to generate UV map for</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="blendify.utils.pointcloud.PCMeshifier.generate_texture_from_pc">
+<span class="sig-name descname"><span class="pre">generate_texture_from_pc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">o3d_mesh</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">TriangleMesh</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">uv_map</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pc_vertices</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pc_colors</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query_block_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">2000</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/blendify/utils/pointcloud.html#PCMeshifier.generate_texture_from_pc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#blendify.utils.pointcloud.PCMeshifier.generate_texture_from_pc" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="blendify.utils.pointcloud.PCMeshifier.generate_texture_from_pc_block_by_block">
+<span class="sig-name descname"><span class="pre">generate_texture_from_pc_block_by_block</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">o3d_mesh</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">TriangleMesh</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">uv_map</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pc_vertices</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pc_colors</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query_block_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">2000</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/blendify/utils/pointcloud.html#PCMeshifier.generate_texture_from_pc_block_by_block"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#blendify.utils.pointcloud.PCMeshifier.generate_texture_from_pc_block_by_block" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="blendify.utils.pointcloud.PCMeshifier.np_dtype">
+<span class="sig-name descname"><span class="pre">np_dtype</span></span><a class="headerlink" href="#blendify.utils.pointcloud.PCMeshifier.np_dtype" title="Link to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">float64</span></code></p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="blendify.utils.pointcloud.PCMeshifier.o3d_decimate_mesh">
+<span class="sig-name descname"><span class="pre">o3d_decimate_mesh</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">o3d_mesh</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">TriangleMesh</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/blendify/utils/pointcloud.html#PCMeshifier.o3d_decimate_mesh"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#blendify.utils.pointcloud.PCMeshifier.o3d_decimate_mesh" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="blendify.utils.pointcloud.PCMeshifier.o3d_mesh_from_pc">
+<span class="sig-name descname"><span class="pre">o3d_mesh_from_pc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pc_vertices</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pc_colors</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pc_normals</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/blendify/utils/pointcloud.html#PCMeshifier.o3d_mesh_from_pc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#blendify.utils.pointcloud.PCMeshifier.o3d_mesh_from_pc" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="blendify.utils.pointcloud.PCMeshifier.torch_dtype">
+<span class="sig-name descname"><span class="pre">torch_dtype</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">torch.float32</span></em><a class="headerlink" href="#blendify.utils.pointcloud.PCMeshifier.torch_dtype" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="blendify.utils.pointcloud.approximate_colors_from_camera">
+<span class="sig-prename descclassname"><span class="pre">blendify.utils.pointcloud.</span></span><span class="sig-name descname"><span class="pre">approximate_colors_from_camera</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">camera_viewdir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vertex_normals</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">per_vertex_color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">back_color</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">(0.6,</span> <span class="pre">0.6,</span> <span class="pre">0.6)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/blendify/utils/pointcloud.html#approximate_colors_from_camera"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#blendify.utils.pointcloud.approximate_colors_from_camera" title="Link to this definition">¶</a></dt>
+<dd><p>Approximation of visible vertices from camera.
+PC vertices are colored with their initial color only if they are visible from camera (here we use the approximation
+of visibility, by calculating the angle between vertex normal and camera’s view direction), otherwise the vertices
+are colored with back_color.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>camera_viewdir</strong> (<em>np.ndarray</em>) – view direction of the camera</p></li>
+<li><p><strong>vertex_normals</strong> (<em>np.ndarray</em>) – per-vertex normals of the point cloud</p></li>
+<li><p><strong>per_vertex_color</strong> (<em>Union</em><em>[</em><em>Vector3d</em><em>, </em><em>Vector4d</em><em>]</em>) – colors for the point cloud</p></li>
+<li><p><strong>back_color</strong> (<em>Union</em><em>[</em><em>Vector3d</em><em>, </em><em>Vector4d</em><em>]</em><em>, </em><em>optional</em>) – color for vertices that are not visible from camera. With
+the approximation of visibility, described above (default: (0.6, 0.6, 0.6))</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>new per-vertex coloring with invisible vertices colored in back_color</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="blendify.utils.pointcloud.estimate_normals_from_pointcloud">
+<span class="sig-prename descclassname"><span class="pre">blendify.utils.pointcloud.</span></span><span class="sig-name descname"><span class="pre">estimate_normals_from_pointcloud</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pc_vertices</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">backend</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'open3d'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'gpu'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/blendify/utils/pointcloud.html#estimate_normals_from_pointcloud"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#blendify.utils.pointcloud.estimate_normals_from_pointcloud" title="Link to this definition">¶</a></dt>
+<dd><p>Approximate PC per-vertex normals using algorithms implemented in opend3d or pytorch3d.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pc_vertices</strong> (<em>np.ndarray</em>) – pointcloud vertices (n_vertices x 3)</p></li>
+<li><p><strong>backend</strong> (<em>str</em><em>, </em><em>optional</em>) – backend that is used to estimate normals,
+pytorch3d and open3d are supported (default: “open3d”)</p></li>
+<li><p><strong>device</strong> (<em>str</em><em>, </em><em>optional</em>) – pytorch device (default: “gpu”)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>estimated normals n_vertices x 3</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="blendify.utils.pointcloud.estimate_pc_normals_from_mesh">
+<span class="sig-prename descclassname"><span class="pre">blendify.utils.pointcloud.</span></span><span class="sig-name descname"><span class="pre">estimate_pc_normals_from_mesh</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pc_vertices</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mesh</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Trimesh</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/blendify/utils/pointcloud.html#estimate_pc_normals_from_mesh"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#blendify.utils.pointcloud.estimate_pc_normals_from_mesh" title="Link to this definition">¶</a></dt>
+<dd><p>Approximate PC per-vertex normals from mesh that is registered to PC.
+For each PC vertex averages vertex normals for 5 nearest mesh vertices.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pc_vertices</strong> (<em>np.ndarray</em>) – pointcloud vertices (n_vertices x 3)</p></li>
+<li><p><strong>mesh</strong> (<em>trimesh.base.Trimesh</em>) – mesh, registered to the PC;</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>estimated normals n_vertices x 3</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="blendify.utils.pointcloud.meshify_pc">
+<span class="sig-prename descclassname"><span class="pre">blendify.utils.pointcloud.</span></span><span class="sig-name descname"><span class="pre">meshify_pc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pc_vertices</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pc_colors</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pc_normals</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subsampled_mesh_faces_count</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">texture_resolution</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(30000,</span> <span class="pre">30000)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pc_subsample</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_query_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">knn</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gpu_index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bpa_radius</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/blendify/utils/pointcloud.html#meshify_pc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#blendify.utils.pointcloud.meshify_pc" title="Link to this definition">¶</a></dt>
+<dd><p>Turns pointcloud into a subsampled mesh with texture.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pc_vertices</strong> (<em>np.ndarray</em>) – pointcloud vertices (n_vertices x 3)</p></li>
+<li><p><strong>pc_colors</strong> (<em>np.ndarray</em>) – pointcloud colors (n_vertices x 3)</p></li>
+<li><p><strong>pc_normals</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – pointcloud normals (n_vertices x 3). If None, normals will be estimated from the pointcloud (default: None)</p></li>
+<li><p><strong>subsampled_mesh_faces_count</strong> (<em>int</em><em>, </em><em>optional</em>) – number of faces in the subsampled mesh (default: 1_000_000)</p></li>
+<li><p><strong>texture_resolution</strong> (<em>tuple</em><em>, </em><em>optional</em>) – texture resolution (default: (30_000, 30_000))</p></li>
+<li><p><strong>pc_subsample</strong> (<em>int</em><em>, </em><em>optional</em>) – number of vertices to subsample from the pointcloud (default: None)</p></li>
+<li><p><strong>max_query_size</strong> (<em>int</em><em>, </em><em>optional</em>) – maximum query size for texture generation (default: 2_000)</p></li>
+<li><p><strong>knn</strong> (<em>int</em><em>, </em><em>optional</em>) – number of nearest neighbors for texture generation (default: 3)</p></li>
+<li><p><strong>gpu_index</strong> (<em>int</em><em>, </em><em>optional</em>) – index of the GPU of texture generation stage. If None, CPU will be used (default: None)</p></li>
+<li><p><strong>bpa_radius</strong> (<em>float</em><em>, </em><em>optional</em>) – radius for ball pivoting algorithm for mesh reconstruction.
+If None, radius will be estimated automatically based on PC density</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>vertices of the mesh (V, 3)
+np.ndarray: faces of the mesh (F, 3)
+np.ndarray: per-face UV map of the mesh (F, 3, 2)
+np.ndarray: texture of the mesh (texture_resolution[0], texture_resolution[1], 3)</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="blendify.utils.pointcloud.meshify_pc_from_file">
+<span class="sig-prename descclassname"><span class="pre">blendify.utils.pointcloud.</span></span><span class="sig-name descname"><span class="pre">meshify_pc_from_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pc_filepath</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subsampled_mesh_faces_count</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">texture_resolution</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(30000,</span> <span class="pre">30000)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pc_subsample</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_query_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">knn</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gpu_index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bpa_radius</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/blendify/utils/pointcloud.html#meshify_pc_from_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#blendify.utils.pointcloud.meshify_pc_from_file" title="Link to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Turns pointcloud into a subsampled mesh with texture. Reads pointcloud from a file, writes results to a folder.</dt><dd><p>Produces mesh.ply, uv_map.npy and texture.jpg in the target folder</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pc_filepath</strong> – Path to a pointcloud</p></li>
+<li><p><strong>output_dir</strong> – Path to a directory which will contain the result</p></li>
+<li><p><strong>subsampled_mesh_faces_count</strong> (<em>int</em><em>, </em><em>optional</em>) – number of faces in the subsampled mesh (default: 1_000_000)</p></li>
+<li><p><strong>texture_resolution</strong> (<em>tuple</em><em>, </em><em>optional</em>) – texture resolution (default: (30_000, 30_000))</p></li>
+<li><p><strong>pc_subsample</strong> (<em>int</em><em>, </em><em>optional</em>) – number of vertices to subsample from the pointcloud (default: None)</p></li>
+<li><p><strong>max_query_size</strong> (<em>int</em><em>, </em><em>optional</em>) – maximum query size for texture generation (default: 2_000)</p></li>
+<li><p><strong>knn</strong> (<em>int</em><em>, </em><em>optional</em>) – number of nearest neighbors for texture generation (default: 3)</p></li>
+<li><p><strong>gpu_index</strong> (<em>int</em><em>, </em><em>optional</em>) – index of the GPU of texture generation stage. If None, CPU will be used (default: None)</p></li>
+<li><p><strong>bpa_radius</strong> (<em>float</em><em>, </em><em>optional</em>) – radius in ball pivoting algorithm for mesh reconstruction.
+If None, radius will be estimated automatically based on PC density</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-blendify.utils.shadow_catcher">
+<span id="blendify-utils-shadow-catcher-module"></span><h2>blendify.utils.shadow_catcher module<a class="headerlink" href="#module-blendify.utils.shadow_catcher" title="Link to this heading">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="blendify.utils.shadow_catcher.set_shadow_catcher">
+<span class="sig-prename descclassname"><span class="pre">blendify.utils.shadow_catcher.</span></span><span class="sig-name descname"><span class="pre">set_shadow_catcher</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="blendify.renderables.html#blendify.renderables.base.Renderable" title="blendify.renderables.base.Renderable"><span class="pre">Renderable</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/blendify/utils/shadow_catcher.html#set_shadow_catcher"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#blendify.utils.shadow_catcher.set_shadow_catcher" title="Link to this definition">¶</a></dt>
+<dd><p>Set object is_shadow_catcher and various visibility_* properties to make
+object act as a shadow catcher or revert the changes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>obj</strong> (<em>Union</em><em>[</em><em>str</em><em>, </em><a class="reference internal" href="blendify.renderables.html#blendify.renderables.base.Renderable" title="blendify.renderables.base.Renderable"><em>Renderable</em></a><em>]</em>) – tag of the Blender object or instance of Renderable</p></li>
+<li><p><strong>state</strong> (<em>bool</em>) – if True make obj a shadow catcher, otherwise make it a regular object</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-blendify.utils.smpl_wrapper">
+<span id="blendify-utils-smpl-wrapper-module"></span><h2>blendify.utils.smpl_wrapper module<a class="headerlink" href="#module-blendify.utils.smpl_wrapper" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="blendify.utils.smpl_wrapper.SMPLWrapper">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">blendify.utils.smpl_wrapper.</span></span><span class="sig-name descname"><span class="pre">SMPLWrapper</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">smpl_root</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gender</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shape_params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">device</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/blendify/utils/smpl_wrapper.html#SMPLWrapper"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#blendify.utils.smpl_wrapper.SMPLWrapper" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A wrapper for the SMPL model</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="blendify.utils.smpl_wrapper.SMPLWrapper.get_smpl">
+<span class="sig-name descname"><span class="pre">get_smpl</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pose_params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">translation_params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="../_modules/blendify/utils/smpl_wrapper.html#SMPLWrapper.get_smpl"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#blendify.utils.smpl_wrapper.SMPLWrapper.get_smpl" title="Link to this definition">¶</a></dt>
+<dd><p>Get the SMPL mesh vertices from the target pose and global translation</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pose_params</strong> – Pose parameters vector of shape (72)</p></li>
+<li><p><strong>translation_params</strong> – Global translation vector of shape (3)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>vertices of SMPL model</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-blendify.utils">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-blendify.utils" title="Link to this heading">¶</a></h2>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+<div class="related-pages">
+          
+          <a class="prev-page" href="blendify.renderables.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">blendify.renderables package</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2025, Vladimir Guzov and Ilya Petrov
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+            <a href="//virtualhumans.mpi-inf.mpg.de/contact.html" class="text-muted small">Contact</a> • <a href="//imprint.mpi-klsb.mpg.de/inf/virtualhumans.mpi-inf.mpg.de" class="text-muted small">Imprint/ Impressum</a> • <a href="//data-protection.mpi-klsb.mpg.de/inf/virtualhumans.mpi-inf.mpg.de" class="text-muted small">Data Protection / Datenschutzhinweis</a>
+        </div>
+
+
+
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">blendify.utils package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-blendify.utils.camera_trajectory">blendify.utils.camera_trajectory module</a><ul>
+<li><a class="reference internal" href="#blendify.utils.camera_trajectory.Trajectory"><code class="docutils literal notranslate"><span class="pre">Trajectory</span></code></a><ul>
+<li><a class="reference internal" href="#blendify.utils.camera_trajectory.Trajectory.add_keypoint"><code class="docutils literal notranslate"><span class="pre">Trajectory.add_keypoint()</span></code></a></li>
+<li><a class="reference internal" href="#blendify.utils.camera_trajectory.Trajectory.find_closest_kp_in_traj"><code class="docutils literal notranslate"><span class="pre">Trajectory.find_closest_kp_in_traj()</span></code></a></li>
+<li><a class="reference internal" href="#blendify.utils.camera_trajectory.Trajectory.refine_trajectory"><code class="docutils literal notranslate"><span class="pre">Trajectory.refine_trajectory()</span></code></a></li>
+<li><a class="reference internal" href="#blendify.utils.camera_trajectory.Trajectory.rot_gaussian_smoothing"><code class="docutils literal notranslate"><span class="pre">Trajectory.rot_gaussian_smoothing()</span></code></a></li>
+<li><a class="reference internal" href="#blendify.utils.camera_trajectory.Trajectory.serialize_trajectory"><code class="docutils literal notranslate"><span class="pre">Trajectory.serialize_trajectory()</span></code></a></li>
+<li><a class="reference internal" href="#blendify.utils.camera_trajectory.Trajectory.set_trajectory"><code class="docutils literal notranslate"><span class="pre">Trajectory.set_trajectory()</span></code></a></li>
+<li><a class="reference internal" href="#blendify.utils.camera_trajectory.Trajectory.sort_trajectory"><code class="docutils literal notranslate"><span class="pre">Trajectory.sort_trajectory()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-blendify.utils.image">blendify.utils.image module</a><ul>
+<li><a class="reference internal" href="#blendify.utils.image.blend_with_background"><code class="docutils literal notranslate"><span class="pre">blend_with_background()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-blendify.utils.pointcloud">blendify.utils.pointcloud module</a><ul>
+<li><a class="reference internal" href="#blendify.utils.pointcloud.PCMeshifier"><code class="docutils literal notranslate"><span class="pre">PCMeshifier</span></code></a><ul>
+<li><a class="reference internal" href="#blendify.utils.pointcloud.PCMeshifier.compute_texture_blocks_count"><code class="docutils literal notranslate"><span class="pre">PCMeshifier.compute_texture_blocks_count()</span></code></a></li>
+<li><a class="reference internal" href="#blendify.utils.pointcloud.PCMeshifier.generate_naive_uvmap"><code class="docutils literal notranslate"><span class="pre">PCMeshifier.generate_naive_uvmap()</span></code></a></li>
+<li><a class="reference internal" href="#blendify.utils.pointcloud.PCMeshifier.generate_texture_from_pc"><code class="docutils literal notranslate"><span class="pre">PCMeshifier.generate_texture_from_pc()</span></code></a></li>
+<li><a class="reference internal" href="#blendify.utils.pointcloud.PCMeshifier.generate_texture_from_pc_block_by_block"><code class="docutils literal notranslate"><span class="pre">PCMeshifier.generate_texture_from_pc_block_by_block()</span></code></a></li>
+<li><a class="reference internal" href="#blendify.utils.pointcloud.PCMeshifier.np_dtype"><code class="docutils literal notranslate"><span class="pre">PCMeshifier.np_dtype</span></code></a></li>
+<li><a class="reference internal" href="#blendify.utils.pointcloud.PCMeshifier.o3d_decimate_mesh"><code class="docutils literal notranslate"><span class="pre">PCMeshifier.o3d_decimate_mesh()</span></code></a></li>
+<li><a class="reference internal" href="#blendify.utils.pointcloud.PCMeshifier.o3d_mesh_from_pc"><code class="docutils literal notranslate"><span class="pre">PCMeshifier.o3d_mesh_from_pc()</span></code></a></li>
+<li><a class="reference internal" href="#blendify.utils.pointcloud.PCMeshifier.torch_dtype"><code class="docutils literal notranslate"><span class="pre">PCMeshifier.torch_dtype</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#blendify.utils.pointcloud.approximate_colors_from_camera"><code class="docutils literal notranslate"><span class="pre">approximate_colors_from_camera()</span></code></a></li>
+<li><a class="reference internal" href="#blendify.utils.pointcloud.estimate_normals_from_pointcloud"><code class="docutils literal notranslate"><span class="pre">estimate_normals_from_pointcloud()</span></code></a></li>
+<li><a class="reference internal" href="#blendify.utils.pointcloud.estimate_pc_normals_from_mesh"><code class="docutils literal notranslate"><span class="pre">estimate_pc_normals_from_mesh()</span></code></a></li>
+<li><a class="reference internal" href="#blendify.utils.pointcloud.meshify_pc"><code class="docutils literal notranslate"><span class="pre">meshify_pc()</span></code></a></li>
+<li><a class="reference internal" href="#blendify.utils.pointcloud.meshify_pc_from_file"><code class="docutils literal notranslate"><span class="pre">meshify_pc_from_file()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-blendify.utils.shadow_catcher">blendify.utils.shadow_catcher module</a><ul>
+<li><a class="reference internal" href="#blendify.utils.shadow_catcher.set_shadow_catcher"><code class="docutils literal notranslate"><span class="pre">set_shadow_catcher()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-blendify.utils.smpl_wrapper">blendify.utils.smpl_wrapper module</a><ul>
+<li><a class="reference internal" href="#blendify.utils.smpl_wrapper.SMPLWrapper"><code class="docutils literal notranslate"><span class="pre">SMPLWrapper</span></code></a><ul>
+<li><a class="reference internal" href="#blendify.utils.smpl_wrapper.SMPLWrapper.get_smpl"><code class="docutils literal notranslate"><span class="pre">SMPLWrapper.get_smpl()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-blendify.utils">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="../_static/documentation_options.js?v=20623aea"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/scripts/furo.js?v=46bd48cc"></script>
+    </body>
+</html>

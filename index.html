@@ -1,0 +1,514 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="./">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Feature walkthrough" href="walkthrough.html" />
+        <link rel="prefetch" href="_static/logo/blendify_logo_small.png" as="image" />
+        <link rel="prefetch" href="_static/logo/blendify_logo_small.png" as="image" />
+
+    <!-- Generated with Sphinx 8.2.3 and Furo 2025.07.19 -->
+        <title>Blendify</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=d111a655" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=25af2a20" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=8dab3a3b" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f2f2f2;
+  --color-code-foreground: #1e1e1e;
+  --color-brand-primary: #3FDC55;
+  --color-brand-content: #4B9B28;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #2b2b2b;
+  --color-code-foreground: #f8f8f2;
+  --color-brand-primary: #CAFD6C;
+  --color-brand-content: #95FE6A;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #2b2b2b;
+  --color-code-foreground: #f8f8f2;
+  --color-brand-primary: #CAFD6C;
+  --color-brand-content: #95FE6A;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="#"><div class="brand">Blendify</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="#">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo only-light" src="_static/logo/blendify_logo_small.png" alt="Light Logo"/>
+    <img class="sidebar-logo only-dark" src="_static/logo/blendify_logo_small.png" alt="Dark Logo"/>
+  </div>
+  
+</a>
+
+<div style="text-align: center">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+  <!-- Place this tag where you want the button to render. -->
+  <a
+    class="github-button"
+    href="https://github.com/ptrvilya/blendify/"
+    data-color-scheme="no-preference: light; light: light; dark: light;"
+    data-size="large"
+    data-show-count="true"
+    aria-label="Download buttons/github-buttons on GitHub"
+  >
+    Github
+  </a>
+</div><form class="sidebar-search-container" method="get" action="search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Feature walkthrough</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="walkthrough.html">Feature walkthrough</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="api/modules.html">blendify</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of blendify</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="api/blendify.html">blendify package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of blendify package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="api/blendify.cameras.html">blendify.cameras package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/blendify.colors.html">blendify.colors package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/blendify.internal.html">blendify.internal package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/blendify.lights.html">blendify.lights package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/blendify.materials.html">blendify.materials package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/blendify.renderables.html">blendify.renderables package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api/blendify.utils.html">blendify.utils package</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="view-this-page">
+  <a class="muted-link" href="_sources/index.md.txt" title="View this page">
+    <svg><use href="#svg-eye"></use></svg>
+    <span class="visually-hidden">View this page</span>
+  </a>
+</div>
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <br/>
+<a class="only-light reference internal image-reference" href="_images/blendify_logo_light_bg.png"><img alt="blendify" class="only-light align-center" src="_images/blendify_logo_light_bg.png" style="width: 800px;" />
+</a>
+<a class="only-dark reference internal image-reference" href="_images/blendify_logo_dark_bg.png"><img alt="blendify" class="only-dark align-center" src="_images/blendify_logo_dark_bg.png" style="width: 800px;" />
+</a>
+<div class="toctree-wrapper compound">
+</div>
+<div class="toctree-wrapper compound">
+</div>
+<section id="introduction">
+<h1>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">¶</a></h1>
+<p>Blendify is a lightweight Python framework that provides a high-level API for creating and rendering scenes with Blender. Developed with a focus on 3D computer vision visualization, Blendify simplifies access to selected Blender functions and objects.</p>
+<p>Key features of Blendify:</p>
+<ol class="arabic simple">
+<li><p><strong>Simple interface:</strong> Blendify provides a user-friendly interface for performing common visualization tasks without having to dive into the complicated Blender API.</p></li>
+<li><p><strong>Easy integration:</strong> Blendify seamlessly integrates with development scripts, implementing
+commonly used routines and functions:</p>
+<ul class="simple">
+<li><p>native support of point clouds, meshes, and primitives;</p></li>
+<li><p>support of per-vertex colors and textures;</p></li>
+<li><p>advanced shadows with shadow catcher objects;</p></li>
+<li><p>video rendering with smooth camera trajectories;</p></li>
+<li><p>support for common camera models;</p></li>
+<li><p>import and export of .blend files for deeper integration with Blender;</p></li>
+<li><p>per-face definition of materials for meshes;</p></li>
+<li><p>support for common rotation representations and look-at utility to automatically setup orientation.</p></li>
+</ul>
+</li>
+<li><p><strong>Quick start:</strong> Blendify is easy to get started with and does not require a standalone Blender installation. All you need to do is run <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">blendify</span></code>.</p></li>
+<li><p><strong>Blendify works in Colab:</strong> check out <a class="reference external" href="https://colab.research.google.com/github/ptrvilya/blendify/blob/main/examples/ipynb/blendify_colab_demo.ipynb">our Google Colab demo</a>!</p></li>
+</ol>
+<p>Blendify simplifies interaction with Blender, allowing you to focus on developing your application.
+The following example shows the simplicity of visualizing with Blendify in comparison to the native Blender API:</p>
+<a class="reference internal image-reference" href="_images/blender_api_vs_blendify.jpg"><img alt="blender_vs_blendify" class="align-center" src="_images/blender_api_vs_blendify.jpg" style="width: 800px;" />
+</a>
+</section>
+<section id="installation-instructions">
+<h1>Installation instructions<a class="headerlink" href="#installation-instructions" title="Link to this heading">¶</a></h1>
+<section id="install-from-pip-minimal-package-no-extra-dependencies">
+<h2>Install from pip (minimal package, no extra dependencies)<a class="headerlink" href="#install-from-pip-minimal-package-no-extra-dependencies" title="Link to this heading">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>blendify
+</pre></div>
+</div>
+</section>
+<section id="install-the-full-package-with-optional-requirements">
+<h2>Install the full package with optional requirements<a class="headerlink" href="#install-the-full-package-with-optional-requirements" title="Link to this heading">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>blendify<span class="o">[</span>all<span class="o">]</span>
+</pre></div>
+</div>
+<p>The full package includes extra dependencies for utilities, examples and documentation.
+To install older versions of blendify (with Blender &lt; 4.0) add <code class="docutils literal notranslate"><span class="pre">--find-links</span> <span class="pre">https://download.blender.org/pypi/bpy/</span></code>.</p>
+</section>
+</section>
+<section id="quick-start">
+<h1>Quick Start<a class="headerlink" href="#quick-start" title="Link to this heading">¶</a></h1>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Script to render cube</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">blendify</span><span class="w"> </span><span class="kn">import</span> <span class="n">scene</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">blendify.materials</span><span class="w"> </span><span class="kn">import</span> <span class="n">PrincipledBSDFMaterial</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">blendify.colors</span><span class="w"> </span><span class="kn">import</span> <span class="n">UniformColors</span>
+<span class="c1"># Add light</span>
+<span class="n">scene</span><span class="o">.</span><span class="n">lights</span><span class="o">.</span><span class="n">add_point</span><span class="p">(</span><span class="n">strength</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">translation</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="c1"># Add camera</span>
+<span class="n">scene</span><span class="o">.</span><span class="n">set_perspective_camera</span><span class="p">((</span><span class="mi">512</span><span class="p">,</span> <span class="mi">512</span><span class="p">),</span> <span class="n">fov_x</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="p">(</span><span class="mf">0.82</span><span class="p">,</span> <span class="mf">0.42</span><span class="p">,</span> <span class="mf">0.18</span><span class="p">,</span> <span class="mf">0.34</span><span class="p">),</span> <span class="n">translation</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="c1"># Create material</span>
+<span class="n">material</span> <span class="o">=</span> <span class="n">PrincipledBSDFMaterial</span><span class="p">()</span>
+<span class="c1"># Create color</span>
+<span class="n">color</span> <span class="o">=</span> <span class="n">UniformColors</span><span class="p">((</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">))</span>
+<span class="c1"># Add cube mesh</span>
+<span class="n">scene</span><span class="o">.</span><span class="n">renderables</span><span class="o">.</span><span class="n">add_cube_mesh</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">material</span><span class="p">,</span> <span class="n">color</span><span class="p">)</span>
+<span class="c1"># Render scene</span>
+<span class="n">scene</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">filepath</span><span class="o">=</span><span class="s2">&quot;cube.png&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="feature-walkthrough">
+<h1>Feature walkthrough<a class="headerlink" href="#feature-walkthrough" title="Link to this heading">¶</a></h1>
+<p>Walkthrough of Blendify features with code and commentaries can be found <a class="reference external" href="https://virtualhumans.mpi-inf.mpg.de/blendify/walkthrough.html">here</a>.</p>
+</section>
+<section id="examples">
+<h1>Examples<a class="headerlink" href="#examples" title="Link to this heading">¶</a></h1>
+<p><strong>Note:</strong> Examples require extra dependencies, make sure to install them with <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">blendify[examples]</span></code></p>
+<p>Running examples 4 and 5 requires <a class="reference external" href="https://pytorch.org/">PyTorch</a>, running example 5 also requires SMPL model files, please refer to the installation instructions in
+SMPL-X <a class="reference external" href="https://github.com/vchoutas/smplx#downloading-the-model">README</a>.</p>
+<table>
+    <tr align="center">
+        <td ><a href="https://github.com/ptrvilya/blendify/blob/main/examples/01_cornell_box.py"><b>Cornell Box</b></a></td>
+        <td><a href="https://github.com/ptrvilya/blendify/blob/main/examples/02_color_albedo_depth.py"><b>Color, albedo and depth</b></a></td>
+    </tr>
+    <tr align="center">
+        <td><img src="_static/examples/01_cornell_box.jpg" width="310px"/></td>
+        <td><img src="_static/examples/02_color_albedo_depth.jpg" width="310px"/></td>
+    </tr>
+    <tr align="center">
+        <td><a href="https://github.com/ptrvilya/blendify/blob/main/examples/03_mesh_with_texture.py"><b>Mesh with texture</b></a></td>
+        <td><a href="https://github.com/ptrvilya/blendify/blob/main/examples/04_camera_colored_point_cloud.py"><b>Camera colored point cloud</b></a></td>
+    </tr>
+    <tr align="center">
+        <td><img src="_static/examples/03_mesh_with_texture.jpg" width="310px"/></td>
+        <td><img src="_static/examples/04_camera_colored_point_cloud.gif" width="310px"/></td>
+    </tr>
+    <tr align="center">
+        <td><a href="https://github.com/ptrvilya/blendify/blob/main/examples/05_smpl_movement.py"><b>SMPL movement</b></a></td>
+        <td><a href="https://github.com/ptrvilya/blendify/blob/main/examples/06_nurbs_trajectory.py"><b>NURBS trajectory</b></a></td>
+    </tr>
+    <tr align="center">
+        <td><img src="_static/examples/05_smpl_movement.gif" width="310px"/></td>
+        <td><img src="_static/examples/06_nurbs_trajectory.gif" width="310px"/></td>
+    </tr>
+    <tr align="center">
+        <td><a href="https://github.com/ptrvilya/blendify/blob/main/examples/07_materials_and_shadow_catcher.py"><b>Various materials and shadow catcher</b></a></td>
+        <td><a href="https://github.com/ptrvilya/blendify/blob/main/examples/08_per_face_material.py"><b>Per-face material</b></a></td>
+    </tr>
+    <tr align="center">
+        <td><img src="_static/examples/07_materials_and_shadow_catcher.jpg" width="310px"/></td>
+        <td><img src="_static/examples/08_per_face_material.jpg" width="310px"/></td>
+    </tr>
+</table>
+</section>
+<section id="changelog">
+<h1>Changelog<a class="headerlink" href="#changelog" title="Link to this heading">¶</a></h1>
+<p>The most recent version of blendify is <strong>2.1.0</strong>.
+The 2.1.0 update introduces support for Blender 4.5 LTS, which in turn required some breaking changes that are
+summarized in the <a class="reference external" href="https://github.com/ptrvilya/blendify/blob/main/CHANGELOG.md">CHANGELOG</a> file.</p>
+</section>
+<section id="citation">
+<h1>Citation<a class="headerlink" href="#citation" title="Link to this heading">¶</a></h1>
+<p>If you use Blendify in your research, please cite:</p>
+<div class="highlight-bibtex notranslate"><div class="highlight"><pre><span></span><span class="nc">@article</span><span class="p">{</span><span class="nl">blendify2024</span><span class="p">,</span>
+<span class="w">  </span><span class="na">title</span><span class="p">=</span><span class="s">{Blendify -- Python rendering framework for Blender}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">author</span><span class="p">=</span><span class="s">{Guzov, Vladimir and Petrov, Ilya A and Pons-Moll, Gerard}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">journal</span><span class="p">=</span><span class="s">{arXiv preprint arXiv:2410.17858}</span><span class="p">,</span>
+<span class="w">  </span><span class="na">year</span><span class="p">=</span><span class="s">{2024}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="works-that-use-blendify">
+<h1>Works that use blendify<a class="headerlink" href="#works-that-use-blendify" title="Link to this heading">¶</a></h1>
+<ul class="simple">
+<li><p>V. Lazova, E. Insafutdinov, G. Pons-Moll: <a class="reference external" href="https://virtualhumans.mpi-inf.mpg.de/360tex/">360-Degree Textures of People in Clothing from a Single Image</a>
+in 3DV’19</p></li>
+<li><p>B.L. Bhatnagar, X. Xie, <strong>I. Petrov</strong>, C. Sminchisescu, C. Theobalt, G. Pons-Moll:
+<a class="reference external" href="https://virtualhumans.mpi-inf.mpg.de/behave/">BEHAVE: Dataset and Method for Tracking Human Object Interactions</a>, in CVPR’22</p></li>
+<li><p>X. Zhang, B.L. Bhatnagar, <strong>V. Guzov</strong>, S. Starke, G. Pons-Moll:
+<a class="reference external" href="https://virtualhumans.mpi-inf.mpg.de/couch/">COUCH: Towards Controllable Human-Chair Interactions</a>, in ECCV’22</p></li>
+<li><p>G. Tiwari, D. Antic, J. E. Lenssen, N. Sarafianos, T. Tung, G. Pons-Moll: <a class="reference external" href="https://virtualhumans.mpi-inf.mpg.de/posendf/">Pose-NDF:
+Modeling Human Pose Manifolds with Neural Distance Fields</a>, in ECCV’22</p></li>
+<li><p><strong>I. Petrov</strong>, R. Marin, J. Chibane, G. Pons-Moll: <a class="reference external" href="https://virtualhumans.mpi-inf.mpg.de/object_popup/">Object pop-up: Can we infer 3D objects and their poses from human interactions alone?</a>, in CVPR’23</p></li>
+<li><p><strong>I. Petrov</strong>, R. Marin, J. Chibane, G. Pons-Moll: <a class="reference external" href="https://virtualhumans.mpi-inf.mpg.de/tridi/">TriDi: Trilateral Diffusion of 3D Humans, Objects, and Interactions</a>, in ICCV’25</p></li>
+<li><p><strong>I. Petrov</strong>, <strong>V. Guzov</strong>, R. Marin, E. Aksan, X. Chen, D. Cremers, T. Beeler, G. Pons-Moll: <a class="reference external" href="https://arxiv.org/abs/2508.21556">ECHO: Ego-Centric modeling of Human-Object interactions</a>, in arXiv’25</p></li>
+</ul>
+</section>
+<section id="contributors">
+<h1>Contributors<a class="headerlink" href="#contributors" title="Link to this heading">¶</a></h1>
+<p>Blendify is written and maintained by <a class="reference external" href="https://github.com/vguzov">Vladimir Guzov</a> and <a class="reference external" href="https://github.com/ptrvilya">Ilya Petrov</a>.</p>
+</section>
+<section id="acknowledgments">
+<h1>Acknowledgments<a class="headerlink" href="#acknowledgments" title="Link to this heading">¶</a></h1>
+<p>We thank Verica Lazova for providing her Blender rendering scripts,
+<a class="reference external" href="https://github.com/isarandi">István Sarandi</a> for his suggestions and help in implementing new features,
+and <a class="reference external" href="https://github.com/riccardomarin">Riccardo Marin</a> for his helpful suggestions and feedback.
+Our code for processing point clouds is mostly based on the amazing <a class="reference external" href="https://github.com/SBCV/Blender-Addon-Photogrammetry-Importer">Blender-Photogrammetry-Importer</a> addon.</p>
+</section>
+<section id="documentation">
+<h1>Documentation<a class="headerlink" href="#documentation" title="Link to this heading">¶</a></h1>
+<p>Blendify uses Sphinx to build documentation. The following commands can be used to generate documentation locally:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Optional: updates rst files if new modules are added. However, it may need manual correction.</span>
+<span class="c1"># sphinx-apidoc -F -o _docs blendify</span>
+<span class="c1"># Build documentation</span>
+sphinx-autobuild<span class="w"> </span>docs<span class="w"> </span>docs/_build/html
+</pre></div>
+</div>
+</section>
+<section id="license">
+<h1>License<a class="headerlink" href="#license" title="Link to this heading">¶</a></h1>
+<p>The code is released under the <a class="reference external" href="https://www.gnu.org/licenses/gpl-3.0.html">GNU General Public License v3</a>.</p>
+<p>The Python logo is trademark of Python Software Foundation.
+The Blender logo is a registered property of Blender Foundation.
+<a class="reference external" href="https://github.com/SBCV/Blender-Addon-Photogrammetry-Importer">Blender-Photogrammetry-Importer</a> is distributed under the <a class="reference external" href="https://github.com/SBCV/Blender-Addon-Photogrammetry-Importer/blob/master/README.md">MIT License</a>.
+Blender is released under the <a class="reference external" href="https://www.gnu.org/licenses/gpl-3.0.html">GNU General Public License v3</a>.</p>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+<div class="related-pages">
+          <a class="next-page" href="walkthrough.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Feature walkthrough</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2025, Vladimir Guzov and Ilya Petrov
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+            <a href="//virtualhumans.mpi-inf.mpg.de/contact.html" class="text-muted small">Contact</a> • <a href="//imprint.mpi-klsb.mpg.de/inf/virtualhumans.mpi-inf.mpg.de" class="text-muted small">Imprint/ Impressum</a> • <a href="//data-protection.mpi-klsb.mpg.de/inf/virtualhumans.mpi-inf.mpg.de" class="text-muted small">Data Protection / Datenschutzhinweis</a>
+        </div>
+
+
+
+      </footer>
+    </div>
+    <aside class="toc-drawer no-toc">
+      
+      
+      
+    </aside>
+  </div>
+</div><script src="_static/documentation_options.js?v=20623aea"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/scripts/furo.js?v=46bd48cc"></script>
+    </body>
+</html>
