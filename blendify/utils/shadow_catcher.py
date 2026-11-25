@@ -23,7 +23,6 @@ def set_shadow_catcher(obj: Union[str, Renderable], state=False):
 
     # set / unset shadow catcher properties
     shadow_catcher.is_shadow_catcher = state
-    shadow_catcher.cycles.is_shadow_catcher = state
     shadow_catcher.visible_glossy = not state
     shadow_catcher.visible_diffuse = not state
     shadow_catcher.visible_transmission = not state

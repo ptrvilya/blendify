@@ -64,7 +64,6 @@ class PrincipledBSDFMaterial(Material):
         """
 
         object_material = bpy.data.materials.new(name=name)
-        object_material.use_nodes = True
         bsdf_node = object_material.node_tree.nodes["Principled BSDF"]
         material_instance = MaterialInstance(blender_material=object_material,
                                              inputs={"Color": bsdf_node.inputs["Base Color"], "Alpha": bsdf_node.inputs["Alpha"],
@@ -100,7 +99,6 @@ class GlossyBSDFMaterial(Material):
         """
 
         object_material = bpy.data.materials.new(name=name)
-        object_material.use_nodes = True
         material_nodes = object_material.node_tree.nodes
 
         bsdf_node = material_nodes.new("ShaderNodeBsdfGlossy")
@@ -131,7 +129,6 @@ class PrincipledBSDFWireframeMaterial(WireframeMaterial, PrincipledBSDFMaterial)
 
     def create_material(self, name: str = "object_material") -> MaterialInstance:
         object_material = bpy.data.materials.new(name=name)
-        object_material.use_nodes = True
         material_nodes = object_material.node_tree.nodes
 
         # Create BSDF

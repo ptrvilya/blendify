@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "blendify"
-version = "2.1.0"
+version = "2.2.0"
 description = "Python rendering framework for Blender"
 authors = [
     { name = "Vladimir Guzov", email = "vguzov@mpi-inf.mpg.de" },
@@ -12,12 +12,11 @@ authors = [
 ]
 readme = "docs/pip_readme.md"
 license = { file = "LICENSE" }
-requires-python = ">=3.11,<3.12"
+requires-python = ">=3.13,<3.14"
 dependencies = [
     "numpy",
     "scipy",
-    "bpy>4.5,<4.6",
-    "opencv-python-headless"
+    "bpy>=5.2,<5.3"
 ]
 keywords = ["rendering", "pointcloud", "blender", "mesh"]
 classifiers = [
@@ -62,8 +61,7 @@ examples = [
 all = [
     "numpy",
     "scipy",
-    "bpy==4.5.2",
-    "opencv-python-headless",
+    "bpy>=5.2,<5.3",
     "loguru",           # Utils: logging
     "scikit-learn",     # Utils: KNN search
     "open3d",           # Utils: normals estimation, mesh reconstruction

@@ -24,7 +24,6 @@ class LightsCollection(metaclass=Singleton):
             None
         """
         world = bpy.context.scene.world
-        world.use_nodes = True
         world_tree = world.node_tree
 
         if self._background_light_nodes is not None:
@@ -48,7 +47,6 @@ class LightsCollection(metaclass=Singleton):
         assert color.dtype in [np.float32, np.float64], \
             "Color should be stored as floating point numbers (np.float32 or np.float64)"
         world = bpy.context.scene.world
-        world.use_nodes = True
         world_tree = world.node_tree
 
         self.remove_background_light()
